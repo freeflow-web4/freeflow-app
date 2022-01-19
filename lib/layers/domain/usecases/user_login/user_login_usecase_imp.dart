@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/repositories/user_login_repository.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_login_usecase.dart';
@@ -8,7 +9,7 @@ class UserLoginUseCaseImp implements UserLoginUseCase {
   UserLoginUseCaseImp(this._repository);
 
   @override
-  Future<UserEntity> call(String privateKey) {
-    return _repository.call(privateKey);
+  Future<Either<Exception, UserEntity>> call(String privateKey) {
+    return _repository(privateKey);
   }
 }
