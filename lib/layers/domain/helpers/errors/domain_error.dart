@@ -27,4 +27,25 @@ extension DomainErrorExtension on DomainError {
         return 'Invalid username!';
     }
   }
+
+  DomainError fromError(String error) {
+    switch (error) {
+      case 'Something wrong!':
+        return DomainError.somethingWrong;
+      case 'Too many attempts, try again later!':
+        return DomainError.tooManyAttempts;
+      case 'Invalid private key.':
+        return DomainError.invalidPrivateKey;
+      case 'User disabled.':
+        return DomainError.userDisabled;
+      case 'Internal server error.':
+        return DomainError.serverError;
+      case 'No internet found.':
+        return DomainError.noInternet;
+      case 'Invalid username!':
+        return DomainError.invalidUsername;
+      default:
+        return DomainError.somethingWrong;
+    }
+  }
 }
