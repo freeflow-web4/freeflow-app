@@ -82,7 +82,7 @@ class NavArc extends PositionComponent with HasGameRef<NavigationScreen> {
   Vector2 getOptPosition(int i) {
     double maxWidth = (size.x * 2) - (padding.x / 2);
     double maxHeight = size.y;
-    int finalRadius = calcRadius().toInt();
+    int finalRadius = calcRadius();
     double angle = -(math.pi / (navOptions.length - 1));
     double circleSize2 = 20 / 100;
     double r = ((2 * finalRadius * (1 - circleSize2)) / 2);

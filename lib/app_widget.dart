@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/layers/presentation/ui/pages/login_page.dart';
 import 'package:freeflow/pages/home/home.dart';
 
 class MyApp extends StatelessWidget {
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const LoginPage(),
     );
   }
 }

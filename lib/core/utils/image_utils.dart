@@ -15,6 +15,7 @@ class ImageUtils {
       completer.complete(info);
     }));
     ImageInfo imageInfo = await completer.future;
+
     return imageInfo.image;
   }
 

@@ -9,7 +9,7 @@ class UserLoginUseCaseImp implements UserLoginUseCase {
   UserLoginUseCaseImp(this._repository);
 
   @override
-  Future<Either<Exception, UserEntity>> call(String privateKey) {
-    return _repository(privateKey);
+  Future<Either<Exception, UserEntity>> call(String privateKey) async {
+    return await _repository(privateKey);
   }
 }
