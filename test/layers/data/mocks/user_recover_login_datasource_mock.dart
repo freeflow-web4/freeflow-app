@@ -11,5 +11,6 @@ class MockUserLoginDatasource extends Mock implements UserLoginDataSource {
   void mockRequestSuccess(UserEntity response) =>
       mockRequestCall().thenAnswer((_) async => response);
 
-  void mockRequestError(String error) => mockRequestCall().thenThrow(error);
+  void mockRequestError(String error) =>
+      mockRequestCall().thenThrow(Exception(error));
 }
