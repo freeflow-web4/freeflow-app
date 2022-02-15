@@ -5,11 +5,11 @@ import 'package:freeflow/layers/infra/http/dio_http_client_imp.dart';
 import 'package:freeflow/layers/infra/http/http_client.dart';
 import 'package:mocktail/mocktail.dart';
 
-class DioInstanceMock extends Mock implements Dio {}
+import '../mocks/dio_instance_mock.dart';
 
 void main() async {
   late HttpClient dioHttpClient;
-  late Dio dioInstance;
+  late DioInstanceMock dioInstance;
   late String url;
   late Response response;
 
@@ -22,7 +22,7 @@ void main() async {
 
   test('should return a Response when get calls to the client succeed',
       () async {
-    when(() => dioInstance.get(any())).thenAnswer((_) async => response);
+    dioInstance.mockGetRequestSuccess(response);
     final result = await dioHttpClient.get(url);
     expect(result, isA<Response>());
     verify(() => dioInstance.get(url));
@@ -30,8 +30,7 @@ void main() async {
 
   test('should return a Response when post calls to the client succeed',
       () async {
-    when(() => dioInstance.post(any(), data: any(named: 'data')))
-        .thenAnswer((_) async => response);
+    dioInstance.mockPostRequestSuccess(response);
     final result = await dioHttpClient.post(url, body: {'teste': 'body'});
     expect(result, isA<Response>());
     verify(() => dioInstance.post(url, data: {'teste': 'body'}));

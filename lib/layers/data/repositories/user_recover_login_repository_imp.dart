@@ -1,7 +1,6 @@
 import 'package:freeflow/layers/data/datasources/user_recover_login_datasource.dart';
 import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
-import 'package:freeflow/layers/data/dtos/user_recover_login_dto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freeflow/layers/domain/repositories/user_recover_login_repository.dart';
 
@@ -17,7 +16,7 @@ class UserRecoverLoginRepositoryImp implements UserRecoverLoginRepository {
           username: username, privateKey: privateKey);
       return Right(result);
     } catch (error) {
-      return Left(DomainError.somethingWrong.fromError(error.toString()));
+      return Left(convertToDomainError(error.toString()));
     }
   }
 }
