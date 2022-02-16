@@ -286,8 +286,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  flutter_mobx:
+    dependency: "direct main"
+    description:
+      name: flutter_mobx
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   flutter_svg:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_svg
       url: "https://pub.dartlang.org"
@@ -425,7 +432,7 @@ packages:
     source: hosted
     version: "1.0.1"
   mobx:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: mobx
       url: "https://pub.dartlang.org"
