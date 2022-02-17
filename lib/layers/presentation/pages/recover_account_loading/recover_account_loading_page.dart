@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'controller/recover_account_loading_controller.dart';
 import '../../widgets/animated_center_logo.dart';
 
@@ -27,7 +28,7 @@ class _RecoverAccountLoadingPageState extends State<RecoverAccountLoadingPage> {
       builder: (context) {
         widget.recoverAccountLoadingController.goToRecoverAccountPage(context);
         return Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: StandardColors.backgroundDark,
           body: AnimatedCenterLogo(
             logoOpacity:
                 widget.recoverAccountLoadingController.loadingLogoOpacity,
