@@ -22,6 +22,10 @@ class RouteService {
     onRouteChange?.call();
     return routeHandler.pushNamed(context, path, data: data);
   }
+  
+  Future<bool> canPop(BuildContext context) {
+    return routeHandler.canPop(context);
+  }
 
   Future<RouteResponse?> pop(BuildContext context,
       {RouteResponse? data}) async {
@@ -31,7 +35,4 @@ class RouteService {
     return routeHandler.pop(context, data: data);
   }
 
-  Future<bool> canPop(BuildContext context) {
-    return routeHandler.canPop(context);
-  }
 }
