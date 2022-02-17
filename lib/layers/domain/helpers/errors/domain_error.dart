@@ -31,19 +31,19 @@ extension DomainErrorExtension on DomainError {
 
 DomainError convertToDomainError(String error) {
   switch (error) {
-    case 'Something wrong!':
+    case 'Exception: Something wrong!':
       return DomainError.somethingWrong;
-    case 'Too many attempts, try again later!':
+    case 'Exception: Too many attempts, try again later!':
       return DomainError.tooManyAttempts;
-    case 'Invalid private key.':
+    case 'Exception: Invalid private key.':
       return DomainError.invalidPrivateKey;
-    case 'User disabled.':
+    case 'Exception: User disabled.':
       return DomainError.userDisabled;
-    case 'Internal server error.':
+    case 'Exception: Internal server error.':
       return DomainError.serverError;
-    case 'No internet found.':
+    case 'Exception: No internet found.':
       return DomainError.noInternet;
-    case 'Invalid username!':
+    case 'Exception: Invalid username!':
       return DomainError.invalidUsername;
     default:
       return DomainError.somethingWrong;

@@ -15,7 +15,7 @@ class UserRecoverLoginRepositoryImp implements UserRecoverLoginRepository {
       final result = await _userLoginDataSource(
           username: username, privateKey: privateKey);
       return Right(result);
-    } catch (error) {
+    } on Exception catch (error) {
       return Left(convertToDomainError(error.toString()));
     }
   }
