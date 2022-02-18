@@ -54,7 +54,7 @@ abstract class RecoverAccountLoadingControllerBase with Store {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const RecoverAccountPage(),
+            builder: (context) => RecoverAccountPage(),
           ),
         );
       });

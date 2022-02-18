@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:freeflow/core/utils/colors_constants.dart';
-import 'package:freeflow/core/utils/text_themes_constants.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 
-class RecoverAccountPage extends StatelessWidget {
-  const RecoverAccountPage({Key? key}) : super(key: key);
+class RecoverAccountPage extends StatelessWidget with TextThemes {
+  RecoverAccountPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,21 @@ class RecoverAccountPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 104),
-            CustomText.h3(
-              text: 'Now please tell us your private key.',
+            textH4(
+              context,
+              text: 'Hello,',
               color: Colors.white,
+              maxLines: 2,
+            ),
+            const SizedBox(height: 32),
+            textH4(
+              context,
+              text: 'Please tell us your username.',
+              color: Colors.white,
+              maxLines: 2,
             ),
             const SizedBox(height: 32),
             GradientTextFieldWidget(),
-            const SizedBox(height: 148),
           ],
         ),
       ),

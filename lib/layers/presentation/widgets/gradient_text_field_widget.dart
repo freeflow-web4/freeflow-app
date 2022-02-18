@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
-class GradientTextFieldWidget extends StatelessWidget {
+class GradientTextFieldWidget extends StatelessWidget with TextThemes {
   const GradientTextFieldWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
+      child: SizedBox(
         height: 50,
-        margin: const EdgeInsets.all(10.0),
         child: Stack(
           children: <Widget>[
             TextFormField(
@@ -19,6 +19,7 @@ class GradientTextFieldWidget extends StatelessWidget {
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
+                  fontFamily: 'Akrobat',
                 ),
                 border: InputBorder.none,
                 errorBorder: InputBorder.none,
