@@ -25,37 +25,26 @@ class _ContinueButtonWidgetState extends State<ContinueButtonWidget> {
       opacity: widget.showButton ? 1.0 : 0.0,
       duration: const Duration(seconds: 1),
       child: AnimatedContainer(
-          duration: const Duration(seconds: 1),
-          width: widget.isLargeAnimation ? 64 : 48,
-          height: widget.isLargeAnimation ? 64 : 48,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            gradient: widget.isActive
-                ? StandardColors.greenGradient()
-                : StandardColors.greyGradient(),
-          ),
-          child: Center(
-            child: AnimatedCrossFade(
-              firstChild: SizedBox(
-                height: 32,
-                width: 32,
-                child: Center(
-                  child: SvgPicture.asset(IconsAsset.arrowIcon),
-                ),
-              ),
-              secondChild: SizedBox(
-                height: 32,
-                width: 32,
-                child: Center(
-                  child: SvgPicture.asset(IconsAsset.arrowIcon),
-                ),
-              ),
-              crossFadeState: widget.isLargeAnimation
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
+        width: widget.isLargeAnimation ? 64 : 48,
+        height: widget.isLargeAnimation ? 64 : 48,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          gradient: widget.isActive
+              ? StandardColors.greenGradient()
+              : StandardColors.greyGradient(),
+        ),
+        child: Center(
+          child: AnimatedContainer(
+            duration: const Duration(seconds: 1),
+            width: widget.isLargeAnimation ? 32 : 24,
+            height: widget.isLargeAnimation ? 32 : 24,
+            child: Center(
+              child: SvgPicture.asset(IconsAsset.arrowIcon),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

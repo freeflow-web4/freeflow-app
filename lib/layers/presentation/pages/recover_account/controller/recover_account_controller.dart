@@ -26,21 +26,39 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   bool isContinueButtonAnimating = true;
 
+  @observable
+  bool showFirstDotIndicator = false;
+
+  @observable
+  bool showSecondDotIndicator = false;
+
+  @observable
+  bool showThirdDotIndicator = false;
+
   @action
   void updateWidgetAnimations() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      showfirstViewFirstTextOpacity = true;
+      showFirstDotIndicator = true;
     });
     Timer.periodic(const Duration(seconds: 2), (timer) {
-      showfirstViewSecondTextOpacity = true;
+      showSecondDotIndicator = true;
     });
-    Timer.periodic(const Duration(seconds: 2), (timer) {
-      showfirstViewTextFieldOpacity = true;
+    Timer.periodic(const Duration(seconds: 3), (timer) {
+      showThirdDotIndicator = true;
     });
     Timer.periodic(const Duration(seconds: 5), (timer) {
-      showContinueButton = true;
+      showfirstViewFirstTextOpacity = true;
     });
     Timer.periodic(const Duration(seconds: 6), (timer) {
+      showfirstViewSecondTextOpacity = true;
+    });
+    Timer.periodic(const Duration(seconds: 6), (timer) {
+      showfirstViewTextFieldOpacity = true;
+    });
+    Timer.periodic(const Duration(seconds: 9), (timer) {
+      showContinueButton = true;
+    });
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       isContinueButtonAnimating = false;
     });
   }
