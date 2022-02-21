@@ -1,41 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_first_view.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
 
-class RecoverAccountPage extends StatelessWidget with TextThemes {
-  RecoverAccountPage({Key? key}) : super(key: key);
+class RecoverAccountPage extends StatefulWidget with TextThemes {
+  final RecoverAccountController recoverAccountController;
+
+  const RecoverAccountPage({
+    Key? key,
+    required this.recoverAccountController,
+  }) : super(key: key);
 
   @override
+  State<RecoverAccountPage> createState() => _RecoverAccountPageState();
+}
+
+class _RecoverAccountPageState extends State<RecoverAccountPage> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: StandardColors.backgroundDark,
-      body: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 104),
-            textH4(
-              context,
-              text: 'Hello,',
-              color: Colors.white,
-              maxLines: 2,
-            ),
-            const SizedBox(height: 32),
-            textH4(
-              context,
-              text: 'Please tell us your username.',
-              color: Colors.white,
-              maxLines: 2,
-            ),
-            const SizedBox(height: 32),
-            GradientTextFieldWidget(),
-          ],
-        ),
-      ),
+    widget.recoverAccountController.updateLoadingLogoOpacity();
+    return Observer(
+      builder: (context) {
+        return Scaffold(
+          backgroundColor: StandardColors.backgroundDark,
+          body: Column(
+            children: [
+              RecoverAccountFirstView(
+                showfirstViewFirstTextOpacity: widget
+                    .recoverAccountController.showfirstViewFirstTextOpacity,
+                showfirstViewSecondTextOpacity: widget
+                    .recoverAccountController.showfirstViewSecondTextOpacity,
+                showfirstViewTextFieldOpacity: widget
+                    .recoverAccountController.showfirstViewTextFieldOpacity,
+              ),
+              const SizedBox(height: xxlargeSpacing),
+              const AnimatedDotIndicatorWidget(),
+            ],
+          ),
+        );
+      },
     );
   }
 }
