@@ -14,5 +14,16 @@ class StandardColors {
           Color(0xff60AF72),
           Color(0xff6DAD5F),
         ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      );
+
+  static Gradient greyGradient() => const LinearGradient(
+        colors: [
+          Color(0xffBDBDBD),
+          Color(0xff696969),
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       );
 }

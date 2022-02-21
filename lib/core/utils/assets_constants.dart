@@ -7,4 +7,5 @@ class IconsAsset {
       "assets/images/icons/loading_freeflow_logos/logo_anim_2.svg";
   static const String freeflowLogoAnimation3 =
       "assets/images/icons/loading_freeflow_logos/logo_anim_3.svg";
+  static const String arrowIcon = "assets/images/icons/arrow_icon.svg";
 }

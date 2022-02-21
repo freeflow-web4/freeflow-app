@@ -60,16 +60,66 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$showContinueButtonAtom =
+      Atom(name: 'RecoverAccountControllerBase.showContinueButton');
+
+  @override
+  bool get showContinueButton {
+    _$showContinueButtonAtom.reportRead();
+    return super.showContinueButton;
+  }
+
+  @override
+  set showContinueButton(bool value) {
+    _$showContinueButtonAtom.reportWrite(value, super.showContinueButton, () {
+      super.showContinueButton = value;
+    });
+  }
+
+  final _$isContinueButtonActiveAtom =
+      Atom(name: 'RecoverAccountControllerBase.isContinueButtonActive');
+
+  @override
+  bool get isContinueButtonActive {
+    _$isContinueButtonActiveAtom.reportRead();
+    return super.isContinueButtonActive;
+  }
+
+  @override
+  set isContinueButtonActive(bool value) {
+    _$isContinueButtonActiveAtom
+        .reportWrite(value, super.isContinueButtonActive, () {
+      super.isContinueButtonActive = value;
+    });
+  }
+
+  final _$isContinueButtonAnimatingAtom =
+      Atom(name: 'RecoverAccountControllerBase.isContinueButtonAnimating');
+
+  @override
+  bool get isContinueButtonAnimating {
+    _$isContinueButtonAnimatingAtom.reportRead();
+    return super.isContinueButtonAnimating;
+  }
+
+  @override
+  set isContinueButtonAnimating(bool value) {
+    _$isContinueButtonAnimatingAtom
+        .reportWrite(value, super.isContinueButtonAnimating, () {
+      super.isContinueButtonAnimating = value;
+    });
+  }
+
   final _$RecoverAccountControllerBaseActionController =
       ActionController(name: 'RecoverAccountControllerBase');
 
   @override
-  void updateLoadingLogoOpacity() {
+  void updateWidgetAnimations() {
     final _$actionInfo =
         _$RecoverAccountControllerBaseActionController.startAction(
-            name: 'RecoverAccountControllerBase.updateLoadingLogoOpacity');
+            name: 'RecoverAccountControllerBase.updateWidgetAnimations');
     try {
-      return super.updateLoadingLogoOpacity();
+      return super.updateWidgetAnimations();
     } finally {
       _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -80,7 +130,10 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     return '''
 showfirstViewFirstTextOpacity: ${showfirstViewFirstTextOpacity},
 showfirstViewSecondTextOpacity: ${showfirstViewSecondTextOpacity},
-showfirstViewTextFieldOpacity: ${showfirstViewTextFieldOpacity}
+showfirstViewTextFieldOpacity: ${showfirstViewTextFieldOpacity},
+showContinueButton: ${showContinueButton},
+isContinueButtonActive: ${isContinueButtonActive},
+isContinueButtonAnimating: ${isContinueButtonAnimating}
     ''';
   }
 }

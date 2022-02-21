@@ -17,8 +17,17 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   bool showfirstViewTextFieldOpacity = false;
 
+  @observable
+  bool showContinueButton = false;
+
+  @observable
+  bool isContinueButtonActive = false;
+
+  @observable
+  bool isContinueButtonAnimating = true;
+
   @action
-  void updateLoadingLogoOpacity() {
+  void updateWidgetAnimations() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
       showfirstViewFirstTextOpacity = true;
     });
@@ -27,6 +36,12 @@ abstract class RecoverAccountControllerBase with Store {
     });
     Timer.periodic(const Duration(seconds: 2), (timer) {
       showfirstViewTextFieldOpacity = true;
+    });
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      showContinueButton = true;
+    });
+    Timer.periodic(const Duration(seconds: 6), (timer) {
+      isContinueButtonAnimating = false;
     });
   }
 }
