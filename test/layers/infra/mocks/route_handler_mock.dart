@@ -5,10 +5,10 @@ class RouteHandlerMock extends Mock implements RouteHandler {
   When mockCanPopCall(context) => when(() => canPop(context));
 
   void mockCanPopSuccess(context) {
-    mockCanPopCall(context).thenAnswer((_) async => true);
+    mockCanPopCall(context).thenAnswer((_) => true);
   }
 
   void mockCanPopFailure(context) {
-    mockCanPopCall(context).thenAnswer((_) async => false);
+    mockCanPopCall(context).thenAnswer((_) => false);
   }
 }

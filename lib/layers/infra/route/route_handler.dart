@@ -3,7 +3,8 @@ import 'package:freeflow/layers/infra/route/route_response.dart';
 
 abstract class RouteHandler {
   Future<String> getCurrentRoutePath(BuildContext context);
-  Future<RouteResponse?> pushNamed(BuildContext context, String path, {data});
-  Future<bool> canPop(BuildContext context);
-  Future<RouteResponse?> pop(BuildContext context, {RouteResponse? data});
+  Future<RouteResponse?> push(BuildContext context, routeSettings);
+  Future<void> pushReplacement(BuildContext context, routeSettings);
+  bool canPop(BuildContext context);
+  Future<bool> pop(BuildContext context, {RouteResponse? data});
 }

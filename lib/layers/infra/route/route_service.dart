@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:freeflow/layers/infra/route/route_handler.dart';
 
@@ -18,21 +19,26 @@ class RouteService {
     return routeHandler.getCurrentRoutePath(context);
   }
 
-  Future<RouteResponse?> pushNamed(BuildContext context, String path, {data}) async {
+  Future<RouteResponse?> push(
+      BuildContext context, PageRouteInfo routeSettings) async {
     onRouteChange?.call();
-    return routeHandler.pushNamed(context, path, data: data);
+    return routeHandler.push(context, routeSettings);
   }
-  
-  Future<bool> canPop(BuildContext context) {
+
+  Future<void> pushReplacement(
+      BuildContext context, PageRouteInfo routeSettings) async {
+    onRouteChange?.call();
+    return routeHandler.pushReplacement(context, routeSettings);
+  }
+
+  bool canPop(BuildContext context) {
     return routeHandler.canPop(context);
   }
 
-  Future<RouteResponse?> pop(BuildContext context,
-      {RouteResponse? data}) async {
-    final canPop = await routeHandler.canPop(context);
-    if (!canPop) return null;
+  Future<bool> pop(BuildContext context, {RouteResponse? data}) async {
+    final canPop = routeHandler.canPop(context);
+    if (!canPop) return false;
     onRouteChange?.call();
     return routeHandler.pop(context, data: data);
   }
-
 }

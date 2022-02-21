@@ -21,23 +21,17 @@ void main() async {
     routeService = RouteService(routeHandler);
   });
 
-  test('should return true for canPop', () async {
+  test('should return true for canPop', () {
     routeHandler.mockCanPopSuccess(fakeContext);
-    final canPop = await routeService.canPop(fakeContext);
+    final canPop = routeService.canPop(fakeContext);
     expect(canPop, equals(true));
     verify(() => routeService.canPop(fakeContext));
   });
 
-  test('should return false for canPop', () async {
+  test('should return false for canPop', () {
     routeHandler.mockCanPopFailure(fakeContext);
-    final canPop = await routeService.canPop(fakeContext);
+    final canPop = routeService.canPop(fakeContext);
     expect(canPop, equals(false));
     verify(() => routeService.canPop(fakeContext));
-  });
-
-  test('should remain in the same route', () async {
-    routeHandler.mockCanPopFailure(fakeContext);
-    await routeService.pop(fakeContext);
-    verify(() => routeService.pop(fakeContext));
   });
 }
