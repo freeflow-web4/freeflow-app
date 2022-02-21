@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'dart:async';
 
@@ -45,5 +48,17 @@ abstract class RecoverAccountLoadingControllerBase with Store {
         loadingLogoVisible = false;
       }
     });
+  }
+
+  void goToRecoverAccountPage(BuildContext context) {
+    if (!loadingLogoVisible) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => GetIt.I.get<RecoverAccountPage>(),
+          ),
+        );
+      });
+    }
   }
 }
