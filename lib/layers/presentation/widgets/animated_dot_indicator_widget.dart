@@ -8,6 +8,7 @@ class AnimatedDotIndicatorWidget extends StatelessWidget {
   final bool isSecondDotVisible;
   final bool isThirdDotVisible;
   final int currentIndex;
+  final bool showIndexAnimation;
 
   const AnimatedDotIndicatorWidget({
     Key? key,
@@ -15,6 +16,7 @@ class AnimatedDotIndicatorWidget extends StatelessWidget {
     required this.isSecondDotVisible,
     required this.isThirdDotVisible,
     required this.currentIndex,
+    required this.showIndexAnimation,
   }) : super(key: key);
 
   @override
@@ -24,17 +26,19 @@ class AnimatedDotIndicatorWidget extends StatelessWidget {
       children: [
         AnimatedDotWidget(
           isVisibile: isFirstDotVisible,
-          isIndex: true,
+          isIndex: currentIndex == 0,
+          showIndexAnimation:
+              (currentIndex == 0 || currentIndex == 1) && showIndexAnimation,
         ),
-        const SizedBox(width: smSpacing),
         AnimatedDotWidget(
           isVisibile: isSecondDotVisible,
-          isIndex: false,
+          isIndex: currentIndex == 1,
+          showIndexAnimation: currentIndex == 1 && showIndexAnimation,
         ),
-        const SizedBox(width: smSpacing),
         AnimatedDotWidget(
           isVisibile: isThirdDotVisible,
-          isIndex: false,
+          isIndex: currentIndex == 2,
+          showIndexAnimation: currentIndex == 2 && showIndexAnimation,
         ),
       ],
     );

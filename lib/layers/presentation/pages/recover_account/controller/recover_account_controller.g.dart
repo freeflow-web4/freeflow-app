@@ -161,6 +161,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$showCurrentIndexAnimationAtom =
+      Atom(name: 'RecoverAccountControllerBase.showCurrentIndexAnimation');
+
+  @override
+  bool get showCurrentIndexAnimation {
+    _$showCurrentIndexAnimationAtom.reportRead();
+    return super.showCurrentIndexAnimation;
+  }
+
+  @override
+  set showCurrentIndexAnimation(bool value) {
+    _$showCurrentIndexAnimationAtom
+        .reportWrite(value, super.showCurrentIndexAnimation, () {
+      super.showCurrentIndexAnimation = value;
+    });
+  }
+
   final _$RecoverAccountControllerBaseActionController =
       ActionController(name: 'RecoverAccountControllerBase');
 
@@ -187,7 +204,8 @@ isContinueButtonActive: ${isContinueButtonActive},
 isContinueButtonAnimating: ${isContinueButtonAnimating},
 showFirstDotIndicator: ${showFirstDotIndicator},
 showSecondDotIndicator: ${showSecondDotIndicator},
-showThirdDotIndicator: ${showThirdDotIndicator}
+showThirdDotIndicator: ${showThirdDotIndicator},
+showCurrentIndexAnimation: ${showCurrentIndexAnimation}
     ''';
   }
 }

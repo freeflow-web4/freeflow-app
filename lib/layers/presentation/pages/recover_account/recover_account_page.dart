@@ -20,10 +20,16 @@ class _RecoverAccountPageState extends State<RecoverAccountPage> {
   final recoverAccountController = GetIt.I.get<RecoverAccountController>();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     recoverAccountController.updateWidgetAnimations();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
+        print(recoverAccountController.showCurrentIndexAnimation);
         return Scaffold(
           backgroundColor: StandardColors.backgroundDark,
           body: Column(
@@ -38,13 +44,15 @@ class _RecoverAccountPageState extends State<RecoverAccountPage> {
               ),
               const SizedBox(height: xxlargeSpacing),
               AnimatedDotIndicatorWidget(
-                currentIndex: 1,
+                currentIndex: 0,
                 isFirstDotVisible:
                     recoverAccountController.showFirstDotIndicator,
                 isSecondDotVisible:
                     recoverAccountController.showSecondDotIndicator,
                 isThirdDotVisible:
                     recoverAccountController.showThirdDotIndicator,
+                showIndexAnimation:
+                    recoverAccountController.showCurrentIndexAnimation,
               ),
               const Spacer(),
               ContinueButtonWidget(
