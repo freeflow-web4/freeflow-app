@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
@@ -39,7 +40,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
             duration: const Duration(seconds: 1),
             child: textH4(
               context,
-              text: 'Hello,',
+              text: FlutterI18n.translate(context, "recoverAccount.hello"),
               color: Colors.white,
               maxLines: 2,
             ),

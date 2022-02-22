@@ -1,10 +1,12 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  final FlutterI18nDelegate flutterI18nDelegate;
+  MyApp({Key? key, required this.flutterI18nDelegate}) : super(key: key);
 
   final _rootRouter = GetIt.I.get<RootRouter>();
 
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: [flutterI18nDelegate],
     );
   }
 }
