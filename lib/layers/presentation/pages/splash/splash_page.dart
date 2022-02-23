@@ -1,6 +1,7 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
-import 'package:lottie/lottie.dart';
+import 'package:video_player/video_player.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -9,28 +10,45 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
+class _SplashPageState extends State<SplashPage> {
   final splashController = findSplashController();
 
-  late final AnimationController _animationController;
+  late VideoPlayerController _videoController;
+  ChewieController? _chewieController;
   @override
   void initState() {
     super.initState();
-    splashController.startCounter();
-    _animationController = AnimationController(vsync: this);
-    // _animationController.addStatusListener(splashController.onAnimationStatusChanged);
+    initializePlayer();
+  }
+
+  Future<void> initializePlayer() async {
+    _videoController = VideoPlayerController.asset('assets/videos/splash.mp4');
+    await _videoController.initialize();
+
+    _chewieController = ChewieController(
+      videoPlayerController: _videoController,
+      autoPlay: true,
+      showOptions: false,
+      customControls: Container(),
+    );
+    splashController.startPeriodicVideoEndCheck(_chewieController);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        color: Colors.red,
-        child: Center(child: Text('Splash Animation here'),), 
-        // Lottie.asset('assets/animations/seed-app-video.json',
-        //     controller: _animationController),
-      ),
-    );
+    return _chewieController != null &&
+            _chewieController!.videoPlayerController.value.isInitialized
+        ? Chewie(
+            controller: _chewieController!,
+          )
+        : Container();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _videoController.dispose();
+    _chewieController?.dispose();
   }
 }
