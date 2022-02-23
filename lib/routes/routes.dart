@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
@@ -8,10 +7,14 @@ class Routes {
 
   Routes(this._routeService);
 
-  static get instance => GetIt.I.get<Routes>();
+  static Routes get instance => GetIt.I.get<Routes>();
 
-  void goToRecoverAccountPageRoute(BuildContext context) async {
-    _routeService.pushReplacement(context, const RecoverAccountRoute());
+  void goToRecoverAccountPageRoute() async {
+    _routeService.pushReplacement(const RecoverAccountRoute());
+  }
+
+  void goToLoginPageRoute() async {
+    _routeService.pushReplacement(const LoginRoute());
   }
 
 //   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(
@@ -32,11 +35,3 @@ class Routes {
 //     return Right(routeResponse);
 //   }
 }
-
-class ProfileRoute {}
-
-class Failure {}
-
-class ProfileRouteRequest {}
-
-class ProfileRouteResponse {}
