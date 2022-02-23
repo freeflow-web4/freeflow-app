@@ -40,7 +40,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
             duration: const Duration(seconds: 1),
             child: textH4(
               context,
-              text: FlutterI18n.translate(context, "recoverAccount.hello"),
+              textKey: "recoverAccount.hello",
               color: Colors.white,
               maxLines: 2,
             ),
@@ -51,7 +51,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
             duration: const Duration(seconds: 1),
             child: textH4(
               context,
-              text: 'Please tell us\nyour Flower name.',
+              textKey: "recoverAccount.enterFlowerName",
               color: Colors.white,
               maxLines: 2,
             ),

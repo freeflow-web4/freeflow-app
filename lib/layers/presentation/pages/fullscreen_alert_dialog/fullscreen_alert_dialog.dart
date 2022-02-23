@@ -9,9 +9,10 @@ import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/contr
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 
 class FullScreenAlertDialog extends StatefulWidget {
-  final String text;
+  final String textKey;
 
-  const FullScreenAlertDialog({Key? key, required this.text}) : super(key: key);
+  const FullScreenAlertDialog({Key? key, required this.textKey})
+      : super(key: key);
 
   @override
   State<FullScreenAlertDialog> createState() => _FullScreenAlertDialogState();
@@ -47,7 +48,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             children: [
               textH4(
                 context,
-                text: widget.text,
+                textKey: widget.textKey,
                 color: Colors.white,
                 textAlign: TextAlign.center,
               ),

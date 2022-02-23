@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 
 mixin TextThemes {
@@ -8,10 +9,10 @@ mixin TextThemes {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
     TextAlign? textAlign,
-    required String text,
+    required String textKey,
   }) {
     return AutoSizeText(
-      text,
+      FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       textAlign: textAlign,
       style: TextStyle(

@@ -86,7 +86,7 @@ abstract class RecoverAccountControllerBase with Store {
       context: context,
       pageBuilder: (BuildContext context, animation1, animation2) {
         return const FullScreenAlertDialog(
-          text: 'To continue,\nplease enter your\nregistered\nFlower name',
+          textKey: "recoverAccount.pleaseEnterRegisteredName",
         );
       },
     );
