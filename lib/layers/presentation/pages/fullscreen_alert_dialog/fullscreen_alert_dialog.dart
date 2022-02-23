@@ -29,45 +29,48 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: StandardColors.blackGradient(),
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 16,
-            sigmaY: 16,
-            tileMode: TileMode.clamp,
+    return GestureDetector(
+      onTap: () => fullscreenAlertDialogController.closeDialog(context),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: StandardColors.blackGradient(),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              textH4(
-                context,
-                textKey: widget.textKey,
-                color: Colors.white,
-                textAlign: TextAlign.center,
-              ),
-            ],
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 16,
+              sigmaY: 16,
+              tileMode: TileMode.clamp,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                textH4(
+                  context,
+                  textKey: widget.textKey,
+                  color: Colors.white,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Observer(
-        builder: (context) {
-          return AnimatedFloatButtonWidget(
-            isActive: true,
-            isLargeAnimation:
-                fullscreenAlertDialogController.isCloseButtonAnimating,
-            showButton: fullscreenAlertDialogController.showCloseButton,
-            onTap: () => fullscreenAlertDialogController.closeDialog(context),
-            icon: IconsAsset.closeBackIcon,
-          );
-        },
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Observer(
+          builder: (context) {
+            return AnimatedFloatButtonWidget(
+              isActive: true,
+              isLargeAnimation:
+                  fullscreenAlertDialogController.isCloseButtonAnimating,
+              showButton: fullscreenAlertDialogController.showCloseButton,
+              onTap: () => fullscreenAlertDialogController.closeDialog(context),
+              icon: IconsAsset.closeBackIcon,
+            );
+          },
+        ),
       ),
     );
   }

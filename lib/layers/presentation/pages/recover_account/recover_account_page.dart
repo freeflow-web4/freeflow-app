@@ -60,7 +60,8 @@ class _RecoverAccountPageState extends State<RecoverAccountPage> {
                 isLargeAnimation:
                     recoverAccountController.isContinueButtonAnimating,
                 showButton: recoverAccountController.showContinueButton,
-                onTap: () => recoverAccountController.openDialog(context),
+                onTap: () =>
+                    recoverAccountController.tapContinueButton(context, '', ''),
                 icon: IconsAsset.arrowIcon,
               ),
               const SizedBox(height: bigSpacing),

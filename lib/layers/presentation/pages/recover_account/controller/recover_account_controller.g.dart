@@ -178,8 +178,51 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$privateKeyErrorAtom =
+      Atom(name: 'RecoverAccountControllerBase.privateKeyError');
+
+  @override
+  String? get privateKeyError {
+    _$privateKeyErrorAtom.reportRead();
+    return super.privateKeyError;
+  }
+
+  @override
+  set privateKeyError(String? value) {
+    _$privateKeyErrorAtom.reportWrite(value, super.privateKeyError, () {
+      super.privateKeyError = value;
+    });
+  }
+
+  final _$isInFirstViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isInFirstView');
+
+  @override
+  bool get isInFirstView {
+    _$isInFirstViewAtom.reportRead();
+    return super.isInFirstView;
+  }
+
+  @override
+  set isInFirstView(bool value) {
+    _$isInFirstViewAtom.reportWrite(value, super.isInFirstView, () {
+      super.isInFirstView = value;
+    });
+  }
+
   final _$RecoverAccountControllerBaseActionController =
       ActionController(name: 'RecoverAccountControllerBase');
+
+  @override
+  void validatePrivateKey(BuildContext context, String? privateKey) {
+    final _$actionInfo = _$RecoverAccountControllerBaseActionController
+        .startAction(name: 'RecoverAccountControllerBase.validatePrivateKey');
+    try {
+      return super.validatePrivateKey(context, privateKey);
+    } finally {
+      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void updateWidgetAnimations() {
@@ -188,6 +231,18 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
             name: 'RecoverAccountControllerBase.updateWidgetAnimations');
     try {
       return super.updateWidgetAnimations();
+    } finally {
+      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic tapContinueButton(
+      BuildContext context, String? privateKey, String? username) {
+    final _$actionInfo = _$RecoverAccountControllerBaseActionController
+        .startAction(name: 'RecoverAccountControllerBase.tapContinueButton');
+    try {
+      return super.tapContinueButton(context, privateKey, username);
     } finally {
       _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -205,7 +260,9 @@ isContinueButtonAnimating: ${isContinueButtonAnimating},
 showFirstDotIndicator: ${showFirstDotIndicator},
 showSecondDotIndicator: ${showSecondDotIndicator},
 showThirdDotIndicator: ${showThirdDotIndicator},
-showCurrentIndexAnimation: ${showCurrentIndexAnimation}
+showCurrentIndexAnimation: ${showCurrentIndexAnimation},
+privateKeyError: ${privateKeyError},
+isInFirstView: ${isInFirstView}
     ''';
   }
 }

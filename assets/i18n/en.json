@@ -2,6 +2,7 @@
     "recoverAccount": {
         "hello": "Hello",
         "enterFlowerName": "Please tell us\nyour Flower name.",
-        "pleaseEnterRegisteredName": "To continue,\nplease enter your\nregistered\nFlower name"
+        "pleaseEnterRegisteredName": "To continue,\nplease enter your\nregistered\nFlower name",
+        "pleaseEnterYourPrivateKey": "Please enter your private key"
     }
 }

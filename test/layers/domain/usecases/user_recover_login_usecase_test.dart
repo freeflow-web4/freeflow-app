@@ -14,7 +14,7 @@ void main() {
 
   setUp(() {
     repository = MockUserRecoverLoginRepository();
-    usecase = UserRecoverLoginUseCaseImp(repository);
+    usecase = UserRecoverLoginUseCaseImp(repository: repository);
   });
 
   final UserEntity userResponse = UserEntity(name: 'testName');

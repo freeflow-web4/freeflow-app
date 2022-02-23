@@ -20,7 +20,7 @@ abstract class FullscreenAlertDialogControllerBase with Store {
 
   @action
   void updateWidgetAnimations() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    Timer.periodic(const Duration(milliseconds: 500), (timer) {
       showCloseButton = true;
       timer.cancel();
     });

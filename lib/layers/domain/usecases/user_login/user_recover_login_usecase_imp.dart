@@ -5,15 +5,17 @@ import 'package:freeflow/layers/domain/repositories/user_recover_login_repositor
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
 
 class UserRecoverLoginUseCaseImp implements UserRecoverLoginUseCase {
-  final UserRecoverLoginRepository _repository;
+  final UserRecoverLoginRepository repository;
 
-  UserRecoverLoginUseCaseImp(this._repository);
+  UserRecoverLoginUseCaseImp({
+    required this.repository,
+  });
 
   @override
   Future<Either<DomainError, UserEntity>> call({
     required String username,
     required String privateKey,
   }) async {
-    return await _repository(username: username, privateKey: privateKey);
+    return await repository(username: username, privateKey: privateKey);
   }
 }
