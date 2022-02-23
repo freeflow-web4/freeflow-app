@@ -25,10 +25,9 @@ class RouteService {
     return routeHandler.push(context, routeSettings);
   }
 
-  Future<void> pushReplacement(
-      BuildContext context, PageRouteInfo routeSettings) async {
+  Future<void> pushReplacement(PageRouteInfo routeSettings) async {
     onRouteChange?.call();
-    return routeHandler.pushReplacement(context, routeSettings);
+    return routeHandler.pushReplacement(routeSettings);
   }
 
   bool canPop(BuildContext context) {

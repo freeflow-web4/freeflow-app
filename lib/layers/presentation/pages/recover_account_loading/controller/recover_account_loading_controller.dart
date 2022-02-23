@@ -51,7 +51,7 @@ abstract class RecoverAccountLoadingControllerBase with Store {
   void goToRecoverAccountPage(BuildContext context) {
     if (!loadingLogoVisible) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        Routes.instance.goToRecoverAccountPageRoute(context);
+        Routes.instance.goToRecoverAccountPageRoute();
       });
     }
   }
