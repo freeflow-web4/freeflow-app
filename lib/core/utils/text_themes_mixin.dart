@@ -21,6 +21,26 @@ mixin TextThemes {
     );
   }
 
+  AutoSizeText textH5(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    TextAlign textAlign = TextAlign.left,
+    required String text,
+  }) {
+    return AutoSizeText(
+      text,
+      maxLines: maxLines,
+      textAlign: textAlign,
+      style: TextStyle(
+        color: color,
+        fontSize: 35,
+        fontWeight: FontWeight.w400,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
   AutoSizeText textBoldSubtitle(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
