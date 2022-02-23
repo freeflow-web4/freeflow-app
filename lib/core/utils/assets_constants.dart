@@ -8,4 +8,5 @@ class IconsAsset {
   static const String freeflowLogoAnimation3 =
       "assets/images/icons/loading_freeflow_logos/logo_anim_3.svg";
   static const String arrowIcon = "assets/images/icons/arrow_icon.svg";
+  static const String closeBackIcon = "assets/images/icons/close_back_icon.svg";
 }

@@ -7,11 +7,13 @@ mixin TextThemes {
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
+    TextAlign? textAlign,
     required String text,
   }) {
     return AutoSizeText(
       text,
       maxLines: maxLines,
+      textAlign: textAlign,
       style: TextStyle(
         color: color,
         fontSize: 38,

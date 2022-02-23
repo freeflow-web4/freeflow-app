@@ -26,4 +26,14 @@ class StandardColors {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       );
+
+  static Gradient blackGradient() => LinearGradient(
+        colors: [
+          const Color(0xffAAAAAA).withOpacity(0.1),
+          const Color(0xff000000).withOpacity(0.2),
+          const Color(0xffAAAAAA).withOpacity(0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      );
 }

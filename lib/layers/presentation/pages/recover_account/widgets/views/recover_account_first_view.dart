@@ -51,7 +51,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
             duration: const Duration(seconds: 1),
             child: textH4(
               context,
-              text: 'Please tell us your username.',
+              text: 'Please tell us\nyour Flower name.',
               color: Colors.white,
               maxLines: 2,
             ),

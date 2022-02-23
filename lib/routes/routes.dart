@@ -14,6 +14,10 @@ class Routes {
     _routeService.pushReplacement(context, const RecoverAccountRoute());
   }
 
+  void pop(BuildContext context) {
+    _routeService.pop(context);
+  }
+
 //   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(
 //       BuildContext context, ProfileRouteRequest request) async {
 //     final routeServiceResponse =

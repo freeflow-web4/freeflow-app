@@ -1,5 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
+import 'package:freeflow/routes/root_router.gr.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:mobx/mobx.dart';
 
 part 'recover_account_controller.g.dart';
@@ -74,5 +79,16 @@ abstract class RecoverAccountControllerBase with Store {
       isContinueButtonAnimating = false;
       timer.cancel();
     });
+  }
+
+  Future<Object?> openDialog(BuildContext context) async {
+    return showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext context, animation1, animation2) {
+        return const FullScreenAlertDialog(
+          text: 'To continue,\nplease enter your\nregistered\nFlower name',
+        );
+      },
+    );
   }
 }

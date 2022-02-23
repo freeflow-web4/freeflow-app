@@ -20,7 +20,6 @@ Future<void> main() async {
     translationLoader: FileTranslationLoader(
       decodeStrategies: [JsonDecodeStrategy()],
       useCountryCode: false,
-      fallbackFile: 'fr',
       basePath: 'assets/i18n',
     ),
   );
