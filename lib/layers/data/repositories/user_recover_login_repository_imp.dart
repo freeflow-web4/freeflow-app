@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:freeflow/layers/domain/repositories/user_recover_login_repository.dart';
 
 class UserRecoverLoginRepositoryImp implements UserRecoverLoginRepository {
-  final UserLoginDataSource _userLoginDataSource;
+  final UserRecoverLoginDataSource _userLoginDataSource;
   UserRecoverLoginRepositoryImp(this._userLoginDataSource);
 
   @override

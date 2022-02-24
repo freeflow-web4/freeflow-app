@@ -24,19 +24,37 @@ mixin TextThemes {
     );
   }
 
-  AutoSizeText textBoldSubtitle(
+  Text textBoldSubtitle(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
     required String text,
   }) {
-    return AutoSizeText(
+    return Text(
       text,
       maxLines: maxLines,
       style: TextStyle(
         color: color,
         fontSize: 20,
         fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textCaption(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 12,
+        fontWeight: FontWeight.w800,
         fontFamily: 'Akrobat',
       ),
     );

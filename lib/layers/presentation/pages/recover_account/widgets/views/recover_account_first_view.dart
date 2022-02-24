@@ -64,7 +64,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
                 hintText:
                     FlutterI18n.translate(context, "recoverAccount.flowerName"),
                 showTextField: widget.showfirstViewTextFieldOpacity,
-                errorText: null,
+                errorText: widget.recoverAccountController.privateKeyError,
               ),
             ],
           ),

@@ -1,19 +1,10 @@
-// import 'package:dartz/dartz.dart';
-// import 'package:dio/dio.dart';
-// import 'package:freeflow/layers/data/datasources/user_login_datasource.dart';
-// import 'package:freeflow/layers/data/dtos/user_login_dto.dart';
+import 'package:freeflow/layers/data/datasources/user_recover_login_datasource.dart';
+import 'package:freeflow/layers/domain/entities/user_entity.dart';
 
-// class UserLoginDataSourceImp implements UserLoginDataSource {
-//   var options = BaseOptions(baseUrl: "https://app.fakejson.com/q/");
-
-//   @override
-//   Future<Either<Exception, UserLoginDto>> call(String privateKey) async {
-//     try {
-//       var response =
-//           await Dio(options).get("wVupBTi5?token=0Zrj3ZoYTyoUop3s22Nagw");
-//       return Right(UserLoginDto.fromJson(response.data));
-//     } catch (e) {
-//       return Left(Exception("Login Api Error"));
-//     }
-//   }
-// }
+class UserRecoverLoginDataSourceImp implements UserRecoverLoginDataSource {
+  @override
+  Future<UserEntity> call(
+      {required String username, required String privateKey}) {
+    throw UnimplementedError();
+  }
+}

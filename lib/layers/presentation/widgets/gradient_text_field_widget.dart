@@ -53,55 +53,66 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       return SlideTransition(
         textDirection: TextDirection.rtl,
         position: offset,
-        child: Center(
-          child: SizedBox(
-            height: 50,
-            child: Stack(
-              children: <Widget>[
-                TextFormField(
-                  focusNode: inputNode,
-                  decoration: InputDecoration(
-                    hintText: widget.hintText,
-                    hintStyle: TextStyle(
-                      color: widget.errorText == null
-                          ? Colors.white
-                          : StandardColors.feedbackError,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Akrobat',
-                    ),
-                    border: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
+        child: Container(
+          height: 70,
+          child: Stack(
+            children: <Widget>[
+              TextFormField(
+                focusNode: inputNode,
+                decoration: InputDecoration(
+                  hintText: widget.hintText,
+                  hintStyle: TextStyle(
+                    color: widget.errorText == null
+                        ? Colors.white
+                        : StandardColors.feedbackError,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Akrobat',
+                  ),
+                  border: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  focusedErrorBorder: InputBorder.none,
+                ),
+              ),
+              Positioned(
+                top: 40,
+                child: Container(
+                  height: 2,
+                  width: MediaQuery.of(context).size.width - 20,
+                  decoration: BoxDecoration(
+                    gradient: widget.errorText == null
+                        ? StandardColors.greenGradient()
+                        : StandardColors.redGradient(),
                   ),
                 ),
-                Positioned(
+              ),
+              Visibility(
+                visible: widget.errorText != null,
+                child: Positioned(
                   bottom: 10,
-                  child: Container(
-                    height: 2,
-                    width: MediaQuery.of(context).size.width - 20,
-                    decoration: BoxDecoration(
-                      gradient: widget.errorText == null
-                          ? StandardColors.greenGradient()
-                          : StandardColors.redGradient(),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 13,
-                  right: 0,
-                  child: textBoldSubtitle(
+                  child: textCaption(
                     context,
-                    text: '.flw ',
+                    text: widget.errorText ?? '',
                     color: widget.errorText == null
                         ? Colors.white
                         : StandardColors.feedbackError,
                   ),
                 ),
-              ],
-            ),
+              ),
+              Positioned(
+                top: 13,
+                right: 0,
+                child: textBoldSubtitle(
+                  context,
+                  text: '.flw ',
+                  color: widget.errorText == null
+                      ? Colors.white
+                      : StandardColors.feedbackError,
+                ),
+              ),
+            ],
           ),
         ),
       );

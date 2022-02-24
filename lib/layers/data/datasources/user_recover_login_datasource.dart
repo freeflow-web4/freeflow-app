@@ -1,6 +1,6 @@
 import 'package:freeflow/layers/domain/entities/user_entity.dart';
 
-abstract class UserLoginDataSource {
+abstract class UserRecoverLoginDataSource {
   Future<UserEntity> call({
     required String username,
     required String privateKey,

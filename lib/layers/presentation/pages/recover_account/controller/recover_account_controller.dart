@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:freeflow/layers/presentation/helpers/errors/ui_error.dart';
-import 'package:freeflow/layers/presentation/helpers/validators/field_validator.dart';
+import 'package:freeflow/layers/domain/entities/user_entity.dart';
+import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
+import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
+import 'package:freeflow/layers/domain/validators/field_validator.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
 
@@ -14,8 +17,8 @@ class RecoverAccountController = RecoverAccountControllerBase
     with _$RecoverAccountController;
 
 abstract class RecoverAccountControllerBase with Store {
-  final FieldValidator fieldValidator;
-  RecoverAccountControllerBase({required this.fieldValidator});
+  final UserRecoverLoginUseCase _userRecoverLoginUseCase;
+  RecoverAccountControllerBase(this._userRecoverLoginUseCase);
 
   @observable
   bool showfirstViewFirstTextOpacity = false;
@@ -48,21 +51,10 @@ abstract class RecoverAccountControllerBase with Store {
   bool showCurrentIndexAnimation = false;
 
   @observable
-  bool privateKeyisValid = false;
+  String? privateKeyError;
 
   @observable
   bool isInFirstView = true;
-
-  @action
-  void validatePrivateKey(BuildContext context, String? privateKey) {
-    final UiError? error =
-        fieldValidator.validateRequiredField(privateKey ?? '');
-    if (error != null) {
-      privateKeyisValid = false;
-    } else {
-      privateKeyisValid = true;
-    }
-  }
 
   @action
   void updateWidgetAnimations() {
@@ -104,16 +96,20 @@ abstract class RecoverAccountControllerBase with Store {
 
   @action
   tapContinueButton(
-      BuildContext context, String? privateKey, String? username) {
-    validatePrivateKey(context, privateKey);
-    if (isInFirstView) {
-      if (privateKeyisValid == true) {
-        isInFirstView = false;
-        return;
-      } else {
-        openDialog(context);
-      }
-    } else {}
+      BuildContext context, String? privateKey, String? username) async {
+    final result = await _userRecoverLoginUseCase(
+      privateKey: privateKey ?? '',
+      username: username ?? '',
+    );
+    result.fold(
+      (left) {
+        if (left == DomainError.requiredField) {
+          privateKeyError = FlutterI18n.translate(
+              context, 'recoverAccount.pleaseEnterYourPrivateKey');
+        }
+      },
+      (right) => openDialog(context),
+    );
   }
 
   Future<Object?> openDialog(BuildContext context) async {
