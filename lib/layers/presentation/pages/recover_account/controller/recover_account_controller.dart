@@ -56,6 +56,12 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   bool isInFirstView = true;
 
+  @observable
+  bool isInSecondView = false;
+
+  @observable
+  int currentIndex = 0;
+
   @action
   void updateWidgetAnimations() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -97,19 +103,34 @@ abstract class RecoverAccountControllerBase with Store {
   @action
   tapContinueButton(
       BuildContext context, String? privateKey, String? username) async {
-    final result = await _userRecoverLoginUseCase(
-      privateKey: privateKey ?? '',
-      username: username ?? '',
-    );
-    result.fold(
-      (left) {
-        if (left == DomainError.requiredField) {
-          privateKeyError = FlutterI18n.translate(
-              context, 'recoverAccount.pleaseEnterYourPrivateKey');
-        }
-      },
-      (right) => openDialog(context),
-    );
+    if (isInFirstView) {
+      if ((privateKey ?? '').isEmpty) {
+        openDialog(context);
+      } else {
+        //TODO: Validate private key with API
+        isInFirstView = false;
+        isInSecondView = true;
+        currentIndex = 1;
+      }
+    } else {
+      if ((username ?? '').isEmpty) {
+        openDialog(context);
+      } else {
+        final result = await _userRecoverLoginUseCase(
+          privateKey: privateKey ?? '',
+          username: username ?? '',
+        );
+        result.fold(
+          (left) {
+            if (left == DomainError.requiredField) {
+              privateKeyError = FlutterI18n.translate(
+                  context, 'recoverAccount.pleaseEnterYourPrivateKey');
+            }
+          },
+          (right) => openDialog(context),
+        );
+      }
+    }
   }
 
   Future<Object?> openDialog(BuildContext context) async {
@@ -121,5 +142,36 @@ abstract class RecoverAccountControllerBase with Store {
         );
       },
     );
+  }
+
+  @action
+  void updateIndex(int index) async {
+    if (index == 0) {
+      if (isInFirstView) {
+        return;
+      } else {
+        isInFirstView = true;
+        isInSecondView = false;
+        currentIndex = 0;
+      }
+    } else if (index == 1) {
+      if (isInSecondView) {
+        return;
+      } else {
+        isInFirstView = false;
+        isInSecondView = true;
+        currentIndex = 1;
+      }
+    }
+  }
+
+  @action
+  Future<void> updateAnimationsToGoOut() async {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      showfirstViewFirstTextOpacity = false;
+      showfirstViewSecondTextOpacity = false;
+      showfirstViewTextFieldOpacity = false;
+      timer.cancel();
+    });
   }
 }

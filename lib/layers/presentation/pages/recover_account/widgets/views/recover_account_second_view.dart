@@ -6,14 +6,14 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 
-class RecoverAccountFirstView extends StatefulWidget {
+class RecoverAccountSecondView extends StatefulWidget {
   final bool showfirstViewFirstTextOpacity;
   final bool showfirstViewSecondTextOpacity;
   final bool showfirstViewTextFieldOpacity;
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
 
-  const RecoverAccountFirstView({
+  const RecoverAccountSecondView({
     Key? key,
     required this.showfirstViewFirstTextOpacity,
     required this.showfirstViewSecondTextOpacity,
@@ -23,11 +23,11 @@ class RecoverAccountFirstView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RecoverAccountFirstViewState createState() =>
-      _RecoverAccountFirstViewState();
+  _RecoverAccountSecondViewState createState() =>
+      _RecoverAccountSecondViewState();
 }
 
-class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
+class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
     with TextThemes {
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
                 duration: const Duration(seconds: 1),
                 child: textH4(
                   context,
-                  textKey: "recoverAccount.hello",
+                  textKey: "recoverAccount.now",
                   color: Colors.white,
                   maxLines: 2,
                 ),
@@ -56,7 +56,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
                 duration: const Duration(seconds: 1),
                 child: textH4(
                   context,
-                  textKey: "recoverAccount.enterFlowerName",
+                  textKey: "recoverAccount.pleaseEnterYourPrivateKey",
                   color: Colors.white,
                   maxLines: 2,
                 ),

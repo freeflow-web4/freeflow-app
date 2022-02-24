@@ -8,12 +8,14 @@ class GradientTextFieldWidget extends StatefulWidget {
   final bool showTextField;
   final String? errorText;
   final String hintText;
-  const GradientTextFieldWidget({
-    Key? key,
-    required this.showTextField,
-    required this.errorText,
-    required this.hintText,
-  }) : super(key: key);
+  final TextEditingController textController;
+  const GradientTextFieldWidget(
+      {Key? key,
+      required this.showTextField,
+      required this.errorText,
+      required this.hintText,
+      required this.textController})
+      : super(key: key);
 
   @override
   State<GradientTextFieldWidget> createState() =>
@@ -53,12 +55,14 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       return SlideTransition(
         textDirection: TextDirection.rtl,
         position: offset,
-        child: Container(
+        child: SizedBox(
           height: 70,
           child: Stack(
             children: <Widget>[
               TextFormField(
+                controller: widget.textController,
                 focusNode: inputNode,
+                style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: widget.hintText,
                   hintStyle: TextStyle(

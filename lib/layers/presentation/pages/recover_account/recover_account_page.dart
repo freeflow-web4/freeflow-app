@@ -6,6 +6,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_first_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_second_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +20,7 @@ class RecoverAccountPage extends StatefulWidget with TextThemes {
 
 class _RecoverAccountPageState extends State<RecoverAccountPage> {
   final recoverAccountController = GetIt.I.get<RecoverAccountController>();
+  final privateKeyController = TextEditingController();
 
   @override
   void initState() {
@@ -34,18 +36,33 @@ class _RecoverAccountPageState extends State<RecoverAccountPage> {
           backgroundColor: StandardColors.backgroundDark,
           body: Column(
             children: [
-              RecoverAccountFirstView(
-                recoverAccountController: recoverAccountController,
-                showfirstViewFirstTextOpacity:
-                    recoverAccountController.showfirstViewFirstTextOpacity,
-                showfirstViewSecondTextOpacity:
-                    recoverAccountController.showfirstViewSecondTextOpacity,
-                showfirstViewTextFieldOpacity:
-                    recoverAccountController.showfirstViewTextFieldOpacity,
+              AnimatedSwitcher(
+                duration: const Duration(seconds: 2),
+                child: recoverAccountController.isInFirstView
+                    ? RecoverAccountFirstView(
+                        textEditingController: privateKeyController,
+                        recoverAccountController: recoverAccountController,
+                        showfirstViewFirstTextOpacity: recoverAccountController
+                            .showfirstViewFirstTextOpacity,
+                        showfirstViewSecondTextOpacity: recoverAccountController
+                            .showfirstViewSecondTextOpacity,
+                        showfirstViewTextFieldOpacity: recoverAccountController
+                            .showfirstViewTextFieldOpacity,
+                      )
+                    : RecoverAccountSecondView(
+                        textEditingController: privateKeyController,
+                        recoverAccountController: recoverAccountController,
+                        showfirstViewFirstTextOpacity: recoverAccountController
+                            .showfirstViewFirstTextOpacity,
+                        showfirstViewSecondTextOpacity: recoverAccountController
+                            .showfirstViewSecondTextOpacity,
+                        showfirstViewTextFieldOpacity: recoverAccountController
+                            .showfirstViewTextFieldOpacity,
+                      ),
               ),
               const SizedBox(height: xxlargeSpacing),
               AnimatedDotIndicatorWidget(
-                currentIndex: 0,
+                currentIndex: recoverAccountController.currentIndex,
                 isFirstDotVisible:
                     recoverAccountController.showFirstDotIndicator,
                 isSecondDotVisible:
@@ -54,6 +71,9 @@ class _RecoverAccountPageState extends State<RecoverAccountPage> {
                     recoverAccountController.showThirdDotIndicator,
                 showIndexAnimation:
                     recoverAccountController.showCurrentIndexAnimation,
+                onTapFirstDot: () => recoverAccountController.updateIndex(0),
+                onTapSecondDot: () => recoverAccountController.updateIndex(1),
+                onTapThirdDot: () {},
               ),
               const Spacer(),
               AnimatedFloatButtonWidget(
@@ -61,8 +81,11 @@ class _RecoverAccountPageState extends State<RecoverAccountPage> {
                 isLargeAnimation:
                     recoverAccountController.isContinueButtonAnimating,
                 showButton: recoverAccountController.showContinueButton,
-                onTap: () =>
-                    recoverAccountController.tapContinueButton(context, '', ''),
+                onTap: () => recoverAccountController.tapContinueButton(
+                  context,
+                  privateKeyController.text,
+                  '',
+                ),
                 icon: IconsAsset.arrowIcon,
               ),
               const SizedBox(height: bigSpacing),
