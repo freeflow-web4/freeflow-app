@@ -1,13 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class GradientTextFieldWidget extends StatefulWidget {
   final bool showTextField;
-
+  final String? errorText;
+  final String hintText;
   const GradientTextFieldWidget({
     Key? key,
     required this.showTextField,
+    required this.errorText,
+    required this.hintText,
   }) : super(key: key);
 
   @override
@@ -19,17 +24,24 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
     with TextThemes, SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<Offset> offset;
+  FocusNode inputNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
-
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
     offset = Tween<Offset>(
-            begin: const Offset(-10.0, 0.0), end: const Offset(0.0, 0.0))
-        .animate(controller);
+      begin: const Offset(-10.0, 0.0),
+      end: const Offset(0.0, 0.0),
+    ).animate(controller);
+
+    Timer.periodic(const Duration(seconds: 8), (timer) {
+      FocusScope.of(context).requestFocus(inputNode);
+      timer.cancel();
+    });
   }
 
   @override
@@ -47,10 +59,13 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             child: Stack(
               children: <Widget>[
                 TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Private Key',
+                  focusNode: inputNode,
+                  decoration: InputDecoration(
+                    hintText: widget.hintText,
                     hintStyle: TextStyle(
-                      color: Colors.white,
+                      color: widget.errorText == null
+                          ? Colors.white
+                          : StandardColors.feedbackError,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Akrobat',
@@ -68,7 +83,9 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                     height: 2,
                     width: MediaQuery.of(context).size.width - 20,
                     decoration: BoxDecoration(
-                      gradient: StandardColors.greenGradient(),
+                      gradient: widget.errorText == null
+                          ? StandardColors.greenGradient()
+                          : StandardColors.redGradient(),
                     ),
                   ),
                 ),
@@ -77,8 +94,10 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                   right: 0,
                   child: textBoldSubtitle(
                     context,
-                    text: '.FF',
-                    color: Colors.white,
+                    text: '.flw ',
+                    color: widget.errorText == null
+                        ? Colors.white
+                        : StandardColors.feedbackError,
                   ),
                 ),
               ],

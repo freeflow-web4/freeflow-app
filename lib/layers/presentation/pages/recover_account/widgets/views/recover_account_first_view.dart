@@ -10,12 +10,14 @@ class RecoverAccountFirstView extends StatefulWidget {
   final bool showfirstViewFirstTextOpacity;
   final bool showfirstViewSecondTextOpacity;
   final bool showfirstViewTextFieldOpacity;
+  final RecoverAccountController recoverAccountController;
 
   const RecoverAccountFirstView({
     Key? key,
     required this.showfirstViewFirstTextOpacity,
     required this.showfirstViewSecondTextOpacity,
     required this.showfirstViewTextFieldOpacity,
+    required this.recoverAccountController,
   }) : super(key: key);
 
   @override
@@ -26,42 +28,48 @@ class RecoverAccountFirstView extends StatefulWidget {
 class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
     with TextThemes {
   @override
-  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 104),
-          AnimatedOpacity(
-            opacity: widget.showfirstViewFirstTextOpacity ? 1.0 : 0.0,
-            duration: const Duration(seconds: 1),
-            child: textH4(
-              context,
-              textKey: "recoverAccount.hello",
-              color: Colors.white,
-              maxLines: 2,
-            ),
+    return Observer(
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 104),
+              AnimatedOpacity(
+                opacity: widget.showfirstViewFirstTextOpacity ? 1.0 : 0.0,
+                duration: const Duration(seconds: 1),
+                child: textH4(
+                  context,
+                  textKey: "recoverAccount.hello",
+                  color: Colors.white,
+                  maxLines: 2,
+                ),
+              ),
+              const SizedBox(height: mdSpacingx2),
+              AnimatedOpacity(
+                opacity: widget.showfirstViewSecondTextOpacity ? 1.0 : 0.0,
+                duration: const Duration(seconds: 1),
+                child: textH4(
+                  context,
+                  textKey: "recoverAccount.enterFlowerName",
+                  color: Colors.white,
+                  maxLines: 2,
+                ),
+              ),
+              const SizedBox(height: mdSpacingx2),
+              GradientTextFieldWidget(
+                hintText:
+                    FlutterI18n.translate(context, "recoverAccount.flowerName"),
+                showTextField: widget.showfirstViewTextFieldOpacity,
+                errorText: null,
+              ),
+            ],
           ),
-          const SizedBox(height: mdSpacingx2),
-          AnimatedOpacity(
-            opacity: widget.showfirstViewSecondTextOpacity ? 1.0 : 0.0,
-            duration: const Duration(seconds: 1),
-            child: textH4(
-              context,
-              textKey: "recoverAccount.enterFlowerName",
-              color: Colors.white,
-              maxLines: 2,
-            ),
-          ),
-          const SizedBox(height: mdSpacingx2),
-          GradientTextFieldWidget(
-            showTextField: widget.showfirstViewTextFieldOpacity,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

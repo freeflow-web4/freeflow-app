@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:freeflow/layers/presentation/helpers/errors/ui_error.dart';
 import 'package:freeflow/layers/presentation/helpers/validators/field_validator.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
@@ -47,21 +48,19 @@ abstract class RecoverAccountControllerBase with Store {
   bool showCurrentIndexAnimation = false;
 
   @observable
-  String? privateKeyError;
+  bool privateKeyisValid = false;
 
   @observable
   bool isInFirstView = true;
 
   @action
   void validatePrivateKey(BuildContext context, String? privateKey) {
-    final error = fieldValidator.validateRequiredField(privateKey ?? '');
+    final UiError? error =
+        fieldValidator.validateRequiredField(privateKey ?? '');
     if (error != null) {
-      privateKeyError = FlutterI18n.translate(
-        context,
-        "recoverAccount.pleaseEnterYourPrivateKey",
-      );
+      privateKeyisValid = false;
     } else {
-      privateKeyError = null;
+      privateKeyisValid = true;
     }
   }
 
@@ -108,7 +107,7 @@ abstract class RecoverAccountControllerBase with Store {
       BuildContext context, String? privateKey, String? username) {
     validatePrivateKey(context, privateKey);
     if (isInFirstView) {
-      if (privateKeyError == null) {
+      if (privateKeyisValid == true) {
         isInFirstView = false;
         return;
       } else {

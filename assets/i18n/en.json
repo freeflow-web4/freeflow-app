@@ -3,6 +3,8 @@
         "hello": "Hello",
         "enterFlowerName": "Please tell us\nyour Flower name.",
         "pleaseEnterRegisteredName": "To continue,\nplease enter your\nregistered\nFlower name",
-        "pleaseEnterYourPrivateKey": "Please enter your private key"
+        "pleaseEnterYourPrivateKey": "Please enter your private key",
+        "privateKey": "Private key",
+        "flowerName": "Flower Name"
     }
 }

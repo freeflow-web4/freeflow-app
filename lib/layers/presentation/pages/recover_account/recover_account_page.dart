@@ -35,6 +35,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage> {
           body: Column(
             children: [
               RecoverAccountFirstView(
+                recoverAccountController: recoverAccountController,
                 showfirstViewFirstTextOpacity:
                     recoverAccountController.showfirstViewFirstTextOpacity,
                 showfirstViewSecondTextOpacity:

@@ -178,19 +178,19 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
-  final _$privateKeyErrorAtom =
-      Atom(name: 'RecoverAccountControllerBase.privateKeyError');
+  final _$privateKeyisValidAtom =
+      Atom(name: 'RecoverAccountControllerBase.privateKeyisValid');
 
   @override
-  String? get privateKeyError {
-    _$privateKeyErrorAtom.reportRead();
-    return super.privateKeyError;
+  bool get privateKeyisValid {
+    _$privateKeyisValidAtom.reportRead();
+    return super.privateKeyisValid;
   }
 
   @override
-  set privateKeyError(String? value) {
-    _$privateKeyErrorAtom.reportWrite(value, super.privateKeyError, () {
-      super.privateKeyError = value;
+  set privateKeyisValid(bool value) {
+    _$privateKeyisValidAtom.reportWrite(value, super.privateKeyisValid, () {
+      super.privateKeyisValid = value;
     });
   }
 
@@ -261,7 +261,7 @@ showFirstDotIndicator: ${showFirstDotIndicator},
 showSecondDotIndicator: ${showSecondDotIndicator},
 showThirdDotIndicator: ${showThirdDotIndicator},
 showCurrentIndexAnimation: ${showCurrentIndexAnimation},
-privateKeyError: ${privateKeyError},
+privateKeyisValid: ${privateKeyisValid},
 isInFirstView: ${isInFirstView}
     ''';
   }
