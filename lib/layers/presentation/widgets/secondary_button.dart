@@ -13,11 +13,12 @@ class SecondaryButton extends StatelessWidget {
 
   static const borderColor = Color(0xFF828282);
   static const backgroundColor = Color(0xFF4F4F4F);
+  static const borderRadius = 20.0;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(200), //_borderRadius,
+      borderRadius: BorderRadius.circular(borderRadius), //_borderRadius,
       child: TextButton(
         onPressed: onPressed,
         child: Container(
