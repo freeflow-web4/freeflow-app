@@ -15,7 +15,8 @@ class SwipeButton extends StatefulWidget {
   State<SwipeButton> createState() => _SwipeButtonState();
 }
 
-class _SwipeButtonState extends State<SwipeButton> with TextThemes {
+class _SwipeButtonState extends State<SwipeButton>
+    with TickerProviderStateMixin, TextThemes {
   //blue
   static const beginingColor = Color(0xFF29B6B8);
   //green
@@ -37,9 +38,36 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
   static const double _offset = 0.15;
 
   double horizontalAlign = -1;
-  double? lastHorizontalPosition;
 
   double _buttonProgressFactor = 0;
+
+  bool swiped = false;
+
+  late final AnimationController animationController = AnimationController(
+    duration: const Duration(milliseconds: 1000),
+    vsync: this,
+  );
+  Animation<double>? _buttonAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    if (animationController != null) {
+      _buttonAnimation = Tween<double>(
+        begin: 0,
+        end: 1,
+      ).animate(
+        CurvedAnimation(
+          parent: animationController,
+          curve: const Interval(
+            0.75,
+            1,
+            curve: Curves.bounceIn,
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +132,16 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
                 height: constraints.maxHeight,
                 width: constraints.maxHeight,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: _gradient,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.25),
+                        blurRadius: 10,
+                        spreadRadius: 4,
+                      ),
+                    ],
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Image.asset('assets/images/icons/arrow_right.png'),
@@ -119,7 +154,6 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
                   child: point,
                 ),
                 axis: Axis.horizontal,
-                onDragEnd: (_) => _cleanLastPosition(),
                 onDragUpdate: (details) => update(
                   constraints.maxWidth,
                   details.globalPosition.dx,
@@ -139,13 +173,25 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
     if (!shouldUpdate) {
       return;
     }
-    final increment = _calcMovementFactor(movement, widgetWidth) * 1.5;
+    final increment = _calcMovementFactor(movement, widgetWidth);
     final newProgress = _calcButtonProgress(increment, _buttonProgressFactor);
     final newAlign = _calcHorizontalInRange(newProgress);
+    updateProgress(newProgress, newAlign);
+  }
+
+  void updateProgress(double percent, double align) {
     setState(() {
-      _buttonProgressFactor = newProgress;
-      horizontalAlign = newAlign;
+      _buttonProgressFactor = percent;
+      horizontalAlign = align;
     });
+    final progressWithPrecision = (_buttonProgressFactor * 5).round();
+    final inTheEnd = progressWithPrecision == 5;
+    if (inTheEnd && !swiped) {
+      widget.onSwipe();
+      swiped = true;
+    } else if (!inTheEnd) {
+      swiped = false;
+    }
   }
 
   bool _shouldUpdateProgress(double movement, double currentProgressFactor) {
@@ -155,9 +201,7 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
   }
 
   double _calcMovement(double x, double dx) {
-    final movement =
-        lastHorizontalPosition == null ? dx : x - lastHorizontalPosition!;
-    lastHorizontalPosition = x;
+    final movement = dx;
     return movement;
   }
 
@@ -177,16 +221,38 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
     return progressInRange;
   }
 
-  double _calcMovementFactor(double movement, double widgetWidth) {
-    final factor = movement / widgetWidth;
+  double _calcMovementFactor(
+    double movement,
+    double widgetWidth,
+  ) {
+    final factor = (movement / widgetWidth);
     return factor;
-  }
-
-  void _cleanLastPosition() {
-    lastHorizontalPosition = null;
   }
 
   Widget textWidget(BuildContext context, String text) {
     return textBold18(context, text: text, color: Colors.white);
   }
 }
+
+// class ComeAnGoCurve<T extends Curve> extends Curve {
+//   final int repeat;
+
+//   ComeAnGoCurve({this.repeat = 1});
+//   @override
+//   double transformInternal(double t) {
+//     return calc(t);
+//   }
+
+//   double calc(double t) {
+//     double time = t;
+//     if (shoudlUseReverse(t)) time = 1 - t;
+//     final timeInCycle = getTimeInCycle(t, repeat);
+//   }
+
+//   bool shoudlUseReverse(double t) {}
+//   getTimeInCycle(double t, int repeat) {
+//     for (var i = 0; i < repeat; i++) {
+      
+//     }
+//   }
+// }
