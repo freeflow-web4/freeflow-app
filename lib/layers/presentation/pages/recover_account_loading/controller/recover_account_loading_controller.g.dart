@@ -74,22 +74,6 @@ mixin _$RecoverAccountLoadingController
     });
   }
 
-  final _$loadingLogoOpacityAtom =
-      Atom(name: 'RecoverAccountLoadingControllerBase.loadingLogoOpacity');
-
-  @override
-  double get loadingLogoOpacity {
-    _$loadingLogoOpacityAtom.reportRead();
-    return super.loadingLogoOpacity;
-  }
-
-  @override
-  set loadingLogoOpacity(double value) {
-    _$loadingLogoOpacityAtom.reportWrite(value, super.loadingLogoOpacity, () {
-      super.loadingLogoOpacity = value;
-    });
-  }
-
   final _$RecoverAccountLoadingControllerBaseActionController =
       ActionController(name: 'RecoverAccountLoadingControllerBase');
 
@@ -113,8 +97,7 @@ mixin _$RecoverAccountLoadingController
 showLogoLoading1: ${showLogoLoading1},
 showLogoLoading2: ${showLogoLoading2},
 showLogoLoading3: ${showLogoLoading3},
-loadingLogoVisible: ${loadingLogoVisible},
-loadingLogoOpacity: ${loadingLogoOpacity}
+loadingLogoVisible: ${loadingLogoVisible}
     ''';
   }
 }

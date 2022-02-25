@@ -7,17 +7,16 @@ import 'controller/recover_account_loading_controller.dart';
 import '../../widgets/animated_center_logo.dart';
 
 class RecoverAccountLoadingPage extends StatefulWidget {
-  const RecoverAccountLoadingPage(
-      {Key? key})
-      : super(key: key);
+  const RecoverAccountLoadingPage({Key? key}) : super(key: key);
   @override
   _RecoverAccountLoadingPageState createState() =>
       _RecoverAccountLoadingPageState();
 }
 
 class _RecoverAccountLoadingPageState extends State<RecoverAccountLoadingPage> {
-  final RecoverAccountLoadingController recoverAccountLoadingController = GetIt.I<RecoverAccountLoadingController>();
-  
+  final RecoverAccountLoadingController recoverAccountLoadingController =
+      GetIt.I<RecoverAccountLoadingController>();
+
   @override
   void initState() {
     super.initState();
@@ -28,14 +27,12 @@ class _RecoverAccountLoadingPageState extends State<RecoverAccountLoadingPage> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        recoverAccountLoadingController.goToRecoverAccountPage(context);
         return Scaffold(
           backgroundColor: StandardColors.backgroundDark,
           body: AnimatedCenterLogo(
-            logoOpacity:
-                recoverAccountLoadingController.loadingLogoOpacity,
-            showFirstFrame:
-                recoverAccountLoadingController.showLogoLoading1,
+            showFirstFrame: recoverAccountLoadingController.showLogoLoading1,
+            onAnimationEnd: () =>
+                recoverAccountLoadingController.goToRecoverAccountPage(context),
           ),
         );
       },
