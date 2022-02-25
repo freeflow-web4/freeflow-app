@@ -51,6 +51,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   intl: ^0.17.0
   responsive_framework: ^0.1.7
+  provider:
 
 dev_dependencies:
   auto_route_generator: ^3.2.3

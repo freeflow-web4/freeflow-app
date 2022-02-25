@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
-import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/pages/navigation/nav_option.dart';
 import 'package:freeflow/pages/navigation/navigation.dart';
 import 'package:flutter/material.dart' hide Image, Draggable;

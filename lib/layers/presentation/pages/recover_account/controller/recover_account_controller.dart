@@ -1,13 +1,9 @@
 import 'dart:async';
-
-import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
-import 'package:freeflow/layers/domain/validators/field_validator.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
 
@@ -145,7 +141,7 @@ abstract class RecoverAccountControllerBase with Store {
   }
 
   @action
-  void updateIndex(int index) async {
+  void updateIndex(int index) {
     if (index == 0) {
       if (isInFirstView) {
         return;

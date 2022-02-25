@@ -30,69 +30,82 @@ class _RecoverAccountPageState extends State<RecoverAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return Scaffold(
-          backgroundColor: StandardColors.backgroundDark,
-          body: Column(
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(seconds: 2),
-                child: recoverAccountController.isInFirstView
-                    ? RecoverAccountFirstView(
-                        textEditingController: privateKeyController,
-                        recoverAccountController: recoverAccountController,
-                        showfirstViewFirstTextOpacity: recoverAccountController
-                            .showfirstViewFirstTextOpacity,
-                        showfirstViewSecondTextOpacity: recoverAccountController
-                            .showfirstViewSecondTextOpacity,
-                        showfirstViewTextFieldOpacity: recoverAccountController
-                            .showfirstViewTextFieldOpacity,
-                      )
-                    : RecoverAccountSecondView(
-                        textEditingController: privateKeyController,
-                        recoverAccountController: recoverAccountController,
-                        showfirstViewFirstTextOpacity: recoverAccountController
-                            .showfirstViewFirstTextOpacity,
-                        showfirstViewSecondTextOpacity: recoverAccountController
-                            .showfirstViewSecondTextOpacity,
-                        showfirstViewTextFieldOpacity: recoverAccountController
-                            .showfirstViewTextFieldOpacity,
-                      ),
-              ),
-              const SizedBox(height: xxlargeSpacing),
-              AnimatedDotIndicatorWidget(
-                currentIndex: recoverAccountController.currentIndex,
-                isFirstDotVisible:
-                    recoverAccountController.showFirstDotIndicator,
-                isSecondDotVisible:
-                    recoverAccountController.showSecondDotIndicator,
-                isThirdDotVisible:
-                    recoverAccountController.showThirdDotIndicator,
-                showIndexAnimation:
-                    recoverAccountController.showCurrentIndexAnimation,
-                onTapFirstDot: () => recoverAccountController.updateIndex(0),
-                onTapSecondDot: () => recoverAccountController.updateIndex(1),
-                onTapThirdDot: () {},
-              ),
-              const Spacer(),
-              AnimatedFloatButtonWidget(
-                isActive: recoverAccountController.isContinueButtonActive,
-                isLargeAnimation:
-                    recoverAccountController.isContinueButtonAnimating,
-                showButton: recoverAccountController.showContinueButton,
-                onTap: () => recoverAccountController.tapContinueButton(
-                  context,
-                  privateKeyController.text,
-                  '',
-                ),
-                icon: IconsAsset.arrowIcon,
-              ),
-              const SizedBox(height: bigSpacing),
-            ],
+    return Scaffold(
+      backgroundColor: StandardColors.backgroundDark,
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: Observer(builder: (context) {
+              return Column(
+                children: [
+                  AnimatedSwitcher(
+                    duration: const Duration(seconds: 2),
+                    child: recoverAccountController.isInFirstView
+                        ? RecoverAccountFirstView(
+                            textEditingController: privateKeyController,
+                            recoverAccountController: recoverAccountController,
+                            showfirstViewFirstTextOpacity:
+                                recoverAccountController
+                                    .showfirstViewFirstTextOpacity,
+                            showfirstViewSecondTextOpacity:
+                                recoverAccountController
+                                    .showfirstViewSecondTextOpacity,
+                            showfirstViewTextFieldOpacity:
+                                recoverAccountController
+                                    .showfirstViewTextFieldOpacity,
+                          )
+                        : RecoverAccountSecondView(
+                            textEditingController: privateKeyController,
+                            recoverAccountController: recoverAccountController,
+                            showfirstViewFirstTextOpacity:
+                                recoverAccountController
+                                    .showfirstViewFirstTextOpacity,
+                            showfirstViewSecondTextOpacity:
+                                recoverAccountController
+                                    .showfirstViewSecondTextOpacity,
+                            showfirstViewTextFieldOpacity:
+                                recoverAccountController
+                                    .showfirstViewTextFieldOpacity,
+                          ),
+                  ),
+                  const SizedBox(height: xxlargeSpacing),
+                  AnimatedDotIndicatorWidget(
+                    currentIndex: recoverAccountController.currentIndex,
+                    isFirstDotVisible:
+                        recoverAccountController.showFirstDotIndicator,
+                    isSecondDotVisible:
+                        recoverAccountController.showSecondDotIndicator,
+                    isThirdDotVisible:
+                        recoverAccountController.showThirdDotIndicator,
+                    showIndexAnimation:
+                        recoverAccountController.showCurrentIndexAnimation,
+                    onTapFirstDot: () =>
+                        recoverAccountController.updateIndex(0),
+                    onTapSecondDot: () =>
+                        recoverAccountController.updateIndex(1),
+                    onTapThirdDot: () {},
+                  ),
+                  const Spacer(),
+                  AnimatedFloatButtonWidget(
+                    isActive: recoverAccountController.isContinueButtonActive,
+                    isLargeAnimation:
+                        recoverAccountController.isContinueButtonAnimating,
+                    showButton: recoverAccountController.showContinueButton,
+                    onTap: () => recoverAccountController.tapContinueButton(
+                      context,
+                      privateKeyController.text,
+                      '',
+                    ),
+                    icon: IconsAsset.arrowIcon,
+                  ),
+                  const SizedBox(height: bigSpacing),
+                ],
+              );
+            }),
           ),
         );
-      },
+      }),
     );
   }
 }

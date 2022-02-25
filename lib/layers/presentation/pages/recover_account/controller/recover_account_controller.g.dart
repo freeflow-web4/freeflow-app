@@ -210,6 +210,38 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isInSecondViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isInSecondView');
+
+  @override
+  bool get isInSecondView {
+    _$isInSecondViewAtom.reportRead();
+    return super.isInSecondView;
+  }
+
+  @override
+  set isInSecondView(bool value) {
+    _$isInSecondViewAtom.reportWrite(value, super.isInSecondView, () {
+      super.isInSecondView = value;
+    });
+  }
+
+  final _$currentIndexAtom =
+      Atom(name: 'RecoverAccountControllerBase.currentIndex');
+
+  @override
+  int get currentIndex {
+    _$currentIndexAtom.reportRead();
+    return super.currentIndex;
+  }
+
+  @override
+  set currentIndex(int value) {
+    _$currentIndexAtom.reportWrite(value, super.currentIndex, () {
+      super.currentIndex = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -218,6 +250,15 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
       BuildContext context, String? privateKey, String? username) {
     return _$tapContinueButtonAsyncAction
         .run(() => super.tapContinueButton(context, privateKey, username));
+  }
+
+  final _$updateAnimationsToGoOutAsyncAction =
+      AsyncAction('RecoverAccountControllerBase.updateAnimationsToGoOut');
+
+  @override
+  Future<void> updateAnimationsToGoOut() {
+    return _$updateAnimationsToGoOutAsyncAction
+        .run(() => super.updateAnimationsToGoOut());
   }
 
   final _$RecoverAccountControllerBaseActionController =
@@ -230,6 +271,17 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
             name: 'RecoverAccountControllerBase.updateWidgetAnimations');
     try {
       return super.updateWidgetAnimations();
+    } finally {
+      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateIndex(int index) {
+    final _$actionInfo = _$RecoverAccountControllerBaseActionController
+        .startAction(name: 'RecoverAccountControllerBase.updateIndex');
+    try {
+      return super.updateIndex(index);
     } finally {
       _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -249,7 +301,9 @@ showSecondDotIndicator: ${showSecondDotIndicator},
 showThirdDotIndicator: ${showThirdDotIndicator},
 showCurrentIndexAnimation: ${showCurrentIndexAnimation},
 privateKeyError: ${privateKeyError},
-isInFirstView: ${isInFirstView}
+isInFirstView: ${isInFirstView},
+isInSecondView: ${isInSecondView},
+currentIndex: ${currentIndex}
     ''';
   }
 }

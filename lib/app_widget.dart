@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: (context, widget) => ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(context, widget!),
-        maxWidth: 1200,
         minWidth: 480,
         defaultScale: true,
         breakpoints: [
