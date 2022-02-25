@@ -4,6 +4,7 @@ class StandardColors {
   static const Color backgroundDark = Color(0xff000000);
   static const Color disabled = Color(0xffE8E8E8);
   static const Color blueLight = Color(0xff2CB6BE);
+  static const Color primary = Color(0xff2D2D2D);
 
   static Gradient greenGradient() => const LinearGradient(
         colors: [
