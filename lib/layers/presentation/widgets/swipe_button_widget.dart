@@ -34,11 +34,12 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
   static const borderPadding = 2.0;
   static const childPadding = 4.0;
   static const totalPadding = borderPadding + childPadding;
+  static const double _offset = 0.15;
 
   double horizontalAlign = -1;
-  double? lastX;
+  double? lastHorizontalPosition;
 
-  double _factor = 0;
+  double _buttonProgressFactor = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +67,24 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
             ),
           ),
         ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: FractionallySizedBox(
+              widthFactor: _buttonProgressFactor < _offset / 2
+                  ? _offset
+                  : _buttonProgressFactor > 0.5
+                      ? _buttonProgressFactor
+                      : _buttonProgressFactor + _offset / 2,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(_borderRadius),
+                  gradient: _gradient,
+                ),
+              ),
+            ),
+          ),
+        ),
         Align(
           alignment: Alignment.center,
           child: Padding(
@@ -75,17 +94,6 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
             child: textWidget(
               context,
               textNonNull,
-            ),
-          ),
-        ),
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(_borderRadius),
-                gradient: _gradient,
-              ),
             ),
           ),
         ),
@@ -111,7 +119,7 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
                   child: point,
                 ),
                 axis: Axis.horizontal,
-                onDragEnd: (_) => clean(),
+                onDragEnd: (_) => _cleanLastPosition(),
                 onDragUpdate: (details) => update(
                   constraints.maxWidth,
                   details.globalPosition.dx,
@@ -126,49 +134,56 @@ class _SwipeButtonState extends State<SwipeButton> with TextThemes {
   }
 
   void update(double widgetWidth, double x, double dx) {
-    // return;
-    final newValue = calculateNewPosition(widgetWidth, x, dx);
-    if (newValue != null) {
-      setState(() {
-        horizontalAlign = newValue;
-      });
+    final movement = _calcMovement(x, dx);
+    final shouldUpdate = _shouldUpdateProgress(movement, _buttonProgressFactor);
+    if (!shouldUpdate) {
+      return;
     }
+    final increment = _calcMovementFactor(movement, widgetWidth) * 1.5;
+    final newProgress = _calcButtonProgress(increment, _buttonProgressFactor);
+    final newAlign = _calcHorizontalInRange(newProgress);
+    setState(() {
+      _buttonProgressFactor = newProgress;
+      horizontalAlign = newAlign;
+    });
   }
 
-  double? calculateNewPosition(double widgetWidth, double x, double dx) {
-    final movement = lastX == null ? dx : x - lastX!;
-    lastX = x;
-    if ((movement > 0 && horizontalAlign < 1) ||
-        (movement < 0 && horizontalAlign > -1) ||
-        movement != 0) {
-      setState(() {
-        _factor = calcMovementFactor(movement, widgetWidth) * 3;
-      });
-      final finalHorizontalAlignValue =
-          calcHorizontalInRange(horizontalAlign, _factor);
-      return finalHorizontalAlignValue;
-    }
-    return null;
+  bool _shouldUpdateProgress(double movement, double currentProgressFactor) {
+    final result = (movement > 0 && currentProgressFactor < 1) ||
+        (movement < 0 && currentProgressFactor > 0);
+    return result;
   }
 
-  double calcHorizontalInRange(double currentValue, double increment) {
-    final incrementedHorizontalAlign = currentValue + increment;
-    double finalHorizontalAlignValue = -1;
-    if (incrementedHorizontalAlign > -1 && incrementedHorizontalAlign < 1) {
-      finalHorizontalAlignValue = incrementedHorizontalAlign;
-    } else if (incrementedHorizontalAlign > 1) {
-      finalHorizontalAlignValue = 1;
-    }
-    return finalHorizontalAlignValue;
+  double _calcMovement(double x, double dx) {
+    final movement =
+        lastHorizontalPosition == null ? dx : x - lastHorizontalPosition!;
+    lastHorizontalPosition = x;
+    return movement;
   }
 
-  double calcMovementFactor(double movement, double widgetWidth) {
+  double _calcButtonProgress(double increment, double currentProgress) {
+    final progress = increment + currentProgress;
+    double finalProgress = 0;
+    if (progress > 0 && progress < 1) {
+      finalProgress = progress;
+    } else if (progress >= 1) {
+      finalProgress = 1;
+    }
+    return finalProgress;
+  }
+
+  double _calcHorizontalInRange(double progress) {
+    final progressInRange = progress * 2 - 1;
+    return progressInRange;
+  }
+
+  double _calcMovementFactor(double movement, double widgetWidth) {
     final factor = movement / widgetWidth;
     return factor;
   }
 
-  void clean() {
-    lastX = null;
+  void _cleanLastPosition() {
+    lastHorizontalPosition = null;
   }
 
   Widget textWidget(BuildContext context, String text) {
