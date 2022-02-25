@@ -17,12 +17,6 @@ abstract class RecoverAccountControllerBase with Store {
   RecoverAccountControllerBase(this._userRecoverLoginUseCase);
 
   @observable
-  bool showfirstViewFirstTextOpacity = false;
-
-  @observable
-  bool showfirstViewSecondTextOpacity = false;
-
-  @observable
   bool showfirstViewTextFieldOpacity = false;
 
   @observable
@@ -71,15 +65,6 @@ abstract class RecoverAccountControllerBase with Store {
     Timer.periodic(const Duration(seconds: 3), (timer) {
       showThirdDotIndicator = true;
       showCurrentIndexAnimation = true;
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 5), (timer) {
-      showfirstViewFirstTextOpacity = true;
-      showCurrentIndexAnimation = false;
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 6), (timer) {
-      showfirstViewSecondTextOpacity = true;
       timer.cancel();
     });
     Timer.periodic(const Duration(seconds: 6), (timer) {
@@ -159,15 +144,5 @@ abstract class RecoverAccountControllerBase with Store {
         currentIndex = 1;
       }
     }
-  }
-
-  @action
-  Future<void> updateAnimationsToGoOut() async {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      showfirstViewFirstTextOpacity = false;
-      showfirstViewSecondTextOpacity = false;
-      showfirstViewTextFieldOpacity = false;
-      timer.cancel();
-    });
   }
 }

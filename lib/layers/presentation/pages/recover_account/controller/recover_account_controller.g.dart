@@ -9,40 +9,6 @@ part of 'recover_account_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
-  final _$showfirstViewFirstTextOpacityAtom =
-      Atom(name: 'RecoverAccountControllerBase.showfirstViewFirstTextOpacity');
-
-  @override
-  bool get showfirstViewFirstTextOpacity {
-    _$showfirstViewFirstTextOpacityAtom.reportRead();
-    return super.showfirstViewFirstTextOpacity;
-  }
-
-  @override
-  set showfirstViewFirstTextOpacity(bool value) {
-    _$showfirstViewFirstTextOpacityAtom
-        .reportWrite(value, super.showfirstViewFirstTextOpacity, () {
-      super.showfirstViewFirstTextOpacity = value;
-    });
-  }
-
-  final _$showfirstViewSecondTextOpacityAtom =
-      Atom(name: 'RecoverAccountControllerBase.showfirstViewSecondTextOpacity');
-
-  @override
-  bool get showfirstViewSecondTextOpacity {
-    _$showfirstViewSecondTextOpacityAtom.reportRead();
-    return super.showfirstViewSecondTextOpacity;
-  }
-
-  @override
-  set showfirstViewSecondTextOpacity(bool value) {
-    _$showfirstViewSecondTextOpacityAtom
-        .reportWrite(value, super.showfirstViewSecondTextOpacity, () {
-      super.showfirstViewSecondTextOpacity = value;
-    });
-  }
-
   final _$showfirstViewTextFieldOpacityAtom =
       Atom(name: 'RecoverAccountControllerBase.showfirstViewTextFieldOpacity');
 
@@ -252,15 +218,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
         .run(() => super.tapContinueButton(context, privateKey, username));
   }
 
-  final _$updateAnimationsToGoOutAsyncAction =
-      AsyncAction('RecoverAccountControllerBase.updateAnimationsToGoOut');
-
-  @override
-  Future<void> updateAnimationsToGoOut() {
-    return _$updateAnimationsToGoOutAsyncAction
-        .run(() => super.updateAnimationsToGoOut());
-  }
-
   final _$RecoverAccountControllerBaseActionController =
       ActionController(name: 'RecoverAccountControllerBase');
 
@@ -290,8 +247,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   @override
   String toString() {
     return '''
-showfirstViewFirstTextOpacity: ${showfirstViewFirstTextOpacity},
-showfirstViewSecondTextOpacity: ${showfirstViewSecondTextOpacity},
 showfirstViewTextFieldOpacity: ${showfirstViewTextFieldOpacity},
 showContinueButton: ${showContinueButton},
 isContinueButtonActive: ${isContinueButtonActive},

@@ -9,9 +9,9 @@ import 'package:freeflow/layers/presentation/pages/recover_account_loading/recov
     // AutoRoute(page: HomePage, initial: true),
     AutoRoute(
       page: RecoverAccountLoadingPage,
-      initial: true,
+      initial: false,
     ),
-    AutoRoute(page: RecoverAccountPage),
+    AutoRoute(page: RecoverAccountPage, initial: true),
   ],
 )
 // extend the generated private router

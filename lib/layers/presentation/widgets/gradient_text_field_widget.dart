@@ -52,72 +52,68 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       if (widget.showTextField) {
         controller.forward();
       }
-      return SlideTransition(
-        textDirection: TextDirection.rtl,
-        position: offset,
-        child: SizedBox(
-          height: 70,
-          child: Stack(
-            children: <Widget>[
-              TextFormField(
-                controller: widget.textController,
-                focusNode: inputNode,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: widget.hintText,
-                  hintStyle: TextStyle(
-                    color: widget.errorText == null
-                        ? Colors.white
-                        : StandardColors.feedbackError,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Akrobat',
-                  ),
-                  border: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
+      return SizedBox(
+        height: 70,
+        child: Stack(
+          children: <Widget>[
+            TextFormField(
+              controller: widget.textController,
+              focusNode: inputNode,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: widget.hintText,
+                hintStyle: TextStyle(
+                  color: widget.errorText == null
+                      ? Colors.white
+                      : StandardColors.feedbackError,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Akrobat',
+                ),
+                border: InputBorder.none,
+                errorBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+              ),
+            ),
+            Positioned(
+              top: 40,
+              child: Container(
+                height: 2,
+                width: MediaQuery.of(context).size.width - 20,
+                decoration: BoxDecoration(
+                  gradient: widget.errorText == null
+                      ? StandardColors.greenGradient()
+                      : StandardColors.redGradient(),
                 ),
               ),
-              Positioned(
-                top: 40,
-                child: Container(
-                  height: 2,
-                  width: MediaQuery.of(context).size.width - 20,
-                  decoration: BoxDecoration(
-                    gradient: widget.errorText == null
-                        ? StandardColors.greenGradient()
-                        : StandardColors.redGradient(),
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: widget.errorText != null,
-                child: Positioned(
-                  bottom: 10,
-                  child: textCaption(
-                    context,
-                    text: widget.errorText ?? '',
-                    color: widget.errorText == null
-                        ? Colors.white
-                        : StandardColors.feedbackError,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 13,
-                right: 0,
-                child: textBoldSubtitle(
+            ),
+            Visibility(
+              visible: widget.errorText != null,
+              child: Positioned(
+                bottom: 10,
+                child: textCaption(
                   context,
-                  text: '.flw ',
+                  text: widget.errorText ?? '',
                   color: widget.errorText == null
                       ? Colors.white
                       : StandardColors.feedbackError,
                 ),
               ),
-            ],
-          ),
+            ),
+            Positioned(
+              top: 13,
+              right: 0,
+              child: textBoldSubtitle(
+                context,
+                text: '.flw ',
+                color: widget.errorText == null
+                    ? Colors.white
+                    : StandardColors.feedbackError,
+              ),
+            ),
+          ],
         ),
       );
     });
