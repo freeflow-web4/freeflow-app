@@ -58,4 +58,22 @@ mixin TextThemes {
       ),
     );
   }
+
+  AutoSizeText textBold18(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return AutoSizeText(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
 }
