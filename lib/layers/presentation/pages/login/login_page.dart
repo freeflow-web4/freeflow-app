@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin, TextThemes {
-  static const int _animationDurationInMili = 2000;
+  static const int _animationDurationInMili = 5000;
 
   final loginController = findLoginController();
 
@@ -33,10 +33,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin, Te
   void initState() {
     super.initState();
 
-    opacityLogo = getTweenAnimation(0, 0.25);
-    opacityText1 = getTweenAnimation(0.25, 0.5);
-    opacitySwipeButton = getTweenAnimation(0.5, 0.75);
-    opacityRecoverButton = getTweenAnimation(0.75, 1);
+    //TODO: revise here about weights
+    // opacityLogo = getTweenAnimation(0, 0.2);
+    // opacityText1 = getTweenAnimation(0.2, 0.4);
+    // opacitySwipeButton = getTweenAnimation(0.4, 0.6);
+    // opacityRecoverButton = getTweenAnimation(0.6, 0.8);
+
+    opacityLogo = getTweenAnimation(0, 0.1);
+    opacityText1 = getTweenAnimation(0.1, 0.2);
+    opacitySwipeButton = getTweenAnimation(0.2, 0.3);
+    opacityRecoverButton = getTweenAnimation(0.4, 0.5);
     _controller.forward().orCancel;
   }
 
@@ -86,6 +92,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin, Te
                   print("Heeeey!");
                 },
                 text: "LET'S GO!",
+                animationController: _controller,
               ),
             ),
             const AdaptativeSpacer(
