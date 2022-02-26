@@ -4,11 +4,13 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class SwipeButton extends StatefulWidget {
   final void Function() onSwipe;
+  final AnimationController? animationController;
   final String? text;
   const SwipeButton({
     Key? key,
     this.text,
     required this.onSwipe,
+    this.animationController,
   }) : super(key: key);
 
   @override
@@ -37,36 +39,56 @@ class _SwipeButtonState extends State<SwipeButton>
   static const totalPadding = borderPadding + childPadding;
   static const double _offset = 0.15;
 
-  double horizontalAlign = -1;
+  double? horizontalAlign;
 
   double _buttonProgressFactor = 0;
 
   bool swiped = false;
 
-  late final AnimationController animationController = AnimationController(
-    duration: const Duration(milliseconds: 1000),
-    vsync: this,
-  );
   Animation<double>? _buttonAnimation;
+
+  bool? animationDone;
 
   @override
   void initState() {
     super.initState();
-    if (animationController != null) {
-      _buttonAnimation = Tween<double>(
-        begin: 0,
-        end: 1,
-      ).animate(
+    if (widget.animationController != null) {
+      _buttonAnimation = TweenSequence([
+        TweenSequenceItem(
+          tween: Tween<double>(begin: -1, end: -0.6),
+          weight: 1,
+        ),
+        TweenSequenceItem(
+          tween: Tween<double>(begin: -0.6, end: -1),
+          weight: 1,
+        ),
+        TweenSequenceItem(tween: ConstantTween<double>(-1), weight: 1),
+        TweenSequenceItem(
+          tween: Tween<double>(begin: -1, end: -0.6),
+          weight: 1,
+        ),
+        TweenSequenceItem(
+          tween: Tween<double>(begin: -0.6, end: -1),
+          weight: 1,
+        ),
+      ]).animate(
         CurvedAnimation(
-          parent: animationController,
+          parent: widget.animationController!,
           curve: const Interval(
-            0.75,
+            0.5,
             1,
-            curve: Curves.bounceIn,
+            curve: Curves.linear,
           ),
         ),
-      );
+      )..addStatusListener(onAnimationChanged);
+      animationDone = false;
     }
+  }
+
+  @override
+  void dispose() {
+    _buttonAnimation?.removeStatusListener(onAnimationChanged);
+    super.dispose();
   }
 
   @override
@@ -128,42 +150,67 @@ class _SwipeButtonState extends State<SwipeButton>
         Positioned.fill(
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final point = SizedBox(
-                height: constraints.maxHeight,
-                width: constraints.maxHeight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: _gradient,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
-                        blurRadius: 10,
-                        spreadRadius: 4,
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Image.asset('assets/images/icons/arrow_right.png'),
-                ),
-              );
-              return Draggable(
-                feedback: const SizedBox.shrink(),
-                child: Align(
-                  alignment: Alignment(horizontalAlign, 0),
-                  child: point,
-                ),
-                axis: Axis.horizontal,
-                onDragUpdate: (details) => update(
-                  constraints.maxWidth,
-                  details.globalPosition.dx,
-                  details.delta.dx,
-                ),
-              );
+              final ppoint = point(constraints.maxWidth, constraints.maxHeight);
+              final child = draggable(constraints.maxWidth, ppoint);
+              return horizontalAlign == null &&
+                      widget.animationController != null &&
+                      (animationDone ?? true) == false
+                  ? AnimatedBuilder(
+                      child: ppoint,
+                      animation: widget.animationController!,
+                      builder: (context, child) =>
+                          _builder(context, child, _buttonAnimation!),
+                    )
+                  : child;
             },
           ),
         )
       ],
+    );
+  }
+
+  Widget point(double maxWidth, double maxHeight) {
+    return SizedBox(
+      height: maxHeight,
+      width: maxHeight,
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: _gradient,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              blurRadius: 10,
+              spreadRadius: 4,
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Image.asset('assets/images/icons/arrow_right.png'),
+      ),
+    );
+  }
+
+  Widget draggable(
+    double maxWidth,
+    Widget child,
+  ) {
+    return Draggable(
+      feedback: const SizedBox.shrink(),
+      child: Align(
+        alignment: Alignment(
+          //TODO: remove the -0.3 ou switch
+          horizontalAlign ?? -1,
+          0,
+        ),
+        child: child,
+      ),
+      axis: Axis.horizontal,
+      onDragUpdate: (details) => update(
+        maxWidth,
+        details.globalPosition.dx,
+        details.delta.dx,
+      ),
     );
   }
 
@@ -232,27 +279,26 @@ class _SwipeButtonState extends State<SwipeButton>
   Widget textWidget(BuildContext context, String text) {
     return textBold18(context, text: text, color: Colors.white);
   }
+
+  Widget _builder(
+    BuildContext context,
+    Widget? child,
+    Animation<double> animation,
+  ) {
+    return Align(
+      alignment: Alignment(
+        animation.value,
+        0,
+      ),
+      child: child ?? const SizedBox.shrink(),
+    );
+  }
+
+  void onAnimationChanged(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      setState(() {
+        animationDone = true;
+      });
+    }
+  }
 }
-
-// class ComeAnGoCurve<T extends Curve> extends Curve {
-//   final int repeat;
-
-//   ComeAnGoCurve({this.repeat = 1});
-//   @override
-//   double transformInternal(double t) {
-//     return calc(t);
-//   }
-
-//   double calc(double t) {
-//     double time = t;
-//     if (shoudlUseReverse(t)) time = 1 - t;
-//     final timeInCycle = getTimeInCycle(t, repeat);
-//   }
-
-//   bool shoudlUseReverse(double t) {}
-//   getTimeInCycle(double t, int repeat) {
-//     for (var i = 0; i < repeat; i++) {
-      
-//     }
-//   }
-// }
