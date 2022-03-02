@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/animation.dart';
 
-class FullscreenAlertDialogAnimation {
-  FullscreenAlertDialogAnimation(this.controller)
+class RecoverAccountPageAnimation {
+  RecoverAccountPageAnimation(this.controller)
       : buttonOpacity = Tween<double>(
           begin: 0,
           end: 1,
@@ -11,8 +9,8 @@ class FullscreenAlertDialogAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.1,
-              0.4,
+              0.85,
+              0.95,
               curve: Curves.ease,
             ),
           ),
@@ -24,13 +22,8 @@ class FullscreenAlertDialogAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.4,
-              0.7,
-              curve: Curves.linear,
-            ),
-            reverseCurve: const Interval(
-              0.4,
-              0.7,
+              0.95,
+              1,
               curve: Curves.linear,
             ),
           ),
@@ -42,19 +35,28 @@ class FullscreenAlertDialogAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.4,
-              0.7,
+              0.95,
+              1,
               curve: Curves.linear,
             ),
-            reverseCurve: const Interval(
-              0.4,
-              0.7,
-              curve: Curves.linear,
+          ),
+        ),
+        dotOpacity = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.1,
+              0.15,
+              curve: Curves.ease,
             ),
           ),
         );
   late Animation<double> buttonOpacity;
   late Animation<double> buttonHeight;
   late Animation<double> buttonWidth;
+  late Animation<double> dotOpacity;
   final AnimationController controller;
 }

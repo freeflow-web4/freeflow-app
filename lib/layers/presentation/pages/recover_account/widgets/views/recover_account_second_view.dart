@@ -4,19 +4,18 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
+import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 
 class RecoverAccountSecondView extends StatefulWidget {
-  final bool showfirstViewFirstTextOpacity;
-  final bool showfirstViewSecondTextOpacity;
   final bool showfirstViewTextFieldOpacity;
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
 
   const RecoverAccountSecondView({
     Key? key,
-    required this.showfirstViewFirstTextOpacity,
-    required this.showfirstViewSecondTextOpacity,
     required this.showfirstViewTextFieldOpacity,
     required this.recoverAccountController,
     required this.textEditingController,
@@ -28,7 +27,26 @@ class RecoverAccountSecondView extends StatefulWidget {
 }
 
 class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
-    with TextThemes {
+    with TextThemes, TickerProviderStateMixin {
+  late RecoverAccountViewAnimation recoverAccountViewAnimation;
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 5),
+    vsync: this,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    recoverAccountViewAnimation = RecoverAccountViewAnimation(_controller);
+    _controller.forward().orCancel;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -40,34 +58,30 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 104),
-              AnimatedOpacity(
-                opacity: widget.showfirstViewFirstTextOpacity ? 1.0 : 0.0,
-                duration: const Duration(seconds: 1),
+              const SizedBox(height: mdSpacingx2),
+              StaggerOpacity(
+                opacity: recoverAccountViewAnimation.secondTextOpacity,
+                controller: _controller,
                 child: textH4(
                   context,
-                  textKey: "recoverAccount.now",
+                  textKey: "recoverAccount.enterPrivateKey",
                   color: Colors.white,
                   maxLines: 2,
                 ),
               ),
               const SizedBox(height: mdSpacingx2),
-              AnimatedOpacity(
-                opacity: widget.showfirstViewSecondTextOpacity ? 1.0 : 0.0,
-                duration: const Duration(seconds: 1),
-                child: textH4(
-                  context,
-                  textKey: "recoverAccount.pleaseEnterYourPrivateKey",
-                  color: Colors.white,
-                  maxLines: 2,
+              StaggerPosition(
+                opacity: recoverAccountViewAnimation.textFieldOpacity,
+                horizontalOffset:
+                    recoverAccountViewAnimation.textFieldHorizontalPosition,
+                controller: _controller,
+                child: GradientTextFieldWidget(
+                  hintText: FlutterI18n.translate(
+                      context, "recoverAccount.privateKey"),
+                  showTextField: widget.showfirstViewTextFieldOpacity,
+                  errorText: widget.recoverAccountController.privateKeyError,
+                  textController: widget.textEditingController,
                 ),
-              ),
-              const SizedBox(height: mdSpacingx2),
-              GradientTextFieldWidget(
-                hintText:
-                    FlutterI18n.translate(context, "recoverAccount.flowerName"),
-                showTextField: widget.showfirstViewTextFieldOpacity,
-                errorText: widget.recoverAccountController.privateKeyError,
-                textController: widget.textEditingController,
               ),
             ],
           ),

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/controller/fullscreen_alert_dialog_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
@@ -67,7 +68,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: StaggerOpacity(
           controller: animationController,
           opacity: animation.buttonOpacity,
@@ -75,12 +76,13 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             controller: animationController,
             height: animation.buttonHeight,
             width: animation.buttonWidth,
-            child: AnimatedFloatButtonWidget(
-              isActive: true,
-              showButton: true,
-              isLargeAnimation: true,
-              onTap: () => fullscreenAlertDialogController.closeDialog(context),
-              icon: IconsAsset.closeBackIcon,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: bigSpacing),
+              child: AnimatedFloatButtonWidget(
+                onTap: () =>
+                    fullscreenAlertDialogController.closeDialog(context),
+                icon: IconsAsset.closeBackIcon,
+              ),
             ),
           ),
         ),

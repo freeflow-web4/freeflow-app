@@ -31,8 +31,7 @@ class AnimatedDotIndicatorWidget extends StatelessWidget {
         AnimatedDotWidget(
           isVisibile: isFirstDotVisible,
           isIndex: currentIndex == 0,
-          showIndexAnimation:
-              (currentIndex == 0 || currentIndex == 1) && showIndexAnimation,
+          showIndexAnimation: currentIndex == 0 && showIndexAnimation,
           onTap: onTapFirstDot,
         ),
         AnimatedDotWidget(

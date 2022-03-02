@@ -80,6 +80,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
                     recoverAccountViewAnimation.textFieldHorizontalPosition,
                 controller: _controller,
                 child: GradientTextFieldWidget(
+                  showSecondText: true,
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.flowerName"),
                   showTextField: widget.showfirstViewTextFieldOpacity,

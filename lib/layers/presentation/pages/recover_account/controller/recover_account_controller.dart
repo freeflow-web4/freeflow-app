@@ -104,8 +104,14 @@ abstract class RecoverAccountControllerBase with Store {
         result.fold(
           (left) {
             if (left == DomainError.requiredField) {
-              privateKeyError = FlutterI18n.translate(
-                  context, 'recoverAccount.pleaseEnterYourPrivateKey');
+              privateKeyError = currentIndex == 0
+                  ? FlutterI18n.translate(
+                      context, 'recoverAccount.pleaseEnterYourRegisteredName')
+                  : currentIndex == 1
+                      ? FlutterI18n.translate(
+                          context, 'recoverAccount.pleaseEnterYourPrivateKey')
+                      : FlutterI18n.translate(
+                          context, 'recoverAccount.pleaseEnterYourPrivateKey');
             }
           },
           (right) => openDialog(context),

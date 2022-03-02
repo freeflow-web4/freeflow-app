@@ -9,13 +9,15 @@ class GradientTextFieldWidget extends StatefulWidget {
   final String? errorText;
   final String hintText;
   final TextEditingController textController;
-  const GradientTextFieldWidget(
-      {Key? key,
-      required this.showTextField,
-      required this.errorText,
-      required this.hintText,
-      required this.textController})
-      : super(key: key);
+  final bool showSecondText;
+  const GradientTextFieldWidget({
+    Key? key,
+    required this.showTextField,
+    required this.errorText,
+    required this.hintText,
+    required this.textController,
+    this.showSecondText = false,
+  }) : super(key: key);
 
   @override
   State<GradientTextFieldWidget> createState() =>
@@ -102,15 +104,18 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                 ),
               ),
             ),
-            Positioned(
-              top: 13,
-              right: 0,
-              child: textBoldSubtitle(
-                context,
-                text: '.flw ',
-                color: widget.errorText == null
-                    ? Colors.white
-                    : StandardColors.feedbackError,
+            Visibility(
+              visible: widget.showSecondText,
+              child: Positioned(
+                top: 13,
+                right: 0,
+                child: textBoldSubtitle(
+                  context,
+                  text: '.flw ',
+                  color: widget.errorText == null
+                      ? Colors.white
+                      : StandardColors.feedbackError,
+                ),
               ),
             ),
           ],
