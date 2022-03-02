@@ -1,12 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/controller/fullscreen_alert_dialog_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
+import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_scale.dart';
+
+import 'fullscreen_alert_dialog_animation.dart';
 
 class FullScreenAlertDialog extends StatefulWidget {
   final String textKey;
@@ -19,12 +22,18 @@ class FullScreenAlertDialog extends StatefulWidget {
 }
 
 class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
-    with TextThemes {
+    with TextThemes, TickerProviderStateMixin {
   final fullscreenAlertDialogController = FullscreenAlertDialogController();
+  late FullscreenAlertDialogAnimation animation;
+  late AnimationController animationController = AnimationController(
+    duration: const Duration(seconds: 4),
+    vsync: this,
+  );
   @override
   void initState() {
     super.initState();
-    fullscreenAlertDialogController.updateWidgetAnimations();
+    animation = FullscreenAlertDialogAnimation(animationController);
+    animationController.forward().orCancel;
   }
 
   @override
@@ -58,18 +67,22 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Observer(
-          builder: (context) {
-            return AnimatedFloatButtonWidget(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: StaggerOpacity(
+          controller: animationController,
+          opacity: animation.buttonOpacity,
+          child: StaggerScale(
+            controller: animationController,
+            height: animation.buttonHeight,
+            width: animation.buttonWidth,
+            child: AnimatedFloatButtonWidget(
               isActive: true,
-              isLargeAnimation:
-                  fullscreenAlertDialogController.isCloseButtonAnimating,
-              showButton: fullscreenAlertDialogController.showCloseButton,
+              showButton: true,
+              isLargeAnimation: true,
               onTap: () => fullscreenAlertDialogController.closeDialog(context),
               icon: IconsAsset.closeBackIcon,
-            );
-          },
+            ),
+          ),
         ),
       ),
     );
