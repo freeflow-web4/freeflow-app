@@ -63,9 +63,6 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                             key: const Key('1'),
                             textEditingController: flowerNameController,
                             recoverAccountController: recoverAccountController,
-                            showfirstViewTextFieldOpacity:
-                                recoverAccountController
-                                    .showfirstViewTextFieldOpacity,
                           )
                         : recoverAccountController.currentIndex == 1
                             ? RecoverAccountSecondView(
@@ -73,18 +70,12 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                                 textEditingController: privateKeyController,
                                 recoverAccountController:
                                     recoverAccountController,
-                                showfirstViewTextFieldOpacity:
-                                    recoverAccountController
-                                        .showfirstViewTextFieldOpacity,
                               )
                             : RecoverAccountFirstView(
                                 key: const Key('3'),
                                 textEditingController: privateKeyController,
                                 recoverAccountController:
                                     recoverAccountController,
-                                showfirstViewTextFieldOpacity:
-                                    recoverAccountController
-                                        .showfirstViewTextFieldOpacity,
                               ),
                   ),
                   const SizedBox(height: xxlargeSpacing),

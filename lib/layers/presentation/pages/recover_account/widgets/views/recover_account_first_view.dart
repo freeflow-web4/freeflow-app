@@ -10,13 +10,11 @@ import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_o
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 
 class RecoverAccountFirstView extends StatefulWidget {
-  final bool showfirstViewTextFieldOpacity;
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
 
   const RecoverAccountFirstView({
     Key? key,
-    required this.showfirstViewTextFieldOpacity,
     required this.recoverAccountController,
     required this.textEditingController,
   }) : super(key: key);
@@ -83,7 +81,6 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
                   showSecondText: true,
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.flowerName"),
-                  showTextField: widget.showfirstViewTextFieldOpacity,
                   errorText: widget.recoverAccountController.privateKeyError,
                   textController: widget.textEditingController,
                 ),

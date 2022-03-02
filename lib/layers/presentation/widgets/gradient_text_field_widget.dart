@@ -5,14 +5,12 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class GradientTextFieldWidget extends StatefulWidget {
-  final bool showTextField;
   final String? errorText;
   final String hintText;
   final TextEditingController textController;
   final bool showSecondText;
   const GradientTextFieldWidget({
     Key? key,
-    required this.showTextField,
     required this.errorText,
     required this.hintText,
     required this.textController,
@@ -31,29 +29,8 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
   FocusNode inputNode = FocusNode();
 
   @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-    offset = Tween<Offset>(
-      begin: const Offset(-10.0, 0.0),
-      end: const Offset(0.0, 0.0),
-    ).animate(controller);
-
-    Timer.periodic(const Duration(seconds: 8), (timer) {
-      FocusScope.of(context).requestFocus(inputNode);
-      timer.cancel();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      if (widget.showTextField) {
-        controller.forward();
-      }
       return SizedBox(
         height: 70,
         child: Stack(

@@ -9,39 +9,6 @@ part of 'recover_account_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
-  final _$showfirstViewTextFieldOpacityAtom =
-      Atom(name: 'RecoverAccountControllerBase.showfirstViewTextFieldOpacity');
-
-  @override
-  bool get showfirstViewTextFieldOpacity {
-    _$showfirstViewTextFieldOpacityAtom.reportRead();
-    return super.showfirstViewTextFieldOpacity;
-  }
-
-  @override
-  set showfirstViewTextFieldOpacity(bool value) {
-    _$showfirstViewTextFieldOpacityAtom
-        .reportWrite(value, super.showfirstViewTextFieldOpacity, () {
-      super.showfirstViewTextFieldOpacity = value;
-    });
-  }
-
-  final _$showContinueButtonAtom =
-      Atom(name: 'RecoverAccountControllerBase.showContinueButton');
-
-  @override
-  bool get showContinueButton {
-    _$showContinueButtonAtom.reportRead();
-    return super.showContinueButton;
-  }
-
-  @override
-  set showContinueButton(bool value) {
-    _$showContinueButtonAtom.reportWrite(value, super.showContinueButton, () {
-      super.showContinueButton = value;
-    });
-  }
-
   final _$isContinueButtonActiveAtom =
       Atom(name: 'RecoverAccountControllerBase.isContinueButtonActive');
 
@@ -56,23 +23,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     _$isContinueButtonActiveAtom
         .reportWrite(value, super.isContinueButtonActive, () {
       super.isContinueButtonActive = value;
-    });
-  }
-
-  final _$isContinueButtonAnimatingAtom =
-      Atom(name: 'RecoverAccountControllerBase.isContinueButtonAnimating');
-
-  @override
-  bool get isContinueButtonAnimating {
-    _$isContinueButtonAnimatingAtom.reportRead();
-    return super.isContinueButtonAnimating;
-  }
-
-  @override
-  set isContinueButtonAnimating(bool value) {
-    _$isContinueButtonAnimatingAtom
-        .reportWrite(value, super.isContinueButtonAnimating, () {
-      super.isContinueButtonAnimating = value;
     });
   }
 
@@ -247,10 +197,7 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   @override
   String toString() {
     return '''
-showfirstViewTextFieldOpacity: ${showfirstViewTextFieldOpacity},
-showContinueButton: ${showContinueButton},
 isContinueButtonActive: ${isContinueButtonActive},
-isContinueButtonAnimating: ${isContinueButtonAnimating},
 showFirstDotIndicator: ${showFirstDotIndicator},
 showSecondDotIndicator: ${showSecondDotIndicator},
 showThirdDotIndicator: ${showThirdDotIndicator},

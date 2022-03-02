@@ -10,13 +10,11 @@ import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_o
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 
 class RecoverAccountSecondView extends StatefulWidget {
-  final bool showfirstViewTextFieldOpacity;
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
 
   const RecoverAccountSecondView({
     Key? key,
-    required this.showfirstViewTextFieldOpacity,
     required this.recoverAccountController,
     required this.textEditingController,
   }) : super(key: key);
@@ -58,7 +56,6 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 104),
-              const SizedBox(height: mdSpacingx2),
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.secondTextOpacity,
                 controller: _controller,
@@ -78,11 +75,11 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
                 child: GradientTextFieldWidget(
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.privateKey"),
-                  showTextField: widget.showfirstViewTextFieldOpacity,
                   errorText: widget.recoverAccountController.privateKeyError,
                   textController: widget.textEditingController,
                 ),
               ),
+              const SizedBox(height: xxlargeSpacing + 16),
             ],
           ),
         );

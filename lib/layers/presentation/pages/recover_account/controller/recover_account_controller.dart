@@ -17,16 +17,7 @@ abstract class RecoverAccountControllerBase with Store {
   RecoverAccountControllerBase(this._userRecoverLoginUseCase);
 
   @observable
-  bool showfirstViewTextFieldOpacity = false;
-
-  @observable
-  bool showContinueButton = false;
-
-  @observable
   bool isContinueButtonActive = false;
-
-  @observable
-  bool isContinueButtonAnimating = true;
 
   @observable
   bool showFirstDotIndicator = false;
@@ -67,16 +58,8 @@ abstract class RecoverAccountControllerBase with Store {
       showCurrentIndexAnimation = true;
       timer.cancel();
     });
-    Timer.periodic(const Duration(seconds: 6), (timer) {
-      showfirstViewTextFieldOpacity = true;
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 9), (timer) {
-      showContinueButton = true;
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 10), (timer) {
-      isContinueButtonAnimating = false;
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      showCurrentIndexAnimation = false;
       timer.cancel();
     });
   }
