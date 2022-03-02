@@ -4,13 +4,13 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class SwipeButton extends StatefulWidget {
   final void Function() onSwipe;
-  final AnimationController? animationController;
+  final bool startAnimation;
   final String? text;
   const SwipeButton({
     Key? key,
     this.text,
     required this.onSwipe,
-    this.animationController,
+    required this.startAnimation,
   }) : super(key: key);
 
   @override
@@ -37,11 +37,13 @@ class _SwipeButtonState extends State<SwipeButton>
   static const borderPadding = 2.0;
   static const childPadding = 4.0;
   static const totalPadding = borderPadding + childPadding;
-  static const double _offset = 0.15;
 
-  double? horizontalAlign;
+  late final AnimationController animationController = AnimationController(
+    duration: const Duration(milliseconds: 1000),
+    vsync: this,
+  );
 
-  double _buttonProgressFactor = 0;
+  double? _buttonProgressFactor;
 
   bool swiped = false;
 
@@ -52,36 +54,39 @@ class _SwipeButtonState extends State<SwipeButton>
   @override
   void initState() {
     super.initState();
-    if (widget.animationController != null) {
-      _buttonAnimation = TweenSequence([
-        TweenSequenceItem(
-          tween: Tween<double>(begin: -1, end: -0.6),
-          weight: 1,
+    _buttonAnimation = TweenSequence([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0, end: 0.4),
+        weight: 1,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.4, end: 0),
+        weight: 1,
+      ),
+      TweenSequenceItem(
+        tween: ConstantTween(0.0),
+        weight: 0.8,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(
+          0,
+          1,
+          curve: Curves.ease,
         ),
-        TweenSequenceItem(
-          tween: Tween<double>(begin: -0.6, end: -1),
-          weight: 1,
-        ),
-        TweenSequenceItem(tween: ConstantTween<double>(-1), weight: 1),
-        TweenSequenceItem(
-          tween: Tween<double>(begin: -1, end: -0.6),
-          weight: 1,
-        ),
-        TweenSequenceItem(
-          tween: Tween<double>(begin: -0.6, end: -1),
-          weight: 1,
-        ),
-      ]).animate(
-        CurvedAnimation(
-          parent: widget.animationController!,
-          curve: const Interval(
-            0.5,
-            1,
-            curve: Curves.linear,
-          ),
-        ),
-      )..addStatusListener(onAnimationChanged);
-      animationDone = false;
+      ),
+    )..addStatusListener(onAnimationChanged);
+    animationDone = false;
+  }
+
+  @override
+  void didUpdateWidget(covariant SwipeButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.startAnimation != widget.startAnimation) {
+      if (widget.startAnimation) {
+        animationController.repeat();
+      }
     }
   }
 
@@ -118,21 +123,39 @@ class _SwipeButtonState extends State<SwipeButton>
           ),
         ),
         Positioned.fill(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: FractionallySizedBox(
-              widthFactor: _buttonProgressFactor < _offset / 2
-                  ? _offset
-                  : _buttonProgressFactor > 0.5
-                      ? _buttonProgressFactor
-                      : _buttonProgressFactor + _offset / 2,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(_borderRadius),
-                  gradient: _gradient,
-                ),
-              ),
-            ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final widgetWidth = constraints.maxWidth;
+              final widgetHeight = constraints.maxHeight;
+              final offsetFactor = widgetHeight / widgetWidth;
+
+              return Align(
+                alignment: Alignment.centerLeft,
+                child: (animationDone ?? true) == false &&
+                        _buttonProgressFactor == null
+                    ? AnimatedBuilder(
+                        animation: animationController,
+                        child: _progressBar(),
+                        builder: (context, child) {
+                          final widthFactor = _buttonAnimation!.value;
+                          return _builderProgressBar(
+                            context,
+                            child,
+                            widthFactorWithOffset(
+                              widthFactor,
+                              offsetFactor,
+                            ),
+                          );
+                        },
+                      )
+                    : _progressBarWithFactor(
+                        widthFactorWithOffset(
+                          _buttonProgressFactor ?? 0,
+                          offsetFactor,
+                        ),
+                      ),
+              );
+            },
           ),
         ),
         Align(
@@ -152,20 +175,44 @@ class _SwipeButtonState extends State<SwipeButton>
             builder: (context, constraints) {
               final ppoint = point(constraints.maxWidth, constraints.maxHeight);
               final child = draggable(constraints.maxWidth, ppoint);
-              return horizontalAlign == null &&
-                      widget.animationController != null &&
-                      (animationDone ?? true) == false
+              return (animationDone ?? true) == false &&
+                      _buttonProgressFactor == null
                   ? AnimatedBuilder(
-                      child: ppoint,
-                      animation: widget.animationController!,
+                      child: child,
+                      animation: animationController,
                       builder: (context, child) =>
                           _builder(context, child, _buttonAnimation!),
                     )
-                  : child;
+                  : Align(
+                      alignment: Alignment(
+                        _calcHorizontalInRange(_buttonProgressFactor ?? 0),
+                        0,
+                      ),
+                      child: child,
+                    );
             },
           ),
         )
       ],
+    );
+  }
+
+  double widthFactorWithOffset(double widthFactor, double offSetFactor) =>
+      widthFactor + offSetFactor * (1 - widthFactor);
+
+  Widget _progressBar() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(_borderRadius),
+        gradient: _gradient,
+      ),
+    );
+  }
+
+  Widget _progressBarWithFactor(double factor) {
+    return FractionallySizedBox(
+      widthFactor: factor,
+      child: _progressBar(),
     );
   }
 
@@ -197,14 +244,7 @@ class _SwipeButtonState extends State<SwipeButton>
   ) {
     return Draggable(
       feedback: const SizedBox.shrink(),
-      child: Align(
-        alignment: Alignment(
-          //TODO: remove the -0.3 ou switch
-          horizontalAlign ?? -1,
-          0,
-        ),
-        child: child,
-      ),
+      child: child,
       axis: Axis.horizontal,
       onDragUpdate: (details) => update(
         maxWidth,
@@ -216,12 +256,14 @@ class _SwipeButtonState extends State<SwipeButton>
 
   void update(double widgetWidth, double x, double dx) {
     final movement = _calcMovement(x, dx);
-    final shouldUpdate = _shouldUpdateProgress(movement, _buttonProgressFactor);
+    final shouldUpdate =
+        _shouldUpdateProgress(movement, _buttonProgressFactor ?? 0);
     if (!shouldUpdate) {
       return;
     }
     final increment = _calcMovementFactor(movement, widgetWidth);
-    final newProgress = _calcButtonProgress(increment, _buttonProgressFactor);
+    final newProgress =
+        _calcButtonProgress(increment, _buttonProgressFactor ?? 0);
     final newAlign = _calcHorizontalInRange(newProgress);
     updateProgress(newProgress, newAlign);
   }
@@ -229,9 +271,8 @@ class _SwipeButtonState extends State<SwipeButton>
   void updateProgress(double percent, double align) {
     setState(() {
       _buttonProgressFactor = percent;
-      horizontalAlign = align;
     });
-    final progressWithPrecision = (_buttonProgressFactor * 5).round();
+    final progressWithPrecision = ((_buttonProgressFactor ?? 0) * 5).round();
     final inTheEnd = progressWithPrecision == 5;
     if (inTheEnd && !swiped) {
       widget.onSwipe();
@@ -287,7 +328,7 @@ class _SwipeButtonState extends State<SwipeButton>
   ) {
     return Align(
       alignment: Alignment(
-        animation.value,
+        _calcHorizontalInRange(animation.value),
         0,
       ),
       child: child ?? const SizedBox.shrink(),
@@ -300,5 +341,13 @@ class _SwipeButtonState extends State<SwipeButton>
         animationDone = true;
       });
     }
+  }
+
+  Widget _builderProgressBar(
+    BuildContext context,
+    Widget? child,
+    double factor,
+  ) {
+    return _progressBarWithFactor(factor);
   }
 }

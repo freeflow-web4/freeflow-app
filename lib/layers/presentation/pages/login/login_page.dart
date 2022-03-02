@@ -15,8 +15,15 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin, TextThemes {
-  static const int _animationDurationInMili = 5000;
+class _LoginPageState extends State<LoginPage>
+    with TickerProviderStateMixin, TextThemes {
+  static const int _animationDurationInMili = 6000;
+  static const stepItensLength = 4;
+  static const stepStartOffSetTimeFactor = 0.1;
+  static const stepEndOffSetTimeFactor = 0.1;
+  static const step =
+      (1 - (stepStartOffSetTimeFactor + stepEndOffSetTimeFactor)) /
+          stepItensLength;
 
   final loginController = findLoginController();
 
@@ -29,26 +36,24 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin, Te
   late Animation<double> opacitySwipeButton;
   late Animation<double> opacityRecoverButton;
 
+  bool animationDone = false;
+
   @override
   void initState() {
     super.initState();
 
-    //TODO: revise here about weights
-    // opacityLogo = getTweenAnimation(0, 0.2);
-    // opacityText1 = getTweenAnimation(0.2, 0.4);
-    // opacitySwipeButton = getTweenAnimation(0.4, 0.6);
-    // opacityRecoverButton = getTweenAnimation(0.6, 0.8);
-
-    opacityLogo = getTweenAnimation(0, 0.1);
-    opacityText1 = getTweenAnimation(0.1, 0.2);
-    opacitySwipeButton = getTweenAnimation(0.2, 0.3);
-    opacityRecoverButton = getTweenAnimation(0.4, 0.5);
+    opacityLogo = getTweenAnimationWithFactor(0);
+    opacityText1 = getTweenAnimationWithFactor(1);
+    opacitySwipeButton = getTweenAnimationWithFactor(2);
+    opacityRecoverButton = getTweenAnimationWithFactor(3);
     _controller.forward().orCancel;
+    _controller.addStatusListener(onAnimationChanged);
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _controller.removeStatusListener(onAnimationChanged);
     super.dispose();
   }
 
@@ -92,7 +97,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin, Te
                   print("Heeeey!");
                 },
                 text: "LET'S GO!",
-                animationController: _controller,
+                startAnimation: animationDone,
               ),
             ),
             const AdaptativeSpacer(
@@ -117,25 +122,24 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin, Te
                 ),
               ),
             ),
-            TextButton(
-              onPressed: foward,
-              child: const Text(
-                'Forward',
-                style: TextStyle(fontSize: 10),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 
-  void foward() {
-    if (_controller.status == AnimationStatus.dismissed) {
-      _controller.forward();
-    } else if (_controller.status == AnimationStatus.completed) {
-      _controller.reverse();
+  void onAnimationChanged(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      setState(() {
+        animationDone = true;
+      });
     }
+  }
+
+  Animation<double> getTweenAnimationWithFactor(int index) {
+    final start = stepStartOffSetTimeFactor + step * index;
+    final end = start + step;
+    return getTweenAnimation(start, end);
   }
 
   Animation<double> getTweenAnimation(double start, double end) {
@@ -161,11 +165,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin, Te
     return AnimatedBuilder(
       animation: _controller,
       child: child,
-      builder: (context, _child)=> _builder(context, animaton, child),
+      builder: (context, _child) => _builder(context, animaton, child),
     );
   }
 
-  Widget _builder(BuildContext context, Animation<double> animation, Widget? child) {
+  Widget _builder(
+    BuildContext context,
+    Animation<double> animation,
+    Widget? child,
+  ) {
     return Opacity(
       opacity: animation.value,
       child: child,
