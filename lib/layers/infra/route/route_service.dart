@@ -20,11 +20,10 @@ class RouteService {
   }
 
   Future<RouteResponse?> push(
-    BuildContext context,
     PageRouteInfo routeSettings,
   ) async {
     onRouteChange?.call();
-    return routeHandler.push(context, routeSettings);
+    return routeHandler.push(routeSettings);
   }
 
   Future<void> pushReplacement(PageRouteInfo routeSettings) async {
