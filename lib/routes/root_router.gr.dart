@@ -36,9 +36,8 @@ class RootRouter extends _i3.RootStackRouter {
 
   @override
   List<_i3.RouteConfig> get routes => [
-        _i3.RouteConfig(RecoverAccountLoadingRoute.name,
-            path: '/recover-account-loading-page'),
-        _i3.RouteConfig(RecoverAccountRoute.name, path: '/')
+        _i3.RouteConfig(RecoverAccountLoadingRoute.name, path: '/'),
+        _i3.RouteConfig(RecoverAccountRoute.name, path: '/recover-account-page')
       ];
 }
 
@@ -46,8 +45,7 @@ class RootRouter extends _i3.RootStackRouter {
 /// [_i1.RecoverAccountLoadingPage]
 class RecoverAccountLoadingRoute extends _i3.PageRouteInfo<void> {
   const RecoverAccountLoadingRoute()
-      : super(RecoverAccountLoadingRoute.name,
-            path: '/recover-account-loading-page');
+      : super(RecoverAccountLoadingRoute.name, path: '/');
 
   static const String name = 'RecoverAccountLoadingRoute';
 }
@@ -55,7 +53,8 @@ class RecoverAccountLoadingRoute extends _i3.PageRouteInfo<void> {
 /// generated route for
 /// [_i2.RecoverAccountPage]
 class RecoverAccountRoute extends _i3.PageRouteInfo<void> {
-  const RecoverAccountRoute() : super(RecoverAccountRoute.name, path: '/');
+  const RecoverAccountRoute()
+      : super(RecoverAccountRoute.name, path: '/recover-account-page');
 
   static const String name = 'RecoverAccountRoute';
 }

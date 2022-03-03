@@ -91,8 +91,15 @@ abstract class RecoverAccountControllerBase with Store {
     return showGeneralDialog(
       context: context,
       pageBuilder: (BuildContext context, animation1, animation2) {
-        return const FullScreenAlertDialog(
-          textKey: "recoverAccount.pleaseEnterRegisteredName",
+        return FullScreenAlertDialog(
+          textKey: currentIndex == 0
+              ? FlutterI18n.translate(
+                  context, 'recoverAccount.pleaseEnterYourRegisteredName')
+              : currentIndex == 1
+                  ? FlutterI18n.translate(
+                      context, 'recoverAccount.pleaseEnterYourPrivateKey')
+                  : FlutterI18n.translate(
+                      context, 'recoverAccount.pleaseEnterYourPrivateKey'),
         );
       },
     );

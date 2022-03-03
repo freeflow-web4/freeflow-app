@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
@@ -5,7 +7,6 @@ import 'package:freeflow/layers/presentation/widgets/widget_animations/dot_indic
 
 class AnimatedDotIndicatorWidget extends StatefulWidget {
   final int currentIndex;
-  final bool showIndexAnimation;
   final void Function() onTapFirstDot;
   final void Function() onTapSecondDot;
   final void Function() onTapThirdDot;
@@ -13,7 +14,6 @@ class AnimatedDotIndicatorWidget extends StatefulWidget {
   const AnimatedDotIndicatorWidget({
     Key? key,
     required this.currentIndex,
-    required this.showIndexAnimation,
     required this.onTapFirstDot,
     required this.onTapSecondDot,
     required this.onTapThirdDot,
@@ -27,7 +27,11 @@ class AnimatedDotIndicatorWidget extends StatefulWidget {
 class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
     with TickerProviderStateMixin {
   late AnimationController animationController;
+  late AnimationController firstDotSizeControler;
+  late AnimationController thirdDotSizeControler;
+  late AnimationController secondDotSizeControler;
   late DotIndicatorAnimation animation;
+  bool showIndexAnimation = false;
 
   @override
   void initState() {
@@ -36,8 +40,67 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
       duration: const Duration(seconds: 10),
       vsync: this,
     );
-    animation = DotIndicatorAnimation(animationController);
+    firstDotSizeControler = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+    secondDotSizeControler = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+    thirdDotSizeControler = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+    animation = DotIndicatorAnimation(
+      animationController,
+      firstDotSizeControler,
+      secondDotSizeControler,
+      thirdDotSizeControler,
+    );
     animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant AnimatedDotIndicatorWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentIndex != widget.currentIndex) {
+      switch (widget.currentIndex) {
+        case 0:
+          firstDotSizeControler.forward();
+          Timer.periodic(const Duration(seconds: 1), (timer) {
+            firstDotSizeControler.reverse();
+            timer.cancel();
+          });
+          break;
+        case 1:
+          secondDotSizeControler.forward();
+          Timer.periodic(const Duration(seconds: 1), (timer) {
+            secondDotSizeControler.reverse();
+            timer.cancel();
+          });
+          break;
+        case 2:
+          thirdDotSizeControler.forward();
+          Timer.periodic(const Duration(seconds: 1), (timer) {
+            thirdDotSizeControler.reverse();
+            timer.cancel();
+          });
+          break;
+        default:
+          firstDotSizeControler.forward();
+          Timer.periodic(const Duration(seconds: 1), (timer) {
+            timer.cancel();
+            firstDotSizeControler.reverse();
+          });
+      }
+    }
   }
 
   @override
@@ -48,31 +111,45 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
         StaggerOpacity(
           opacity: animation.firstDotOpacity,
           controller: animationController,
-          child: AnimatedDotWidget(
-            isIndex: widget.currentIndex == 0,
-            showIndexAnimation:
-                widget.currentIndex == 0 && widget.showIndexAnimation,
-            onTap: widget.onTapFirstDot,
+          child: StaggerScale(
+            controller: firstDotSizeControler,
+            height: animation.firstDotHeight,
+            width: animation.firstDotWidth,
+            child: AnimatedDotWidget(
+              isIndex: widget.currentIndex == 0,
+              isCompleted: widget.currentIndex == 1,
+              onTap: widget.onTapFirstDot,
+            ),
           ),
         ),
+        const SizedBox(width: 4),
         StaggerOpacity(
           opacity: animation.secondDotOpacity,
           controller: animationController,
-          child: AnimatedDotWidget(
-            isIndex: widget.currentIndex == 1,
-            showIndexAnimation:
-                widget.currentIndex == 1 && widget.showIndexAnimation,
-            onTap: widget.onTapSecondDot,
+          child: StaggerScale(
+            controller: secondDotSizeControler,
+            height: animation.secondDotHeight,
+            width: animation.secondDotWidth,
+            child: AnimatedDotWidget(
+              isIndex: widget.currentIndex == 1,
+              isCompleted: widget.currentIndex == 2,
+              onTap: widget.onTapSecondDot,
+            ),
           ),
         ),
+        const SizedBox(width: 4),
         StaggerOpacity(
           opacity: animation.thirdDotOpacity,
           controller: animationController,
-          child: AnimatedDotWidget(
-            isIndex: widget.currentIndex == 2,
-            showIndexAnimation:
-                widget.currentIndex == 2 && widget.showIndexAnimation,
-            onTap: widget.onTapThirdDot,
+          child: StaggerScale(
+            controller: thirdDotSizeControler,
+            height: animation.thirdDotHeight,
+            width: animation.thirdDotWidth,
+            child: AnimatedDotWidget(
+              isIndex: widget.currentIndex == 2,
+              isCompleted: widget.currentIndex == 3,
+              onTap: widget.onTapThirdDot,
+            ),
           ),
         ),
       ],
