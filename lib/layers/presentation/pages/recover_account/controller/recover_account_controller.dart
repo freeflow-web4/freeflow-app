@@ -56,9 +56,7 @@ abstract class RecoverAccountControllerBase with Store {
         openDialog(context);
       } else {
         //TODO: Validate private key with API
-        isInFirstView = false;
-        isInSecondView = true;
-        currentIndex = 1;
+        updateIndex(1);
       }
     } else {
       if ((privateKey ?? '').isEmpty) {
@@ -138,6 +136,7 @@ abstract class RecoverAccountControllerBase with Store {
         isInSecondView = false;
         currentIndex = 0;
         animationDuration = 5;
+        isContinueButtonActive = false;
       }
     } else if (index == 1) {
       if (isInSecondView) {
@@ -146,6 +145,7 @@ abstract class RecoverAccountControllerBase with Store {
         isInFirstView = false;
         isInSecondView = true;
         currentIndex = 1;
+        isContinueButtonActive = false;
       }
     }
   }

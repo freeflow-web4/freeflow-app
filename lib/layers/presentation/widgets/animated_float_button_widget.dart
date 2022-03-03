@@ -24,7 +24,7 @@ class _AnimatedFloatButtonWidgetState extends State<AnimatedFloatButtonWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
-      child: Container(
+      child: AnimatedContainer(
         width: 48,
         height: 48,
         decoration: BoxDecoration(
@@ -33,6 +33,7 @@ class _AnimatedFloatButtonWidgetState extends State<AnimatedFloatButtonWidget> {
               ? StandardColors.greenGradient()
               : StandardColors.greyGradient(),
         ),
+        duration: const Duration(seconds: 1),
         child: Center(
           child: SizedBox(
             width: 24,
