@@ -93,9 +93,7 @@ class _LoginPageState extends State<LoginPage>
             opacityAnimation(
               opacitySwipeButton,
               SwipeButton(
-                onSwipe: () {
-                  print("Heeeey!");
-                },
+                onSwipe: loginController.onSwipe,
                 text: "LET'S GO!",
                 startAnimation: animationDone,
               ),

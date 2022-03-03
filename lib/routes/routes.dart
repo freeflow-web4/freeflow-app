@@ -9,12 +9,16 @@ class Routes {
 
   static Routes get instance => GetIt.I.get<Routes>();
 
-  void goToRecoverAccountPageRoute() async {
+  void goToRecoverAccountPageRoute()  {
     _routeService.pushReplacement(const RecoverAccountRoute());
   }
 
-  void goToLoginPageRoute() async {
+  void goToLoginPageRoute()  {
     _routeService.pushReplacement(const LoginRoute());
+  }
+
+  void goToAuthPageRoute() {
+    _routeService.push(const AuthRoute());
   }
 
 //   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(
