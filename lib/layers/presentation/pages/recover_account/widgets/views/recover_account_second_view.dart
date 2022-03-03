@@ -27,21 +27,23 @@ class RecoverAccountSecondView extends StatefulWidget {
 class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 5),
-    vsync: this,
-  );
+  late final AnimationController animationController;
 
   @override
   void initState() {
     super.initState();
-    recoverAccountViewAnimation = RecoverAccountViewAnimation(_controller);
-    _controller.forward().orCancel;
+    animationController = AnimationController(
+      duration: const Duration(seconds: 5),
+      vsync: this,
+    );
+    recoverAccountViewAnimation =
+        RecoverAccountViewAnimation(animationController);
+    animationController.forward().orCancel;
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -58,7 +60,7 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
               const SizedBox(height: 104),
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.secondTextOpacity,
-                controller: _controller,
+                controller: animationController,
                 child: textH4(
                   context,
                   textKey: "recoverAccount.enterPrivateKey",
@@ -71,7 +73,7 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
                 opacity: recoverAccountViewAnimation.textFieldOpacity,
                 horizontalOffset:
                     recoverAccountViewAnimation.textFieldHorizontalPosition,
-                controller: _controller,
+                controller: animationController,
                 child: GradientTextFieldWidget(
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.privateKey"),

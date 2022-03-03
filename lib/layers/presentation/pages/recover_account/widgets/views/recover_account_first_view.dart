@@ -27,16 +27,19 @@ class RecoverAccountFirstView extends StatefulWidget {
 class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 10),
-    vsync: this,
-  );
+  late AnimationController animationController;
 
   @override
   void initState() {
     super.initState();
-    recoverAccountViewAnimation = RecoverAccountViewAnimation(_controller);
-    _controller.forward().orCancel;
+    animationController = AnimationController(
+      duration:
+          Duration(seconds: widget.recoverAccountController.animationDuration),
+      vsync: this,
+    );
+    recoverAccountViewAnimation =
+        RecoverAccountViewAnimation(animationController);
+    animationController.forward().orCancel;
   }
 
   @override
@@ -52,7 +55,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
               const SizedBox(height: 104),
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.firstTextOpacity,
-                controller: _controller,
+                controller: animationController,
                 child: textH4(
                   context,
                   textKey: "recoverAccount.hello",
@@ -63,7 +66,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
               const SizedBox(height: mdSpacingx2),
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.secondTextOpacity,
-                controller: _controller,
+                controller: animationController,
                 child: textH4(
                   context,
                   textKey: "recoverAccount.enterFlowerName",
@@ -76,7 +79,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
                 opacity: recoverAccountViewAnimation.textFieldOpacity,
                 horizontalOffset:
                     recoverAccountViewAnimation.textFieldHorizontalPosition,
-                controller: _controller,
+                controller: animationController,
                 child: GradientTextFieldWidget(
                   showSecondText: true,
                   hintText: FlutterI18n.translate(

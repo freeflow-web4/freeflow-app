@@ -20,15 +20,6 @@ abstract class RecoverAccountControllerBase with Store {
   bool isContinueButtonActive = false;
 
   @observable
-  bool showFirstDotIndicator = false;
-
-  @observable
-  bool showSecondDotIndicator = false;
-
-  @observable
-  bool showThirdDotIndicator = false;
-
-  @observable
   bool showCurrentIndexAnimation = false;
 
   @observable
@@ -43,18 +34,11 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   int currentIndex = 0;
 
+  int animationDuration = 10;
+
   @action
   void updateWidgetAnimations() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      showFirstDotIndicator = true;
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 2), (timer) {
-      showSecondDotIndicator = true;
-      timer.cancel();
-    });
     Timer.periodic(const Duration(seconds: 3), (timer) {
-      showThirdDotIndicator = true;
       showCurrentIndexAnimation = true;
       timer.cancel();
     });
@@ -123,6 +107,7 @@ abstract class RecoverAccountControllerBase with Store {
         isInFirstView = true;
         isInSecondView = false;
         currentIndex = 0;
+        animationDuration = 5;
       }
     } else if (index == 1) {
       if (isInSecondView) {

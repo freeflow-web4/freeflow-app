@@ -26,57 +26,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
-  final _$showFirstDotIndicatorAtom =
-      Atom(name: 'RecoverAccountControllerBase.showFirstDotIndicator');
-
-  @override
-  bool get showFirstDotIndicator {
-    _$showFirstDotIndicatorAtom.reportRead();
-    return super.showFirstDotIndicator;
-  }
-
-  @override
-  set showFirstDotIndicator(bool value) {
-    _$showFirstDotIndicatorAtom.reportWrite(value, super.showFirstDotIndicator,
-        () {
-      super.showFirstDotIndicator = value;
-    });
-  }
-
-  final _$showSecondDotIndicatorAtom =
-      Atom(name: 'RecoverAccountControllerBase.showSecondDotIndicator');
-
-  @override
-  bool get showSecondDotIndicator {
-    _$showSecondDotIndicatorAtom.reportRead();
-    return super.showSecondDotIndicator;
-  }
-
-  @override
-  set showSecondDotIndicator(bool value) {
-    _$showSecondDotIndicatorAtom
-        .reportWrite(value, super.showSecondDotIndicator, () {
-      super.showSecondDotIndicator = value;
-    });
-  }
-
-  final _$showThirdDotIndicatorAtom =
-      Atom(name: 'RecoverAccountControllerBase.showThirdDotIndicator');
-
-  @override
-  bool get showThirdDotIndicator {
-    _$showThirdDotIndicatorAtom.reportRead();
-    return super.showThirdDotIndicator;
-  }
-
-  @override
-  set showThirdDotIndicator(bool value) {
-    _$showThirdDotIndicatorAtom.reportWrite(value, super.showThirdDotIndicator,
-        () {
-      super.showThirdDotIndicator = value;
-    });
-  }
-
   final _$showCurrentIndexAnimationAtom =
       Atom(name: 'RecoverAccountControllerBase.showCurrentIndexAnimation');
 
@@ -198,9 +147,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   String toString() {
     return '''
 isContinueButtonActive: ${isContinueButtonActive},
-showFirstDotIndicator: ${showFirstDotIndicator},
-showSecondDotIndicator: ${showSecondDotIndicator},
-showThirdDotIndicator: ${showThirdDotIndicator},
 showCurrentIndexAnimation: ${showCurrentIndexAnimation},
 privateKeyError: ${privateKeyError},
 isInFirstView: ${isInFirstView},

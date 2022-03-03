@@ -84,12 +84,6 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                     controller: animationController,
                     child: AnimatedDotIndicatorWidget(
                       currentIndex: recoverAccountController.currentIndex,
-                      isFirstDotVisible:
-                          recoverAccountController.showFirstDotIndicator,
-                      isSecondDotVisible:
-                          recoverAccountController.showSecondDotIndicator,
-                      isThirdDotVisible:
-                          recoverAccountController.showThirdDotIndicator,
                       showIndexAnimation:
                           recoverAccountController.showCurrentIndexAnimation,
                       onTapFirstDot: () =>
