@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
@@ -9,11 +7,15 @@ class GradientTextFieldWidget extends StatefulWidget {
   final String hintText;
   final TextEditingController textController;
   final bool showSecondText;
+  final void Function(String)? onChanged;
+  final FocusNode inputNode;
   const GradientTextFieldWidget({
     Key? key,
     required this.errorText,
     required this.hintText,
     required this.textController,
+    required this.inputNode,
+    this.onChanged,
     this.showSecondText = false,
   }) : super(key: key);
 
@@ -26,7 +28,6 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
     with TextThemes, SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<Offset> offset;
-  FocusNode inputNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +37,9 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
         child: Stack(
           children: <Widget>[
             TextFormField(
+              onChanged: widget.onChanged,
               controller: widget.textController,
-              focusNode: inputNode,
+              focusNode: widget.inputNode,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: widget.hintText,

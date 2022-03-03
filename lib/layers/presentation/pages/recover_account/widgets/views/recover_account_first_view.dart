@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -28,18 +30,27 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
   late AnimationController animationController;
+  final FocusNode inputNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     animationController = AnimationController(
-      duration:
-          Duration(seconds: widget.recoverAccountController.animationDuration),
+      duration: Duration(
+        seconds: widget.recoverAccountController.animationDuration,
+      ),
       vsync: this,
     );
     recoverAccountViewAnimation =
         RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
+    widget.recoverAccountController.openKeyboard(context, inputNode: inputNode);
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -81,7 +92,10 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
                     recoverAccountViewAnimation.textFieldHorizontalPosition,
                 controller: animationController,
                 child: GradientTextFieldWidget(
+                  inputNode: inputNode,
                   showSecondText: true,
+                  onChanged: (value) => widget.recoverAccountController
+                      .onChangedField(username: value),
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.flowerName"),
                   errorText: widget.recoverAccountController.privateKeyError,

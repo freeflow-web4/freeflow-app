@@ -51,35 +51,40 @@ class _AnimatedCenterLogoState extends State<AnimatedCenterLogo>
     Timer.periodic(const Duration(seconds: 1), (timer) {
       showFirstFrame = false;
       showSecondFrame = true;
-      if (mounted) setState(() {});
+      setState(() {});
+      timer.cancel();
     });
     Timer.periodic(const Duration(seconds: 2), (timer) {
       showSecondFrame = false;
       showThirdFrame = true;
-      if (mounted) setState(() {});
+      setState(() {});
+      timer.cancel();
     });
     Timer.periodic(const Duration(seconds: 3), (timer) {
       showFirstFrame = false;
       showSecondFrame = true;
-      if (mounted) setState(() {});
+      setState(() {});
+      timer.cancel();
     });
     Timer.periodic(const Duration(seconds: 4), (timer) {
       showSecondFrame = false;
       showThirdFrame = true;
-      if (mounted) setState(() {});
+      setState(() {});
+      timer.cancel();
     });
     Timer.periodic(const Duration(seconds: 5), (timer) {
       showFirstFrame = false;
       showSecondFrame = true;
-      if (mounted) setState(() {});
+      setState(() {});
+      timer.cancel();
     });
     Timer.periodic(const Duration(seconds: 6), (timer) {
       showSecondFrame = false;
       showThirdFrame = true;
-      if (mounted) setState(() {});
+      setState(() {});
+      timer.cancel();
     });
-
-    Timer.periodic(const Duration(milliseconds: 6600), (timer) {
+    Timer.periodic(const Duration(milliseconds: 6000), (timer) {
       _controller.reverse();
       widget.onAnimationEnd?.call();
       timer.cancel();
@@ -113,7 +118,7 @@ class _AnimatedCenterLogoState extends State<AnimatedCenterLogo>
                       IconsAsset.freeflowLogoAnimation3,
                       key: const Key('image3'),
                     ),
-          duration: const Duration(milliseconds: 1800),
+          duration: const Duration(milliseconds: 1200),
         ),
       ),
     );

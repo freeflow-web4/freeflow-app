@@ -28,6 +28,7 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
   late final AnimationController animationController;
+  final FocusNode inputNode = FocusNode();
 
   @override
   void initState() {
@@ -39,6 +40,11 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
     recoverAccountViewAnimation =
         RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
+    widget.recoverAccountController.openKeyboard(
+      context,
+      inputNode: inputNode,
+      duration: 5,
+    );
   }
 
   @override
@@ -75,6 +81,9 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
                     recoverAccountViewAnimation.textFieldHorizontalPosition,
                 controller: animationController,
                 child: GradientTextFieldWidget(
+                  inputNode: inputNode,
+                  onChanged: (value) => widget.recoverAccountController
+                      .onChangedField(privateKey: value),
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.privateKey"),
                   errorText: widget.recoverAccountController.privateKeyError,

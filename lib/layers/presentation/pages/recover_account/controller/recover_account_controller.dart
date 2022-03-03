@@ -17,10 +17,10 @@ abstract class RecoverAccountControllerBase with Store {
   RecoverAccountControllerBase(this._userRecoverLoginUseCase);
 
   @observable
-  bool isContinueButtonActive = false;
+  bool showCurrentIndexAnimation = false;
 
   @observable
-  bool showCurrentIndexAnimation = false;
+  bool isContinueButtonActive = false;
 
   @observable
   String? privateKeyError;
@@ -52,7 +52,7 @@ abstract class RecoverAccountControllerBase with Store {
   tapContinueButton(
       BuildContext context, String? privateKey, String? username) async {
     if (isInFirstView) {
-      if ((privateKey ?? '').isEmpty) {
+      if ((username ?? '').isEmpty) {
         openDialog(context);
       } else {
         //TODO: Validate private key with API
@@ -61,7 +61,7 @@ abstract class RecoverAccountControllerBase with Store {
         currentIndex = 1;
       }
     } else {
-      if ((username ?? '').isEmpty) {
+      if ((privateKey ?? '').isEmpty) {
         openDialog(context);
       } else {
         final result = await _userRecoverLoginUseCase(
@@ -83,6 +83,29 @@ abstract class RecoverAccountControllerBase with Store {
           },
           (right) => openDialog(context),
         );
+      }
+    }
+  }
+
+  @action
+  void onChangedField({String? username, String? privateKey}) {
+    if (isInFirstView) {
+      if ((username ?? '').isEmpty) {
+        isContinueButtonActive = false;
+      } else {
+        isContinueButtonActive = true;
+      }
+    } else if (isInSecondView) {
+      if ((privateKey ?? '').isEmpty) {
+        isContinueButtonActive = false;
+      } else {
+        isContinueButtonActive = true;
+      }
+    } else {
+      if ((username ?? '').isEmpty) {
+        isContinueButtonActive = false;
+      } else {
+        isContinueButtonActive = true;
       }
     }
   }
@@ -125,5 +148,11 @@ abstract class RecoverAccountControllerBase with Store {
         currentIndex = 1;
       }
     }
+  }
+
+  void openKeyboard(context, {required FocusNode inputNode, int? duration}) {
+    Timer.periodic(Duration(seconds: duration ?? animationDuration), (timer) {
+      FocusScope.of(context).requestFocus(inputNode);
+    });
   }
 }

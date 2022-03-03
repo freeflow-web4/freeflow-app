@@ -10,7 +10,7 @@ class RecoverAccountViewAnimation {
             parent: controller,
             curve: const Interval(
               0.5,
-              0.6,
+              0.62,
               curve: Curves.ease,
             ),
           ),
@@ -22,8 +22,8 @@ class RecoverAccountViewAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.6,
-              0.7,
+              0.62,
+              0.74,
               curve: Curves.ease,
             ),
           ),
@@ -35,8 +35,8 @@ class RecoverAccountViewAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.6,
-              0.7,
+              0.62,
+              0.74,
               curve: Curves.bounceIn,
             ),
           ),
@@ -49,8 +49,8 @@ class RecoverAccountViewAnimation {
             parent: controller,
             curve: const Interval(
               0.7,
-              0.75,
-              curve: Curves.easeOut,
+              0.85,
+              curve: Curves.linear,
             ),
           ),
         );

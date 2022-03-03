@@ -84,11 +84,6 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                     controller: animationController,
                     child: AnimatedDotIndicatorWidget(
                       currentIndex: recoverAccountController.currentIndex,
-                      onTapFirstDot: () =>
-                          recoverAccountController.updateIndex(0),
-                      onTapSecondDot: () =>
-                          recoverAccountController.updateIndex(1),
-                      onTapThirdDot: () {},
                     ),
                   ),
                   const Spacer(),
@@ -105,7 +100,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                         onTap: () => recoverAccountController.tapContinueButton(
                           context,
                           privateKeyController.text,
-                          '',
+                          flowerNameController.text,
                         ),
                         icon: IconsAsset.arrowIcon,
                       ),

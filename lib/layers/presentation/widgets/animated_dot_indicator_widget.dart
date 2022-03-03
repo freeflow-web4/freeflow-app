@@ -7,16 +7,10 @@ import 'package:freeflow/layers/presentation/widgets/widget_animations/dot_indic
 
 class AnimatedDotIndicatorWidget extends StatefulWidget {
   final int currentIndex;
-  final void Function() onTapFirstDot;
-  final void Function() onTapSecondDot;
-  final void Function() onTapThirdDot;
 
   const AnimatedDotIndicatorWidget({
     Key? key,
     required this.currentIndex,
-    required this.onTapFirstDot,
-    required this.onTapSecondDot,
-    required this.onTapThirdDot,
   }) : super(key: key);
 
   @override
@@ -118,7 +112,6 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
             child: AnimatedDotWidget(
               isIndex: widget.currentIndex == 0,
               isCompleted: widget.currentIndex == 1,
-              onTap: widget.onTapFirstDot,
             ),
           ),
         ),
@@ -133,7 +126,6 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
             child: AnimatedDotWidget(
               isIndex: widget.currentIndex == 1,
               isCompleted: widget.currentIndex == 2,
-              onTap: widget.onTapSecondDot,
             ),
           ),
         ),
@@ -148,7 +140,6 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
             child: AnimatedDotWidget(
               isIndex: widget.currentIndex == 2,
               isCompleted: widget.currentIndex == 3,
-              onTap: widget.onTapThirdDot,
             ),
           ),
         ),
