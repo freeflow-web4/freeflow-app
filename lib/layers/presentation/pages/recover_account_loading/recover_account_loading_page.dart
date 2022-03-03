@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:get_it/get_it.dart';
@@ -25,17 +24,12 @@ class _RecoverAccountLoadingPageState extends State<RecoverAccountLoadingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return Scaffold(
-          backgroundColor: StandardColors.backgroundDark,
-          body: AnimatedCenterLogo(
-            showFirstFrame: recoverAccountLoadingController.showLogoLoading1,
-            onAnimationEnd: () =>
-                recoverAccountLoadingController.goToRecoverAccountPage(context),
-          ),
-        );
-      },
+    return Scaffold(
+      backgroundColor: StandardColors.backgroundDark,
+      body: AnimatedCenterLogo(
+        onAnimationEnd: () =>
+            recoverAccountLoadingController.goToRecoverAccountPage(context),
+      ),
     );
   }
 }

@@ -7,12 +7,10 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 
 class AnimatedCenterLogo extends StatefulWidget {
-  final bool showFirstFrame;
   final void Function()? onAnimationEnd;
 
   const AnimatedCenterLogo({
     Key? key,
-    required this.showFirstFrame,
     this.onAnimationEnd,
   }) : super(key: key);
 
@@ -27,6 +25,10 @@ class _AnimatedCenterLogoState extends State<AnimatedCenterLogo>
     vsync: this,
   );
 
+  bool showFirstFrame = true;
+  bool showSecondFrame = false;
+  bool showThirdFrame = false;
+
   late Animation<double> _logoOpacity;
 
   @override
@@ -38,11 +40,46 @@ class _AnimatedCenterLogoState extends State<AnimatedCenterLogo>
         curve: const Interval(0, 1, curve: Curves.linear),
       ),
     );
+    updateAnimation();
+  }
+
+  void updateAnimation() {
     Timer.periodic(const Duration(milliseconds: 300), (timer) {
       _controller.forward().orCancel;
       timer.cancel();
     });
-    Timer.periodic(const Duration(milliseconds: 5600), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      showFirstFrame = false;
+      showSecondFrame = true;
+      if (mounted) setState(() {});
+    });
+    Timer.periodic(const Duration(seconds: 2), (timer) {
+      showSecondFrame = false;
+      showThirdFrame = true;
+      if (mounted) setState(() {});
+    });
+    Timer.periodic(const Duration(seconds: 3), (timer) {
+      showFirstFrame = false;
+      showSecondFrame = true;
+      if (mounted) setState(() {});
+    });
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      showSecondFrame = false;
+      showThirdFrame = true;
+      if (mounted) setState(() {});
+    });
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      showFirstFrame = false;
+      showSecondFrame = true;
+      if (mounted) setState(() {});
+    });
+    Timer.periodic(const Duration(seconds: 6), (timer) {
+      showSecondFrame = false;
+      showThirdFrame = true;
+      if (mounted) setState(() {});
+    });
+
+    Timer.periodic(const Duration(milliseconds: 6600), (timer) {
       _controller.reverse();
       widget.onAnimationEnd?.call();
       timer.cancel();
@@ -62,16 +99,21 @@ class _AnimatedCenterLogoState extends State<AnimatedCenterLogo>
         opacity: _logoOpacity,
         controller: _controller,
         child: AnimatedSwitcher(
-          child: widget.showFirstFrame
+          child: showFirstFrame
               ? SvgPicture.asset(
-                  IconsAsset.freeflowLogoAnimation1,
+                  IconsAsset.freeflowLogoAnimation2,
                   key: const Key('image1'),
                 )
-              : SvgPicture.asset(
-                  IconsAsset.freeflowLogoAnimation3,
-                  key: const Key('image3'),
-                ),
-          duration: const Duration(milliseconds: 500),
+              : showSecondFrame
+                  ? SvgPicture.asset(
+                      IconsAsset.freeflowLogoAnimation2,
+                      key: const Key('image2'),
+                    )
+                  : SvgPicture.asset(
+                      IconsAsset.freeflowLogoAnimation3,
+                      key: const Key('image3'),
+                    ),
+          duration: const Duration(milliseconds: 1800),
         ),
       ),
     );
