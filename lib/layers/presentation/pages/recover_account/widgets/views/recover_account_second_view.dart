@@ -51,9 +51,21 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
+        if (widget.recoverAccountController.isAnimatingExitSecondView) {
+          animationController.reverse();
+        }
+        if (widget.recoverAccountController.isAnimatingExitSecondViewEnd) {
+          animationController.forward();
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: Column(

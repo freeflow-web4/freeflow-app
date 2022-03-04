@@ -38,6 +38,12 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => fullscreenAlertDialogController.closeDialog(context),

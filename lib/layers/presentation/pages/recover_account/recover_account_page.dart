@@ -58,32 +58,26 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                 builder: (context) {
                   return Column(
                     children: [
-                      AnimatedSwitcher(
-                        switchInCurve: Curves.easeInQuint,
-                        switchOutCurve: Curves.elasticOut,
-                        duration: const Duration(seconds: 5),
-                        reverseDuration: const Duration(seconds: 4),
-                        child: recoverAccountController.currentIndex == 0
-                            ? RecoverAccountFirstView(
-                                key: const Key('1'),
-                                textEditingController: flowerNameController,
-                                recoverAccountController:
-                                    recoverAccountController,
-                              )
-                            : recoverAccountController.currentIndex == 1
-                                ? RecoverAccountSecondView(
-                                    key: const Key('2'),
-                                    textEditingController: privateKeyController,
-                                    recoverAccountController:
-                                        recoverAccountController,
-                                  )
-                                : RecoverAccountFirstView(
-                                    key: const Key('3'),
-                                    textEditingController: privateKeyController,
-                                    recoverAccountController:
-                                        recoverAccountController,
-                                  ),
-                      ),
+                      recoverAccountController.currentIndex == 0
+                          ? RecoverAccountFirstView(
+                              key: const Key('1'),
+                              textEditingController: flowerNameController,
+                              recoverAccountController:
+                                  recoverAccountController,
+                            )
+                          : recoverAccountController.currentIndex == 1
+                              ? RecoverAccountSecondView(
+                                  key: const Key('2'),
+                                  textEditingController: privateKeyController,
+                                  recoverAccountController:
+                                      recoverAccountController,
+                                )
+                              : RecoverAccountFirstView(
+                                  key: const Key('3'),
+                                  textEditingController: privateKeyController,
+                                  recoverAccountController:
+                                      recoverAccountController,
+                                ),
                       const SizedBox(height: xxlargeSpacing),
                       StaggerOpacity(
                         opacity: animation.dotOpacity,

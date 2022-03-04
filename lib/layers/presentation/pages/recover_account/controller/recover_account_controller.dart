@@ -20,6 +20,18 @@ abstract class RecoverAccountControllerBase with Store {
   bool isContinueButtonActive = false;
 
   @observable
+  bool isAnimatingExitFirstView = false;
+
+  @observable
+  bool isAnimatingExitSecondView = false;
+
+  @observable
+  bool isAnimatingExistFirstViewEnd = false;
+
+  @observable
+  bool isAnimatingExitSecondViewEnd = false;
+
+  @observable
   String? privateKeyError;
 
   @observable
@@ -120,20 +132,34 @@ abstract class RecoverAccountControllerBase with Store {
       if (isInFirstView) {
         return;
       } else {
-        isInFirstView = true;
-        isInSecondView = false;
-        currentIndex = 0;
-        animationDuration = 5;
-        isContinueButtonActive = false;
+        isAnimatingExitFirstView = false;
+        isAnimatingExitSecondView = true;
+        Timer.periodic(const Duration(seconds: 3), (timer) {
+          isInFirstView = true;
+          isInSecondView = false;
+          currentIndex = 0;
+          animationDuration = 5;
+          isContinueButtonActive = true;
+          isAnimatingExistFirstViewEnd = false;
+          isAnimatingExitSecondViewEnd = true;
+          timer.cancel();
+        });
       }
     } else if (index == 1) {
       if (isInSecondView) {
         return;
       } else {
-        isInFirstView = false;
-        isInSecondView = true;
-        currentIndex = 1;
-        isContinueButtonActive = false;
+        isAnimatingExitSecondView = false;
+        isAnimatingExitFirstView = true;
+        Timer.periodic(const Duration(seconds: 3), (timer) {
+          isInFirstView = false;
+          isInSecondView = true;
+          currentIndex = 1;
+          isContinueButtonActive = false;
+          isAnimatingExitSecondViewEnd = false;
+          isAnimatingExistFirstViewEnd = true;
+          timer.cancel();
+        });
       }
     }
   }

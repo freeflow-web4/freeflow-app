@@ -39,6 +39,9 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
       duration: Duration(
         seconds: widget.recoverAccountController.animationDuration,
       ),
+      reverseDuration: const Duration(
+        seconds: 5,
+      ),
       vsync: this,
     );
     recoverAccountViewAnimation =
@@ -57,6 +60,12 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
+        if (widget.recoverAccountController.isAnimatingExitFirstView) {
+          animationController.reverse();
+        }
+        if (widget.recoverAccountController.isAnimatingExistFirstViewEnd) {
+          animationController.forward();
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: Column(

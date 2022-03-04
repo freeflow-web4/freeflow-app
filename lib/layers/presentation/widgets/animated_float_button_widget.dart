@@ -25,8 +25,8 @@ class _AnimatedFloatButtonWidgetState extends State<AnimatedFloatButtonWidget> {
     return GestureDetector(
       onTap: widget.onTap,
       child: AnimatedContainer(
-        width: 48,
-        height: 48,
+        width: widget.isActive ? 64 : 48,
+        height: widget.isActive ? 64 : 48,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
           gradient: widget.isActive
@@ -35,9 +35,10 @@ class _AnimatedFloatButtonWidgetState extends State<AnimatedFloatButtonWidget> {
         ),
         duration: const Duration(seconds: 1),
         child: Center(
-          child: SizedBox(
-            width: 24,
-            height: 24,
+          child: AnimatedContainer(
+            duration: const Duration(seconds: 1),
+            width: widget.isActive ? 32 : 24,
+            height: widget.isActive ? 32 : 24,
             child: Center(
               child: SvgPicture.asset(widget.icon),
             ),

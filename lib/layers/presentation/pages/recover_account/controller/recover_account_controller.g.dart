@@ -26,6 +26,74 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isAnimatingExitFirstViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitFirstView');
+
+  @override
+  bool get isAnimatingExitFirstView {
+    _$isAnimatingExitFirstViewAtom.reportRead();
+    return super.isAnimatingExitFirstView;
+  }
+
+  @override
+  set isAnimatingExitFirstView(bool value) {
+    _$isAnimatingExitFirstViewAtom
+        .reportWrite(value, super.isAnimatingExitFirstView, () {
+      super.isAnimatingExitFirstView = value;
+    });
+  }
+
+  final _$isAnimatingExitSecondViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitSecondView');
+
+  @override
+  bool get isAnimatingExitSecondView {
+    _$isAnimatingExitSecondViewAtom.reportRead();
+    return super.isAnimatingExitSecondView;
+  }
+
+  @override
+  set isAnimatingExitSecondView(bool value) {
+    _$isAnimatingExitSecondViewAtom
+        .reportWrite(value, super.isAnimatingExitSecondView, () {
+      super.isAnimatingExitSecondView = value;
+    });
+  }
+
+  final _$isAnimatingExistFirstViewEndAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExistFirstViewEnd');
+
+  @override
+  bool get isAnimatingExistFirstViewEnd {
+    _$isAnimatingExistFirstViewEndAtom.reportRead();
+    return super.isAnimatingExistFirstViewEnd;
+  }
+
+  @override
+  set isAnimatingExistFirstViewEnd(bool value) {
+    _$isAnimatingExistFirstViewEndAtom
+        .reportWrite(value, super.isAnimatingExistFirstViewEnd, () {
+      super.isAnimatingExistFirstViewEnd = value;
+    });
+  }
+
+  final _$isAnimatingExitSecondViewEndAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitSecondViewEnd');
+
+  @override
+  bool get isAnimatingExitSecondViewEnd {
+    _$isAnimatingExitSecondViewEndAtom.reportRead();
+    return super.isAnimatingExitSecondViewEnd;
+  }
+
+  @override
+  set isAnimatingExitSecondViewEnd(bool value) {
+    _$isAnimatingExitSecondViewEndAtom
+        .reportWrite(value, super.isAnimatingExitSecondViewEnd, () {
+      super.isAnimatingExitSecondViewEnd = value;
+    });
+  }
+
   final _$privateKeyErrorAtom =
       Atom(name: 'RecoverAccountControllerBase.privateKeyError');
 
@@ -131,6 +199,10 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   String toString() {
     return '''
 isContinueButtonActive: ${isContinueButtonActive},
+isAnimatingExitFirstView: ${isAnimatingExitFirstView},
+isAnimatingExitSecondView: ${isAnimatingExitSecondView},
+isAnimatingExistFirstViewEnd: ${isAnimatingExistFirstViewEnd},
+isAnimatingExitSecondViewEnd: ${isAnimatingExitSecondViewEnd},
 privateKeyError: ${privateKeyError},
 isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
