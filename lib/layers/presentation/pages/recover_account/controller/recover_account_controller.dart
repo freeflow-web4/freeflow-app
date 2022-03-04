@@ -152,7 +152,9 @@ abstract class RecoverAccountControllerBase with Store {
 
   void openKeyboard(context, {required FocusNode inputNode, int? duration}) {
     Timer.periodic(Duration(seconds: duration ?? animationDuration), (timer) {
+      FocusManager.instance.primaryFocus?.unfocus();
       FocusScope.of(context).requestFocus(inputNode);
+      timer.cancel();
     });
   }
 }
