@@ -17,27 +17,20 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius), //_borderRadius,
-      child: TextButton(
-        onPressed: onPressed,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: _borderRadius,
-            color: backgroundColor,
-            border: Border.all(
-              width: 2,
-              color: borderColor,
+    return ElevatedButton(
+      child: child,
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(backgroundColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              20,
             ),
+            side: const BorderSide(color: borderColor),
           ),
-          padding: padding,
-          child: child,
         ),
       ),
     );
   }
-
-  BorderRadius get _borderRadius => BorderRadius.circular(
-        20,
-      );
 }
