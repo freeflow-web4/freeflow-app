@@ -5,12 +5,14 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 class SwipeButton extends StatefulWidget {
   final void Function() onSwipe;
   final bool startAnimation;
+  final bool movementEnable;
   final String? text;
   const SwipeButton({
     Key? key,
     this.text,
     required this.onSwipe,
     required this.startAnimation,
+    this.movementEnable = true,
   }) : super(key: key);
 
   @override
@@ -277,6 +279,7 @@ class _SwipeButtonState extends State<SwipeButton>
   }
 
   void update(double widgetWidth, double x, double dx) {
+    if(!widget.movementEnable) return;
     final movement = _calcMovement(x, dx);
     final shouldUpdate =
         _shouldUpdateProgress(movement, _buttonProgressFactor ?? 0);

@@ -38,6 +38,8 @@ class _LoginPageState extends State<LoginPage>
 
   bool animationDone = false;
 
+  bool _swipeEnabled = false;
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +50,19 @@ class _LoginPageState extends State<LoginPage>
     opacityRecoverButton = getTweenAnimationWithFactor(3);
     _controller.forward().orCancel;
     _controller.addStatusListener(onAnimationChanged);
+  }
+
+  void onSwipe() {
+    setState(() {
+      _swipeEnabled = true;
+    });
+    _controller
+        .animateBack(
+          0,
+          duration: const Duration(milliseconds: _animationDurationInMili ~/ 3),
+        )
+        .orCancel
+        .then((value) => loginController.onSwipe());
   }
 
   @override
@@ -93,9 +108,10 @@ class _LoginPageState extends State<LoginPage>
             opacityAnimation(
               opacitySwipeButton,
               SwipeButton(
-                onSwipe: loginController.onSwipe,
+                onSwipe: onSwipe,
                 text: "LET'S GO!",
                 startAnimation: animationDone,
+                movementEnable: _swipeEnabled,
               ),
             ),
             const AdaptativeSpacer(
