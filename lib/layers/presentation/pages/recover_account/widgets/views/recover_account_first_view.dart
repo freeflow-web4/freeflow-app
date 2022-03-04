@@ -43,7 +43,7 @@ class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
     );
     recoverAccountViewAnimation =
         RecoverAccountViewAnimation(animationController);
-    animationController.forward().orCancel;
+    animationController.forward();
     widget.recoverAccountController.openKeyboard(context, inputNode: inputNode);
   }
 

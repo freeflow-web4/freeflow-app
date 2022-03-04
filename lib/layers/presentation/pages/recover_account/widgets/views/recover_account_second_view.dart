@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -40,17 +42,12 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
     recoverAccountViewAnimation =
         RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
+
     widget.recoverAccountController.openKeyboard(
       context,
       inputNode: inputNode,
       duration: 5,
     );
-  }
-
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
   }
 
   @override

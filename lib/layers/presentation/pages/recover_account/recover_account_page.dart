@@ -36,7 +36,6 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
     super.initState();
     animation = RecoverAccountPageAnimation(animationController);
     animationController.forward();
-    recoverAccountController.updateWidgetAnimations();
   }
 
   @override
@@ -47,72 +46,82 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: StandardColors.backgroundDark,
-      body: LayoutBuilder(builder: (context, constraints) {
-        return Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 720),
-            child: Observer(builder: (context) {
-              return Column(
-                children: [
-                  AnimatedSwitcher(
-                    duration: const Duration(seconds: 1),
-                    child: recoverAccountController.currentIndex == 0
-                        ? RecoverAccountFirstView(
-                            key: const Key('1'),
-                            textEditingController: flowerNameController,
-                            recoverAccountController: recoverAccountController,
-                          )
-                        : recoverAccountController.currentIndex == 1
-                            ? RecoverAccountSecondView(
-                                key: const Key('2'),
-                                textEditingController: privateKeyController,
+    return WillPopScope(
+      onWillPop: () => recoverAccountController.onWillPop(),
+      child: Scaffold(
+        backgroundColor: StandardColors.backgroundDark,
+        body: LayoutBuilder(builder: (context, constraints) {
+          return Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 720),
+              child: Observer(
+                builder: (context) {
+                  return Column(
+                    children: [
+                      AnimatedSwitcher(
+                        switchInCurve: Curves.easeInQuint,
+                        switchOutCurve: Curves.elasticOut,
+                        duration: const Duration(seconds: 5),
+                        reverseDuration: const Duration(seconds: 4),
+                        child: recoverAccountController.currentIndex == 0
+                            ? RecoverAccountFirstView(
+                                key: const Key('1'),
+                                textEditingController: flowerNameController,
                                 recoverAccountController:
                                     recoverAccountController,
                               )
-                            : RecoverAccountFirstView(
-                                key: const Key('3'),
-                                textEditingController: privateKeyController,
-                                recoverAccountController:
-                                    recoverAccountController,
-                              ),
-                  ),
-                  const SizedBox(height: xxlargeSpacing),
-                  StaggerOpacity(
-                    opacity: animation.dotOpacity,
-                    controller: animationController,
-                    child: AnimatedDotIndicatorWidget(
-                      currentIndex: recoverAccountController.currentIndex,
-                    ),
-                  ),
-                  const Spacer(),
-                  StaggerOpacity(
-                    opacity: animation.buttonOpacity,
-                    controller: animationController,
-                    child: StaggerScale(
-                      height: animation.buttonHeight,
-                      width: animation.buttonWidth,
-                      controller: animationController,
-                      child: AnimatedFloatButtonWidget(
-                        isActive:
-                            recoverAccountController.isContinueButtonActive,
-                        onTap: () => recoverAccountController.tapContinueButton(
-                          context,
-                          privateKeyController.text,
-                          flowerNameController.text,
-                        ),
-                        icon: IconsAsset.arrowIcon,
+                            : recoverAccountController.currentIndex == 1
+                                ? RecoverAccountSecondView(
+                                    key: const Key('2'),
+                                    textEditingController: privateKeyController,
+                                    recoverAccountController:
+                                        recoverAccountController,
+                                  )
+                                : RecoverAccountFirstView(
+                                    key: const Key('3'),
+                                    textEditingController: privateKeyController,
+                                    recoverAccountController:
+                                        recoverAccountController,
+                                  ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: bigSpacing),
-                ],
-              );
-            }),
-          ),
-        );
-      }),
+                      const SizedBox(height: xxlargeSpacing),
+                      StaggerOpacity(
+                        opacity: animation.dotOpacity,
+                        controller: animationController,
+                        child: AnimatedDotIndicatorWidget(
+                          currentIndex: recoverAccountController.currentIndex,
+                        ),
+                      ),
+                      const Spacer(),
+                      StaggerOpacity(
+                        opacity: animation.buttonOpacity,
+                        controller: animationController,
+                        child: StaggerScale(
+                          height: animation.buttonHeight,
+                          width: animation.buttonWidth,
+                          controller: animationController,
+                          child: AnimatedFloatButtonWidget(
+                            isActive:
+                                recoverAccountController.isContinueButtonActive,
+                            onTap: () =>
+                                recoverAccountController.tapContinueButton(
+                              context,
+                              privateKey: privateKeyController.text,
+                              username: flowerNameController.text,
+                            ),
+                            icon: IconsAsset.arrowIcon,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: bigSpacing),
+                    ],
+                  );
+                },
+              ),
+            ),
+          );
+        }),
+      ),
     );
   }
 }

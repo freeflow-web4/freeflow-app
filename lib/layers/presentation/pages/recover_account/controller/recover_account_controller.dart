@@ -17,9 +17,6 @@ abstract class RecoverAccountControllerBase with Store {
   RecoverAccountControllerBase(this._userRecoverLoginUseCase);
 
   @observable
-  bool showCurrentIndexAnimation = false;
-
-  @observable
   bool isContinueButtonActive = false;
 
   @observable
@@ -37,20 +34,11 @@ abstract class RecoverAccountControllerBase with Store {
   int animationDuration = 10;
 
   @action
-  void updateWidgetAnimations() {
-    Timer.periodic(const Duration(seconds: 3), (timer) {
-      showCurrentIndexAnimation = true;
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 4), (timer) {
-      showCurrentIndexAnimation = false;
-      timer.cancel();
-    });
-  }
-
-  @action
   tapContinueButton(
-      BuildContext context, String? privateKey, String? username) async {
+    BuildContext context, {
+    String? privateKey,
+    String? username,
+  }) async {
     if (isInFirstView) {
       if ((username ?? '').isEmpty) {
         openDialog(context);
@@ -156,5 +144,20 @@ abstract class RecoverAccountControllerBase with Store {
       FocusScope.of(context).requestFocus(inputNode);
       timer.cancel();
     });
+  }
+
+  Future<bool> onWillPop() async {
+    if (isInFirstView) {
+      //TODO: Go to initial page
+      return false;
+    } else if (isInSecondView) {
+      updateIndex(0);
+      isContinueButtonActive = true;
+      return false;
+    } else {
+      updateIndex(1);
+      isContinueButtonActive = true;
+      return false;
+    }
   }
 }

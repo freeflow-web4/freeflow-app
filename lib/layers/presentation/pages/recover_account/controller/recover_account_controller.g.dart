@@ -9,23 +9,6 @@ part of 'recover_account_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
-  final _$showCurrentIndexAnimationAtom =
-      Atom(name: 'RecoverAccountControllerBase.showCurrentIndexAnimation');
-
-  @override
-  bool get showCurrentIndexAnimation {
-    _$showCurrentIndexAnimationAtom.reportRead();
-    return super.showCurrentIndexAnimation;
-  }
-
-  @override
-  set showCurrentIndexAnimation(bool value) {
-    _$showCurrentIndexAnimationAtom
-        .reportWrite(value, super.showCurrentIndexAnimation, () {
-      super.showCurrentIndexAnimation = value;
-    });
-  }
-
   final _$isContinueButtonActiveAtom =
       Atom(name: 'RecoverAccountControllerBase.isContinueButtonActive');
 
@@ -111,26 +94,16 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
   @override
-  Future tapContinueButton(
-      BuildContext context, String? privateKey, String? username) {
-    return _$tapContinueButtonAsyncAction
-        .run(() => super.tapContinueButton(context, privateKey, username));
+  Future tapContinueButton(BuildContext context,
+      {String? privateKey, String? username}) {
+    return _$tapContinueButtonAsyncAction.run(() => super.tapContinueButton(
+        context,
+        privateKey: privateKey,
+        username: username));
   }
 
   final _$RecoverAccountControllerBaseActionController =
       ActionController(name: 'RecoverAccountControllerBase');
-
-  @override
-  void updateWidgetAnimations() {
-    final _$actionInfo =
-        _$RecoverAccountControllerBaseActionController.startAction(
-            name: 'RecoverAccountControllerBase.updateWidgetAnimations');
-    try {
-      return super.updateWidgetAnimations();
-    } finally {
-      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   void onChangedField({String? username, String? privateKey}) {
@@ -157,7 +130,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   @override
   String toString() {
     return '''
-showCurrentIndexAnimation: ${showCurrentIndexAnimation},
 isContinueButtonActive: ${isContinueButtonActive},
 privateKeyError: ${privateKeyError},
 isInFirstView: ${isInFirstView},
