@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/layers/presentation/pages/auth/widgets/keyboard_widget.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -10,6 +11,13 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          KeyBoard(),
+        ],
+      ),
+    );
   }
 }
