@@ -37,9 +37,24 @@ class _SwipeButtonState extends State<SwipeButton>
   static const borderPadding = 2.0;
   static const childPadding = 4.0;
   static const totalPadding = borderPadding + childPadding;
+  static const _buttonMaxRange = 0.15;
+  static const _bigAnimationWeight = 0.8;
+  static const _kick = 0.01;
+  static const _elasticAnimationWeight = 0.5;
+
+  List<TweenSequenceItem<double>> _kickAnimation(double times) => [
+        TweenSequenceItem(
+          tween: Tween<double>(begin: 0, end: _kick * times),
+          weight: _elasticAnimationWeight,
+        ),
+        TweenSequenceItem(
+          tween: Tween<double>(begin: _kick * times, end: 0),
+          weight: _elasticAnimationWeight,
+        ),
+      ];
 
   late final AnimationController animationController = AnimationController(
-    duration: const Duration(milliseconds: 1000),
+    duration: const Duration(milliseconds: 6000),
     vsync: this,
   );
 
@@ -56,16 +71,23 @@ class _SwipeButtonState extends State<SwipeButton>
     super.initState();
     _buttonAnimation = TweenSequence([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0, end: 0.4),
-        weight: 1,
+        tween: Tween<double>(begin: 0, end: _buttonMaxRange),
+        weight: _bigAnimationWeight,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.4, end: 0),
-        weight: 1,
+        tween: Tween<double>(begin: _buttonMaxRange, end: 0),
+        weight: _bigAnimationWeight,
       ),
       TweenSequenceItem(
         tween: ConstantTween(0.0),
-        weight: 0.8,
+        weight: _kick,
+      ),
+      ..._kickAnimation(3),
+      ..._kickAnimation(2),
+      ..._kickAnimation(1),
+      TweenSequenceItem(
+        tween: ConstantTween(0.0),
+        weight: 5,
       ),
     ]).animate(
       CurvedAnimation(
@@ -128,32 +150,27 @@ class _SwipeButtonState extends State<SwipeButton>
               final widgetWidth = constraints.maxWidth;
               final widgetHeight = constraints.maxHeight;
               final offsetFactor = widgetHeight / widgetWidth;
-
               return Align(
                 alignment: Alignment.centerLeft,
-                child: (animationDone ?? true) == false &&
-                        _buttonProgressFactor == null
-                    ? AnimatedBuilder(
-                        animation: animationController,
-                        child: _progressBar(),
-                        builder: (context, child) {
-                          final widthFactor = _buttonAnimation!.value;
-                          return _builderProgressBar(
-                            context,
-                            child,
-                            widthFactorWithOffset(
-                              widthFactor,
-                              offsetFactor,
-                            ),
-                          );
-                        },
-                      )
-                    : _progressBarWithFactor(
-                        widthFactorWithOffset(
-                          _buttonProgressFactor ?? 0,
-                          offsetFactor,
-                        ),
+                child: AnimatedBuilder(
+                  animation: animationController,
+                  child: _progressBar(),
+                  builder: (context, child) {
+                    final widthFactor = _buttonAnimation!.value;
+                    final progressFactor = _buttonProgressFactor != null
+                        ? _buttonProgressFactor ?? 0
+                        : widthFactor;
+
+                    return _builderProgressBar(
+                      context,
+                      child,
+                      widthFactorWithOffset(
+                        progressFactor,
+                        offsetFactor,
                       ),
+                    );
+                  },
+                ),
               );
             },
           ),
@@ -171,26 +188,36 @@ class _SwipeButtonState extends State<SwipeButton>
           ),
         ),
         Positioned.fill(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final ppoint = point(constraints.maxWidth, constraints.maxHeight);
-              final child = draggable(constraints.maxWidth, ppoint);
-              return (animationDone ?? true) == false &&
-                      _buttonProgressFactor == null
-                  ? AnimatedBuilder(
-                      child: child,
-                      animation: animationController,
-                      builder: (context, child) =>
-                          _builder(context, child, _buttonAnimation!),
-                    )
-                  : Align(
-                      alignment: Alignment(
-                        _calcHorizontalInRange(_buttonProgressFactor ?? 0),
-                        0,
-                      ),
-                      child: child,
-                    );
-            },
+          child: GestureDetector(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final widgetWidth = constraints.maxWidth;
+                final ppoint =
+                    point(constraints.maxWidth, constraints.maxHeight);
+                return GestureDetector(
+                  onHorizontalDragUpdate: (details) => update(
+                    widgetWidth,
+                    details.globalPosition.dx,
+                    details.delta.dx,
+                  ),
+                  child: (animationDone ?? true) == false &&
+                          _buttonProgressFactor == null
+                      ? AnimatedBuilder(
+                          child: ppoint,
+                          animation: animationController,
+                          builder: (context, child) =>
+                              _builder(context, child, _buttonAnimation!),
+                        )
+                      : Align(
+                          alignment: Alignment(
+                            _calcHorizontalInRange(_buttonProgressFactor ?? 0),
+                            0,
+                          ),
+                          child: ppoint,
+                        ),
+                );
+              },
+            ),
           ),
         )
       ],
@@ -242,15 +269,10 @@ class _SwipeButtonState extends State<SwipeButton>
     double maxWidth,
     Widget child,
   ) {
-    return Draggable(
-      feedback: const SizedBox.shrink(),
+    return GestureDetector(
+      onHorizontalDragUpdate: (details) =>
+          update(maxWidth, details.globalPosition.dx, details.delta.dx),
       child: child,
-      axis: Axis.horizontal,
-      onDragUpdate: (details) => update(
-        maxWidth,
-        details.globalPosition.dx,
-        details.delta.dx,
-      ),
     );
   }
 
