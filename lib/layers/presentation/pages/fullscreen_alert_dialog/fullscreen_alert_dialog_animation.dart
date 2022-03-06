@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/animation.dart';
 
 class FullscreenAlertDialogAnimation {
@@ -25,12 +23,12 @@ class FullscreenAlertDialogAnimation {
             parent: controller,
             curve: const Interval(
               0.4,
-              0.7,
+              0.6,
               curve: Curves.linear,
             ),
             reverseCurve: const Interval(
               0.4,
-              0.7,
+              0.6,
               curve: Curves.linear,
             ),
           ),
@@ -43,12 +41,12 @@ class FullscreenAlertDialogAnimation {
             parent: controller,
             curve: const Interval(
               0.4,
-              0.7,
+              0.6,
               curve: Curves.linear,
             ),
             reverseCurve: const Interval(
               0.4,
-              0.7,
+              0.6,
               curve: Curves.linear,
             ),
           ),

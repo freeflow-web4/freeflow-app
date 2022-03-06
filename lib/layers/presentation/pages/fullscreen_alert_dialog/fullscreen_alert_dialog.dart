@@ -27,7 +27,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
   final fullscreenAlertDialogController = FullscreenAlertDialogController();
   late FullscreenAlertDialogAnimation animation;
   late AnimationController animationController = AnimationController(
-    duration: const Duration(seconds: 4),
+    duration: const Duration(seconds: 6),
     vsync: this,
   );
   @override

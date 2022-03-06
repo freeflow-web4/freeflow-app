@@ -46,6 +46,7 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
       duration: const Duration(seconds: 2),
       vsync: this,
     );
+
     animation = DotIndicatorAnimation(
       animationController,
       firstDotSizeControler,
@@ -53,6 +54,14 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
       thirdDotSizeControler,
     );
     animationController.forward();
+    Timer.periodic(const Duration(seconds: 4), (timer) {
+      firstDotSizeControler.forward();
+      timer.cancel();
+    });
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      firstDotSizeControler.reverse();
+      timer.cancel();
+    });
   }
 
   @override
