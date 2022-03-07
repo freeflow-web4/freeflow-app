@@ -24,19 +24,56 @@ mixin TextThemes {
     );
   }
 
+  AutoSizeText textH3(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    TextAlign? textAlign,
+    required String textKey,
+  }) {
+    return AutoSizeText(
+      FlutterI18n.translate(context, textKey),
+      maxLines: maxLines,
+      textAlign: textAlign,
+      style: TextStyle(
+        color: color,
+        fontSize: 50,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
   Text textBoldSubtitle(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
-    required String text,
+    required String textKey,
   }) {
     return Text(
-      text,
+      FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       style: TextStyle(
         color: color,
         fontSize: 20,
         fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textSubtitle(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String textKey,
+  }) {
+    return Text(
+      FlutterI18n.translate(context, textKey),
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 20,
         fontFamily: 'Akrobat',
       ),
     );

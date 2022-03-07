@@ -85,11 +85,15 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                                         recoverAccountController,
                                   ),
                         const SizedBox(height: xxlargeSpacing),
-                        StaggerOpacity(
-                          opacity: animation.dotOpacity,
-                          controller: animationController,
-                          child: AnimatedDotIndicatorWidget(
-                            currentIndex: recoverAccountController.currentIndex,
+                        Visibility(
+                          visible: recoverAccountController.currentIndex != 2,
+                          child: StaggerOpacity(
+                            opacity: animation.dotOpacity,
+                            controller: animationController,
+                            child: AnimatedDotIndicatorWidget(
+                              currentIndex:
+                                  recoverAccountController.currentIndex,
+                            ),
                           ),
                         ),
                         const Spacer(),

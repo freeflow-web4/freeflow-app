@@ -5,6 +5,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/get_cross_max_lines.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
@@ -97,6 +98,13 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
                       context, "recoverAccount.privateKey"),
                   errorText: widget.recoverAccountController.privateKeyError,
                   textController: widget.textEditingController,
+                  maxLines: 2,
+                  crossTheMaxLines: getIfTextCrossMaxLines(
+                    context,
+                    text: widget.textEditingController.text,
+                    maxLines: 1,
+                    maxWidth: MediaQuery.of(context).size.width - 120,
+                  ),
                 ),
               ),
               const SizedBox(height: xxlargeSpacing + 16),

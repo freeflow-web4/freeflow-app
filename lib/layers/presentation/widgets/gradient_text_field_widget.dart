@@ -9,6 +9,8 @@ class GradientTextFieldWidget extends StatefulWidget {
   final bool showSecondText;
   final void Function(String)? onChanged;
   final FocusNode inputNode;
+  final int maxLines;
+  final bool crossTheMaxLines;
   const GradientTextFieldWidget({
     Key? key,
     required this.errorText,
@@ -17,6 +19,8 @@ class GradientTextFieldWidget extends StatefulWidget {
     required this.inputNode,
     this.onChanged,
     this.showSecondText = false,
+    this.maxLines = 1,
+    this.crossTheMaxLines = false,
   }) : super(key: key);
 
   @override
@@ -57,9 +61,10 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                 focusedBorder: InputBorder.none,
                 focusedErrorBorder: InputBorder.none,
               ),
+              maxLines: widget.maxLines,
             ),
             Positioned(
-              top: 40,
+              top: widget.crossTheMaxLines ? 60 : 40,
               child: Container(
                 height: 2,
                 width: MediaQuery.of(context).size.width - 20,
@@ -90,7 +95,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                 right: 0,
                 child: textBoldSubtitle(
                   context,
-                  text: '.flw ',
+                  textKey: '.flw ',
                   color: widget.errorText == null
                       ? Colors.white
                       : StandardColors.feedbackError,

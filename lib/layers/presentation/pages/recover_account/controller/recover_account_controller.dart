@@ -171,6 +171,7 @@ abstract class RecoverAccountControllerBase with Store {
         isAnimatingExitFirstView = true;
         Timer.periodic(const Duration(seconds: 3), (timer) {
           isInFirstView = false;
+          isInThirdView = false;
           isInSecondView = true;
           currentIndex = 1;
           isContinueButtonActive = false;
@@ -213,6 +214,10 @@ abstract class RecoverAccountControllerBase with Store {
       return false;
     } else if (isInSecondView) {
       updateIndex(0);
+      isContinueButtonActive = true;
+      return false;
+    } else if (isInThirdView) {
+      updateIndex(1);
       isContinueButtonActive = true;
       return false;
     } else {
