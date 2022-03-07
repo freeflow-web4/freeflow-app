@@ -52,6 +52,9 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   int currentIndex = 0;
 
+  @observable
+  bool isObscuredPin = true;
+
   int animationDuration = 10;
 
   @action
@@ -225,5 +228,9 @@ abstract class RecoverAccountControllerBase with Store {
       isContinueButtonActive = true;
       return false;
     }
+  }
+
+  void setObscuredPin() {
+    isObscuredPin = !isObscuredPin;
   }
 }

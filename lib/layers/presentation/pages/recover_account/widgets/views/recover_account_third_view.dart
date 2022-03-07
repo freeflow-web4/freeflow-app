@@ -6,9 +6,11 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
+import 'package:get_it/get_it.dart';
 
 class RecoverAccountThirdView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
@@ -30,6 +32,8 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
   late final AnimationController animationController;
   final FocusNode inputNode = FocusNode();
+  final InAppKeyboardController keyboardController =
+      GetIt.I.get<InAppKeyboardController>();
 
   @override
   void initState() {
@@ -84,12 +88,19 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                 controller: animationController,
                 child: GradientTextFieldWidget(
                   inputNode: inputNode,
+                  showObscureButton: true,
+                  isPinInput: true,
+                  isObscureText: widget.recoverAccountController.isObscuredPin,
+                  onObscureButtonPressed: () =>
+                      widget.recoverAccountController.setObscuredPin(),
+                  fieldReadOnly: true,
                   onChanged: (value) => widget.recoverAccountController
                       .onChangedField(privateKey: value),
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.confirmPinCode"),
                   errorText: widget.recoverAccountController.privateKeyError,
                   textController: widget.textEditingController,
+                  pinCode: keyboardController.text,
                 ),
               ),
               const SizedBox(height: 13),
@@ -104,7 +115,7 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                 ),
               ),
               const SizedBox(height: largeSpacingx2),
-              Center(
+              const Center(
                 child: InAppKeyboardWidget(),
               ),
             ],

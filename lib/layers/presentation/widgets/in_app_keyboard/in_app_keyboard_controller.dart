@@ -23,8 +23,10 @@ abstract class InAppKeyboardControllerBase with Store {
 
   @action
   void delKey() {
-    final newText = text.substring(0, text.length - 1);
-    text = newText;
+    if (text.isNotEmpty) {
+      final newText = text.substring(0, text.length - 1);
+      text = newText;
+    }
   }
 
   @action

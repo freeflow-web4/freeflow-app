@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field_pin_code.dart';
 
 class GradientTextFieldWidget extends StatefulWidget {
   final String? errorText;
@@ -11,6 +14,12 @@ class GradientTextFieldWidget extends StatefulWidget {
   final FocusNode inputNode;
   final int maxLines;
   final bool crossTheMaxLines;
+  final bool showObscureButton;
+  final bool isObscureText;
+  final void Function()? onObscureButtonPressed;
+  final bool fieldReadOnly;
+  final bool isPinInput;
+  final String? pinCode;
   const GradientTextFieldWidget({
     Key? key,
     required this.errorText,
@@ -21,6 +30,12 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.showSecondText = false,
     this.maxLines = 1,
     this.crossTheMaxLines = false,
+    this.showObscureButton = false,
+    this.isObscureText = false,
+    this.onObscureButtonPressed,
+    this.fieldReadOnly = false,
+    this.isPinInput = false,
+    this.pinCode,
   }) : super(key: key);
 
   @override
@@ -42,11 +57,13 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
           children: <Widget>[
             TextFormField(
               onChanged: widget.onChanged,
+              obscureText: widget.isObscureText,
               controller: widget.textController,
+              readOnly: widget.fieldReadOnly,
               focusNode: widget.inputNode,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                hintText: widget.hintText,
+                hintText: widget.isPinInput ? null : widget.hintText,
                 hintStyle: TextStyle(
                   color: widget.errorText == null
                       ? Colors.white
@@ -75,6 +92,18 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                 ),
               ),
             ),
+            Positioned(
+              top: widget.crossTheMaxLines ? 60 : 40,
+              child: Container(
+                height: 2,
+                width: MediaQuery.of(context).size.width - 20,
+                decoration: BoxDecoration(
+                  gradient: widget.errorText == null
+                      ? StandardColors.greenGradient()
+                      : StandardColors.redGradient(),
+                ),
+              ),
+            ),
             Visibility(
               visible: widget.errorText != null,
               child: Positioned(
@@ -89,6 +118,23 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
               ),
             ),
             Visibility(
+              visible: widget.isPinInput,
+              child: Positioned(
+                top: widget.pinCode != null && widget.pinCode!.isNotEmpty
+                    ? 20
+                    : 13,
+                child: widget.pinCode != null && widget.pinCode!.isNotEmpty
+                    ? GradientTextFieldPinCode(pinCode: widget.pinCode!)
+                    : textSubtitle(
+                        context,
+                        textKey: widget.hintText,
+                        color: widget.errorText == null
+                            ? Colors.white
+                            : StandardColors.feedbackError,
+                      ),
+              ),
+            ),
+            Visibility(
               visible: widget.showSecondText,
               child: Positioned(
                 top: 13,
@@ -99,6 +145,26 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                   color: widget.errorText == null
                       ? Colors.white
                       : StandardColors.feedbackError,
+                ),
+              ),
+            ),
+            Visibility(
+              visible: widget.showObscureButton,
+              child: Positioned(
+                top: widget.isObscureText ? 22 : 12,
+                right: 0,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: widget.onObscureButtonPressed,
+                  child: widget.isObscureText
+                      ? SvgPicture.asset(
+                          IconsAsset.closedEye,
+                          height: 10,
+                        )
+                      : const Icon(
+                          Icons.remove_red_eye_outlined,
+                          color: Colors.white,
+                        ),
                 ),
               ),
             ),

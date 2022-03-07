@@ -10,4 +10,5 @@ class IconsAsset {
   static const String arrowIcon = "assets/images/icons/arrow_icon.svg";
   static const String arrowLeftIcon = "assets/images/icons/arrow_left.svg";
   static const String closeBackIcon = "assets/images/icons/close_back_icon.svg";
+  static const String closedEye = "assets/images/icons/closed_eye.svg";
 }

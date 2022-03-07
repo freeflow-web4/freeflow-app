@@ -208,6 +208,22 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isObscuredPinAtom =
+      Atom(name: 'RecoverAccountControllerBase.isObscuredPin');
+
+  @override
+  bool get isObscuredPin {
+    _$isObscuredPinAtom.reportRead();
+    return super.isObscuredPin;
+  }
+
+  @override
+  set isObscuredPin(bool value) {
+    _$isObscuredPinAtom.reportWrite(value, super.isObscuredPin, () {
+      super.isObscuredPin = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -260,7 +276,8 @@ privateKeyError: ${privateKeyError},
 isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
 isInThirdView: ${isInThirdView},
-currentIndex: ${currentIndex}
+currentIndex: ${currentIndex},
+isObscuredPin: ${isObscuredPin}
     ''';
   }
 }
