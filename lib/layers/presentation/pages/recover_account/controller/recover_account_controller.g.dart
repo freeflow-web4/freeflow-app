@@ -60,6 +60,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isAnimatingExitThirdViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitThirdView');
+
+  @override
+  bool get isAnimatingExitThirdView {
+    _$isAnimatingExitThirdViewAtom.reportRead();
+    return super.isAnimatingExitThirdView;
+  }
+
+  @override
+  set isAnimatingExitThirdView(bool value) {
+    _$isAnimatingExitThirdViewAtom
+        .reportWrite(value, super.isAnimatingExitThirdView, () {
+      super.isAnimatingExitThirdView = value;
+    });
+  }
+
   final _$isAnimatingExistFirstViewEndAtom =
       Atom(name: 'RecoverAccountControllerBase.isAnimatingExistFirstViewEnd');
 
@@ -91,6 +108,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     _$isAnimatingExitSecondViewEndAtom
         .reportWrite(value, super.isAnimatingExitSecondViewEnd, () {
       super.isAnimatingExitSecondViewEnd = value;
+    });
+  }
+
+  final _$isAnimatingExitThirdViewEndAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitThirdViewEnd');
+
+  @override
+  bool get isAnimatingExitThirdViewEnd {
+    _$isAnimatingExitThirdViewEndAtom.reportRead();
+    return super.isAnimatingExitThirdViewEnd;
+  }
+
+  @override
+  set isAnimatingExitThirdViewEnd(bool value) {
+    _$isAnimatingExitThirdViewEndAtom
+        .reportWrite(value, super.isAnimatingExitThirdViewEnd, () {
+      super.isAnimatingExitThirdViewEnd = value;
     });
   }
 
@@ -142,6 +176,22 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isInThirdViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isInThirdView');
+
+  @override
+  bool get isInThirdView {
+    _$isInThirdViewAtom.reportRead();
+    return super.isInThirdView;
+  }
+
+  @override
+  set isInThirdView(bool value) {
+    _$isInThirdViewAtom.reportWrite(value, super.isInThirdView, () {
+      super.isInThirdView = value;
+    });
+  }
+
   final _$currentIndexAtom =
       Atom(name: 'RecoverAccountControllerBase.currentIndex');
 
@@ -163,11 +213,12 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
 
   @override
   Future tapContinueButton(BuildContext context,
-      {String? privateKey, String? username}) {
+      {String? privateKey, String? username, String? pincode}) {
     return _$tapContinueButtonAsyncAction.run(() => super.tapContinueButton(
         context,
         privateKey: privateKey,
-        username: username));
+        username: username,
+        pincode: pincode));
   }
 
   final _$RecoverAccountControllerBaseActionController =
@@ -201,11 +252,14 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
 isContinueButtonActive: ${isContinueButtonActive},
 isAnimatingExitFirstView: ${isAnimatingExitFirstView},
 isAnimatingExitSecondView: ${isAnimatingExitSecondView},
+isAnimatingExitThirdView: ${isAnimatingExitThirdView},
 isAnimatingExistFirstViewEnd: ${isAnimatingExistFirstViewEnd},
 isAnimatingExitSecondViewEnd: ${isAnimatingExitSecondViewEnd},
+isAnimatingExitThirdViewEnd: ${isAnimatingExitThirdViewEnd},
 privateKeyError: ${privateKeyError},
 isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
+isInThirdView: ${isInThirdView},
 currentIndex: ${currentIndex}
     ''';
   }

@@ -8,6 +8,7 @@ import 'package:freeflow/layers/presentation/pages/recover_account/controller/re
 import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page_animation.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_first_view.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_second_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_third_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
@@ -25,6 +26,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
   final recoverAccountController = GetIt.I.get<RecoverAccountController>();
   final privateKeyController = TextEditingController();
   final flowerNameController = TextEditingController();
+  final pinController = TextEditingController();
   late RecoverAccountPageAnimation animation;
   late AnimationController animationController = AnimationController(
     duration: const Duration(seconds: 10),
@@ -76,9 +78,9 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                                     recoverAccountController:
                                         recoverAccountController,
                                   )
-                                : RecoverAccountFirstView(
+                                : RecoverAccountThirdView(
                                     key: const Key('3'),
-                                    textEditingController: privateKeyController,
+                                    textEditingController: pinController,
                                     recoverAccountController:
                                         recoverAccountController,
                                   ),

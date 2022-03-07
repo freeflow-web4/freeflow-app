@@ -26,10 +26,16 @@ abstract class RecoverAccountControllerBase with Store {
   bool isAnimatingExitSecondView = false;
 
   @observable
+  bool isAnimatingExitThirdView = false;
+
+  @observable
   bool isAnimatingExistFirstViewEnd = false;
 
   @observable
   bool isAnimatingExitSecondViewEnd = false;
+
+  @observable
+  bool isAnimatingExitThirdViewEnd = false;
 
   @observable
   String? privateKeyError;
@@ -41,6 +47,9 @@ abstract class RecoverAccountControllerBase with Store {
   bool isInSecondView = false;
 
   @observable
+  bool isInThirdView = false;
+
+  @observable
   int currentIndex = 0;
 
   int animationDuration = 10;
@@ -50,6 +59,7 @@ abstract class RecoverAccountControllerBase with Store {
     BuildContext context, {
     String? privateKey,
     String? username,
+    String? pincode,
   }) async {
     if (isInFirstView) {
       if ((username ?? '').isEmpty) {
@@ -58,29 +68,37 @@ abstract class RecoverAccountControllerBase with Store {
         //TODO: Validate private key with API
         updateIndex(1);
       }
-    } else {
+    } else if (isInSecondView) {
       if ((privateKey ?? '').isEmpty) {
         openDialog(context);
       } else {
-        final result = await _userRecoverLoginUseCase(
-          privateKey: privateKey ?? '',
-          username: username ?? '',
-        );
-        result.fold(
-          (left) {
-            if (left == DomainError.requiredField) {
-              privateKeyError = currentIndex == 0
-                  ? FlutterI18n.translate(
-                      context, 'recoverAccount.pleaseEnterYourRegisteredName')
-                  : currentIndex == 1
-                      ? FlutterI18n.translate(
-                          context, 'recoverAccount.pleaseEnterYourPrivateKey')
-                      : FlutterI18n.translate(
-                          context, 'recoverAccount.pleaseEnterYourPrivateKey');
-            }
-          },
-          (right) => openDialog(context),
-        );
+        // final result = await _userRecoverLoginUseCase(
+        //   privateKey: privateKey ?? '',
+        //   username: username ?? '',
+        // );
+        // result.fold(
+        //   (left) {
+        //     if (left == DomainError.requiredField) {
+        //       privateKeyError = currentIndex == 0
+        //           ? FlutterI18n.translate(
+        //               context, 'recoverAccount.pleaseEnterYourRegisteredName')
+        //           : currentIndex == 1
+        //               ? FlutterI18n.translate(
+        //                   context, 'recoverAccount.pleaseEnterYourPrivateKey')
+        //               : FlutterI18n.translate(
+        //                   context, 'recoverAccount.pleaseEnterYourPrivateKey');
+        //     }
+        //   },
+        //   (right) => openDialog(context),
+        // );
+        updateIndex(2);
+      }
+    } else {
+      if ((pincode ?? '').isEmpty) {
+        openDialog(context);
+      } else {
+        //TODO: Validate private key with API
+        updateIndex(1);
       }
     }
   }
@@ -120,7 +138,7 @@ abstract class RecoverAccountControllerBase with Store {
                   ? FlutterI18n.translate(
                       context, 'recoverAccount.pleaseEnterYourPrivateKey')
                   : FlutterI18n.translate(
-                      context, 'recoverAccount.pleaseEnterYourPrivateKey'),
+                      context, 'recoverAccount.pleaseEnterYourPinCode'),
         );
       },
     );
@@ -158,6 +176,23 @@ abstract class RecoverAccountControllerBase with Store {
           isContinueButtonActive = false;
           isAnimatingExitSecondViewEnd = false;
           isAnimatingExistFirstViewEnd = true;
+          timer.cancel();
+        });
+      }
+    } else if (index == 2) {
+      if (isInThirdView) {
+        return;
+      } else {
+        isAnimatingExitThirdView = false;
+        isAnimatingExitSecondView = true;
+        Timer.periodic(const Duration(seconds: 3), (timer) {
+          isInFirstView = false;
+          isInSecondView = false;
+          isInThirdView = true;
+          currentIndex = 2;
+          isContinueButtonActive = false;
+          isAnimatingExitThirdViewEnd = false;
+          isAnimatingExitSecondViewEnd = true;
           timer.cancel();
         });
       }

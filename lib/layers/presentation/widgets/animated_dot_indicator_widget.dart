@@ -120,7 +120,7 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
             width: animation.firstDotWidth,
             child: AnimatedDotWidget(
               isIndex: widget.currentIndex == 0,
-              isCompleted: widget.currentIndex == 1,
+              isCompleted: widget.currentIndex == 1 || widget.currentIndex == 2,
             ),
           ),
         ),
