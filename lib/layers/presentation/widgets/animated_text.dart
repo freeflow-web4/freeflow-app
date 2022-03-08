@@ -68,7 +68,7 @@ class _AnimatedTextState extends State<AnimatedText> {
     for (var i = 0; i < line.length; i++) {
       final char = line[i];
       final blurValue = getOpacityForIndex(animationValue, i);
-      // print('blurValue: $blurValue');
+      final sigma = _maxBlur * blurValue;
       textWidgets.add(
         Padding(
           padding: EdgeInsets.only(
@@ -76,8 +76,8 @@ class _AnimatedTextState extends State<AnimatedText> {
           ),
           child: ImageFiltered(
             imageFilter: ImageFilter.blur(
-              sigmaX: _maxBlur * blurValue,
-              sigmaY: _maxBlur * blurValue,
+              sigmaX: sigma,
+              sigmaY: sigma,
             ),
             child: Text(
               char,
