@@ -24,7 +24,7 @@ class AnimatedText extends StatefulWidget {
 class _AnimatedTextState extends State<AnimatedText> {
   static const _maxBlur = 25.0;
 
-  List<double> velocities = _velocityFactorList;
+  List<double> velocities = List.from(_velocityFactorList);
 
   @override
   void initState() {
@@ -88,15 +88,14 @@ class _AnimatedTextState extends State<AnimatedText> {
       for (var i = 0; i < velocityIncrease; i++) {
         velocities.addAll(_velocityFactorList);
       }
-      velocities = _velocityFactorList;
     }
   }
 
   double getOpacityForIndex(String text, double animationvalue, int index) {
-    final velocityWithIncrease = animationvalue * velocities[index];
-    if (velocityWithIncrease > 1.0) {
+    final velocityWithIncrease = 1 - animationvalue * velocities[index];
+    if (velocityWithIncrease >= 1.0) {
       return 1.0;
-    } else if (velocityWithIncrease == 0) {
+    } else if (velocityWithIncrease <= 0) {
       return 0.001;
     }
     return velocityWithIncrease;
