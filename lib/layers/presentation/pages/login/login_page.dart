@@ -5,7 +5,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/adaptative_spacer_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/animated_multi_text.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/secondary_button.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_button_widget.dart';
 
@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage>
             const AdaptativeSpacer(
               heightValue: 171,
             ),
-            AnimatedMultiText(
+            AnimatedText(
               text: 'Grab your\nFreeFlow Pouch',
               animationController: _controller,
               animation: blurText1,

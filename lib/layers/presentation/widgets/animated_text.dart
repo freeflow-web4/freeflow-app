@@ -9,12 +9,14 @@ class AnimatedText extends StatefulWidget {
   final TextStyle style;
   final AnimationController animationController;
   final Animation<double> animation;
+  final CrossAxisAlignment textAlign;
   const AnimatedText({
     Key? key,
     required this.text,
     required this.animationController,
     required this.style,
     required this.animation,
+    this.textAlign = CrossAxisAlignment.center,
   }) : super(key: key);
 
   @override
@@ -37,28 +39,41 @@ class _AnimatedTextState extends State<AnimatedText> {
     return AnimatedBuilder(
       animation: widget.animationController,
       builder: (context, _) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _getTextWidgets(
-            widget.style,
-            widget.animation.value,
-          ),
+        return Column(
+          crossAxisAlignment: widget.textAlign,
+          mainAxisSize: MainAxisSize.min,
+          children: widget.text
+              .split("\n")
+              .map(
+                (line) => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _getTextWidgets(
+                    widget.style,
+                    widget.animation.value,
+                    line,
+                  ),
+                ),
+              )
+              .toList(),
         );
       },
     );
   }
 
-  List<Widget> _getTextWidgets(TextStyle textStyle, double animationValue) {
-    final text = widget.text;
+  List<Widget> _getTextWidgets(
+    TextStyle textStyle,
+    double animationValue,
+    String line,
+  ) {
     final textWidgets = <Widget>[];
-    for (var i = 0; i < text.length; i++) {
-      final char = text[i];
-      final blurValue = getOpacityForIndex(widget.text, animationValue, i);
+    for (var i = 0; i < line.length; i++) {
+      final char = line[i];
+      final blurValue = getOpacityForIndex(animationValue, i);
       // print('blurValue: $blurValue');
       textWidgets.add(
         Padding(
           padding: EdgeInsets.only(
-            right: i < text.length - 1 ? (textStyle.letterSpacing ?? 0.0) : 0.0,
+            right: i < line.length - 1 ? (textStyle.letterSpacing ?? 0.0) : 0.0,
           ),
           child: ImageFiltered(
             imageFilter: ImageFilter.blur(
@@ -91,7 +106,7 @@ class _AnimatedTextState extends State<AnimatedText> {
     }
   }
 
-  double getOpacityForIndex(String text, double animationvalue, int index) {
+  double getOpacityForIndex(double animationvalue, int index) {
     final velocityWithIncrease = 1 - animationvalue * velocities[index];
     if (velocityWithIncrease >= 1.0) {
       return 1.0;
@@ -102,6 +117,7 @@ class _AnimatedTextState extends State<AnimatedText> {
   }
 
   double getOpacityForIndex2(String text, double animationvalue, int index) {
+    // return animationvalue;
     const minimalValue = 0.001;
     double blur = minimalValue;
     final increment = 1 / text.length;
