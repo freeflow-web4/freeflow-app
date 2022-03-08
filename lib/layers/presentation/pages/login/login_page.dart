@@ -5,7 +5,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/adaptative_spacer_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_multi_text.dart';
 import 'package:freeflow/layers/presentation/widgets/secondary_button.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_button_widget.dart';
 
@@ -33,7 +33,6 @@ class _LoginPageState extends State<LoginPage>
     vsync: this,
   );
   late Animation<double> opacityLogo;
-  late Animation<double> opacityText1;
   late Animation<double> blurText1;
   late Animation<double> opacitySwipeButton;
   late Animation<double> opacityRecoverButton;
@@ -47,7 +46,6 @@ class _LoginPageState extends State<LoginPage>
     super.initState();
 
     opacityLogo = getTweenAnimationWithFactor(0);
-    opacityText1 = getTweenAnimationWithFactor(1);
     blurText1 = Tween<double>(
       begin: 0,
       end: 1,
@@ -55,8 +53,8 @@ class _LoginPageState extends State<LoginPage>
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(
-          0.2,
-          0.8,
+          stepStartOffSetTimeFactor+step,
+          1-stepEndOffSetTimeFactor,
           curve: Curves.ease,
         ),
       ),
@@ -108,17 +106,8 @@ class _LoginPageState extends State<LoginPage>
             const AdaptativeSpacer(
               heightValue: 171,
             ),
-            opacityAnimation(
-              opacityText1,
-              textH5(
-                context,
-                text: 'Grab your\nFreeFlow Pouch',
-                color: Colors.white,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            AnimatedText(
-              text: 'Grab your',
+            AnimatedMultiText(
+              text: 'Grab your\nFreeFlow Pouch',
               animationController: _controller,
               animation: blurText1,
               style: const TextStyle(
@@ -177,9 +166,19 @@ class _LoginPageState extends State<LoginPage>
   }
 
   Animation<double> getTweenAnimationWithFactor(int index) {
+    final start = getStartTimeForIndex(index);
+    final end = getEndTimeForIndex(index);
+    return getTweenAnimation(start, end);
+  }
+
+  double getStartTimeForIndex(int index) {
+    return stepStartOffSetTimeFactor + step * index;
+  }
+
+  double getEndTimeForIndex(int index) {
     final start = stepStartOffSetTimeFactor + step * index;
     final end = start + step;
-    return getTweenAnimation(start, end);
+    return end;
   }
 
   Animation<double> getTweenAnimation(double start, double end) {
