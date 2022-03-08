@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
-import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/adaptative_spacer_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
@@ -16,8 +15,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
-    with TickerProviderStateMixin, TextThemes {
+class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   static const int _animationDurationInMili = 6000;
   static const stepItensLength = 4;
   static const stepStartOffSetTimeFactor = 0.1;
@@ -53,8 +51,8 @@ class _LoginPageState extends State<LoginPage>
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(
-          stepStartOffSetTimeFactor+step,
-          1-stepEndOffSetTimeFactor,
+          stepStartOffSetTimeFactor + step,
+          1 - stepEndOffSetTimeFactor,
           curve: Curves.ease,
         ),
       ),

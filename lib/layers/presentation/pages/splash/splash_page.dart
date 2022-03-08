@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
 import 'package:video_player/video_player.dart';
 
@@ -39,8 +40,11 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return _chewieController != null &&
             _chewieController!.videoPlayerController.value.isInitialized
-        ? Chewie(
-            controller: _chewieController!,
+        ? Scaffold(
+            backgroundColor: StandardColors.backgroundDark,
+            body: Chewie(
+              controller: _chewieController!,
+            ),
           )
         : Container();
   }

@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 const _velocityFactorList = <double>[1, 1.5, 1, 2, 2.7, 3];
