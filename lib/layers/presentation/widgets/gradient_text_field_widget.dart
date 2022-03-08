@@ -19,6 +19,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final void Function()? onObscureButtonPressed;
   final bool fieldReadOnly;
   final bool isPinInput;
+  final bool isFieldValid;
   final String? pinCode;
   const GradientTextFieldWidget({
     Key? key,
@@ -26,7 +27,8 @@ class GradientTextFieldWidget extends StatefulWidget {
     required this.hintText,
     required this.textController,
     required this.inputNode,
-    this.onChanged,
+    required this.onChanged,
+    required this.isFieldValid,
     this.showSecondText = false,
     this.maxLines = 1,
     this.crossTheMaxLines = false,
@@ -61,7 +63,13 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
               controller: widget.textController,
               readOnly: widget.fieldReadOnly,
               focusNode: widget.inputNode,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: widget.errorText == null
+                    ? widget.isFieldValid
+                        ? StandardColors.blueLight
+                        : Colors.white
+                    : StandardColors.feedbackError,
+              ),
               decoration: InputDecoration(
                 hintText: widget.isPinInput ? null : widget.hintText,
                 hintStyle: TextStyle(
@@ -119,20 +127,34 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             ),
             Visibility(
               visible: widget.isPinInput,
-              child: Positioned(
-                top: widget.pinCode != null && widget.pinCode!.isNotEmpty
-                    ? 20
-                    : 13,
-                child: widget.pinCode != null && widget.pinCode!.isNotEmpty
-                    ? GradientTextFieldPinCode(pinCode: widget.pinCode!)
-                    : textSubtitle(
+              child: widget.isObscureText
+                  ? widget.pinCode != null && widget.pinCode!.isNotEmpty
+                      ? Positioned(
+                          top: 20,
+                          child: GradientTextFieldPinCode(
+                            pinCode: widget.pinCode!,
+                          ),
+                        )
+                      : Positioned(
+                          top: 13,
+                          child: textSubtitle(
+                            context,
+                            textKey: widget.hintText,
+                            color: widget.errorText == null
+                                ? Colors.white
+                                : StandardColors.feedbackError,
+                          ),
+                        )
+                  : Positioned(
+                      top: 13,
+                      child: textSubtitle(
                         context,
-                        textKey: widget.hintText,
+                        textKey: widget.pinCode ?? '',
                         color: widget.errorText == null
                             ? Colors.white
                             : StandardColors.feedbackError,
                       ),
-              ),
+                    ),
             ),
             Visibility(
               visible: widget.showSecondText,
@@ -143,13 +165,17 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                   context,
                   textKey: '.flw ',
                   color: widget.errorText == null
-                      ? Colors.white
+                      ? widget.isFieldValid
+                          ? StandardColors.blueLight
+                          : Colors.white
                       : StandardColors.feedbackError,
                 ),
               ),
             ),
             Visibility(
-              visible: widget.showObscureButton,
+              visible: widget.showObscureButton &&
+                  widget.pinCode != null &&
+                  widget.pinCode!.isNotEmpty,
               child: Positioned(
                 top: widget.isObscureText ? 22 : 12,
                 right: 0,

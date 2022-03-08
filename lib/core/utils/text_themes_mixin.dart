@@ -1,17 +1,16 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 
 mixin TextThemes {
-  AutoSizeText textH4(
+  Text textH4(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
     TextAlign? textAlign,
     required String textKey,
   }) {
-    return AutoSizeText(
+    return Text(
       FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       textAlign: textAlign,
@@ -24,14 +23,14 @@ mixin TextThemes {
     );
   }
 
-  AutoSizeText textH3(
+  Text textH3(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
     TextAlign? textAlign,
     required String textKey,
   }) {
-    return AutoSizeText(
+    return Text(
       FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       textAlign: textAlign,

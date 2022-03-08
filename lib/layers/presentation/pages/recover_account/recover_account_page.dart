@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
@@ -28,6 +30,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
   final flowerNameController = TextEditingController();
   final pinController = TextEditingController();
   late RecoverAccountPageAnimation animation;
+  Timer? _debounce;
   late AnimationController animationController = AnimationController(
     duration: const Duration(seconds: 10),
     vsync: this,
@@ -44,6 +47,13 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
   void dispose() {
     animationController.dispose();
     super.dispose();
+  }
+
+  _onInputChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      recoverAccountController.onChangedField(context, value);
+    });
   }
 
   @override
@@ -67,6 +77,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                         recoverAccountController.currentIndex == 0
                             ? RecoverAccountFirstView(
                                 key: const Key('1'),
+                                onInputChanged: _onInputChanged,
                                 textEditingController: flowerNameController,
                                 recoverAccountController:
                                     recoverAccountController,
@@ -74,12 +85,14 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                             : recoverAccountController.currentIndex == 1
                                 ? RecoverAccountSecondView(
                                     key: const Key('2'),
+                                    onInputChanged: _onInputChanged,
                                     textEditingController: privateKeyController,
                                     recoverAccountController:
                                         recoverAccountController,
                                   )
                                 : RecoverAccountThirdView(
                                     key: const Key('3'),
+                                    onInputChanged: _onInputChanged,
                                     textEditingController: pinController,
                                     recoverAccountController:
                                         recoverAccountController,
@@ -106,12 +119,13 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                             controller: animationController,
                             child: AnimatedFloatButtonWidget(
                               isActive: recoverAccountController
-                                  .isContinueButtonActive,
+                                  .isContinueButtonActive(),
                               onTap: () =>
                                   recoverAccountController.tapContinueButton(
                                 context,
                                 privateKey: privateKeyController.text,
                                 username: flowerNameController.text,
+                                pincode: pinController.text,
                               ),
                               icon: IconsAsset.arrowIcon,
                             ),

@@ -15,11 +15,13 @@ import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_p
 class RecoverAccountSecondView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
+  final void Function(String)? onInputChanged;
 
   const RecoverAccountSecondView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
+    required this.onInputChanged,
   }) : super(key: key);
 
   @override
@@ -92,8 +94,8 @@ class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
                 controller: animationController,
                 child: GradientTextFieldWidget(
                   inputNode: inputNode,
-                  onChanged: (value) => widget.recoverAccountController
-                      .onChangedField(privateKey: value),
+                  onChanged: widget.onInputChanged,
+                  isFieldValid: widget.recoverAccountController.isKeyValid,
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.privateKey"),
                   errorText: widget.recoverAccountController.privateKeyError,

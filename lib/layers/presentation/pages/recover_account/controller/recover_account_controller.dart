@@ -17,9 +17,6 @@ abstract class RecoverAccountControllerBase with Store {
   RecoverAccountControllerBase(this._userRecoverLoginUseCase);
 
   @observable
-  bool isContinueButtonActive = false;
-
-  @observable
   bool isAnimatingExitFirstView = false;
 
   @observable
@@ -39,6 +36,21 @@ abstract class RecoverAccountControllerBase with Store {
 
   @observable
   String? privateKeyError;
+
+  @observable
+  String? usernameError;
+
+  @observable
+  String? pinCodeError;
+
+  @observable
+  bool isNameValid = false;
+
+  @observable
+  bool isKeyValid = false;
+
+  @observable
+  bool isPinValid = false;
 
   @observable
   bool isInFirstView = true;
@@ -110,25 +122,66 @@ abstract class RecoverAccountControllerBase with Store {
   }
 
   @action
-  void onChangedField({String? username, String? privateKey}) {
+  void onChangedField(BuildContext context, String? value) {
     if (isInFirstView) {
-      if ((username ?? '').isEmpty) {
-        isContinueButtonActive = false;
-      } else {
-        isContinueButtonActive = true;
-      }
+      validateName(context, value);
     } else if (isInSecondView) {
-      if ((privateKey ?? '').isEmpty) {
-        isContinueButtonActive = false;
-      } else {
-        isContinueButtonActive = true;
-      }
+      validatePrivateKey(context, value);
+    } else if (isInThirdView) {
+      validatePinCode(context, value);
     } else {
-      if ((username ?? '').isEmpty) {
-        isContinueButtonActive = false;
-      } else {
-        isContinueButtonActive = true;
-      }
+      validateName(context, value);
+    }
+  }
+
+  void validateName(BuildContext context, String? name) {
+    if ((name ?? '').trim().isEmpty) {
+      usernameError = FlutterI18n.translate(
+        context,
+        'recoverAccount.pleaseEnterUsername',
+      );
+      isNameValid = false;
+    } else {
+      usernameError = null;
+      isNameValid = true;
+    }
+  }
+
+  bool isContinueButtonActive() {
+    if (isInFirstView) {
+      return isNameValid;
+    } else if (isInSecondView) {
+      return isKeyValid;
+    } else if (isInThirdView) {
+      return isPinValid;
+    } else {
+      return isNameValid;
+    }
+  }
+
+  void validatePrivateKey(BuildContext context, String? key) {
+    if ((key ?? '').isEmpty) {
+      isKeyValid = false;
+      privateKeyError = FlutterI18n.translate(
+        context,
+        'recoverAccount.pleaseEnterPrivateKey',
+      );
+    } else {
+      isKeyValid = true;
+      privateKeyError = null;
+    }
+  }
+
+  void validatePinCode(BuildContext context, String? code) {
+    if ((code ?? '').isEmpty || (code ?? '').length < 4) {
+      isPinValid = false;
+      pinCodeError = FlutterI18n.translate(
+        context,
+        'recoverAccount.pleaseEnterPinCode',
+      );
+    } else {
+      isPinValid = true;
+      pinCodeError = null;
     }
   }
 
@@ -163,7 +216,6 @@ abstract class RecoverAccountControllerBase with Store {
           isInSecondView = false;
           currentIndex = 0;
           animationDuration = 5;
-          isContinueButtonActive = true;
           isAnimatingExistFirstViewEnd = false;
           isAnimatingExitSecondViewEnd = true;
           timer.cancel();
@@ -175,14 +227,15 @@ abstract class RecoverAccountControllerBase with Store {
       } else {
         isAnimatingExitSecondView = false;
         isAnimatingExitFirstView = true;
+        isAnimatingExitThirdView = true;
         Timer.periodic(const Duration(seconds: 3), (timer) {
           isInFirstView = false;
           isInThirdView = false;
           isInSecondView = true;
           currentIndex = 1;
-          isContinueButtonActive = false;
           isAnimatingExitSecondViewEnd = false;
           isAnimatingExistFirstViewEnd = true;
+          isAnimatingExitThirdViewEnd = true;
           timer.cancel();
         });
       }
@@ -197,7 +250,6 @@ abstract class RecoverAccountControllerBase with Store {
           isInSecondView = false;
           isInThirdView = true;
           currentIndex = 2;
-          isContinueButtonActive = false;
           isAnimatingExitThirdViewEnd = false;
           isAnimatingExitSecondViewEnd = true;
           timer.cancel();
@@ -220,15 +272,12 @@ abstract class RecoverAccountControllerBase with Store {
       return false;
     } else if (isInSecondView) {
       updateIndex(0);
-      isContinueButtonActive = true;
       return false;
     } else if (isInThirdView) {
       updateIndex(1);
-      isContinueButtonActive = true;
       return false;
     } else {
       updateIndex(1);
-      isContinueButtonActive = true;
       return false;
     }
   }

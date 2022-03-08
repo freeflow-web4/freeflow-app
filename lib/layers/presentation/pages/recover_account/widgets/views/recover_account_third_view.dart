@@ -15,11 +15,13 @@ import 'package:get_it/get_it.dart';
 class RecoverAccountThirdView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
+  final void Function(String)? onInputChanged;
 
   const RecoverAccountThirdView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
+    required this.onInputChanged,
   }) : super(key: key);
 
   @override
@@ -90,15 +92,15 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                   inputNode: inputNode,
                   showObscureButton: true,
                   isPinInput: true,
+                  isFieldValid: widget.recoverAccountController.isPinValid,
                   isObscureText: widget.recoverAccountController.isObscuredPin,
+                  onChanged: widget.onInputChanged,
                   onObscureButtonPressed: () =>
                       widget.recoverAccountController.setObscuredPin(),
                   fieldReadOnly: true,
-                  onChanged: (value) => widget.recoverAccountController
-                      .onChangedField(privateKey: value),
                   hintText: FlutterI18n.translate(
                       context, "recoverAccount.confirmPinCode"),
-                  errorText: widget.recoverAccountController.privateKeyError,
+                  errorText: widget.recoverAccountController.pinCodeError,
                   textController: widget.textEditingController,
                   pinCode: keyboardController.text,
                 ),

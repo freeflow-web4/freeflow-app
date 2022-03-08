@@ -11,6 +11,11 @@
         "confirmPinCode": "Choose your pin code",
         "flowerName": "Flower Name",
         "now": "Now",
-        "rememberMe": "Remember Me?"
+        "rememberMe": "Remember Me?",
+        "usernameIsNotValid": "Username is not valid",
+        "privateKeyIsNotValid": "Private key is not valid",
+        "pleaseEnterPrivateKey": "Please enter your private key",
+        "pleaseEnterUsername": "Please enter your username",
+        "pleaseEnterPinCode": "Please enter your pin code"
     }
 }

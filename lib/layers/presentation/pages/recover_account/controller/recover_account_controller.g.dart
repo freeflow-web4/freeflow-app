@@ -9,23 +9,6 @@ part of 'recover_account_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
-  final _$isContinueButtonActiveAtom =
-      Atom(name: 'RecoverAccountControllerBase.isContinueButtonActive');
-
-  @override
-  bool get isContinueButtonActive {
-    _$isContinueButtonActiveAtom.reportRead();
-    return super.isContinueButtonActive;
-  }
-
-  @override
-  set isContinueButtonActive(bool value) {
-    _$isContinueButtonActiveAtom
-        .reportWrite(value, super.isContinueButtonActive, () {
-      super.isContinueButtonActive = value;
-    });
-  }
-
   final _$isAnimatingExitFirstViewAtom =
       Atom(name: 'RecoverAccountControllerBase.isAnimatingExitFirstView');
 
@@ -144,6 +127,86 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$usernameErrorAtom =
+      Atom(name: 'RecoverAccountControllerBase.usernameError');
+
+  @override
+  String? get usernameError {
+    _$usernameErrorAtom.reportRead();
+    return super.usernameError;
+  }
+
+  @override
+  set usernameError(String? value) {
+    _$usernameErrorAtom.reportWrite(value, super.usernameError, () {
+      super.usernameError = value;
+    });
+  }
+
+  final _$pinCodeErrorAtom =
+      Atom(name: 'RecoverAccountControllerBase.pinCodeError');
+
+  @override
+  String? get pinCodeError {
+    _$pinCodeErrorAtom.reportRead();
+    return super.pinCodeError;
+  }
+
+  @override
+  set pinCodeError(String? value) {
+    _$pinCodeErrorAtom.reportWrite(value, super.pinCodeError, () {
+      super.pinCodeError = value;
+    });
+  }
+
+  final _$isNameValidAtom =
+      Atom(name: 'RecoverAccountControllerBase.isNameValid');
+
+  @override
+  bool get isNameValid {
+    _$isNameValidAtom.reportRead();
+    return super.isNameValid;
+  }
+
+  @override
+  set isNameValid(bool value) {
+    _$isNameValidAtom.reportWrite(value, super.isNameValid, () {
+      super.isNameValid = value;
+    });
+  }
+
+  final _$isKeyValidAtom =
+      Atom(name: 'RecoverAccountControllerBase.isKeyValid');
+
+  @override
+  bool get isKeyValid {
+    _$isKeyValidAtom.reportRead();
+    return super.isKeyValid;
+  }
+
+  @override
+  set isKeyValid(bool value) {
+    _$isKeyValidAtom.reportWrite(value, super.isKeyValid, () {
+      super.isKeyValid = value;
+    });
+  }
+
+  final _$isPinValidAtom =
+      Atom(name: 'RecoverAccountControllerBase.isPinValid');
+
+  @override
+  bool get isPinValid {
+    _$isPinValidAtom.reportRead();
+    return super.isPinValid;
+  }
+
+  @override
+  set isPinValid(bool value) {
+    _$isPinValidAtom.reportWrite(value, super.isPinValid, () {
+      super.isPinValid = value;
+    });
+  }
+
   final _$isInFirstViewAtom =
       Atom(name: 'RecoverAccountControllerBase.isInFirstView');
 
@@ -241,11 +304,11 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
       ActionController(name: 'RecoverAccountControllerBase');
 
   @override
-  void onChangedField({String? username, String? privateKey}) {
+  void onChangedField(BuildContext context, String? value) {
     final _$actionInfo = _$RecoverAccountControllerBaseActionController
         .startAction(name: 'RecoverAccountControllerBase.onChangedField');
     try {
-      return super.onChangedField(username: username, privateKey: privateKey);
+      return super.onChangedField(context, value);
     } finally {
       _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -265,7 +328,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   @override
   String toString() {
     return '''
-isContinueButtonActive: ${isContinueButtonActive},
 isAnimatingExitFirstView: ${isAnimatingExitFirstView},
 isAnimatingExitSecondView: ${isAnimatingExitSecondView},
 isAnimatingExitThirdView: ${isAnimatingExitThirdView},
@@ -273,6 +335,11 @@ isAnimatingExistFirstViewEnd: ${isAnimatingExistFirstViewEnd},
 isAnimatingExitSecondViewEnd: ${isAnimatingExitSecondViewEnd},
 isAnimatingExitThirdViewEnd: ${isAnimatingExitThirdViewEnd},
 privateKeyError: ${privateKeyError},
+usernameError: ${usernameError},
+pinCodeError: ${pinCodeError},
+isNameValid: ${isNameValid},
+isKeyValid: ${isKeyValid},
+isPinValid: ${isPinValid},
 isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
 isInThirdView: ${isInThirdView},
