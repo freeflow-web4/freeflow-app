@@ -53,6 +53,71 @@ class RecoverAccountViewAnimation {
               curve: Curves.linear,
             ),
           ),
+        ),
+        firstTextPinCodeOpacity = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.1,
+              0.24,
+              curve: Curves.ease,
+            ),
+          ),
+        ),
+        textFieldPinCodeOpacity = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.24,
+              0.48,
+              curve: Curves.bounceIn,
+            ),
+          ),
+        ),
+        textFieldPinCodeHorizontalPosition = Tween<double>(
+          begin: 1000,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.24,
+              0.48,
+              curve: Curves.linear,
+            ),
+          ),
+        ),
+        secondTextPinCodeOpacity = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.52,
+              0.76,
+              curve: Curves.ease,
+            ),
+          ),
+        ),
+        keyboardPinCodeOpacity = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.76,
+              1,
+              curve: Curves.ease,
+            ),
+          ),
         );
 
   late Animation<double> firstTextOpacity;
@@ -60,4 +125,10 @@ class RecoverAccountViewAnimation {
   late Animation<double> textFieldOpacity;
   late Animation<double> textFieldHorizontalPosition;
   final AnimationController controller;
+
+  late Animation<double> firstTextPinCodeOpacity;
+  late Animation<double> secondTextPinCodeOpacity;
+  late Animation<double> textFieldPinCodeOpacity;
+  late Animation<double> keyboardPinCodeOpacity;
+  late Animation<double> textFieldPinCodeHorizontalPosition;
 }

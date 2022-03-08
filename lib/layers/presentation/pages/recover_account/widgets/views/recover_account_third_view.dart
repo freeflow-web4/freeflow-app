@@ -71,7 +71,7 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
             children: [
               const SizedBox(height: 104),
               StaggerOpacity(
-                opacity: recoverAccountViewAnimation.secondTextOpacity,
+                opacity: recoverAccountViewAnimation.firstTextPinCodeOpacity,
                 controller: animationController,
                 child: textH4(
                   context,
@@ -82,9 +82,9 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
               ),
               const SizedBox(height: mdSpacingx2),
               StaggerPosition(
-                opacity: recoverAccountViewAnimation.textFieldOpacity,
-                horizontalOffset:
-                    recoverAccountViewAnimation.textFieldHorizontalPosition,
+                opacity: recoverAccountViewAnimation.textFieldPinCodeOpacity,
+                horizontalOffset: recoverAccountViewAnimation
+                    .textFieldPinCodeHorizontalPosition,
                 controller: animationController,
                 child: GradientTextFieldWidget(
                   inputNode: inputNode,
@@ -105,7 +105,7 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
               ),
               const SizedBox(height: 13),
               StaggerOpacity(
-                opacity: recoverAccountViewAnimation.secondTextOpacity,
+                opacity: recoverAccountViewAnimation.secondTextPinCodeOpacity,
                 controller: animationController,
                 child: textSubtitle(
                   context,
@@ -115,8 +115,12 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                 ),
               ),
               const SizedBox(height: largeSpacingx2),
-              const Center(
-                child: InAppKeyboardWidget(),
+              StaggerOpacity(
+                opacity: recoverAccountViewAnimation.keyboardPinCodeOpacity,
+                controller: animationController,
+                child: const Center(
+                  child: InAppKeyboardWidget(),
+                ),
               ),
             ],
           ),

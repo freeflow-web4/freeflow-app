@@ -69,6 +69,7 @@ abstract class RecoverAccountControllerBase with Store {
         openDialog(context);
       } else {
         //TODO: Validate private key with API
+        FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(1);
       }
     } else if (isInSecondView) {
@@ -94,6 +95,7 @@ abstract class RecoverAccountControllerBase with Store {
         //   },
         //   (right) => openDialog(context),
         // );
+        FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(2);
       }
     } else {
@@ -101,6 +103,7 @@ abstract class RecoverAccountControllerBase with Store {
         openDialog(context);
       } else {
         //TODO: Validate private key with API
+        FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(1);
       }
     }
