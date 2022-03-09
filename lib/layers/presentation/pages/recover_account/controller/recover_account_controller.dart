@@ -75,6 +75,9 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   bool isObscuredPin = true;
 
+  @observable
+  bool rememberMe = false;
+
   int animationDuration = 10;
 
   @action
@@ -290,7 +293,15 @@ abstract class RecoverAccountControllerBase with Store {
     }
   }
 
+  @action
   void setObscuredPin() {
     isObscuredPin = !isObscuredPin;
+  }
+
+  @action
+  Future<void> setRememberMe(bool value) async {
+    await userSetBiometricsUsecase(value);
+    rememberMe = value;
+    print(await userHasBiometricsUsecase());
   }
 }

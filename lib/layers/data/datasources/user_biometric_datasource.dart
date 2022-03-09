@@ -1,4 +1,4 @@
 abstract class UserBiometricsDataSource {
-  Future<bool> getHasBiometrics();
-  Future<bool> setHasBiometrics(bool hasBiometrics);
+  Future<String> getHasBiometrics();
+  Future<String> setHasBiometrics(String hasBiometrics);
 }

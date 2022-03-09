@@ -122,11 +122,9 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                     ),
                     const SizedBox(width: mdSpacingx2),
                     CustomSwitch(
-                      value: biometricValue,
-                      onChanged: (value) {
-                        biometricValue = value;
-                        setState(() {});
-                      },
+                      value: widget.recoverAccountController.rememberMe,
+                      onChanged: (value) =>
+                          widget.recoverAccountController.setRememberMe(value),
                     ),
                   ],
                 ),

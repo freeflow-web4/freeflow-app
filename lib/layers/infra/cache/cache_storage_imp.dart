@@ -16,7 +16,7 @@ class CacheStorageImp implements CacheStorage {
   }
 
   @override
-  Future<void> save({required String key, required value}) async {
+  Future<void> save({required String key, required String value}) async {
     await storage.write(key: key, value: value);
   }
 }

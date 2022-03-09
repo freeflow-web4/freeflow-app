@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 
 class CacheStorageMock extends Mock implements CacheStorage {
   When _mockGetRequestCall() => when(() => get(any()));
-  void mockGetRequestSuccess(bool value) =>
+  void mockGetRequestSuccess(String value) =>
       _mockGetRequestCall().thenAnswer((_) async => value);
   void mockGetRequestFailure(String error) =>
       _mockGetRequestCall().thenThrow(Exception(error));

@@ -6,12 +6,12 @@ class UserBiometricsDatasourceImp implements UserBiometricsDataSource {
   UserBiometricsDatasourceImp(this.cacheStorage);
 
   @override
-  Future<bool> getHasBiometrics() async {
+  Future<String> getHasBiometrics() async {
     return await cacheStorage.get('userHasBiometrics');
   }
 
   @override
-  Future<bool> setHasBiometrics(bool hasBiometrics) async {
+  Future<String> setHasBiometrics(String hasBiometrics) async {
     await cacheStorage.save(key: 'userHasBiometrics', value: hasBiometrics);
     return hasBiometrics;
   }

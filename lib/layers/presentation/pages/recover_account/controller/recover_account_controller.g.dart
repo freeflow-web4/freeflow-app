@@ -287,6 +287,22 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$rememberMeAtom =
+      Atom(name: 'RecoverAccountControllerBase.rememberMe');
+
+  @override
+  bool get rememberMe {
+    _$rememberMeAtom.reportRead();
+    return super.rememberMe;
+  }
+
+  @override
+  set rememberMe(bool value) {
+    _$rememberMeAtom.reportWrite(value, super.rememberMe, () {
+      super.rememberMe = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -298,6 +314,14 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
         privateKey: privateKey,
         username: username,
         pincode: pincode));
+  }
+
+  final _$setRememberMeAsyncAction =
+      AsyncAction('RecoverAccountControllerBase.setRememberMe');
+
+  @override
+  Future<void> setRememberMe(bool value) {
+    return _$setRememberMeAsyncAction.run(() => super.setRememberMe(value));
   }
 
   final _$RecoverAccountControllerBaseActionController =
@@ -326,6 +350,17 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   }
 
   @override
+  void setObscuredPin() {
+    final _$actionInfo = _$RecoverAccountControllerBaseActionController
+        .startAction(name: 'RecoverAccountControllerBase.setObscuredPin');
+    try {
+      return super.setObscuredPin();
+    } finally {
+      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isAnimatingExitFirstView: ${isAnimatingExitFirstView},
@@ -344,7 +379,8 @@ isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
 isInThirdView: ${isInThirdView},
 currentIndex: ${currentIndex},
-isObscuredPin: ${isObscuredPin}
+isObscuredPin: ${isObscuredPin},
+rememberMe: ${rememberMe}
     ''';
   }
 }
