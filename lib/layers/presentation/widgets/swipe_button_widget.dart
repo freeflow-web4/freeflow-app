@@ -190,36 +190,34 @@ class _SwipeButtonState extends State<SwipeButton>
           ),
         ),
         Positioned.fill(
-          child: GestureDetector(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final widgetWidth = constraints.maxWidth;
-                final ppoint =
-                    point(constraints.maxWidth, constraints.maxHeight);
-                return GestureDetector(
-                  onHorizontalDragUpdate: (details) => update(
-                    widgetWidth,
-                    details.globalPosition.dx,
-                    details.delta.dx,
-                  ),
-                  child: (animationDone ?? true) == false &&
-                          _buttonProgressFactor == null
-                      ? AnimatedBuilder(
-                          child: ppoint,
-                          animation: animationController,
-                          builder: (context, child) =>
-                              _builder(context, child, _buttonAnimation!),
-                        )
-                      : Align(
-                          alignment: Alignment(
-                            _calcHorizontalInRange(_buttonProgressFactor ?? 0),
-                            0,
-                          ),
-                          child: ppoint,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final widgetWidth = constraints.maxWidth;
+              final ppoint =
+                  point(constraints.maxWidth, constraints.maxHeight);
+              return GestureDetector(
+                onHorizontalDragUpdate: (details) => update(
+                  widgetWidth,
+                  details.globalPosition.dx,
+                  details.delta.dx,
+                ),
+                child: (animationDone ?? true) == false &&
+                        _buttonProgressFactor == null
+                    ? AnimatedBuilder(
+                        child: ppoint,
+                        animation: animationController,
+                        builder: (context, child) =>
+                            _builder(context, child, _buttonAnimation!),
+                      )
+                    : Align(
+                        alignment: Alignment(
+                          _calcHorizontalInRange(_buttonProgressFactor ?? 0),
+                          0,
                         ),
-                );
-              },
-            ),
+                        child: ppoint,
+                      ),
+              );
+            },
           ),
         )
       ],
@@ -297,8 +295,7 @@ class _SwipeButtonState extends State<SwipeButton>
     setState(() {
       _buttonProgressFactor = percent;
     });
-    final progressWithPrecision = ((_buttonProgressFactor ?? 0) * 5).round();
-    final inTheEnd = progressWithPrecision == 5;
+    final inTheEnd = percent >= 1;
     if (inTheEnd && !swiped) {
       widget.onSwipe();
       swiped = true;
