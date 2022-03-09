@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 
 class UserHasBiometricsRepositoryMock extends Mock
     implements UserHasBiometricsRepository {
-  When _mockRequestHasBiometrics() => when(() => hasBiometrics());
+  When _mockRequestHasBiometrics() => when(() => getHasBiometrics());
 
   void mockRequestSuccess(bool value) => _mockRequestHasBiometrics()
       .thenAnswer((_) async => Right<DomainError, bool>(value));

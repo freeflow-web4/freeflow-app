@@ -8,6 +8,6 @@ class UserHasBiometricsUsecaseImp implements UserHasBiometricsUsecase {
   UserHasBiometricsUsecaseImp(this.repository);
   @override
   Future<Either<DomainError, bool>> call() async {
-    return await repository.hasBiometrics();
+    return await repository.getHasBiometrics();
   }
 }

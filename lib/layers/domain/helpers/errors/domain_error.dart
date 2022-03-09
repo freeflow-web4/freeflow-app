@@ -51,7 +51,7 @@ DomainError convertToDomainError(String error) {
       return DomainError.noInternet;
     case 'Exception: Invalid username!':
       return DomainError.invalidUsername;
-    case 'Cache error!':
+    case 'Exception: Cache error!':
       return DomainError.cacheError;
     default:
       return DomainError.somethingWrong;
