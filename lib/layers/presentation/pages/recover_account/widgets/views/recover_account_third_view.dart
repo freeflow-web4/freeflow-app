@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
@@ -36,6 +37,8 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
   final FocusNode inputNode = FocusNode();
   final InAppKeyboardController keyboardController =
       GetIt.I.get<InAppKeyboardController>();
+
+  bool biometricValue = false;
 
   @override
   void initState() {
@@ -109,11 +112,23 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.secondTextPinCodeOpacity,
                 controller: animationController,
-                child: textSubtitle(
-                  context,
-                  textKey: "recoverAccount.rememberMe",
-                  color: Colors.white,
-                  maxLines: 2,
+                child: Row(
+                  children: [
+                    textSubtitle(
+                      context,
+                      textKey: "recoverAccount.rememberMe",
+                      color: Colors.white,
+                      maxLines: 2,
+                    ),
+                    const SizedBox(width: mdSpacingx2),
+                    CustomSwitch(
+                      value: biometricValue,
+                      onChanged: (value) {
+                        biometricValue = value;
+                        setState(() {});
+                      },
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: largeSpacingx2),

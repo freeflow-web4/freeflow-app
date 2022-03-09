@@ -6,6 +6,7 @@ class StandardColors {
   static const Color blueLight = Color(0xff2CB6BE);
   static const Color feedbackError = Color(0xffFF4747);
   static const Color grey = Color(0xffEFEFEF);
+  static const Color darkGrey = Color(0xff4f4f4f);
 
   static Gradient greenGradient() => const LinearGradient(
         colors: [
@@ -45,5 +46,10 @@ class StandardColors {
         ],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
+      );
+  static Gradient nullGradient() => const LinearGradient(
+        colors: [Color(0xff4f4f4f)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       );
 }
