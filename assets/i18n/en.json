@@ -17,5 +17,9 @@
         "pleaseEnterPrivateKey": "Please enter your private key",
         "pleaseEnterUsername": "Please enter your username",
         "pleaseEnterPinCode": "Please enter your pin code"
+    },
+    "login":{
+        "authTitle": "Authentication",
+        "pinTextInputError": "Please enter same pin code"
     }
 }
