@@ -7,6 +7,7 @@ enum DomainError {
   serverError,
   noInternet,
   invalidUsername,
+  cacheError,
 }
 
 extension DomainErrorExtension on DomainError {
@@ -26,6 +27,8 @@ extension DomainErrorExtension on DomainError {
         return 'No internet found.';
       case DomainError.invalidUsername:
         return 'Invalid username!';
+      case DomainError.cacheError:
+        return 'Cache error!';
       default:
         return 'Something wrong!';
     }
@@ -48,6 +51,8 @@ DomainError convertToDomainError(String error) {
       return DomainError.noInternet;
     case 'Exception: Invalid username!':
       return DomainError.invalidUsername;
+    case 'Cache error!':
+      return DomainError.cacheError;
     default:
       return DomainError.somethingWrong;
   }
