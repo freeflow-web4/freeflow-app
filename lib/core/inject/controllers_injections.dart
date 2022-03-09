@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
@@ -25,5 +26,8 @@ registerControllerDependencies(GetIt getIt) {
   getIt.registerLazySingleton<LoginController>(
     () => LoginController(),
   );
+
   getIt.registerSingleton<InAppKeyboardController>(InAppKeyboardController());
+
+  getIt.registerLazySingleton<AuthController>(() => AuthController(GetIt.I.get()));
 }
