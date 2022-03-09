@@ -23,7 +23,7 @@ class AnimatedText extends StatefulWidget {
 }
 
 class _AnimatedTextState extends State<AnimatedText> {
-  static const _maxBlur = 25.0;
+  static const _maxBlur = 30.0;
 
   List<double> velocities = List.from(_velocityFactorList);
 
