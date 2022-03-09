@@ -5,6 +5,6 @@ abstract class RouteHandler {
   Future<String> getCurrentRoutePath(BuildContext context);
   Future<RouteResponse?> push(routeSettings);
   Future<void> pushReplacement(routeSettings);
-  bool canPop(BuildContext context);
-  Future<bool> pop(BuildContext context, {RouteResponse? data});
+  bool canPop();
+  Future<bool> pop({RouteResponse? data});
 }

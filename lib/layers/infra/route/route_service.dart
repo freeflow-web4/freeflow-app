@@ -31,14 +31,14 @@ class RouteService {
     return routeHandler.pushReplacement(routeSettings);
   }
 
-  bool canPop(BuildContext context) {
-    return routeHandler.canPop(context);
+  bool canPop() {
+    return routeHandler.canPop();
   }
 
-  Future<bool> pop(BuildContext context, {RouteResponse? data}) async {
-    final canPop = routeHandler.canPop(context);
+  Future<bool> pop({RouteResponse? data}) async {
+    final canPop = routeHandler.canPop();
     if (!canPop) return false;
     onRouteChange?.call();
-    return routeHandler.pop(context, data: data);
+    return routeHandler.pop(data: data);
   }
 }

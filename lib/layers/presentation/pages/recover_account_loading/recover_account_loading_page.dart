@@ -28,7 +28,7 @@ class _RecoverAccountLoadingPageState extends State<RecoverAccountLoadingPage> {
       backgroundColor: StandardColors.backgroundDark,
       body: AnimatedCenterLogo(
         onAnimationEnd: () =>
-            recoverAccountLoadingController.goToRecoverAccountPage(context),
+            recoverAccountLoadingController.goToRecoverAccountPage(),
       ),
     );
   }

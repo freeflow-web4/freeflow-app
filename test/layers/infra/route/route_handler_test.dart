@@ -8,11 +8,7 @@ import '../mocks/route_handler_mock.dart';
 class MockBuildContext extends Mock implements BuildContext {}
 
 void main() async {
-  late MockBuildContext fakeContext;
 
-  setUpAll(() {
-    fakeContext = MockBuildContext();
-  });
   late RouteHandlerMock routeHandler;
   late RouteService routeService;
 
@@ -22,16 +18,16 @@ void main() async {
   });
 
   test('should return true for canPop', () {
-    routeHandler.mockCanPopSuccess(fakeContext);
-    final canPop = routeService.canPop(fakeContext);
+    routeHandler.mockCanPopSuccess();
+    final canPop = routeService.canPop();
     expect(canPop, equals(true));
-    verify(() => routeService.canPop(fakeContext));
+    verify(() => routeService.canPop());
   });
 
   test('should return false for canPop', () {
-    routeHandler.mockCanPopFailure(fakeContext);
-    final canPop = routeService.canPop(fakeContext);
+    routeHandler.mockCanPopFailure();
+    final canPop = routeService.canPop();
     expect(canPop, equals(false));
-    verify(() => routeService.canPop(fakeContext));
+    verify(() => routeService.canPop());
   });
 }

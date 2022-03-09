@@ -21,8 +21,8 @@ class Routes {
     _routeService.push(const AuthRoute());
   }
 
-  void pop(BuildContext context) {
-    _routeService.pop(context);
+  void pop() {
+    _routeService.pop();
   }
 
 //   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(

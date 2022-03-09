@@ -2,13 +2,13 @@ import 'package:freeflow/layers/infra/route/route_handler.dart';
 import 'package:mocktail/mocktail.dart';
 
 class RouteHandlerMock extends Mock implements RouteHandler {
-  When mockCanPopCall(context) => when(() => canPop(context));
+  When mockCanPopCall() => when(() => canPop());
 
-  void mockCanPopSuccess(context) {
-    mockCanPopCall(context).thenAnswer((_) => true);
+  void mockCanPopSuccess() {
+    mockCanPopCall().thenAnswer((_) => true);
   }
 
-  void mockCanPopFailure(context) {
-    mockCanPopCall(context).thenAnswer((_) => false);
+  void mockCanPopFailure() {
+    mockCanPopCall().thenAnswer((_) => false);
   }
 }
