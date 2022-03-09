@@ -37,6 +37,7 @@ dependencies:
   faker: ^2.0.0
   flame: ^1.0.0
   flame_svg: ^1.0.0
+  flutter_i18n: ^0.30.0
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
@@ -50,6 +51,9 @@ dependencies:
   mobx: ^2.0.6+1
   mocktail: ^0.2.0
   smooth_page_indicator: ^1.0.0+2
+  intl: ^0.17.0
+  responsive_framework: ^0.1.7
+  provider:
 
 dev_dependencies:
   auto_route_generator: ^3.2.3
@@ -83,6 +87,7 @@ flutter:
     - assets/videos/
     - assets/images/icons/loading_freeflow_logos/
     - .env
+    - assets/i18n/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

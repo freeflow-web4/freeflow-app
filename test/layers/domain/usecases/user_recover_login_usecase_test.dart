@@ -6,15 +6,21 @@ import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase_imp.dart';
 
+import '../mocks/field_validator_mock.dart';
 import '../mocks/user_recover_login_repository_mock.dart';
 
 void main() {
   late UserRecoverLoginUseCase usecase;
   late MockUserRecoverLoginRepository repository;
+  late MockFieldValidator fieldValidator;
 
   setUp(() {
     repository = MockUserRecoverLoginRepository();
-    usecase = UserRecoverLoginUseCaseImp(repository);
+    fieldValidator = MockFieldValidator();
+    usecase = UserRecoverLoginUseCaseImp(
+      repository: repository,
+      fieldValidator: fieldValidator,
+    );
   });
 
   final UserEntity userResponse = UserEntity(name: 'testName');

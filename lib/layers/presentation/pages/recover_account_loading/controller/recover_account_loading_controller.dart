@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:mobx/mobx.dart';
 import 'dart:async';
@@ -20,16 +19,12 @@ abstract class RecoverAccountLoadingControllerBase with Store {
   @observable
   bool loadingLogoVisible = true;
 
-  @observable
-  double loadingLogoOpacity = 0.0;
-
   @action
   void updateLoadingLogoOpacity() {
     int counter = 0;
     Timer.periodic(const Duration(seconds: 1), (timer) {
       if (counter < 5) {
         if (showLogoLoading1 != true) {
-          loadingLogoOpacity = 1;
           showLogoLoading1 = true;
           counter++;
         } else if (showLogoLoading1 == true) {
@@ -42,17 +37,12 @@ abstract class RecoverAccountLoadingControllerBase with Store {
           counter++;
         }
       } else {
-        loadingLogoOpacity = 0;
         loadingLogoVisible = false;
       }
     });
   }
 
-  void goToRecoverAccountPage(BuildContext context) {
-    if (!loadingLogoVisible) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        Routes.instance.goToRecoverAccountPageRoute();
-      });
-    }
+  void goToRecoverAccountPage() {
+    Routes.instance.goToRecoverAccountPageRoute();
   }
 }

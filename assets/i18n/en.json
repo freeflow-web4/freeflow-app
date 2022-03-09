@@ -1,0 +1,21 @@
+{
+    "recoverAccount": {
+        "hello": "Hello",
+        "enterFlowerName": "Please tell us\nyour Flower name.",
+        "enterPrivateKey": "Now please tell us\nyour private key.",
+        "enterPinCode": "Please confirm \nyour new PIN code.",
+        "pleaseEnterYourRegisteredName": "To continue,\nplease enter your\nregistered\nFlower name.",
+        "pleaseEnterYourPrivateKey": "To continue,\nplease enter your\nprivate key.",
+        "pleaseEnterYourPinCode": "To continue,\nplease enter your\nPIN code.",
+        "privateKey": "Private key",
+        "confirmPinCode": "Choose your pin code",
+        "flowerName": "Flower Name",
+        "now": "Now",
+        "rememberMe": "Remember Me?",
+        "usernameIsNotValid": "Username is not valid",
+        "privateKeyIsNotValid": "Private key is not valid",
+        "pleaseEnterPrivateKey": "Please enter your private key",
+        "pleaseEnterUsername": "Please enter your username",
+        "pleaseEnterPinCode": "Please enter your pin code"
+    }
+}

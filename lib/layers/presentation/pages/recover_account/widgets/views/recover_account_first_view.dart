@@ -1,20 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
+import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 
 class RecoverAccountFirstView extends StatefulWidget {
-  final bool showfirstViewFirstTextOpacity;
-  final bool showfirstViewSecondTextOpacity;
-  final bool showfirstViewTextFieldOpacity;
+  final RecoverAccountController recoverAccountController;
+  final TextEditingController textEditingController;
+  final void Function(String)? onInputChanged;
 
   const RecoverAccountFirstView({
     Key? key,
-    required this.showfirstViewFirstTextOpacity,
-    required this.showfirstViewSecondTextOpacity,
-    required this.showfirstViewTextFieldOpacity,
+    required this.recoverAccountController,
+    required this.textEditingController,
+    required this.onInputChanged,
   }) : super(key: key);
 
   @override
@@ -23,44 +29,94 @@ class RecoverAccountFirstView extends StatefulWidget {
 }
 
 class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
-    with TextThemes {
+    with TextThemes, TickerProviderStateMixin {
+  late RecoverAccountViewAnimation recoverAccountViewAnimation;
+  late AnimationController animationController;
+  final FocusNode inputNode = FocusNode();
+
   @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      duration: Duration(
+        seconds: widget.recoverAccountController.animationDuration,
+      ),
+      reverseDuration: const Duration(
+        seconds: 5,
+      ),
+      vsync: this,
+    );
+    recoverAccountViewAnimation =
+        RecoverAccountViewAnimation(animationController);
+    animationController.forward();
+    widget.recoverAccountController.openKeyboard(context, inputNode: inputNode);
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 104),
-          AnimatedOpacity(
-            opacity: widget.showfirstViewFirstTextOpacity ? 1.0 : 0.0,
-            duration: const Duration(seconds: 1),
-            child: textH4(
-              context,
-              text: 'Hello,',
-              color: Colors.white,
-              maxLines: 2,
-            ),
+    return Observer(
+      builder: (context) {
+        if (widget.recoverAccountController.isAnimatingExitFirstView) {
+          animationController.reverse();
+        }
+        if (widget.recoverAccountController.isAnimatingExistFirstViewEnd) {
+          animationController.forward();
+        }
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 104),
+              StaggerOpacity(
+                opacity: recoverAccountViewAnimation.firstTextOpacity,
+                controller: animationController,
+                child: textH4(
+                  context,
+                  textKey: "recoverAccount.hello",
+                  color: Colors.white,
+                  maxLines: 2,
+                ),
+              ),
+              const SizedBox(height: mdSpacingx2),
+              StaggerOpacity(
+                opacity: recoverAccountViewAnimation.secondTextOpacity,
+                controller: animationController,
+                child: textH4(
+                  context,
+                  textKey: "recoverAccount.enterFlowerName",
+                  color: Colors.white,
+                  maxLines: 2,
+                ),
+              ),
+              const SizedBox(height: mdSpacingx2),
+              StaggerPosition(
+                opacity: recoverAccountViewAnimation.textFieldOpacity,
+                horizontalOffset:
+                    recoverAccountViewAnimation.textFieldHorizontalPosition,
+                controller: animationController,
+                child: GradientTextFieldWidget(
+                  inputNode: inputNode,
+                  isFieldValid: widget.recoverAccountController.isNameValid,
+                  showSecondText: true,
+                  onChanged: widget.onInputChanged,
+                  hintText: FlutterI18n.translate(
+                      context, "recoverAccount.flowerName"),
+                  errorText: widget.recoverAccountController.usernameError,
+                  textController: widget.textEditingController,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: mdSpacingx2),
-          AnimatedOpacity(
-            opacity: widget.showfirstViewSecondTextOpacity ? 1.0 : 0.0,
-            duration: const Duration(seconds: 1),
-            child: textH4(
-              context,
-              text: 'Please tell us your username.',
-              color: Colors.white,
-              maxLines: 2,
-            ),
-          ),
-          const SizedBox(height: mdSpacingx2),
-          GradientTextFieldWidget(
-            showTextField: widget.showfirstViewTextFieldOpacity,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

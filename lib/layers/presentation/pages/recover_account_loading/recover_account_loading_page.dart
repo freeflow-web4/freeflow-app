@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:get_it/get_it.dart';
@@ -7,17 +6,16 @@ import 'controller/recover_account_loading_controller.dart';
 import '../../widgets/animated_center_logo.dart';
 
 class RecoverAccountLoadingPage extends StatefulWidget {
-  const RecoverAccountLoadingPage(
-      {Key? key})
-      : super(key: key);
+  const RecoverAccountLoadingPage({Key? key}) : super(key: key);
   @override
   _RecoverAccountLoadingPageState createState() =>
       _RecoverAccountLoadingPageState();
 }
 
 class _RecoverAccountLoadingPageState extends State<RecoverAccountLoadingPage> {
-  final RecoverAccountLoadingController recoverAccountLoadingController = GetIt.I<RecoverAccountLoadingController>();
-  
+  final RecoverAccountLoadingController recoverAccountLoadingController =
+      GetIt.I<RecoverAccountLoadingController>();
+
   @override
   void initState() {
     super.initState();
@@ -26,19 +24,12 @@ class _RecoverAccountLoadingPageState extends State<RecoverAccountLoadingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        recoverAccountLoadingController.goToRecoverAccountPage(context);
-        return Scaffold(
-          backgroundColor: StandardColors.backgroundDark,
-          body: AnimatedCenterLogo(
-            logoOpacity:
-                recoverAccountLoadingController.loadingLogoOpacity,
-            showFirstFrame:
-                recoverAccountLoadingController.showLogoLoading1,
-          ),
-        );
-      },
+    return Scaffold(
+      backgroundColor: StandardColors.backgroundDark,
+      body: AnimatedCenterLogo(
+        onAnimationEnd: () =>
+            recoverAccountLoadingController.goToRecoverAccountPage(context),
+      ),
     );
   }
 }

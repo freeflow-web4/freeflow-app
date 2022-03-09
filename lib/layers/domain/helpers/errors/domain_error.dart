@@ -1,4 +1,5 @@
 enum DomainError {
+  requiredField,
   somethingWrong,
   tooManyAttempts,
   invalidPrivateKey,
@@ -25,6 +26,8 @@ extension DomainErrorExtension on DomainError {
         return 'No internet found.';
       case DomainError.invalidUsername:
         return 'Invalid username!';
+      default:
+        return 'Something wrong!';
     }
   }
 }

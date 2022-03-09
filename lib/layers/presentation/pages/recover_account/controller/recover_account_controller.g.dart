@@ -9,168 +9,317 @@ part of 'recover_account_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
-  final _$showfirstViewFirstTextOpacityAtom =
-      Atom(name: 'RecoverAccountControllerBase.showfirstViewFirstTextOpacity');
+  final _$isAnimatingExitFirstViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitFirstView');
 
   @override
-  bool get showfirstViewFirstTextOpacity {
-    _$showfirstViewFirstTextOpacityAtom.reportRead();
-    return super.showfirstViewFirstTextOpacity;
+  bool get isAnimatingExitFirstView {
+    _$isAnimatingExitFirstViewAtom.reportRead();
+    return super.isAnimatingExitFirstView;
   }
 
   @override
-  set showfirstViewFirstTextOpacity(bool value) {
-    _$showfirstViewFirstTextOpacityAtom
-        .reportWrite(value, super.showfirstViewFirstTextOpacity, () {
-      super.showfirstViewFirstTextOpacity = value;
+  set isAnimatingExitFirstView(bool value) {
+    _$isAnimatingExitFirstViewAtom
+        .reportWrite(value, super.isAnimatingExitFirstView, () {
+      super.isAnimatingExitFirstView = value;
     });
   }
 
-  final _$showfirstViewSecondTextOpacityAtom =
-      Atom(name: 'RecoverAccountControllerBase.showfirstViewSecondTextOpacity');
+  final _$isAnimatingExitSecondViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitSecondView');
 
   @override
-  bool get showfirstViewSecondTextOpacity {
-    _$showfirstViewSecondTextOpacityAtom.reportRead();
-    return super.showfirstViewSecondTextOpacity;
+  bool get isAnimatingExitSecondView {
+    _$isAnimatingExitSecondViewAtom.reportRead();
+    return super.isAnimatingExitSecondView;
   }
 
   @override
-  set showfirstViewSecondTextOpacity(bool value) {
-    _$showfirstViewSecondTextOpacityAtom
-        .reportWrite(value, super.showfirstViewSecondTextOpacity, () {
-      super.showfirstViewSecondTextOpacity = value;
+  set isAnimatingExitSecondView(bool value) {
+    _$isAnimatingExitSecondViewAtom
+        .reportWrite(value, super.isAnimatingExitSecondView, () {
+      super.isAnimatingExitSecondView = value;
     });
   }
 
-  final _$showfirstViewTextFieldOpacityAtom =
-      Atom(name: 'RecoverAccountControllerBase.showfirstViewTextFieldOpacity');
+  final _$isAnimatingExitThirdViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitThirdView');
 
   @override
-  bool get showfirstViewTextFieldOpacity {
-    _$showfirstViewTextFieldOpacityAtom.reportRead();
-    return super.showfirstViewTextFieldOpacity;
+  bool get isAnimatingExitThirdView {
+    _$isAnimatingExitThirdViewAtom.reportRead();
+    return super.isAnimatingExitThirdView;
   }
 
   @override
-  set showfirstViewTextFieldOpacity(bool value) {
-    _$showfirstViewTextFieldOpacityAtom
-        .reportWrite(value, super.showfirstViewTextFieldOpacity, () {
-      super.showfirstViewTextFieldOpacity = value;
+  set isAnimatingExitThirdView(bool value) {
+    _$isAnimatingExitThirdViewAtom
+        .reportWrite(value, super.isAnimatingExitThirdView, () {
+      super.isAnimatingExitThirdView = value;
     });
   }
 
-  final _$showContinueButtonAtom =
-      Atom(name: 'RecoverAccountControllerBase.showContinueButton');
+  final _$isAnimatingExistFirstViewEndAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExistFirstViewEnd');
 
   @override
-  bool get showContinueButton {
-    _$showContinueButtonAtom.reportRead();
-    return super.showContinueButton;
+  bool get isAnimatingExistFirstViewEnd {
+    _$isAnimatingExistFirstViewEndAtom.reportRead();
+    return super.isAnimatingExistFirstViewEnd;
   }
 
   @override
-  set showContinueButton(bool value) {
-    _$showContinueButtonAtom.reportWrite(value, super.showContinueButton, () {
-      super.showContinueButton = value;
+  set isAnimatingExistFirstViewEnd(bool value) {
+    _$isAnimatingExistFirstViewEndAtom
+        .reportWrite(value, super.isAnimatingExistFirstViewEnd, () {
+      super.isAnimatingExistFirstViewEnd = value;
     });
   }
 
-  final _$isContinueButtonActiveAtom =
-      Atom(name: 'RecoverAccountControllerBase.isContinueButtonActive');
+  final _$isAnimatingExitSecondViewEndAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitSecondViewEnd');
 
   @override
-  bool get isContinueButtonActive {
-    _$isContinueButtonActiveAtom.reportRead();
-    return super.isContinueButtonActive;
+  bool get isAnimatingExitSecondViewEnd {
+    _$isAnimatingExitSecondViewEndAtom.reportRead();
+    return super.isAnimatingExitSecondViewEnd;
   }
 
   @override
-  set isContinueButtonActive(bool value) {
-    _$isContinueButtonActiveAtom
-        .reportWrite(value, super.isContinueButtonActive, () {
-      super.isContinueButtonActive = value;
+  set isAnimatingExitSecondViewEnd(bool value) {
+    _$isAnimatingExitSecondViewEndAtom
+        .reportWrite(value, super.isAnimatingExitSecondViewEnd, () {
+      super.isAnimatingExitSecondViewEnd = value;
     });
   }
 
-  final _$isContinueButtonAnimatingAtom =
-      Atom(name: 'RecoverAccountControllerBase.isContinueButtonAnimating');
+  final _$isAnimatingExitThirdViewEndAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitThirdViewEnd');
 
   @override
-  bool get isContinueButtonAnimating {
-    _$isContinueButtonAnimatingAtom.reportRead();
-    return super.isContinueButtonAnimating;
+  bool get isAnimatingExitThirdViewEnd {
+    _$isAnimatingExitThirdViewEndAtom.reportRead();
+    return super.isAnimatingExitThirdViewEnd;
   }
 
   @override
-  set isContinueButtonAnimating(bool value) {
-    _$isContinueButtonAnimatingAtom
-        .reportWrite(value, super.isContinueButtonAnimating, () {
-      super.isContinueButtonAnimating = value;
+  set isAnimatingExitThirdViewEnd(bool value) {
+    _$isAnimatingExitThirdViewEndAtom
+        .reportWrite(value, super.isAnimatingExitThirdViewEnd, () {
+      super.isAnimatingExitThirdViewEnd = value;
     });
   }
 
-  final _$showFirstDotIndicatorAtom =
-      Atom(name: 'RecoverAccountControllerBase.showFirstDotIndicator');
+  final _$privateKeyErrorAtom =
+      Atom(name: 'RecoverAccountControllerBase.privateKeyError');
 
   @override
-  bool get showFirstDotIndicator {
-    _$showFirstDotIndicatorAtom.reportRead();
-    return super.showFirstDotIndicator;
+  String? get privateKeyError {
+    _$privateKeyErrorAtom.reportRead();
+    return super.privateKeyError;
   }
 
   @override
-  set showFirstDotIndicator(bool value) {
-    _$showFirstDotIndicatorAtom.reportWrite(value, super.showFirstDotIndicator,
-        () {
-      super.showFirstDotIndicator = value;
+  set privateKeyError(String? value) {
+    _$privateKeyErrorAtom.reportWrite(value, super.privateKeyError, () {
+      super.privateKeyError = value;
     });
   }
 
-  final _$showSecondDotIndicatorAtom =
-      Atom(name: 'RecoverAccountControllerBase.showSecondDotIndicator');
+  final _$usernameErrorAtom =
+      Atom(name: 'RecoverAccountControllerBase.usernameError');
 
   @override
-  bool get showSecondDotIndicator {
-    _$showSecondDotIndicatorAtom.reportRead();
-    return super.showSecondDotIndicator;
+  String? get usernameError {
+    _$usernameErrorAtom.reportRead();
+    return super.usernameError;
   }
 
   @override
-  set showSecondDotIndicator(bool value) {
-    _$showSecondDotIndicatorAtom
-        .reportWrite(value, super.showSecondDotIndicator, () {
-      super.showSecondDotIndicator = value;
+  set usernameError(String? value) {
+    _$usernameErrorAtom.reportWrite(value, super.usernameError, () {
+      super.usernameError = value;
     });
   }
 
-  final _$showThirdDotIndicatorAtom =
-      Atom(name: 'RecoverAccountControllerBase.showThirdDotIndicator');
+  final _$pinCodeErrorAtom =
+      Atom(name: 'RecoverAccountControllerBase.pinCodeError');
 
   @override
-  bool get showThirdDotIndicator {
-    _$showThirdDotIndicatorAtom.reportRead();
-    return super.showThirdDotIndicator;
+  String? get pinCodeError {
+    _$pinCodeErrorAtom.reportRead();
+    return super.pinCodeError;
   }
 
   @override
-  set showThirdDotIndicator(bool value) {
-    _$showThirdDotIndicatorAtom.reportWrite(value, super.showThirdDotIndicator,
-        () {
-      super.showThirdDotIndicator = value;
+  set pinCodeError(String? value) {
+    _$pinCodeErrorAtom.reportWrite(value, super.pinCodeError, () {
+      super.pinCodeError = value;
     });
+  }
+
+  final _$isNameValidAtom =
+      Atom(name: 'RecoverAccountControllerBase.isNameValid');
+
+  @override
+  bool get isNameValid {
+    _$isNameValidAtom.reportRead();
+    return super.isNameValid;
+  }
+
+  @override
+  set isNameValid(bool value) {
+    _$isNameValidAtom.reportWrite(value, super.isNameValid, () {
+      super.isNameValid = value;
+    });
+  }
+
+  final _$isKeyValidAtom =
+      Atom(name: 'RecoverAccountControllerBase.isKeyValid');
+
+  @override
+  bool get isKeyValid {
+    _$isKeyValidAtom.reportRead();
+    return super.isKeyValid;
+  }
+
+  @override
+  set isKeyValid(bool value) {
+    _$isKeyValidAtom.reportWrite(value, super.isKeyValid, () {
+      super.isKeyValid = value;
+    });
+  }
+
+  final _$isPinValidAtom =
+      Atom(name: 'RecoverAccountControllerBase.isPinValid');
+
+  @override
+  bool get isPinValid {
+    _$isPinValidAtom.reportRead();
+    return super.isPinValid;
+  }
+
+  @override
+  set isPinValid(bool value) {
+    _$isPinValidAtom.reportWrite(value, super.isPinValid, () {
+      super.isPinValid = value;
+    });
+  }
+
+  final _$isInFirstViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isInFirstView');
+
+  @override
+  bool get isInFirstView {
+    _$isInFirstViewAtom.reportRead();
+    return super.isInFirstView;
+  }
+
+  @override
+  set isInFirstView(bool value) {
+    _$isInFirstViewAtom.reportWrite(value, super.isInFirstView, () {
+      super.isInFirstView = value;
+    });
+  }
+
+  final _$isInSecondViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isInSecondView');
+
+  @override
+  bool get isInSecondView {
+    _$isInSecondViewAtom.reportRead();
+    return super.isInSecondView;
+  }
+
+  @override
+  set isInSecondView(bool value) {
+    _$isInSecondViewAtom.reportWrite(value, super.isInSecondView, () {
+      super.isInSecondView = value;
+    });
+  }
+
+  final _$isInThirdViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isInThirdView');
+
+  @override
+  bool get isInThirdView {
+    _$isInThirdViewAtom.reportRead();
+    return super.isInThirdView;
+  }
+
+  @override
+  set isInThirdView(bool value) {
+    _$isInThirdViewAtom.reportWrite(value, super.isInThirdView, () {
+      super.isInThirdView = value;
+    });
+  }
+
+  final _$currentIndexAtom =
+      Atom(name: 'RecoverAccountControllerBase.currentIndex');
+
+  @override
+  int get currentIndex {
+    _$currentIndexAtom.reportRead();
+    return super.currentIndex;
+  }
+
+  @override
+  set currentIndex(int value) {
+    _$currentIndexAtom.reportWrite(value, super.currentIndex, () {
+      super.currentIndex = value;
+    });
+  }
+
+  final _$isObscuredPinAtom =
+      Atom(name: 'RecoverAccountControllerBase.isObscuredPin');
+
+  @override
+  bool get isObscuredPin {
+    _$isObscuredPinAtom.reportRead();
+    return super.isObscuredPin;
+  }
+
+  @override
+  set isObscuredPin(bool value) {
+    _$isObscuredPinAtom.reportWrite(value, super.isObscuredPin, () {
+      super.isObscuredPin = value;
+    });
+  }
+
+  final _$tapContinueButtonAsyncAction =
+      AsyncAction('RecoverAccountControllerBase.tapContinueButton');
+
+  @override
+  Future tapContinueButton(BuildContext context,
+      {String? privateKey, String? username, String? pincode}) {
+    return _$tapContinueButtonAsyncAction.run(() => super.tapContinueButton(
+        context,
+        privateKey: privateKey,
+        username: username,
+        pincode: pincode));
   }
 
   final _$RecoverAccountControllerBaseActionController =
       ActionController(name: 'RecoverAccountControllerBase');
 
   @override
-  void updateWidgetAnimations() {
-    final _$actionInfo =
-        _$RecoverAccountControllerBaseActionController.startAction(
-            name: 'RecoverAccountControllerBase.updateWidgetAnimations');
+  void onChangedField(BuildContext context, String? value) {
+    final _$actionInfo = _$RecoverAccountControllerBaseActionController
+        .startAction(name: 'RecoverAccountControllerBase.onChangedField');
     try {
-      return super.updateWidgetAnimations();
+      return super.onChangedField(context, value);
+    } finally {
+      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateIndex(int index) {
+    final _$actionInfo = _$RecoverAccountControllerBaseActionController
+        .startAction(name: 'RecoverAccountControllerBase.updateIndex');
+    try {
+      return super.updateIndex(index);
     } finally {
       _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -179,15 +328,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   @override
   String toString() {
     return '''
-showfirstViewFirstTextOpacity: ${showfirstViewFirstTextOpacity},
-showfirstViewSecondTextOpacity: ${showfirstViewSecondTextOpacity},
-showfirstViewTextFieldOpacity: ${showfirstViewTextFieldOpacity},
-showContinueButton: ${showContinueButton},
-isContinueButtonActive: ${isContinueButtonActive},
-isContinueButtonAnimating: ${isContinueButtonAnimating},
-showFirstDotIndicator: ${showFirstDotIndicator},
-showSecondDotIndicator: ${showSecondDotIndicator},
-showThirdDotIndicator: ${showThirdDotIndicator}
+isAnimatingExitFirstView: ${isAnimatingExitFirstView},
+isAnimatingExitSecondView: ${isAnimatingExitSecondView},
+isAnimatingExitThirdView: ${isAnimatingExitThirdView},
+isAnimatingExistFirstViewEnd: ${isAnimatingExistFirstViewEnd},
+isAnimatingExitSecondViewEnd: ${isAnimatingExitSecondViewEnd},
+isAnimatingExitThirdViewEnd: ${isAnimatingExitThirdViewEnd},
+privateKeyError: ${privateKeyError},
+usernameError: ${usernameError},
+pinCodeError: ${pinCodeError},
+isNameValid: ${isNameValid},
+isKeyValid: ${isKeyValid},
+isPinValid: ${isPinValid},
+isInFirstView: ${isInFirstView},
+isInSecondView: ${isInSecondView},
+isInThirdView: ${isInThirdView},
+currentIndex: ${currentIndex},
+isObscuredPin: ${isObscuredPin}
     ''';
   }
 }

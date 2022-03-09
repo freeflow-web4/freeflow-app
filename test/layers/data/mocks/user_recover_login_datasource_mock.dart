@@ -2,7 +2,8 @@ import 'package:freeflow/layers/data/datasources/user_recover_login_datasource.d
 import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockUserLoginDatasource extends Mock implements UserLoginDataSource {
+class MockUserLoginDatasource extends Mock
+    implements UserRecoverLoginDataSource {
   When mockRequestCall() => when(() => call(
         username: any(named: "username"),
         privateKey: any(named: "privateKey"),

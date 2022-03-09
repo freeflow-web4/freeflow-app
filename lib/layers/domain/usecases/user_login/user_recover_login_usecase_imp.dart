@@ -3,17 +3,28 @@ import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/repositories/user_recover_login_repository.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
+import 'package:freeflow/layers/domain/validators/field_validator.dart';
 
 class UserRecoverLoginUseCaseImp implements UserRecoverLoginUseCase {
-  final UserRecoverLoginRepository _repository;
+  final UserRecoverLoginRepository repository;
+  final FieldValidator fieldValidator;
 
-  UserRecoverLoginUseCaseImp(this._repository);
+  UserRecoverLoginUseCaseImp({
+    required this.repository,
+    required this.fieldValidator,
+  });
 
   @override
   Future<Either<DomainError, UserEntity>> call({
     required String username,
     required String privateKey,
   }) async {
-    return await _repository(username: username, privateKey: privateKey);
+    final usernameValidation = fieldValidator.validateRequiredField(username);
+    final privateKeyValidation =
+        fieldValidator.validateRequiredField(privateKey);
+    if (usernameValidation != null || privateKeyValidation != null) {
+      return const Left(DomainError.requiredField);
+    }
+    return await repository(username: username, privateKey: privateKey);
   }
 }

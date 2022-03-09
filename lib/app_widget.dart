@@ -1,11 +1,14 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  final FlutterI18nDelegate flutterI18nDelegate;
+  MyApp({Key? key, required this.flutterI18nDelegate}) : super(key: key);
 
   final _rootRouter = GetIt.I.get<RootRouter>();
 
@@ -20,10 +23,20 @@ class MyApp extends StatelessWidget {
       title: 'FreeFlow',
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
+      builder: (context, widget) => ResponsiveWrapper.builder(
+        BouncingScrollWrapper.builder(context, widget!),
+        minWidth: 480,
+        defaultScale: true,
+        breakpoints: [
+          const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          const ResponsiveBreakpoint.autoScale(1000, name: DESKTOP),
+        ],
+      ),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: [flutterI18nDelegate],
     );
   }
 }

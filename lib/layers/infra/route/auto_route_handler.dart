@@ -28,7 +28,7 @@ class AutoRouteHandler implements RouteHandler {
   Future<RouteResponse?> push(routeSettings) async {
     final router = GetIt.I.get<RootRouter>();
     final response = await router.push(routeSettings);
-    return response as RouteResponse;
+    return response as RouteResponse?;
   }
 
   @override
