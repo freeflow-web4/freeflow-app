@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   bool animationDone = false;
 
-  bool _swipeEnabled = false;
+  bool _swipeEnabled = true;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         parent: _controller,
         curve: const Interval(
           stepStartOffSetTimeFactor + step,
-          1 - stepEndOffSetTimeFactor,
+          stepStartOffSetTimeFactor + step * 2,
           curve: Curves.ease,
         ),
       ),
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   void onSwipe() {
     setState(() {
-      _swipeEnabled = true;
+      _swipeEnabled = false;
     });
     _controller
         .animateBack(
