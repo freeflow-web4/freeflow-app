@@ -1,5 +1,6 @@
 import 'package:freeflow/core/inject/controllers_injections.dart';
 import 'package:freeflow/core/inject/datasources_injections.dart';
+import 'package:freeflow/core/inject/infra_injections.dart';
 import 'package:freeflow/core/inject/repositories_injections.dart';
 import 'package:freeflow/core/inject/usecases_injections.dart';
 
@@ -12,5 +13,6 @@ class Inject {
     registerRepositoriesDependencies(getIt);
     registerUsecasesDependencies(getIt);
     registerDatasourcesDependencies(getIt);
+    registerInfraDependencies(getIt);
   }
 }

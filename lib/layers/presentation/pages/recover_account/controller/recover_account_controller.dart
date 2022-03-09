@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
+import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
 
@@ -13,8 +15,14 @@ class RecoverAccountController = RecoverAccountControllerBase
     with _$RecoverAccountController;
 
 abstract class RecoverAccountControllerBase with Store {
-  final UserRecoverLoginUseCase _userRecoverLoginUseCase;
-  RecoverAccountControllerBase(this._userRecoverLoginUseCase);
+  final UserRecoverLoginUseCase userRecoverLoginUseCase;
+  final UserHasBiometricsUsecase userHasBiometricsUsecase;
+  final UserSetBiometricsUsecase userSetBiometricsUsecase;
+  RecoverAccountControllerBase({
+    required this.userRecoverLoginUseCase,
+    required this.userHasBiometricsUsecase,
+    required this.userSetBiometricsUsecase,
+  });
 
   @observable
   bool isAnimatingExitFirstView = false;

@@ -12,7 +12,7 @@ void main() {
 
   setUp(() {
     datasourceMock = UserBiometricDatasourceMock();
-    repository = UserHasBiometricsRepositoryImp(datasourceMock);
+    repository = UserBiometricsRepositoryImp(datasourceMock);
   });
 
   group('get has biometrics', () {
