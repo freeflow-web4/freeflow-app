@@ -7,11 +7,11 @@ import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biom
 import '../mocks/user_has_biometric_repository_mock.dart';
 
 void main() {
-  late UserHasBiometricsRepositoryMock repositoryMock;
+  late UserBiometricsRepositoryMock repositoryMock;
   late UserHasBiometricsUsecase usecase;
 
   setUp(() {
-    repositoryMock = UserHasBiometricsRepositoryMock();
+    repositoryMock = UserBiometricsRepositoryMock();
     usecase = UserHasBiometricsUsecaseImp(repositoryMock);
   });
 
