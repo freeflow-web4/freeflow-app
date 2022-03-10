@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_controller.dart';
-import 'package:get_it/get_it.dart';
 
 class InAppKeyboardWidget extends StatefulWidget {
-  const InAppKeyboardWidget({Key? key}) : super(key: key);
+  final void Function(String)? onTap;
+  const InAppKeyboardWidget({Key? key, this.onTap}) : super(key: key);
 
   @override
   State<InAppKeyboardWidget> createState() => _InAppKeyboardWidgetState();
@@ -14,9 +13,7 @@ class InAppKeyboardWidget extends StatefulWidget {
 
 class _InAppKeyboardWidgetState extends State<InAppKeyboardWidget>
     with TextThemes {
-  final InAppKeyboardController _controller =
-      GetIt.I.get<InAppKeyboardController>();
-  final List<dynamic> keys = [
+  static const List<dynamic> keys = [
     '1',
     '2',
     '3',
@@ -40,7 +37,7 @@ class _InAppKeyboardWidgetState extends State<InAppKeyboardWidget>
         children: keys.map((key) {
           if (key == 'del') {
             return GestureDetector(
-              onTap: () => _controller.setText(key),
+              onTap: () => widget.onTap?.call('del'),
               child: SizedBox(
                 width: 75,
                 height: 60,
@@ -55,7 +52,7 @@ class _InAppKeyboardWidgetState extends State<InAppKeyboardWidget>
             );
           } else {
             return GestureDetector(
-              onTap: () => _controller.setText(key),
+              onTap: () => widget.onTap?.call(key),
               child: SizedBox(
                 width: 75,
                 height: 60,

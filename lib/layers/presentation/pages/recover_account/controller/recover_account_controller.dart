@@ -78,6 +78,9 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   bool rememberMe = false;
 
+  @observable
+  String pinCode = '';
+
   int animationDuration = 10;
 
   @action
@@ -302,6 +305,24 @@ abstract class RecoverAccountControllerBase with Store {
   Future<void> setRememberMe(bool value) async {
     await userSetBiometricsUsecase(value);
     rememberMe = value;
-    print(await userHasBiometricsUsecase());
+  }
+
+  @action
+  void setPinCode(String value) {
+    if (value == 'del') {
+      if (pinCode == '') {
+        return;
+      } else {
+        pinCode = pinCode.substring(0, pinCode.length - 1);
+      }
+    } else if (value == 'X') {
+      pinCode = '';
+    } else {
+      if (pinCode.length == 4) {
+        return;
+      } else {
+        pinCode = pinCode + value;
+      }
+    }
   }
 }
