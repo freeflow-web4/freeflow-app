@@ -10,6 +10,7 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
+import 'package:local_auth/local_auth.dart';
 
 class RecoverAccountThirdView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
@@ -43,9 +44,13 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
       duration: const Duration(seconds: 5),
       vsync: this,
     );
+
     recoverAccountViewAnimation =
         RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
+    widget.recoverAccountController.userSetBiometricsUsecase(false);
+    widget.recoverAccountController.canCheckBiometrics();
+    widget.recoverAccountController.setRememberMe(false);
   }
 
   @override
@@ -123,10 +128,10 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                     ),
                     const SizedBox(width: mdSpacingx2),
                     CustomSwitch(
-                        value: widget.recoverAccountController.rememberMe,
-                        onChanged: (value) {
-                          widget.recoverAccountController.setRememberMe(value);
-                        }),
+                      value: widget.recoverAccountController.rememberMe,
+                      onChanged: (value) =>
+                          widget.recoverAccountController.biometricAuth(value),
+                    ),
                   ],
                 ),
               ),

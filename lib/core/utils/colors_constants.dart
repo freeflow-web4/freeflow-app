@@ -7,6 +7,7 @@ class StandardColors {
   static const Color feedbackError = Color(0xffFF4747);
   static const Color grey = Color(0xffEFEFEF);
   static const Color darkGrey = Color(0xff4f4f4f);
+  static const Color white = Color(0xFFFCFCFC);
 
   static Gradient greenGradient() => const LinearGradient(
         colors: [

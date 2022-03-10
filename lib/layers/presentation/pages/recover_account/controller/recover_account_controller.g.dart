@@ -318,6 +318,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$hasAvailableBiometricsAtom =
+      Atom(name: 'RecoverAccountControllerBase.hasAvailableBiometrics');
+
+  @override
+  bool get hasAvailableBiometrics {
+    _$hasAvailableBiometricsAtom.reportRead();
+    return super.hasAvailableBiometrics;
+  }
+
+  @override
+  set hasAvailableBiometrics(bool value) {
+    _$hasAvailableBiometricsAtom
+        .reportWrite(value, super.hasAvailableBiometrics, () {
+      super.hasAvailableBiometrics = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -337,6 +354,15 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   @override
   Future<void> setRememberMe(bool value) {
     return _$setRememberMeAsyncAction.run(() => super.setRememberMe(value));
+  }
+
+  final _$canCheckBiometricsAsyncAction =
+      AsyncAction('RecoverAccountControllerBase.canCheckBiometrics');
+
+  @override
+  Future<void> canCheckBiometrics() {
+    return _$canCheckBiometricsAsyncAction
+        .run(() => super.canCheckBiometrics());
   }
 
   final _$RecoverAccountControllerBaseActionController =
@@ -387,6 +413,17 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   }
 
   @override
+  void biometricAuth(bool value) {
+    final _$actionInfo = _$RecoverAccountControllerBaseActionController
+        .startAction(name: 'RecoverAccountControllerBase.biometricAuth');
+    try {
+      return super.biometricAuth(value);
+    } finally {
+      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isAnimatingExitFirstView: ${isAnimatingExitFirstView},
@@ -407,7 +444,8 @@ isInThirdView: ${isInThirdView},
 currentIndex: ${currentIndex},
 isObscuredPin: ${isObscuredPin},
 rememberMe: ${rememberMe},
-pinCode: ${pinCode}
+pinCode: ${pinCode},
+hasAvailableBiometrics: ${hasAvailableBiometrics}
     ''';
   }
 }

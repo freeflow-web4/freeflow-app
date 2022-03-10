@@ -2,11 +2,12 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
+import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:mobx/mobx.dart';
 
 part 'recover_account_controller.g.dart';
@@ -18,10 +19,12 @@ abstract class RecoverAccountControllerBase with Store {
   final UserRecoverLoginUseCase userRecoverLoginUseCase;
   final UserHasBiometricsUsecase userHasBiometricsUsecase;
   final UserSetBiometricsUsecase userSetBiometricsUsecase;
+  final BiometricAuthDriver biometricDriver;
   RecoverAccountControllerBase({
     required this.userRecoverLoginUseCase,
     required this.userHasBiometricsUsecase,
     required this.userSetBiometricsUsecase,
+    required this.biometricDriver,
   });
 
   @observable
@@ -80,6 +83,9 @@ abstract class RecoverAccountControllerBase with Store {
 
   @observable
   String pinCode = '';
+
+  @observable
+  bool hasAvailableBiometrics = false;
 
   int animationDuration = 10;
 
@@ -323,6 +329,37 @@ abstract class RecoverAccountControllerBase with Store {
       } else {
         pinCode = pinCode + value;
       }
+    }
+  }
+
+  Future<List<dynamic>> getAvailableBiometrics() async {
+    List<dynamic> availableBiometrics = [];
+    final biometricTypesResponse =
+        await biometricDriver.getAvailableBiometrics();
+    biometricTypesResponse.fold(
+      (l) => null,
+      (r) => availableBiometrics = r,
+    );
+    return availableBiometrics;
+  }
+
+  @action
+  Future<void> canCheckBiometrics() async {
+    final isBiometricAvailableResponse =
+        await biometricDriver.isBiometricAvailable();
+    isBiometricAvailableResponse.fold(
+      (l) => hasAvailableBiometrics = false,
+      (r) => hasAvailableBiometrics = r,
+    );
+  }
+
+  @action
+  void biometricAuth(bool value) {
+    if (value) {
+      biometricDriver.authenticateUser();
+      setRememberMe(true);
+    } else {
+      setRememberMe(false);
     }
   }
 }
