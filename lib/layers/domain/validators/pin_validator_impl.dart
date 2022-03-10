@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator.dart';
 
-class PinValidatorImpl extends PinValidator {
+class PinValidatorImpl implements PinValidator {
   @override
   bool call(
     String? text,
