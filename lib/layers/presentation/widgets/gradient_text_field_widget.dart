@@ -11,7 +11,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final TextEditingController textController;
   final bool showSecondText;
   final void Function(String)? onChanged;
-  final FocusNode inputNode;
+  final FocusNode? inputNode;
   final int maxLines;
   final bool crossTheMaxLines;
   final bool showObscureButton;
@@ -26,7 +26,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     required this.errorText,
     required this.hintText,
     required this.textController,
-    required this.inputNode,
+    this.inputNode,
     required this.onChanged,
     required this.isFieldValid,
     this.showSecondText = false,
