@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/adaptative_spacer_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
@@ -15,7 +16,8 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage>
+    with TickerProviderStateMixin, TextThemes {
   static const int _animationDurationInMili = 6000;
   static const stepItensLength = 4;
   static const stepStartOffSetTimeFactor = 0.1;
@@ -109,7 +111,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               animationController: _controller,
               animation: blurText1,
               style: const TextStyle(
-                color: Colors.white,
+                color: StandardColors.white,
                 fontSize: 35,
                 fontWeight: FontWeight.w400,
                 fontFamily: 'Akrobat',
@@ -134,13 +136,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               // const ValueKey('recoverButton'),
               opacityRecoverButton,
               SecondaryButton(
-                child: const Align(
+                child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    'Recover Account',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                  child: textBold18(
+                    context,
+                    text: 'Recover Account',
+                    color: StandardColors.white,
                   ),
                 ),
                 onPressed: () {},
