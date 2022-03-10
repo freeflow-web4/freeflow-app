@@ -60,6 +60,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isAnimatingExitFourthViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitFourthView');
+
+  @override
+  bool get isAnimatingExitFourthView {
+    _$isAnimatingExitFourthViewAtom.reportRead();
+    return super.isAnimatingExitFourthView;
+  }
+
+  @override
+  set isAnimatingExitFourthView(bool value) {
+    _$isAnimatingExitFourthViewAtom
+        .reportWrite(value, super.isAnimatingExitFourthView, () {
+      super.isAnimatingExitFourthView = value;
+    });
+  }
+
   final _$isAnimatingExistFirstViewEndAtom =
       Atom(name: 'RecoverAccountControllerBase.isAnimatingExistFirstViewEnd');
 
@@ -108,6 +125,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     _$isAnimatingExitThirdViewEndAtom
         .reportWrite(value, super.isAnimatingExitThirdViewEnd, () {
       super.isAnimatingExitThirdViewEnd = value;
+    });
+  }
+
+  final _$isAnimatingExitFourthViewEndAtom =
+      Atom(name: 'RecoverAccountControllerBase.isAnimatingExitFourthViewEnd');
+
+  @override
+  bool get isAnimatingExitFourthViewEnd {
+    _$isAnimatingExitFourthViewEndAtom.reportRead();
+    return super.isAnimatingExitFourthViewEnd;
+  }
+
+  @override
+  set isAnimatingExitFourthViewEnd(bool value) {
+    _$isAnimatingExitFourthViewEndAtom
+        .reportWrite(value, super.isAnimatingExitFourthViewEnd, () {
+      super.isAnimatingExitFourthViewEnd = value;
     });
   }
 
@@ -252,6 +286,22 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   set isInThirdView(bool value) {
     _$isInThirdViewAtom.reportWrite(value, super.isInThirdView, () {
       super.isInThirdView = value;
+    });
+  }
+
+  final _$isInFourthViewAtom =
+      Atom(name: 'RecoverAccountControllerBase.isInFourthView');
+
+  @override
+  bool get isInFourthView {
+    _$isInFourthViewAtom.reportRead();
+    return super.isInFourthView;
+  }
+
+  @override
+  set isInFourthView(bool value) {
+    _$isInFourthViewAtom.reportWrite(value, super.isInFourthView, () {
+      super.isInFourthView = value;
     });
   }
 
@@ -402,11 +452,11 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   }
 
   @override
-  void setPinCode(String value) {
+  void setPinCode(BuildContext context, String value) {
     final _$actionInfo = _$RecoverAccountControllerBaseActionController
         .startAction(name: 'RecoverAccountControllerBase.setPinCode');
     try {
-      return super.setPinCode(value);
+      return super.setPinCode(context, value);
     } finally {
       _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -429,9 +479,11 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
 isAnimatingExitFirstView: ${isAnimatingExitFirstView},
 isAnimatingExitSecondView: ${isAnimatingExitSecondView},
 isAnimatingExitThirdView: ${isAnimatingExitThirdView},
+isAnimatingExitFourthView: ${isAnimatingExitFourthView},
 isAnimatingExistFirstViewEnd: ${isAnimatingExistFirstViewEnd},
 isAnimatingExitSecondViewEnd: ${isAnimatingExitSecondViewEnd},
 isAnimatingExitThirdViewEnd: ${isAnimatingExitThirdViewEnd},
+isAnimatingExitFourthViewEnd: ${isAnimatingExitFourthViewEnd},
 privateKeyError: ${privateKeyError},
 usernameError: ${usernameError},
 pinCodeError: ${pinCodeError},
@@ -441,6 +493,7 @@ isPinValid: ${isPinValid},
 isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
 isInThirdView: ${isInThirdView},
+isInFourthView: ${isInFourthView},
 currentIndex: ${currentIndex},
 isObscuredPin: ${isObscuredPin},
 rememberMe: ${rememberMe},

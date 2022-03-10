@@ -7,7 +7,6 @@ import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_us
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:mobx/mobx.dart';
 
 part 'recover_account_controller.g.dart';
@@ -37,6 +36,9 @@ abstract class RecoverAccountControllerBase with Store {
   bool isAnimatingExitThirdView = false;
 
   @observable
+  bool isAnimatingExitFourthView = false;
+
+  @observable
   bool isAnimatingExistFirstViewEnd = false;
 
   @observable
@@ -44,6 +46,9 @@ abstract class RecoverAccountControllerBase with Store {
 
   @observable
   bool isAnimatingExitThirdViewEnd = false;
+
+  @observable
+  bool isAnimatingExitFourthViewEnd = false;
 
   @observable
   String? privateKeyError;
@@ -71,6 +76,9 @@ abstract class RecoverAccountControllerBase with Store {
 
   @observable
   bool isInThirdView = false;
+
+  @observable
+  bool isInFourthView = false;
 
   @observable
   int currentIndex = 0;
@@ -193,12 +201,15 @@ abstract class RecoverAccountControllerBase with Store {
   }
 
   void validatePinCode(BuildContext context, String? code) {
-    if ((code ?? '').isEmpty || (code ?? '').length < 4) {
+    if ((code ?? '').isEmpty) {
       isPinValid = false;
       pinCodeError = FlutterI18n.translate(
         context,
         'recoverAccount.pleaseEnterPinCode',
       );
+    } else if ((code ?? '').length < 4) {
+      isPinValid = false;
+      pinCodeError = null;
     } else {
       isPinValid = true;
       pinCodeError = null;
@@ -275,6 +286,23 @@ abstract class RecoverAccountControllerBase with Store {
           timer.cancel();
         });
       }
+    } else if (index == 3) {
+      if (isInFourthView) {
+        return;
+      } else {
+        isAnimatingExitFourthView = false;
+        isAnimatingExitThirdView = true;
+        Timer.periodic(const Duration(seconds: 3), (timer) {
+          isInFirstView = false;
+          isInSecondView = false;
+          isInThirdView = false;
+          isInFourthView = true;
+          currentIndex = 3;
+          isAnimatingExitFourthViewEnd = false;
+          isAnimatingExitThirdViewEnd = true;
+          timer.cancel();
+        });
+      }
     }
   }
 
@@ -314,7 +342,7 @@ abstract class RecoverAccountControllerBase with Store {
   }
 
   @action
-  void setPinCode(String value) {
+  void setPinCode(BuildContext context, String value) {
     if (value == 'del') {
       if (pinCode == '') {
         return;
@@ -330,6 +358,7 @@ abstract class RecoverAccountControllerBase with Store {
         pinCode = pinCode + value;
       }
     }
+    onChangedField(context, pinCode);
   }
 
   Future<List<dynamic>> getAvailableBiometrics() async {

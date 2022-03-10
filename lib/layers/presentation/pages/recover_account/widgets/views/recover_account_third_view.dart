@@ -10,7 +10,6 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
-import 'package:local_auth/local_auth.dart';
 
 class RecoverAccountThirdView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
@@ -141,8 +140,8 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                 controller: animationController,
                 child: Center(
                   child: InAppKeyboardWidget(
-                    onTap: (value) =>
-                        widget.recoverAccountController.setPinCode(value),
+                    onTap: (value) => widget.recoverAccountController
+                        .setPinCode(context, value),
                   ),
                 ),
               ),
