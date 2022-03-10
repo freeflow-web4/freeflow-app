@@ -193,8 +193,7 @@ class _SwipeButtonState extends State<SwipeButton>
           child: LayoutBuilder(
             builder: (context, constraints) {
               final widgetWidth = constraints.maxWidth;
-              final ppoint =
-                  point(constraints.maxWidth, constraints.maxHeight);
+              final ppoint = point(constraints.maxWidth, constraints.maxHeight);
               return GestureDetector(
                 onHorizontalDragUpdate: (details) => update(
                   widgetWidth,
@@ -277,7 +276,7 @@ class _SwipeButtonState extends State<SwipeButton>
   }
 
   void update(double widgetWidth, double x, double dx) {
-    if(!widget.movementEnable) return;
+    if (!widget.movementEnable) return;
     final movement = _calcMovement(x, dx);
     final shouldUpdate =
         _shouldUpdateProgress(movement, _buttonProgressFactor ?? 0);
@@ -340,7 +339,7 @@ class _SwipeButtonState extends State<SwipeButton>
   }
 
   Widget textWidget(BuildContext context, String text) {
-    return textBold18(context, text: text, color: Colors.white);
+    return textBold18(context, text: text, color: StandardColors.white);
   }
 
   Widget _builder(
