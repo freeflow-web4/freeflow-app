@@ -127,7 +127,7 @@ mixin TextThemes {
       maxLines: maxLines,
       style: TextStyle(
         color: color,
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
         fontFamily: 'Akrobat',
       ),
