@@ -9,7 +9,7 @@ class UserRecoverLoginRepositoryImp implements UserRecoverLoginRepository {
   UserRecoverLoginRepositoryImp(this._userLoginDataSource);
 
   @override
-  Future<Either<DomainError, UserEntity>> call(
+  Future<Either<DomainError, UserEntity>> auth(
       {required String username, required String privateKey}) async {
     try {
       final result = await _userLoginDataSource(

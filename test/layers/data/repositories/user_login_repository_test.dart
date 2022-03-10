@@ -19,7 +19,7 @@ void main() {
   final UserEntity userResponse = UserEntity(name: 'testName');
   test('should return a UserEntity when calls to datasource succeed', () async {
     datasource.mockRequestSuccess(userResponse);
-    final result = await repository(
+    final result = await repository.auth(
       username: 'testUsername',
       privateKey: 'testPrivateKey',
     );
@@ -30,7 +30,7 @@ void main() {
       'should return a DomainError when calls to datasource throws a exception',
       () async {
     datasource.mockRequestError('Invalid username!');
-    final result = await repository(
+    final result = await repository.auth(
       username: 'testUsername',
       privateKey: 'testPrivateKey',
     );

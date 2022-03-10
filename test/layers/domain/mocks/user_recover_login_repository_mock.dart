@@ -6,7 +6,7 @@ import 'package:freeflow/layers/domain/repositories/user_recover_login_repositor
 
 class MockUserRecoverLoginRepository extends Mock
     implements UserRecoverLoginRepository {
-  When mockRequestCall() => when(() => call(
+  When mockRequestCall() => when(() => auth(
         username: any(named: "username"),
         privateKey: any(named: "privateKey"),
       ));

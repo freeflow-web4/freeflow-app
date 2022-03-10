@@ -5,12 +5,11 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
-import 'package:get_it/get_it.dart';
 
 class RecoverAccountThirdView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
@@ -34,8 +33,8 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
   late final AnimationController animationController;
   final FocusNode inputNode = FocusNode();
-  final InAppKeyboardController keyboardController =
-      GetIt.I.get<InAppKeyboardController>();
+
+  bool biometricValue = false;
 
   @override
   void initState() {
@@ -88,40 +87,58 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                 horizontalOffset: recoverAccountViewAnimation
                     .textFieldPinCodeHorizontalPosition,
                 controller: animationController,
-                child: GradientTextFieldWidget(
-                  inputNode: inputNode,
-                  showObscureButton: true,
-                  isPinInput: true,
-                  isFieldValid: widget.recoverAccountController.isPinValid,
-                  isObscureText: widget.recoverAccountController.isObscuredPin,
-                  onChanged: widget.onInputChanged,
-                  onObscureButtonPressed: () =>
-                      widget.recoverAccountController.setObscuredPin(),
-                  fieldReadOnly: true,
-                  hintText: FlutterI18n.translate(
-                      context, "recoverAccount.confirmPinCode"),
-                  errorText: widget.recoverAccountController.pinCodeError,
-                  textController: widget.textEditingController,
-                  pinCode: keyboardController.text,
+                child: Observer(
+                  builder: (context) {
+                    return GradientTextFieldWidget(
+                      inputNode: inputNode,
+                      showObscureButton: true,
+                      isPinInput: true,
+                      isFieldValid: widget.recoverAccountController.isPinValid,
+                      isObscureText:
+                          widget.recoverAccountController.isObscuredPin,
+                      onChanged: widget.onInputChanged,
+                      onObscureButtonPressed: () =>
+                          widget.recoverAccountController.setObscuredPin(),
+                      fieldReadOnly: true,
+                      hintText: FlutterI18n.translate(
+                          context, "recoverAccount.confirmPinCode"),
+                      errorText: widget.recoverAccountController.pinCodeError,
+                      textController: widget.textEditingController,
+                      pinCode: widget.recoverAccountController.pinCode,
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 13),
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.secondTextPinCodeOpacity,
                 controller: animationController,
-                child: textSubtitle(
-                  context,
-                  textKey: "recoverAccount.rememberMe",
-                  color: Colors.white,
-                  maxLines: 2,
+                child: Row(
+                  children: [
+                    textSubtitle(
+                      context,
+                      textKey: "recoverAccount.rememberMe",
+                      color: Colors.white,
+                      maxLines: 2,
+                    ),
+                    const SizedBox(width: mdSpacingx2),
+                    CustomSwitch(
+                        value: widget.recoverAccountController.rememberMe,
+                        onChanged: (value) {
+                          widget.recoverAccountController.setRememberMe(value);
+                        }),
+                  ],
                 ),
               ),
               const SizedBox(height: largeSpacingx2),
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.keyboardPinCodeOpacity,
                 controller: animationController,
-                child: const Center(
-                  child: InAppKeyboardWidget(),
+                child: Center(
+                  child: InAppKeyboardWidget(
+                    onTap: (value) =>
+                        widget.recoverAccountController.setPinCode(value),
+                  ),
                 ),
               ),
             ],

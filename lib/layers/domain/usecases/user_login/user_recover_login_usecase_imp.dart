@@ -25,6 +25,6 @@ class UserRecoverLoginUseCaseImp implements UserRecoverLoginUseCase {
     if (usernameValidation != null || privateKeyValidation != null) {
       return const Left(DomainError.requiredField);
     }
-    return await repository(username: username, privateKey: privateKey);
+    return await repository.auth(username: username, privateKey: privateKey);
   }
 }
