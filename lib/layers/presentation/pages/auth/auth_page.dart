@@ -20,7 +20,6 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> with TextThemes {
   final authController = GetIt.I.get<AuthController>();
   //TODO: remove if possible and make not necessary for GradientTextFieldWidget
-  final FocusNode pinInputNode = FocusNode();
   final TextEditingController pinTextController = TextEditingController();
 
   @override
@@ -61,7 +60,6 @@ class _AuthPageState extends State<AuthPage> with TextThemes {
                   isFieldValid:
                       authController.pinFieldState != PinFieldState.invalid,
                   textController: pinTextController,
-                  inputNode: pinInputNode,
                   errorText:
                       authController.pinFieldState != PinFieldState.invalid
                           ? null
@@ -70,6 +68,7 @@ class _AuthPageState extends State<AuthPage> with TextThemes {
                               'login.pinTextInputError',
                             ),
                   hintText: '',
+                  fieldReadOnly: true,
                 );
               },
             ),
