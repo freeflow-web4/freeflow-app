@@ -116,6 +116,7 @@ class _LoginPageState extends State<LoginPage>
                 fontWeight: FontWeight.w400,
                 fontFamily: 'Akrobat',
               ),
+              textMainAxisAlignment: MainAxisAlignment.center,
             ),
             const AdaptativeSpacer(
               heightValue: 8,
