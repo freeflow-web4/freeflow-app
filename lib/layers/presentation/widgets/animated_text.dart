@@ -23,7 +23,7 @@ class AnimatedText extends StatefulWidget {
 }
 
 class _AnimatedTextState extends State<AnimatedText> {
-  static const _maxBlur = 30.0;
+  static const _maxBlur = 15.0;
 
   List<double> velocities = List.from(_velocityFactorList);
 
@@ -69,19 +69,23 @@ class _AnimatedTextState extends State<AnimatedText> {
       final char = line[i];
       final blurValue = getOpacityForIndex(animationValue, i);
       final sigma = _maxBlur * blurValue;
+      final opacity = animationValue * 2;
       textWidgets.add(
         Padding(
           padding: EdgeInsets.only(
             right: i < line.length - 1 ? (textStyle.letterSpacing ?? 0.0) : 0.0,
           ),
-          child: ImageFiltered(
-            imageFilter: ImageFilter.blur(
-              sigmaX: sigma,
-              sigmaY: sigma,
-            ),
-            child: Text(
-              char,
-              style: textStyle,
+          child: Opacity(
+            opacity: opacity > 1 ? 1 : opacity,
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(
+                sigmaX: sigma,
+                sigmaY: sigma,
+              ),
+              child: Text(
+                char,
+                style: textStyle,
+              ),
             ),
           ),
         ),
