@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -11,12 +9,12 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 
-class RecoverAccountFirstView extends StatefulWidget {
+class RecoverUsernameView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
   final void Function(String)? onInputChanged;
 
-  const RecoverAccountFirstView({
+  const RecoverUsernameView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
@@ -24,11 +22,10 @@ class RecoverAccountFirstView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RecoverAccountFirstViewState createState() =>
-      _RecoverAccountFirstViewState();
+  _RecoverUsernameViewState createState() => _RecoverUsernameViewState();
 }
 
-class _RecoverAccountFirstViewState extends State<RecoverAccountFirstView>
+class _RecoverUsernameViewState extends State<RecoverUsernameView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
   late AnimationController animationController;

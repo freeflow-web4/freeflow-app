@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
+import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
 
@@ -18,10 +18,12 @@ abstract class RecoverAccountControllerBase with Store {
   final UserRecoverLoginUseCase userRecoverLoginUseCase;
   final UserHasBiometricsUsecase userHasBiometricsUsecase;
   final UserSetBiometricsUsecase userSetBiometricsUsecase;
+  final BiometricAuthDriver biometricDriver;
   RecoverAccountControllerBase({
     required this.userRecoverLoginUseCase,
     required this.userHasBiometricsUsecase,
     required this.userSetBiometricsUsecase,
+    required this.biometricDriver,
   });
 
   @observable
@@ -34,6 +36,9 @@ abstract class RecoverAccountControllerBase with Store {
   bool isAnimatingExitThirdView = false;
 
   @observable
+  bool isAnimatingExitFourthView = false;
+
+  @observable
   bool isAnimatingExistFirstViewEnd = false;
 
   @observable
@@ -41,6 +46,9 @@ abstract class RecoverAccountControllerBase with Store {
 
   @observable
   bool isAnimatingExitThirdViewEnd = false;
+
+  @observable
+  bool isAnimatingExitFourthViewEnd = false;
 
   @observable
   String? privateKeyError;
@@ -70,16 +78,10 @@ abstract class RecoverAccountControllerBase with Store {
   bool isInThirdView = false;
 
   @observable
+  bool isInFourthView = false;
+
+  @observable
   int currentIndex = 0;
-
-  @observable
-  bool isObscuredPin = true;
-
-  @observable
-  bool rememberMe = false;
-
-  @observable
-  String pinCode = '';
 
   int animationDuration = 10;
 
@@ -94,7 +96,6 @@ abstract class RecoverAccountControllerBase with Store {
       if ((username ?? '').isEmpty) {
         openDialog(context);
       } else {
-        //TODO: Validate private key with API
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(1);
       }
@@ -102,25 +103,6 @@ abstract class RecoverAccountControllerBase with Store {
       if ((privateKey ?? '').isEmpty) {
         openDialog(context);
       } else {
-        // final result = await _userRecoverLoginUseCase(
-        //   privateKey: privateKey ?? '',
-        //   username: username ?? '',
-        // );
-        // result.fold(
-        //   (left) {
-        //     if (left == DomainError.requiredField) {
-        //       privateKeyError = currentIndex == 0
-        //           ? FlutterI18n.translate(
-        //               context, 'recoverAccount.pleaseEnterYourRegisteredName')
-        //           : currentIndex == 1
-        //               ? FlutterI18n.translate(
-        //                   context, 'recoverAccount.pleaseEnterYourPrivateKey')
-        //               : FlutterI18n.translate(
-        //                   context, 'recoverAccount.pleaseEnterYourPrivateKey');
-        //     }
-        //   },
-        //   (right) => openDialog(context),
-        // );
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(2);
       }
@@ -128,7 +110,6 @@ abstract class RecoverAccountControllerBase with Store {
       if ((pincode ?? '').isEmpty) {
         openDialog(context);
       } else {
-        //TODO: Validate private key with API
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(1);
       }
@@ -187,12 +168,15 @@ abstract class RecoverAccountControllerBase with Store {
   }
 
   void validatePinCode(BuildContext context, String? code) {
-    if ((code ?? '').isEmpty || (code ?? '').length < 4) {
+    if ((code ?? '').isEmpty) {
       isPinValid = false;
       pinCodeError = FlutterI18n.translate(
         context,
         'recoverAccount.pleaseEnterPinCode',
       );
+    } else if ((code ?? '').length < 4) {
+      isPinValid = false;
+      pinCodeError = null;
     } else {
       isPinValid = true;
       pinCodeError = null;
@@ -269,6 +253,23 @@ abstract class RecoverAccountControllerBase with Store {
           timer.cancel();
         });
       }
+    } else if (index == 3) {
+      if (isInFourthView) {
+        return;
+      } else {
+        isAnimatingExitFourthView = false;
+        isAnimatingExitThirdView = true;
+        Timer.periodic(const Duration(seconds: 3), (timer) {
+          isInFirstView = false;
+          isInSecondView = false;
+          isInThirdView = false;
+          isInFourthView = true;
+          currentIndex = 3;
+          isAnimatingExitFourthViewEnd = false;
+          isAnimatingExitThirdViewEnd = true;
+          timer.cancel();
+        });
+      }
     }
   }
 
@@ -293,36 +294,6 @@ abstract class RecoverAccountControllerBase with Store {
     } else {
       updateIndex(1);
       return false;
-    }
-  }
-
-  @action
-  void setObscuredPin() {
-    isObscuredPin = !isObscuredPin;
-  }
-
-  @action
-  Future<void> setRememberMe(bool value) async {
-    await userSetBiometricsUsecase(value);
-    rememberMe = value;
-  }
-
-  @action
-  void setPinCode(String value) {
-    if (value == 'del') {
-      if (pinCode == '') {
-        return;
-      } else {
-        pinCode = pinCode.substring(0, pinCode.length - 1);
-      }
-    } else if (value == 'X') {
-      pinCode = '';
-    } else {
-      if (pinCode.length == 4) {
-        return;
-      } else {
-        pinCode = pinCode + value;
-      }
     }
   }
 }

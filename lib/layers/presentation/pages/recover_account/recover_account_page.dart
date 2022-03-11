@@ -7,9 +7,9 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page_animation.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_first_view.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_second_view.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_third_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_private_key_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_pin_code_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
@@ -74,7 +74,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                     return Column(
                       children: [
                         recoverAccountController.currentIndex == 0
-                            ? RecoverAccountFirstView(
+                            ? RecoverUsernameView(
                                 key: const Key('1'),
                                 onInputChanged: _onInputChanged,
                                 textEditingController: flowerNameController,
@@ -82,14 +82,14 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                                     recoverAccountController,
                               )
                             : recoverAccountController.currentIndex == 1
-                                ? RecoverAccountSecondView(
+                                ? RecoverPrivateKeyView(
                                     key: const Key('2'),
                                     onInputChanged: _onInputChanged,
                                     textEditingController: privateKeyController,
                                     recoverAccountController:
                                         recoverAccountController,
                                   )
-                                : RecoverAccountThirdView(
+                                : RecoverPinCodeView(
                                     key: const Key('3'),
                                     onInputChanged: _onInputChanged,
                                     textEditingController: pinController,

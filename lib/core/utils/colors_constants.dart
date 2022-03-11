@@ -9,6 +9,7 @@ class StandardColors {
   static const Color grey = Color(0xffEFEFEF);
   static const Color white = Color(0xFFFCFCFC);
   static const Color darkGrey = Color(0xff4f4f4f);
+  static const Color white = Color(0xFFFCFCFC);
 
   static Gradient greenGradient() => const LinearGradient(
         colors: [
