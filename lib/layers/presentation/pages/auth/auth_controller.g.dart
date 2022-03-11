@@ -17,22 +17,6 @@ mixin _$AuthController on AuthControllerBase, Store {
               name: 'AuthControllerBase.isPinValid'))
           .value;
 
-  final _$pinErrorMessageAtom =
-      Atom(name: 'AuthControllerBase.pinErrorMessage');
-
-  @override
-  String? get pinErrorMessage {
-    _$pinErrorMessageAtom.reportRead();
-    return super.pinErrorMessage;
-  }
-
-  @override
-  set pinErrorMessage(String? value) {
-    _$pinErrorMessageAtom.reportWrite(value, super.pinErrorMessage, () {
-      super.pinErrorMessage = value;
-    });
-  }
-
   final _$pinFieldStateAtom = Atom(name: 'AuthControllerBase.pinFieldState');
 
   @override
@@ -65,7 +49,6 @@ mixin _$AuthController on AuthControllerBase, Store {
   @override
   String toString() {
     return '''
-pinErrorMessage: ${pinErrorMessage},
 pinFieldState: ${pinFieldState},
 isPinValid: ${isPinValid}
     ''';
