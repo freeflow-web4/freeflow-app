@@ -140,7 +140,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                 controller: animationController,
                 child: Center(
                   child: InAppKeyboardWidget(
-                    onTap: (value) => viewController.setPinCode(
+                    onTap: (value) => viewController.getTypePinCode(
                       context,
                       value,
                       widget.recoverAccountController.onChangedField,

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:freeflow/layers/data/datasources/user_biometric_datasource.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:dartz/dartz.dart';

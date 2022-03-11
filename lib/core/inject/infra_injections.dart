@@ -1,5 +1,4 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:freeflow/layers/data/datasources/remote/user_login_datasource_imp.dart';
 import 'package:freeflow/layers/infra/cache/cache_storage.dart';
 import 'package:freeflow/layers/infra/cache/cache_storage_imp.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';

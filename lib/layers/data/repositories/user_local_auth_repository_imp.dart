@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:freeflow/layers/data/datasources/user_local_auth_datasource.dart';
-import 'package:freeflow/layers/data/dtos/user_local_auth/user_local_auth_dto.dart';
-import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/entities/user_local_auth_entity.dart';
 import 'package:dartz/dartz.dart';

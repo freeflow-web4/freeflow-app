@@ -135,12 +135,12 @@ mixin _$RecoverPinCodeViewController
   }
 
   @override
-  void setPinCode(BuildContext context, String value,
+  void getTypePinCode(BuildContext context, String value,
       void Function(BuildContext, String) onChangedField) {
     final _$actionInfo = _$RecoverPinCodeViewControllerBaseActionController
-        .startAction(name: 'RecoverPinCodeViewControllerBase.setPinCode');
+        .startAction(name: 'RecoverPinCodeViewControllerBase.getTypePinCode');
     try {
-      return super.setPinCode(context, value, onChangedField);
+      return super.getTypePinCode(context, value, onChangedField);
     } finally {
       _$RecoverPinCodeViewControllerBaseActionController
           .endAction(_$actionInfo);

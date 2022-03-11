@@ -56,7 +56,7 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   }
 
   @action
-  void setPinCode(
+  void getTypePinCode(
     BuildContext context,
     String value,
     void Function(BuildContext context, String pinCode) onChangedField,
