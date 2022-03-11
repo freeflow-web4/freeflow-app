@@ -12,6 +12,6 @@ class SaveUserLocalAuthUsecaseImp implements SaveUserLocalAuthUsecase {
 
   @override
   Future<Either<DomainError, bool>> call(UserLocalAuthEntity user) async {
-    return await repository.save(user);
+    return await repository.saveLocalAuthUser(user);
   }
 }

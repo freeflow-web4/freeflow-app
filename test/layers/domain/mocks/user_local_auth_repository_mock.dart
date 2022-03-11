@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 
 class UserLocalAuthRepositoryMock extends Mock
     implements UserLocalAuthRepository {
-  When _mockRequestSaveLocalAuth() => when(() => save(any()));
+  When _mockRequestSaveLocalAuth() => when(() => saveLocalAuthUser(any()));
   void mockSaveRequestSuccess() => _mockRequestSaveLocalAuth()
       .thenAnswer((_) async => const Right<DomainError, bool>(true));
   void mockSaveRequestFailure() => _mockRequestSaveLocalAuth().thenAnswer(
