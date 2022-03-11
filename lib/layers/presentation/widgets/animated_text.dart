@@ -8,14 +8,16 @@ class AnimatedText extends StatefulWidget {
   final TextStyle style;
   final AnimationController animationController;
   final Animation<double> animation;
-  final CrossAxisAlignment textAlign;
+  final CrossAxisAlignment crossAxisAlignment;
+  final MainAxisAlignment mainAxisAlignment;
   const AnimatedText({
     Key? key,
     required this.text,
     required this.animationController,
     required this.style,
     required this.animation,
-    this.textAlign = CrossAxisAlignment.center,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.mainAxisAlignment = MainAxisAlignment.start,
   }) : super(key: key);
 
   @override
@@ -39,13 +41,13 @@ class _AnimatedTextState extends State<AnimatedText> {
       animation: widget.animationController,
       builder: (context, _) {
         return Column(
-          crossAxisAlignment: widget.textAlign,
+          crossAxisAlignment: widget.crossAxisAlignment,
           mainAxisSize: MainAxisSize.min,
           children: widget.text
               .split("\n")
               .map(
                 (line) => Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: widget.mainAxisAlignment,
                   children: _getTextWidgets(
                     widget.style,
                     widget.animation.value,
