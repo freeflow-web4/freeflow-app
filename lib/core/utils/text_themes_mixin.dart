@@ -14,14 +14,15 @@ mixin TextThemes {
       FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       textAlign: textAlign,
-      style: TextStyle(
-        color: color,
+      style: textH4TextStyle.copyWith(color: color),
+    );
+  }
+
+  TextStyle get textH4TextStyle => const TextStyle(
         fontSize: 38,
         fontWeight: FontWeight.w500,
         fontFamily: 'Akrobat',
-      ),
-    );
-  }
+      );
 
   Text textH5(
     BuildContext context, {
