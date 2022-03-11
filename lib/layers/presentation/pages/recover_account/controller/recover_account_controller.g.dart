@@ -321,17 +321,36 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$pinCodeAtom = Atom(name: 'RecoverAccountControllerBase.pinCode');
+
+  @override
+  String? get pinCode {
+    _$pinCodeAtom.reportRead();
+    return super.pinCode;
+  }
+
+  @override
+  set pinCode(String? value) {
+    _$pinCodeAtom.reportWrite(value, super.pinCode, () {
+      super.pinCode = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
   @override
   Future tapContinueButton(BuildContext context,
-      {String? privateKey, String? username, String? pincode}) {
+      {String? privateKey,
+      String? username,
+      String? pincode,
+      String? confirmPincode}) {
     return _$tapContinueButtonAsyncAction.run(() => super.tapContinueButton(
         context,
         privateKey: privateKey,
         username: username,
-        pincode: pincode));
+        pincode: pincode,
+        confirmPincode: confirmPincode));
   }
 
   final _$RecoverAccountControllerBaseActionController =
@@ -380,7 +399,8 @@ isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
 isInThirdView: ${isInThirdView},
 isInFourthView: ${isInFourthView},
-currentIndex: ${currentIndex}
+currentIndex: ${currentIndex},
+pinCode: ${pinCode}
     ''';
   }
 }

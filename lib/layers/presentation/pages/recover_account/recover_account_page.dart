@@ -8,6 +8,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page_animation.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_confirm_pin_code_view.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_private_key_view.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_pin_code_view.dart';
@@ -29,6 +30,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
   final privateKeyController = TextEditingController();
   final flowerNameController = TextEditingController();
   final pinController = TextEditingController();
+  final confirmPinController = TextEditingController();
   late RecoverAccountPageAnimation animation;
   Timer? _debounce;
   late AnimationController animationController = AnimationController(
@@ -90,16 +92,25 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                                     recoverAccountController:
                                         recoverAccountController,
                                   )
-                                : RecoverPinCodeView(
-                                    key: const Key('3'),
-                                    onInputChanged: _onInputChanged,
-                                    textEditingController: pinController,
-                                    recoverAccountController:
-                                        recoverAccountController,
-                                  ),
+                                : recoverAccountController.currentIndex == 2
+                                    ? RecoverPinCodeView(
+                                        key: const Key('3'),
+                                        onInputChanged: _onInputChanged,
+                                        textEditingController: pinController,
+                                        recoverAccountController:
+                                            recoverAccountController,
+                                      )
+                                    : RecoverConfirmPinCodeView(
+                                        key: const Key('4'),
+                                        onInputChanged: _onInputChanged,
+                                        textEditingController:
+                                            confirmPinController,
+                                        recoverAccountController:
+                                            recoverAccountController,
+                                      ),
                         const SizedBox(height: xxlargeSpacing),
                         Visibility(
-                          visible: recoverAccountController.currentIndex != 2,
+                          visible: recoverAccountController.currentIndex < 2,
                           child: StaggerOpacity(
                             opacity: animation.dotOpacity,
                             controller: animationController,
@@ -126,6 +137,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                                 privateKey: privateKeyController.text,
                                 username: flowerNameController.text,
                                 pincode: pinController.text,
+                                confirmPincode: confirmPinController.text,
                               ),
                               icon: IconsAsset.arrowIcon,
                             ),

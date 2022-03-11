@@ -13,12 +13,12 @@ import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_o
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 import 'package:get_it/get_it.dart';
 
-class RecoverPinCodeView extends StatefulWidget {
+class RecoverConfirmPinCodeView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
   final void Function(String)? onInputChanged;
 
-  const RecoverPinCodeView({
+  const RecoverConfirmPinCodeView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
@@ -26,17 +26,16 @@ class RecoverPinCodeView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RecoverPinCodeViewState createState() => _RecoverPinCodeViewState();
+  _RecoverConfirmPinCodeViewState createState() =>
+      _RecoverConfirmPinCodeViewState();
 }
 
-class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
+class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
   late final AnimationController animationController;
   final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverPinCodeViewController>();
-
-  bool biometricValue = false;
 
   @override
   void initState() {
@@ -49,9 +48,6 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
     recoverAccountViewAnimation =
         RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
-    widget.recoverAccountController.userSetBiometricsUsecase(false);
-    viewController.canCheckBiometrics();
-    viewController.setRememberMe(false);
   }
 
   @override
@@ -64,10 +60,10 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        if (widget.recoverAccountController.isAnimatingExitThirdView) {
+        if (widget.recoverAccountController.isAnimatingExitFourthView) {
           animationController.reverse();
         }
-        if (widget.recoverAccountController.isAnimatingExitThirdViewEnd) {
+        if (widget.recoverAccountController.isAnimatingExitFourthViewEnd) {
           animationController.forward();
         }
         return Padding(
@@ -82,7 +78,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                 controller: animationController,
                 child: textH4(
                   context,
-                  textKey: "recoverAccount.configPinCode",
+                  textKey: "recoverAccount.enterPinCode",
                   color: Colors.white,
                   maxLines: 2,
                 ),
@@ -114,27 +110,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                   },
                 ),
               ),
-              const SizedBox(height: 13),
-              StaggerOpacity(
-                opacity: recoverAccountViewAnimation.secondTextPinCodeOpacity,
-                controller: animationController,
-                child: Row(
-                  children: [
-                    textSubtitle(
-                      context,
-                      textKey: "recoverAccount.rememberMe",
-                      color: Colors.white,
-                      maxLines: 2,
-                    ),
-                    const SizedBox(width: mdSpacingx2),
-                    CustomSwitch(
-                      value: viewController.rememberMe,
-                      onChanged: (value) => viewController.biometricAuth(value),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: largeSpacingx2),
+              const SizedBox(height: xxlargeSpacing),
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.keyboardPinCodeOpacity,
                 controller: animationController,
