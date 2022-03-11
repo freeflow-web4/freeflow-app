@@ -83,18 +83,6 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   int currentIndex = 0;
 
-  @observable
-  bool isObscuredPin = true;
-
-  @observable
-  bool rememberMe = false;
-
-  @observable
-  String pinCode = '';
-
-  @observable
-  bool hasAvailableBiometrics = false;
-
   int animationDuration = 10;
 
   @action
@@ -108,7 +96,6 @@ abstract class RecoverAccountControllerBase with Store {
       if ((username ?? '').isEmpty) {
         openDialog(context);
       } else {
-        //TODO: Validate private key with API
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(1);
       }
@@ -116,25 +103,6 @@ abstract class RecoverAccountControllerBase with Store {
       if ((privateKey ?? '').isEmpty) {
         openDialog(context);
       } else {
-        // final result = await _userRecoverLoginUseCase(
-        //   privateKey: privateKey ?? '',
-        //   username: username ?? '',
-        // );
-        // result.fold(
-        //   (left) {
-        //     if (left == DomainError.requiredField) {
-        //       privateKeyError = currentIndex == 0
-        //           ? FlutterI18n.translate(
-        //               context, 'recoverAccount.pleaseEnterYourRegisteredName')
-        //           : currentIndex == 1
-        //               ? FlutterI18n.translate(
-        //                   context, 'recoverAccount.pleaseEnterYourPrivateKey')
-        //               : FlutterI18n.translate(
-        //                   context, 'recoverAccount.pleaseEnterYourPrivateKey');
-        //     }
-        //   },
-        //   (right) => openDialog(context),
-        // );
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(2);
       }
@@ -142,7 +110,6 @@ abstract class RecoverAccountControllerBase with Store {
       if ((pincode ?? '').isEmpty) {
         openDialog(context);
       } else {
-        //TODO: Validate private key with API
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(1);
       }
@@ -327,68 +294,6 @@ abstract class RecoverAccountControllerBase with Store {
     } else {
       updateIndex(1);
       return false;
-    }
-  }
-
-  @action
-  void setObscuredPin() {
-    isObscuredPin = !isObscuredPin;
-  }
-
-  @action
-  Future<void> setRememberMe(bool value) async {
-    await userSetBiometricsUsecase(value);
-    rememberMe = value;
-  }
-
-  @action
-  void setPinCode(BuildContext context, String value) {
-    if (value == 'del') {
-      if (pinCode == '') {
-        return;
-      } else {
-        pinCode = pinCode.substring(0, pinCode.length - 1);
-      }
-    } else if (value == 'X') {
-      pinCode = '';
-    } else {
-      if (pinCode.length == 4) {
-        return;
-      } else {
-        pinCode = pinCode + value;
-      }
-    }
-    onChangedField(context, pinCode);
-  }
-
-  Future<List<dynamic>> getAvailableBiometrics() async {
-    List<dynamic> availableBiometrics = [];
-    final biometricTypesResponse =
-        await biometricDriver.getAvailableBiometrics();
-    biometricTypesResponse.fold(
-      (l) => null,
-      (r) => availableBiometrics = r,
-    );
-    return availableBiometrics;
-  }
-
-  @action
-  Future<void> canCheckBiometrics() async {
-    final isBiometricAvailableResponse =
-        await biometricDriver.isBiometricAvailable();
-    isBiometricAvailableResponse.fold(
-      (l) => hasAvailableBiometrics = false,
-      (r) => hasAvailableBiometrics = r,
-    );
-  }
-
-  @action
-  void biometricAuth(bool value) {
-    if (value) {
-      biometricDriver.authenticateUser();
-      setRememberMe(true);
-    } else {
-      setRememberMe(false);
     }
   }
 }

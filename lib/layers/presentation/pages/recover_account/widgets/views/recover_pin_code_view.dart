@@ -4,19 +4,21 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
+import 'package:get_it/get_it.dart';
 
-class RecoverAccountThirdView extends StatefulWidget {
+class RecoverPinCodeView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
   final void Function(String)? onInputChanged;
 
-  const RecoverAccountThirdView({
+  const RecoverPinCodeView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
@@ -24,15 +26,15 @@ class RecoverAccountThirdView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RecoverAccountThirdViewState createState() =>
-      _RecoverAccountThirdViewState();
+  _RecoverPinCodeViewState createState() => _RecoverPinCodeViewState();
 }
 
-class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
+class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
   late final AnimationController animationController;
   final FocusNode inputNode = FocusNode();
+  final viewController = GetIt.I.get<RecoverPinCodeViewController>();
 
   bool biometricValue = false;
 
@@ -48,8 +50,8 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
         RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
     widget.recoverAccountController.userSetBiometricsUsecase(false);
-    widget.recoverAccountController.canCheckBiometrics();
-    widget.recoverAccountController.setRememberMe(false);
+    viewController.canCheckBiometrics();
+    viewController.setRememberMe(false);
   }
 
   @override
@@ -98,17 +100,16 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                       showObscureButton: true,
                       isPinInput: true,
                       isFieldValid: widget.recoverAccountController.isPinValid,
-                      isObscureText:
-                          widget.recoverAccountController.isObscuredPin,
+                      isObscureText: viewController.isObscuredPin,
                       onChanged: widget.onInputChanged,
                       onObscureButtonPressed: () =>
-                          widget.recoverAccountController.setObscuredPin(),
+                          viewController.setObscuredPin(),
                       fieldReadOnly: true,
                       hintText: FlutterI18n.translate(
                           context, "recoverAccount.confirmPinCode"),
                       errorText: widget.recoverAccountController.pinCodeError,
                       textController: widget.textEditingController,
-                      pinCode: widget.recoverAccountController.pinCode,
+                      pinCode: viewController.pinCode,
                     );
                   },
                 ),
@@ -127,9 +128,8 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                     ),
                     const SizedBox(width: mdSpacingx2),
                     CustomSwitch(
-                      value: widget.recoverAccountController.rememberMe,
-                      onChanged: (value) =>
-                          widget.recoverAccountController.biometricAuth(value),
+                      value: viewController.rememberMe,
+                      onChanged: (value) => viewController.biometricAuth(value),
                     ),
                   ],
                 ),
@@ -140,8 +140,11 @@ class _RecoverAccountThirdViewState extends State<RecoverAccountThirdView>
                 controller: animationController,
                 child: Center(
                   child: InAppKeyboardWidget(
-                    onTap: (value) => widget.recoverAccountController
-                        .setPinCode(context, value),
+                    onTap: (value) => viewController.setPinCode(
+                      context,
+                      value,
+                      widget.recoverAccountController.onChangedField,
+                    ),
                   ),
                 ),
               ),

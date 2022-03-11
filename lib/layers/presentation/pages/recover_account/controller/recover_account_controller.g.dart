@@ -321,70 +321,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
-  final _$isObscuredPinAtom =
-      Atom(name: 'RecoverAccountControllerBase.isObscuredPin');
-
-  @override
-  bool get isObscuredPin {
-    _$isObscuredPinAtom.reportRead();
-    return super.isObscuredPin;
-  }
-
-  @override
-  set isObscuredPin(bool value) {
-    _$isObscuredPinAtom.reportWrite(value, super.isObscuredPin, () {
-      super.isObscuredPin = value;
-    });
-  }
-
-  final _$rememberMeAtom =
-      Atom(name: 'RecoverAccountControllerBase.rememberMe');
-
-  @override
-  bool get rememberMe {
-    _$rememberMeAtom.reportRead();
-    return super.rememberMe;
-  }
-
-  @override
-  set rememberMe(bool value) {
-    _$rememberMeAtom.reportWrite(value, super.rememberMe, () {
-      super.rememberMe = value;
-    });
-  }
-
-  final _$pinCodeAtom = Atom(name: 'RecoverAccountControllerBase.pinCode');
-
-  @override
-  String get pinCode {
-    _$pinCodeAtom.reportRead();
-    return super.pinCode;
-  }
-
-  @override
-  set pinCode(String value) {
-    _$pinCodeAtom.reportWrite(value, super.pinCode, () {
-      super.pinCode = value;
-    });
-  }
-
-  final _$hasAvailableBiometricsAtom =
-      Atom(name: 'RecoverAccountControllerBase.hasAvailableBiometrics');
-
-  @override
-  bool get hasAvailableBiometrics {
-    _$hasAvailableBiometricsAtom.reportRead();
-    return super.hasAvailableBiometrics;
-  }
-
-  @override
-  set hasAvailableBiometrics(bool value) {
-    _$hasAvailableBiometricsAtom
-        .reportWrite(value, super.hasAvailableBiometrics, () {
-      super.hasAvailableBiometrics = value;
-    });
-  }
-
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -396,23 +332,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
         privateKey: privateKey,
         username: username,
         pincode: pincode));
-  }
-
-  final _$setRememberMeAsyncAction =
-      AsyncAction('RecoverAccountControllerBase.setRememberMe');
-
-  @override
-  Future<void> setRememberMe(bool value) {
-    return _$setRememberMeAsyncAction.run(() => super.setRememberMe(value));
-  }
-
-  final _$canCheckBiometricsAsyncAction =
-      AsyncAction('RecoverAccountControllerBase.canCheckBiometrics');
-
-  @override
-  Future<void> canCheckBiometrics() {
-    return _$canCheckBiometricsAsyncAction
-        .run(() => super.canCheckBiometrics());
   }
 
   final _$RecoverAccountControllerBaseActionController =
@@ -441,39 +360,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   }
 
   @override
-  void setObscuredPin() {
-    final _$actionInfo = _$RecoverAccountControllerBaseActionController
-        .startAction(name: 'RecoverAccountControllerBase.setObscuredPin');
-    try {
-      return super.setObscuredPin();
-    } finally {
-      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setPinCode(BuildContext context, String value) {
-    final _$actionInfo = _$RecoverAccountControllerBaseActionController
-        .startAction(name: 'RecoverAccountControllerBase.setPinCode');
-    try {
-      return super.setPinCode(context, value);
-    } finally {
-      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void biometricAuth(bool value) {
-    final _$actionInfo = _$RecoverAccountControllerBaseActionController
-        .startAction(name: 'RecoverAccountControllerBase.biometricAuth');
-    try {
-      return super.biometricAuth(value);
-    } finally {
-      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 isAnimatingExitFirstView: ${isAnimatingExitFirstView},
@@ -494,11 +380,7 @@ isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
 isInThirdView: ${isInThirdView},
 isInFourthView: ${isInFourthView},
-currentIndex: ${currentIndex},
-isObscuredPin: ${isObscuredPin},
-rememberMe: ${rememberMe},
-pinCode: ${pinCode},
-hasAvailableBiometrics: ${hasAvailableBiometrics}
+currentIndex: ${currentIndex}
     ''';
   }
 }

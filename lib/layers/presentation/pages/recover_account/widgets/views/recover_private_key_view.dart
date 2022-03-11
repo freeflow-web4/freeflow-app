@@ -10,12 +10,12 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 
-class RecoverAccountSecondView extends StatefulWidget {
+class RecoverPrivateKeyView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
   final void Function(String)? onInputChanged;
 
-  const RecoverAccountSecondView({
+  const RecoverPrivateKeyView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
@@ -23,11 +23,10 @@ class RecoverAccountSecondView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RecoverAccountSecondViewState createState() =>
-      _RecoverAccountSecondViewState();
+  _RecoverPrivateKeyViewState createState() => _RecoverPrivateKeyViewState();
 }
 
-class _RecoverAccountSecondViewState extends State<RecoverAccountSecondView>
+class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverAccountViewAnimation recoverAccountViewAnimation;
   late final AnimationController animationController;
