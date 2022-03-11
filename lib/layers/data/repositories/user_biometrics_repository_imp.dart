@@ -13,7 +13,7 @@ class UserBiometricsRepositoryImp implements UserBiometricsRepository {
   Future<Either<DomainError, bool>> getHasBiometrics() async {
     try {
       final result = await datasource.getHasBiometrics();
-      return Right(jsonDecode(result));
+      return Right(result);
     } on Exception catch (error) {
       return Left(convertToDomainError(error.toString()));
     }
@@ -22,9 +22,8 @@ class UserBiometricsRepositoryImp implements UserBiometricsRepository {
   @override
   Future<Either<DomainError, bool>> setHasBiometrics(bool hasBiometrics) async {
     try {
-      final result =
-          await datasource.setHasBiometrics(jsonEncode(hasBiometrics));
-      return Right(jsonDecode(result));
+      final result = await datasource.setHasBiometrics(hasBiometrics);
+      return Right(result);
     } on Exception catch (error) {
       return Left(convertToDomainError(error.toString()));
     }

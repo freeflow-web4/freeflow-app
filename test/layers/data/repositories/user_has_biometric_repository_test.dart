@@ -17,13 +17,13 @@ void main() {
 
   group('get has biometrics', () {
     test('should return true if user has biometrics', () async {
-      datasourceMock.mockRequestSuccess('true');
+      datasourceMock.mockRequestSuccess(true);
       final result = await repository.getHasBiometrics();
       expect(result, const Right(true));
     });
 
     test('should return false if user has not biometrics', () async {
-      datasourceMock.mockRequestSuccess('false');
+      datasourceMock.mockRequestSuccess(false);
       final result = await repository.getHasBiometrics();
       expect(result, const Right(false));
     });
@@ -39,13 +39,13 @@ void main() {
 
   group('set has biometrics', () {
     test('should return true if set biometrics to true', () async {
-      datasourceMock.mockSetRequestSuccess('true');
+      datasourceMock.mockSetRequestSuccess(true);
       final result = await repository.setHasBiometrics(true);
       expect(result, const Right(true));
     });
 
     test('should return false if set biometrics to false', () async {
-      datasourceMock.mockSetRequestSuccess('false');
+      datasourceMock.mockSetRequestSuccess(false);
       final result = await repository.setHasBiometrics(false);
       expect(result, const Right(false));
     });
