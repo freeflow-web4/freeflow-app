@@ -83,15 +83,17 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   int currentIndex = 0;
 
+  @observable
+  String? pinCode;
+
   int animationDuration = 10;
 
   @action
-  tapContinueButton(
-    BuildContext context, {
-    String? privateKey,
-    String? username,
-    String? pincode,
-  }) async {
+  tapContinueButton(BuildContext context,
+      {String? privateKey,
+      String? username,
+      String? pincode,
+      String? confirmPincode}) async {
     if (isInFirstView) {
       if ((username ?? '').isEmpty) {
         openDialog(context);
@@ -106,12 +108,12 @@ abstract class RecoverAccountControllerBase with Store {
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(2);
       }
-    } else {
-      if ((pincode ?? '').isEmpty) {
+    } else if (isInThirdView) {
+      if ((pinCode ?? '').isEmpty) {
         openDialog(context);
       } else {
         FocusScope.of(context).requestFocus(FocusNode());
-        updateIndex(1);
+        updateIndex(3);
       }
     }
   }
@@ -180,6 +182,7 @@ abstract class RecoverAccountControllerBase with Store {
     } else {
       isPinValid = true;
       pinCodeError = null;
+      pinCode = code;
     }
   }
 
@@ -291,8 +294,11 @@ abstract class RecoverAccountControllerBase with Store {
     } else if (isInThirdView) {
       updateIndex(1);
       return false;
+    } else if (isInFourthView) {
+      updateIndex(2);
+      return false;
     } else {
-      updateIndex(1);
+      updateIndex(0);
       return false;
     }
   }

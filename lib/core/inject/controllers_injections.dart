@@ -17,8 +17,7 @@ registerControllerDependencies(GetIt getIt) {
     () => RecoverAccountLoadingController(),
   );
 
-  //TODO: analyse if it could be lazy
-  getIt.registerFactory<RecoverAccountController>(
+  getIt.registerLazySingleton<RecoverAccountController>(
     () => RecoverAccountController(
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
       userHasBiometricsUsecase: getIt.get<UserHasBiometricsUsecase>(),
@@ -27,7 +26,7 @@ registerControllerDependencies(GetIt getIt) {
     ),
   );
 
-  getIt.registerFactory<RecoverPinCodeViewController>(
+  getIt.registerLazySingleton<RecoverPinCodeViewController>(
     () => RecoverPinCodeViewController(
       userHasBiometricsUsecase: getIt.get<UserHasBiometricsUsecase>(),
       userSetBiometricsUsecase: getIt.get<UserSetBiometricsUsecase>(),
