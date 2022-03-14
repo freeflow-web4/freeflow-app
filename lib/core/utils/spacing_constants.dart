@@ -9,3 +9,4 @@ const double xxlargeSpacing = 64;
 const double xxxlargeSpacing = 72;
 const double hugeSpacing = 80;
 const double huge2Spacing = 88;
+const double huge3Spacing = 96;
