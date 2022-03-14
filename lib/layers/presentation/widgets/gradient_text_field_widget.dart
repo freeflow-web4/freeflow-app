@@ -15,7 +15,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final int maxLines;
   final bool crossTheMaxLines;
   final bool showObscureButton;
-  final bool isObscureText;
+  final bool? isObscureText;
   final void Function()? onObscureButtonPressed;
   final bool fieldReadOnly;
   final bool isPinInput;
@@ -33,7 +33,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.maxLines = 1,
     this.crossTheMaxLines = false,
     this.showObscureButton = false,
-    this.isObscureText = false,
+    this.isObscureText,
     this.onObscureButtonPressed,
     this.fieldReadOnly = false,
     this.isPinInput = false,
@@ -52,151 +52,178 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return SizedBox(
-        height: 70,
-        child: Stack(
-          children: <Widget>[
-            TextFormField(
-              onChanged: widget.onChanged,
-              obscureText: widget.isObscureText,
-              controller: widget.textController,
-              readOnly: widget.fieldReadOnly,
-              focusNode: widget.inputNode,
-              style: TextStyle(
-                color: widget.errorText == null
-                    ? widget.isFieldValid
-                        ? StandardColors.blueLight
-                        : Colors.white
-                    : StandardColors.feedbackError,
-              ),
-              decoration: InputDecoration(
-                hintText: widget.isPinInput ? null : widget.hintText,
-                hintStyle: TextStyle(
-                  color: widget.errorText == null
-                      ? Colors.white
-                      : StandardColors.feedbackError,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Akrobat',
-                ),
-                border: InputBorder.none,
-                errorBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                focusedErrorBorder: InputBorder.none,
-              ),
-              maxLines: widget.maxLines,
-            ),
-            Positioned(
-              top: widget.crossTheMaxLines ? 60 : 40,
-              child: Container(
-                height: 2,
-                width: MediaQuery.of(context).size.width - 20,
-                decoration: BoxDecoration(
-                  gradient: widget.errorText == null
-                      ? StandardColors.greenGradient()
-                      : StandardColors.redGradient(),
-                ),
-              ),
-            ),
-            Positioned(
-              top: widget.crossTheMaxLines ? 60 : 40,
-              child: Container(
-                height: 2,
-                width: MediaQuery.of(context).size.width - 20,
-                decoration: BoxDecoration(
-                  gradient: widget.errorText == null
-                      ? StandardColors.greenGradient()
-                      : StandardColors.redGradient(),
-                ),
-              ),
-            ),
-            Visibility(
-              visible: widget.errorText != null,
-              child: Positioned(
-                bottom: 10,
-                child: textCaption(
-                  context,
-                  text: widget.errorText ?? '',
-                  color: widget.errorText == null
-                      ? Colors.white
-                      : StandardColors.feedbackError,
-                ),
-              ),
-            ),
-            Visibility(
-              visible: widget.isPinInput,
-              child: widget.isObscureText
-                  ? widget.pinCode != null && widget.pinCode!.isNotEmpty
-                      ? Positioned(
-                          top: 20,
-                          child: GradientTextFieldPinCode(
-                            pinCode: widget.pinCode!,
-                          ),
-                        )
-                      : Positioned(
-                          top: 13,
-                          child: textSubtitle(
-                            context,
-                            textKey: widget.hintText,
-                            color: widget.errorText == null
-                                ? Colors.white
-                                : StandardColors.feedbackError,
-                          ),
-                        )
-                  : Positioned(
-                      top: 13,
-                      child: textSubtitle(
-                        context,
-                        textKey: widget.pinCode ?? '',
-                        color: widget.errorText == null
-                            ? Colors.white
-                            : StandardColors.feedbackError,
-                      ),
-                    ),
-            ),
-            Visibility(
-              visible: widget.showSecondText,
-              child: Positioned(
-                top: 13,
-                right: 0,
-                child: textBoldSubtitle(
-                  context,
-                  textKey: '.flw ',
+    return Builder(
+      builder: (context) {
+        return SizedBox(
+          height: 70,
+          child: Stack(
+            children: <Widget>[
+              TextFormField(
+                onChanged: widget.onChanged,
+                obscureText: widget.isObscureText ?? false,
+                controller: widget.textController,
+                readOnly: widget.fieldReadOnly,
+                focusNode: widget.inputNode,
+                style: TextStyle(
                   color: widget.errorText == null
                       ? widget.isFieldValid
                           ? StandardColors.blueLight
                           : Colors.white
                       : StandardColors.feedbackError,
                 ),
-              ),
-            ),
-            Visibility(
-              visible: widget.showObscureButton &&
-                  widget.pinCode != null &&
-                  widget.pinCode!.isNotEmpty,
-              child: Positioned(
-                top: widget.isObscureText ? 22 : 12,
-                right: 0,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: widget.onObscureButtonPressed,
-                  child: widget.isObscureText
-                      ? SvgPicture.asset(
-                          IconsAsset.closedEye,
-                          height: 10,
+                decoration: InputDecoration(
+                  hintText: widget.isPinInput ? null : widget.hintText,
+                  hintStyle: TextStyle(
+                    color: widget.errorText == null
+                        ? Colors.white
+                        : StandardColors.feedbackError,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Akrobat',
+                  ),
+                  border: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  focusedErrorBorder: InputBorder.none,
+                  suffixIcon: widget.isObscureText != null
+                      ? IconButton(
+                          icon: widget.isObscureText! ? closedEye : openEye,
+                          onPressed: widget.onObscureButtonPressed,
                         )
-                      : const Icon(
-                          Icons.remove_red_eye_outlined,
-                          color: Colors.white,
-                        ),
+                      : null,
+                ),
+                maxLines: widget.maxLines,
+              ),
+              Positioned(
+                top: widget.crossTheMaxLines ? 60 : 40,
+                child: Container(
+                  height: 2,
+                  width: MediaQuery.of(context).size.width - 20,
+                  decoration: BoxDecoration(
+                    gradient: widget.errorText == null
+                        ? StandardColors.greenGradient()
+                        : StandardColors.redGradient(),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
-    });
+              Positioned(
+                top: widget.crossTheMaxLines ? 60 : 40,
+                child: Container(
+                  height: 2,
+                  width: MediaQuery.of(context).size.width - 20,
+                  decoration: BoxDecoration(
+                    gradient: widget.errorText == null
+                        ? StandardColors.greenGradient()
+                        : StandardColors.redGradient(),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: widget.errorText != null,
+                child: Positioned(
+                  bottom: 10,
+                  child: textCaption(
+                    context,
+                    text: widget.errorText ?? '',
+                    color: widget.errorText == null
+                        ? Colors.white
+                        : StandardColors.feedbackError,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: widget.isPinInput,
+                child: widget.isObscureText ?? false
+                    ? widget.pinCode != null && widget.pinCode!.isNotEmpty
+                        ? Positioned(
+                            top: 20,
+                            child: GradientTextFieldPinCode(
+                              pinCode: widget.pinCode!,
+                            ),
+                          )
+                        : Positioned(
+                            top: 13,
+                            child: textSubtitle(
+                              context,
+                              textKey: widget.hintText,
+                              color: widget.errorText == null
+                                  ? Colors.white
+                                  : StandardColors.feedbackError,
+                            ),
+                          )
+                    : Positioned(
+                        top: 13,
+                        child: textSubtitle(
+                          context,
+                          textKey: widget.pinCode ?? '',
+                          color: widget.errorText == null
+                              ? Colors.white
+                              : StandardColors.feedbackError,
+                        ),
+                      ),
+              ),
+              Visibility(
+                visible: widget.showSecondText,
+                child: Positioned(
+                  top: 13,
+                  right: 0,
+                  child: textBoldSubtitle(
+                    context,
+                    textKey: '.flw ',
+                    color: widget.errorText == null
+                        ? widget.isFieldValid
+                            ? StandardColors.blueLight
+                            : Colors.white
+                        : StandardColors.feedbackError,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: widget.showObscureButton &&
+                    widget.pinCode != null &&
+                    widget.pinCode!.isNotEmpty,
+                child: Positioned(
+                  top: widget.isObscureText ?? false ? 22 : 12,
+                  right: 0,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: widget.onObscureButtonPressed,
+                    child: widget.isObscureText == true
+                        ? closedEye
+                        : const Icon(
+                            Icons.remove_red_eye_outlined,
+                            color: Colors.white,
+                          ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget get openEye {
+    final color = widget.textController.text.length >= 4
+        ? StandardColors.secondary
+        : Colors.white;
+    return SvgPicture.asset(
+      IconsAsset.openEye,
+      height: 10,
+      color: color,
+    );
+  }
+
+  Widget get closedEye {
+    final color = widget.textController.text.length >= 4
+        ? StandardColors.secondary
+        : Colors.white;
+    return SvgPicture.asset(
+      IconsAsset.closedEye,
+      height: 10,
+      color: color,
+    );
   }
 }
