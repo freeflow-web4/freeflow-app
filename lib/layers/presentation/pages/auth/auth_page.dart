@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
@@ -24,7 +25,6 @@ class _AuthPageState extends State<AuthPage>
     with TickerProviderStateMixin, TextThemes {
   static const animationDurationInMili = 1000;
   final authController = GetIt.I.get<AuthController>();
-  //TODO: remove if possible and make not necessary for GradientTextFieldWidget
   final TextEditingController pinTextController = TextEditingController();
   late final animatedController = AnimationController(
     vsync: this,
@@ -37,8 +37,11 @@ class _AuthPageState extends State<AuthPage>
   void initState() {
     super.initState();
     animatedController.forward().orCancel.then(
-          (value) =>
-              authController.biometricsLoginFlow(context, onLoginSuccess),
+          (value) => authController.loginWithBiometrics(
+            context,
+            onLoginSuccess,
+            onBiometricsError,
+          ),
         );
   }
 
@@ -70,10 +73,13 @@ class _AuthPageState extends State<AuthPage>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
+                    padding: EdgeInsets.only(
                       left: mdSpacingx2,
                       right: mdSpacingx2,
-                      top: huge2Spacing,
+                      top: getProportionalHeightFromValue(
+                        context,
+                        xxxlargeSpacing,
+                      ),
                     ),
                     child: Opacity(
                       opacity: animations.pinFieldAnimationOpacity.value,
@@ -102,7 +108,12 @@ class _AuthPageState extends State<AuthPage>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: xxlargeSpacing),
+                    padding: EdgeInsets.only(
+                      top: getProportionalHeightFromValue(
+                        context,
+                        hugeSpacing,
+                      ),
+                    ),
                     child: Opacity(
                       opacity: animations.keyboardAnimationOpacity.value,
                       child: InAppKeyboardWidget(
@@ -118,15 +129,24 @@ class _AuthPageState extends State<AuthPage>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: largeSpacingx2 * 2),
+                    padding: EdgeInsets.only(
+                      top: getProportionalHeightFromValue(
+                        context,
+                        huge3Spacing,
+                      ),
+                    ),
                     child: Opacity(
                       opacity: animations.confirmButtonAnimationOpacity.value,
-                      child: AnimatedArrowRight(
-                        onTap: () => authController.loginWithArrowButton(
-                          pinTextController.text,
-                          onLoginSuccess,
-                        ),
-                        isActive: false,
+                      child: Observer(
+                        builder: (context) {
+                          return AnimatedArrowRight(
+                            onTap: () => authController.onLoginWithPin(
+                              pinTextController.text,
+                              onLoginSuccess,
+                            ),
+                            isActive: authController.hasEnoughDigits,
+                          );
+                        },
                       ),
                     ),
                   )
@@ -146,5 +166,9 @@ class _AuthPageState extends State<AuthPage>
           duration: const Duration(milliseconds: animationDurationInMili ~/ 3),
         )
         .orCancel;
+  }
+
+  void onBiometricsError(Exception error) {
+    //TODO: error dialog error
   }
 }
