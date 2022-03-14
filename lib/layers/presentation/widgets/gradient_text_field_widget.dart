@@ -21,6 +21,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final bool isPinInput;
   final bool isFieldValid;
   final String? pinCode;
+  final Color? obscureButtonColor;
   const GradientTextFieldWidget({
     Key? key,
     required this.errorText,
@@ -38,6 +39,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.fieldReadOnly = false,
     this.isPinInput = false,
     this.pinCode,
+    this.obscureButtonColor,
   }) : super(key: key);
 
   @override
@@ -206,24 +208,18 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
   }
 
   Widget get openEye {
-    final color = widget.textController.text.length >= 4
-        ? StandardColors.secondary
-        : Colors.white;
     return SvgPicture.asset(
       IconsAsset.openEye,
       height: 10,
-      color: color,
+      color: widget.obscureButtonColor,
     );
   }
 
   Widget get closedEye {
-    final color = widget.textController.text.length >= 4
-        ? StandardColors.secondary
-        : Colors.white;
     return SvgPicture.asset(
       IconsAsset.closedEye,
       height: 10,
-      color: color,
+      color: widget.obscureButtonColor,
     );
   }
 }
