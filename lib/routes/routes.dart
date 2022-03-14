@@ -18,7 +18,7 @@ class Routes {
   }
 
   void goToAuthPageRoute() {
-    _routeService.push(const AuthRoute());
+    _routeService.pushReplacement(const AuthRoute());
   }
 
   void pop() {
