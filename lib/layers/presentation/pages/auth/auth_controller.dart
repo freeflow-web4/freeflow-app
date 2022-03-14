@@ -22,6 +22,9 @@ abstract class AuthControllerBase with Store {
   @computed
   bool get isPinValid => pinFieldState == PinFieldState.valid;
 
+  @observable
+  bool isPinObscure = true;
+
   void biometricsLoginFlow(
     BuildContext context,
     Function onLoginSuccessCallBack,
@@ -105,5 +108,10 @@ abstract class AuthControllerBase with Store {
       nextCurrentText = currentPinFieldText + digit;
     }
     return nextCurrentText;
+  }
+
+  @action
+  void onPinObscureTextFieldTap() {
+    isPinObscure = !isPinObscure;
   }
 }

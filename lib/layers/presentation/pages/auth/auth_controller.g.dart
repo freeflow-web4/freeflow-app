@@ -32,6 +32,21 @@ mixin _$AuthController on AuthControllerBase, Store {
     });
   }
 
+  final _$isPinObscureAtom = Atom(name: 'AuthControllerBase.isPinObscure');
+
+  @override
+  bool get isPinObscure {
+    _$isPinObscureAtom.reportRead();
+    return super.isPinObscure;
+  }
+
+  @override
+  set isPinObscure(bool value) {
+    _$isPinObscureAtom.reportWrite(value, super.isPinObscure, () {
+      super.isPinObscure = value;
+    });
+  }
+
   final _$AuthControllerBaseActionController =
       ActionController(name: 'AuthControllerBase');
 
@@ -47,9 +62,21 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
+  void onPinObscureTextFieldTap() {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.onPinObscureTextFieldTap');
+    try {
+      return super.onPinObscureTextFieldTap();
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 pinFieldState: ${pinFieldState},
+isPinObscure: ${isPinObscure},
 isPinValid: ${isPinValid}
     ''';
   }
