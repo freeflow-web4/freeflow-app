@@ -6,3 +6,6 @@ const double bigSpacing = 40;
 const double largeSpacing = 48;
 const double largeSpacingx2 = 56;
 const double xxlargeSpacing = 64;
+const double xxxlargeSpacing = 72;
+const double hugeSpacing = 80;
+const double huge2Spacing = 88;
