@@ -1,6 +1,8 @@
 import 'package:freeflow/layers/domain/repositories/user_biometrics_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_pincode_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_recover_login_repository.dart';
+import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
@@ -30,5 +32,9 @@ registerUsecasesDependencies(GetIt getIt) {
 
   getIt.registerFactory<UserSetPincodeUsecase>(
     () => UserSetPincodeUsecaseImp(GetIt.I.get<UserPincodeRepository>()),
+  );
+
+  getIt.registerFactory<UserCheckPinCodeUsecase>(
+    () => UserCheckPinCodeUsecaseImp(GetIt.I.get<UserPincodeRepository>()),
   );
 }
