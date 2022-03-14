@@ -45,90 +45,95 @@ class _AuthPageState extends State<AuthPage>
   @override
   Widget build(BuildContext context) {
     return BlackScaffold(
-      child: Center(
-        child: AnimatedBuilder(
-          animation: animatedController,
-          builder: (context, child) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: mdSpacingx2,
-                    top: largeSpacingx2 * 2,
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+      child: SafeArea(
+        child: Center(
+          child: AnimatedBuilder(
+            animation: animatedController,
+            builder: (context, child) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: mdSpacingx2,
+                    ),
                     child: AnimatedText(
                       text: TranslationService.translate(
-                          context, 'login.authTitle',),
+                        context,
+                        'login.authTitle',
+                      ),
                       animation: animatedController,
-                      style:
-                          textH4TextStyle.copyWith(color: StandardColors.white),
+                      style: textH4TextStyle.copyWith(
+                        color: StandardColors.white,
+                      ),
                       animationController: animatedController,
                     ),
                   ),
-                ),
-                Padding(
-                  //TODO: add top padding
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: mdSpacingx2,
-                  ),
-                  child: Opacity(
-                    opacity: animations.pinFieldAnimationOpacity.value,
-                    child: Observer(
-                      builder: (context) {
-                        return GradientTextFieldWidget(
-                          onChanged: (_) {},
-                          isFieldValid: authController.pinFieldState !=
-                              PinFieldState.invalid,
-                          textController: pinTextController,
-                          errorText: authController.pinFieldState !=
-                                  PinFieldState.invalid
-                              ? null
-                              : TranslationService.translate(
-                                  context,
-                                  'login.pinTextInputError',
-                                ),
-                          hintText: '',
-                          fieldReadOnly: true,
-                        );
-                      },
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: mdSpacingx2,
+                      right: mdSpacingx2,
+                      top: huge2Spacing,
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: xxlargeSpacing),
-                  child: Opacity(
-                    opacity: animations.keyboardAnimationOpacity.value,
-                    child: InAppKeyboardWidget(
-                      onTap: (digit) {
-                        final currentText = pinTextController.text;
-                        final nextCurrentText =
-                            authController.onKeyboardTap(digit, currentText);
-                        setState(() {
-                          pinTextController.text = nextCurrentText;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: largeSpacingx2 * 2),
-                  child: Opacity(
-                    opacity: animations.confirmButtonAnimationOpacity.value,
-                    child: AnimatedArrowRight(
-                      onTap: () => authController.loginWithArrowButton(
-                        pinTextController.text,
-                        onLoginSuccess,
+                    child: Opacity(
+                      opacity: animations.pinFieldAnimationOpacity.value,
+                      child: Observer(
+                        builder: (context) {
+                          return GradientTextFieldWidget(
+                            onChanged: (_) {},
+                            isFieldValid: authController.pinFieldState !=
+                                PinFieldState.invalid,
+                            textController: pinTextController,
+                            errorText: authController.pinFieldState !=
+                                    PinFieldState.invalid
+                                ? null
+                                : TranslationService.translate(
+                                    context,
+                                    'login.pinTextInputError',
+                                  ),
+                            hintText: '',
+                            fieldReadOnly: true,
+                            isObscureText: authController.isPinObscure,
+                            onObscureButtonPressed:
+                                authController.onPinObscureTextFieldTap,
+                          );
+                        },
                       ),
-                      isActive: false,
                     ),
                   ),
-                )
-              ],
-            );
-          },
+                  Padding(
+                    padding: const EdgeInsets.only(top: xxlargeSpacing),
+                    child: Opacity(
+                      opacity: animations.keyboardAnimationOpacity.value,
+                      child: InAppKeyboardWidget(
+                        onTap: (digit) {
+                          final currentText = pinTextController.text;
+                          final nextCurrentText =
+                              authController.onKeyboardTap(digit, currentText);
+                          setState(() {
+                            pinTextController.text = nextCurrentText;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: largeSpacingx2 * 2),
+                    child: Opacity(
+                      opacity: animations.confirmButtonAnimationOpacity.value,
+                      child: AnimatedArrowRight(
+                        onTap: () => authController.loginWithArrowButton(
+                          pinTextController.text,
+                          onLoginSuccess,
+                        ),
+                        isActive: false,
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
