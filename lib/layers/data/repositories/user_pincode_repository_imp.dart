@@ -8,7 +8,7 @@ class UserPincodeRepositoryImp implements UserPincodeRepository {
   UserPincodeRepositoryImp(this.datasource);
 
   @override
-  Future<Either<DomainError, bool>> getPinCode() async {
+  Future<Either<DomainError, String>> getPinCode() async {
     try {
       final result = await datasource.getPincode();
       return Right(result);

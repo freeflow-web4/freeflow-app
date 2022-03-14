@@ -11,7 +11,7 @@ class UserCheckPinCodeUsecaseImp implements UserCheckPinCodeUsecase {
   Future<Either<DomainError, bool>> call(String pin) async {
     final userPinEither = await repository.getPinCode();
     late Either<DomainError, bool> result;
-    userPinEither.fold((error) => result = Left(error), (userPin) => Right(userPin == pin));
+    userPinEither.fold((error) => result = Left(error), (userPin) => result = Right(userPin == pin));
     return result;
   }
 }
