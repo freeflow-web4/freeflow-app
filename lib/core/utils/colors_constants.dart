@@ -5,6 +5,7 @@ class StandardColors {
   static const Color disabled = Color(0xffE8E8E8);
   static const Color blueLight = Color(0xff2CB6BE);
   static const Color primary = Color(0xff2D2D2D);
+  static const Color secondary = Color(0xff2CB6BE);
   static const Color feedbackError = Color(0xffFF4747);
   static const Color grey = Color(0xffEFEFEF);
   static const Color white = Color(0xFFFCFCFC);
