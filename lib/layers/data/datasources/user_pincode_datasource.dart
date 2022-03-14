@@ -1,4 +1,4 @@
 abstract class UserPincodeDatasource {
-  Future<bool> getPincode();
+  Future<String> getPincode();
   Future<bool> setPincode(String pincode);
 }

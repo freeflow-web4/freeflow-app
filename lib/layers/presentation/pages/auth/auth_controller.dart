@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/show_snackbar_dialog.dart';
-import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator.dart';
-import 'package:get_it/get_it.dart';
+import 'package:freeflow/layers/presentation/pages/auth/login.dart';
 import 'package:mobx/mobx.dart';
 part 'auth_controller.g.dart';
 
-enum PinFieldState { empty, valid, invalid }
+enum PinFieldState { empty, valid, invalid, wrong }
 
 class AuthController = AuthControllerBase with _$AuthController;
 
-abstract class AuthControllerBase with Store {
+abstract class AuthControllerBase with Store, Login {
   final PinValidator pinValidator;
 
   AuthControllerBase(this.pinValidator);
@@ -19,64 +18,33 @@ abstract class AuthControllerBase with Store {
   @observable
   PinFieldState pinFieldState = PinFieldState.empty;
 
+  @observable
+  bool hasEnoughDigits = false;
+
   @computed
   bool get isPinValid => pinFieldState == PinFieldState.valid;
 
   @observable
   bool isPinObscure = true;
 
-  void biometricsLoginFlow(
-    BuildContext context,
-    Function onLoginSuccessCallBack,
-  ) {
-    final biomectricsUsecase = GetIt.I.get<UserHasBiometricsUsecase>();
-    biomectricsUsecase().then((value) {
-      value.fold(
-        (error) => onBiometricsError(context, Exception(error.toString())),
-        (isBiometricsSaved) {
-          if (isBiometricsSaved) {
-            try {
-              loginWithBiometrics(
-                context,
-                onLoginSuccessCallBack,
-              );
-            } on Exception catch (e) {
-              onBiometricsError(context, e);
-            }
-          }
-        },
-      );
+  void onLoginSuccess(Function onLoginSuccessCallBack) {
+    onLoginSuccessCallBack.call().then((_) {
+      nextPage();
     });
   }
 
-  void loginWithArrowButton(String pin, Function onLoginSuccessCallBack) {
-    login(pin, onLoginSuccessCallBack);
-  }
-
-  void login(String pin, Function onLoginSuccessCallBack) {
-    if (pinValidator(pin)) {
-      pinFieldState = PinFieldState.valid;
-      onLoginSuccessCallBack.call().then((_) {
-        nextPage();
-      });
-    } else {
-      pinFieldState = PinFieldState.invalid;
-    }
-  }
-
-  void onLoginSuccess() {
-    nextPage();
-  }
-
-  void loginWithBiometrics(
-    BuildContext context,
-    Function onLoginSuccessCallBack,
-  ) async {
-    //TODO: call biometrics from system
+  void onLoginWithPin(String currentPin, Function loginAnimationCallBack) {
+    loginWithPin(
+      pinValidator,
+      currentPin,
+      () => onLoginSuccess(loginAnimationCallBack),
+      () => updatePinFieldState(PinFieldState.wrong),
+      () => updatePinFieldState(PinFieldState.invalid),
+    );
   }
 
   void nextPage() {
-    print("hello");
+    print("hellohellohellohellohellohellohellohellohellohellohello");
   }
 
   @action
@@ -95,6 +63,7 @@ abstract class AuthControllerBase with Store {
     showSnackBar(context, errorMessage);
   }
 
+  @action
   String onKeyboardTap(String digit, String currentPinFieldText) {
     String nextCurrentText = '';
     if (digit == 'X') {
@@ -107,11 +76,21 @@ abstract class AuthControllerBase with Store {
     } else {
       nextCurrentText = currentPinFieldText + digit;
     }
+    if(nextCurrentText.length >= 4) {
+      hasEnoughDigits = true;
+    } else {
+      hasEnoughDigits = false;
+    }
     return nextCurrentText;
   }
 
   @action
   void onPinObscureTextFieldTap() {
     isPinObscure = !isPinObscure;
+  }
+
+  @action
+  void updatePinFieldState(PinFieldState state) {
+    pinFieldState = state;
   }
 }
