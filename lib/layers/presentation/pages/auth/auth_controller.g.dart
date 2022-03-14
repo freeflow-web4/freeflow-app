@@ -62,11 +62,33 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
+  String onKeyboardTap(String digit, String currentPinFieldText) {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.onKeyboardTap');
+    try {
+      return super.onKeyboardTap(digit, currentPinFieldText);
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void onPinObscureTextFieldTap() {
     final _$actionInfo = _$AuthControllerBaseActionController.startAction(
         name: 'AuthControllerBase.onPinObscureTextFieldTap');
     try {
       return super.onPinObscureTextFieldTap();
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updatePinFieldState(PinFieldState state) {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.updatePinFieldState');
+    try {
+      return super.updatePinFieldState(state);
     } finally {
       _$AuthControllerBaseActionController.endAction(_$actionInfo);
     }
