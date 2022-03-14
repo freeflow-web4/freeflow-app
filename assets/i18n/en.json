@@ -21,6 +21,6 @@
     },
     "login": {
         "authTitle": "Authentication",
-        "pinTextInputError": "Please enter same pin code"
+        "pinTextInputError": "Please enter your pin code"
     }
 }
