@@ -90,6 +90,22 @@ mixin _$RecoverPinCodeViewController
     });
   }
 
+  final _$confirmPinCodeAtom =
+      Atom(name: 'RecoverPinCodeViewControllerBase.confirmPinCode');
+
+  @override
+  String get confirmPinCode {
+    _$confirmPinCodeAtom.reportRead();
+    return super.confirmPinCode;
+  }
+
+  @override
+  set confirmPinCode(String value) {
+    _$confirmPinCodeAtom.reportWrite(value, super.confirmPinCode, () {
+      super.confirmPinCode = value;
+    });
+  }
+
   final _$setRememberMeAsyncAction =
       AsyncAction('RecoverPinCodeViewControllerBase.setRememberMe');
 
@@ -148,13 +164,28 @@ mixin _$RecoverPinCodeViewController
   }
 
   @override
+  void getTypeConfirmPinCode(BuildContext context, String value,
+      void Function(BuildContext, String) onChangedField) {
+    final _$actionInfo =
+        _$RecoverPinCodeViewControllerBaseActionController.startAction(
+            name: 'RecoverPinCodeViewControllerBase.getTypeConfirmPinCode');
+    try {
+      return super.getTypeConfirmPinCode(context, value, onChangedField);
+    } finally {
+      _$RecoverPinCodeViewControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isPinValid: ${isPinValid},
 isObscuredPin: ${isObscuredPin},
 rememberMe: ${rememberMe},
 pinCode: ${pinCode},
-hasAvailableBiometrics: ${hasAvailableBiometrics}
+hasAvailableBiometrics: ${hasAvailableBiometrics},
+confirmPinCode: ${confirmPinCode}
     ''';
   }
 }

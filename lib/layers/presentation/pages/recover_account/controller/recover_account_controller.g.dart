@@ -193,6 +193,22 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$confirmPinCodeErrorAtom =
+      Atom(name: 'RecoverAccountControllerBase.confirmPinCodeError');
+
+  @override
+  String? get confirmPinCodeError {
+    _$confirmPinCodeErrorAtom.reportRead();
+    return super.confirmPinCodeError;
+  }
+
+  @override
+  set confirmPinCodeError(String? value) {
+    _$confirmPinCodeErrorAtom.reportWrite(value, super.confirmPinCodeError, () {
+      super.confirmPinCodeError = value;
+    });
+  }
+
   final _$isNameValidAtom =
       Atom(name: 'RecoverAccountControllerBase.isNameValid');
 
@@ -238,6 +254,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   set isPinValid(bool value) {
     _$isPinValidAtom.reportWrite(value, super.isPinValid, () {
       super.isPinValid = value;
+    });
+  }
+
+  final _$isConfirmPinCodeValidAtom =
+      Atom(name: 'RecoverAccountControllerBase.isConfirmPinCodeValid');
+
+  @override
+  bool get isConfirmPinCodeValid {
+    _$isConfirmPinCodeValidAtom.reportRead();
+    return super.isConfirmPinCodeValid;
+  }
+
+  @override
+  set isConfirmPinCodeValid(bool value) {
+    _$isConfirmPinCodeValidAtom.reportWrite(value, super.isConfirmPinCodeValid,
+        () {
+      super.isConfirmPinCodeValid = value;
     });
   }
 
@@ -392,9 +425,11 @@ isAnimatingExitFourthViewEnd: ${isAnimatingExitFourthViewEnd},
 privateKeyError: ${privateKeyError},
 usernameError: ${usernameError},
 pinCodeError: ${pinCodeError},
+confirmPinCodeError: ${confirmPinCodeError},
 isNameValid: ${isNameValid},
 isKeyValid: ${isKeyValid},
 isPinValid: ${isPinValid},
+isConfirmPinCodeValid: ${isConfirmPinCodeValid},
 isInFirstView: ${isInFirstView},
 isInSecondView: ${isInSecondView},
 isInThirdView: ${isInThirdView},

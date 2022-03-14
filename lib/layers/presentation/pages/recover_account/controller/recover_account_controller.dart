@@ -60,6 +60,9 @@ abstract class RecoverAccountControllerBase with Store {
   String? pinCodeError;
 
   @observable
+  String? confirmPinCodeError;
+
+  @observable
   bool isNameValid = false;
 
   @observable
@@ -67,6 +70,9 @@ abstract class RecoverAccountControllerBase with Store {
 
   @observable
   bool isPinValid = false;
+
+  @observable
+  bool isConfirmPinCodeValid = false;
 
   @observable
   bool isInFirstView = true;
@@ -126,8 +132,26 @@ abstract class RecoverAccountControllerBase with Store {
       validatePrivateKey(context, value);
     } else if (isInThirdView) {
       validatePinCode(context, value);
+    } else if (isInFourthView) {
+      validateConfirmPinCode(context, value);
+    }
+  }
+
+  void validateConfirmPinCode(BuildContext context, String? value) {
+    if (value?.length == 4) {
+      if (value != pinCode) {
+        confirmPinCodeError = FlutterI18n.translate(
+          context,
+          //TODO: Corrigir string erro
+          'recoverAccount.pleaseEnterUsername',
+        );
+        isConfirmPinCodeValid = false;
+      } else {
+        confirmPinCodeError = null;
+        isConfirmPinCodeValid = true;
+      }
     } else {
-      validateName(context, value);
+      isConfirmPinCodeValid = false;
     }
   }
 
@@ -151,8 +175,10 @@ abstract class RecoverAccountControllerBase with Store {
       return isKeyValid;
     } else if (isInThirdView) {
       return isPinValid;
+    } else if (isInFourthView) {
+      return isConfirmPinCodeValid;
     } else {
-      return isNameValid;
+      return true;
     }
   }
 

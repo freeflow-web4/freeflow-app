@@ -1,4 +1,3 @@
-import 'package:freeflow/layers/data/datasources/user_biometric_datasource.dart';
 import 'package:freeflow/layers/data/datasources/user_pincode_datasource.dart';
 import 'package:mocktail/mocktail.dart';
 

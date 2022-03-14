@@ -34,6 +34,9 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   @observable
   bool hasAvailableBiometrics = false;
 
+  @observable
+  String confirmPinCode = '';
+
   @action
   Future<void> setRememberMe(bool value) async {
     await userSetBiometricsUsecase(value);
@@ -77,6 +80,30 @@ abstract class RecoverPinCodeViewControllerBase with Store {
       }
     }
     onChangedField(context, pinCode);
+  }
+
+  @action
+  void getTypeConfirmPinCode(
+    BuildContext context,
+    String value,
+    void Function(BuildContext context, String pinCode) onChangedField,
+  ) {
+    if (value == 'del') {
+      if (confirmPinCode == '') {
+        return;
+      } else {
+        confirmPinCode = confirmPinCode.substring(0, confirmPinCode.length - 1);
+      }
+    } else if (value == 'X') {
+      confirmPinCode = '';
+    } else {
+      if (confirmPinCode.length == 4) {
+        return;
+      } else {
+        confirmPinCode = confirmPinCode + value;
+      }
+    }
+    onChangedField(context, confirmPinCode);
   }
 
   Future<List<dynamic>> getAvailableBiometrics() async {
