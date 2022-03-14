@@ -41,18 +41,14 @@ class Login {
     Function onLoginFailedCallBack,
     Function onPinInvalid,
   ) async {
-    if (pinValidator(currentPin)) {
-      final isPinCorrect =
-          await GetIt.I.get<UserCheckPinCodeUsecase>().call(currentPin);
-      isPinCorrect.fold((_) {}, (success) {
-        if (success) {
-          onLoginSuccessCallBack();
-        } else {
-          onLoginFailedCallBack();
-        }
-      });
-    } else {
-      onPinInvalid();
-    }
+    final isPinCorrect =
+        await GetIt.I.get<UserCheckPinCodeUsecase>().call(currentPin);
+    isPinCorrect.fold((_) {}, (success) {
+      if (success) {
+        onLoginSuccessCallBack();
+      } else {
+        onLoginFailedCallBack();
+      }
+    });
   }
 }
