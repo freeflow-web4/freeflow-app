@@ -4,10 +4,21 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_recover_login_dto.g.dart';
 
 @JsonSerializable()
-class UserRecoverLoginDto extends UserEntity {
+class UserRecoverLoginDto {
+  String id;
+  String username;
+  String email;
+  String token;
+
   UserRecoverLoginDto({
-    required name,
-  }) : super(name: name);
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.token,
+  });
+
+  UserEntity toEntity() =>
+      UserEntity(id: id, username: username, email: email, token: token);
 
   factory UserRecoverLoginDto.fromJson(Map<String, dynamic> json) =>
       _$UserRecoverLoginDtoFromJson(json);

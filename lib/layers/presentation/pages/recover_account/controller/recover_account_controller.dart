@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';

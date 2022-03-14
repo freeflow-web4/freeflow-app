@@ -1,9 +1,13 @@
 class UserEntity {
-  String name;
-  String? photoUrl;
+  String id;
+  String username;
+  String email;
+  String token;
 
   UserEntity({
-    required this.name,
-    this.photoUrl,
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.token,
   });
 }

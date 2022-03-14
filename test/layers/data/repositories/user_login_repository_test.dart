@@ -16,7 +16,8 @@ void main() {
     repository = UserRecoverLoginRepositoryImp(datasource);
   });
 
-  final UserEntity userResponse = UserEntity(name: 'testName');
+  final UserEntity userResponse =
+      UserEntity(email: '', id: '', token: '', username: '');
   test('should return a UserEntity when calls to datasource succeed', () async {
     datasource.mockRequestSuccess(userResponse);
     final result = await repository.auth(
