@@ -117,6 +117,7 @@ class _SwipeButtonState extends State<SwipeButton>
   @override
   void dispose() {
     _buttonAnimation?.removeStatusListener(onAnimationChanged);
+    animationController.dispose();
     super.dispose();
   }
 
