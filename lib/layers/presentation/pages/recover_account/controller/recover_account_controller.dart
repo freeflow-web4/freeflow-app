@@ -2,9 +2,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
-import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
@@ -16,14 +15,12 @@ class RecoverAccountController = RecoverAccountControllerBase
 
 abstract class RecoverAccountControllerBase with Store {
   final UserRecoverLoginUseCase userRecoverLoginUseCase;
-  final UserHasBiometricsUsecase userHasBiometricsUsecase;
-  final UserSetBiometricsUsecase userSetBiometricsUsecase;
   final BiometricAuthDriver biometricDriver;
+  final UserSetPincodeUsecase userSetPincodeUsecase;
   RecoverAccountControllerBase({
     required this.userRecoverLoginUseCase,
-    required this.userHasBiometricsUsecase,
-    required this.userSetBiometricsUsecase,
     required this.biometricDriver,
+    required this.userSetPincodeUsecase,
   });
 
   @observable
@@ -134,7 +131,14 @@ abstract class RecoverAccountControllerBase with Store {
       validatePinCode(context, value);
     } else if (isInFourthView) {
       validateConfirmPinCode(context, value);
+      if (isConfirmPinCodeValid) {
+        savePinCode();
+      }
     }
+  }
+
+  void savePinCode() {
+    if (pinCode != null) userSetPincodeUsecase(pinCode!);
   }
 
   void validateConfirmPinCode(BuildContext context, String? value) {
@@ -142,8 +146,7 @@ abstract class RecoverAccountControllerBase with Store {
       if (value != pinCode) {
         confirmPinCodeError = FlutterI18n.translate(
           context,
-          //TODO: Corrigir string erro
-          'recoverAccount.pleaseEnterUsername',
+          'recoverAccount.pleaseConfirYourPinCode',
         );
         isConfirmPinCodeValid = false;
       } else {

@@ -114,6 +114,14 @@ mixin _$RecoverPinCodeViewController
     return _$setRememberMeAsyncAction.run(() => super.setRememberMe(value));
   }
 
+  final _$biometricAuthAsyncAction =
+      AsyncAction('RecoverPinCodeViewControllerBase.biometricAuth');
+
+  @override
+  Future<void> biometricAuth(bool value) {
+    return _$biometricAuthAsyncAction.run(() => super.biometricAuth(value));
+  }
+
   final _$canCheckBiometricsAsyncAction =
       AsyncAction('RecoverPinCodeViewControllerBase.canCheckBiometrics');
 
@@ -125,18 +133,6 @@ mixin _$RecoverPinCodeViewController
 
   final _$RecoverPinCodeViewControllerBaseActionController =
       ActionController(name: 'RecoverPinCodeViewControllerBase');
-
-  @override
-  void biometricAuth(bool value) {
-    final _$actionInfo = _$RecoverPinCodeViewControllerBaseActionController
-        .startAction(name: 'RecoverPinCodeViewControllerBase.biometricAuth');
-    try {
-      return super.biometricAuth(value);
-    } finally {
-      _$RecoverPinCodeViewControllerBaseActionController
-          .endAction(_$actionInfo);
-    }
-  }
 
   @override
   void setObscuredPin() {

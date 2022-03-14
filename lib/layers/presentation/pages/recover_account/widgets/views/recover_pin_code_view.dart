@@ -49,7 +49,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
     recoverAccountViewAnimation =
         RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
-    widget.recoverAccountController.userSetBiometricsUsecase(false);
+    viewController.userSetBiometricsUsecase(false);
     viewController.canCheckBiometrics();
     viewController.setRememberMe(false);
   }

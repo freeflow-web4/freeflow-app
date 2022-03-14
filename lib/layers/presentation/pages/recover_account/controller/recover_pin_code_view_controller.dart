@@ -44,10 +44,13 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   }
 
   @action
-  void biometricAuth(bool value) {
+  Future<void> biometricAuth(bool value) async {
     if (value) {
-      biometricDriver.authenticateUser();
-      setRememberMe(true);
+      final biometricResult = await biometricDriver.authenticateUser();
+      biometricResult.fold(
+        (l) => setRememberMe(false),
+        (r) => setRememberMe(true),
+      );
     } else {
       setRememberMe(false);
     }
