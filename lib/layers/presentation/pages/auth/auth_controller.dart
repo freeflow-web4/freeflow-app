@@ -18,9 +18,6 @@ abstract class AuthControllerBase with Store, Login {
   @observable
   PinFieldState pinFieldState = PinFieldState.empty;
 
-  @observable
-  bool hasEnoughDigits = false;
-
   @computed
   bool get isPinValid => pinFieldState == PinFieldState.valid;
 
@@ -76,11 +73,8 @@ abstract class AuthControllerBase with Store, Login {
     } else {
       nextCurrentText = currentPinFieldText + digit;
     }
-    if(nextCurrentText.length >= 4) {
-      hasEnoughDigits = true;
-    } else {
-      hasEnoughDigits = false;
-    }
+    onPinChanged(nextCurrentText);
+
     return nextCurrentText;
   }
 
