@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
@@ -17,10 +18,12 @@ abstract class RecoverAccountControllerBase with Store {
   final UserRecoverLoginUseCase userRecoverLoginUseCase;
   final BiometricAuthDriver biometricDriver;
   final UserSetPincodeUsecase userSetPincodeUsecase;
+  final GetUsernameExistsUsecase getUsernameExistsUsecase;
   RecoverAccountControllerBase({
     required this.userRecoverLoginUseCase,
     required this.biometricDriver,
     required this.userSetPincodeUsecase,
+    required this.getUsernameExistsUsecase,
   });
 
   @observable
@@ -213,7 +216,7 @@ abstract class RecoverAccountControllerBase with Store {
     }
   }
 
-  void validateName(BuildContext context, String? name) {
+  void validateName(BuildContext context, String? name) async {
     if ((name ?? '').trim().isEmpty) {
       usernameError = FlutterI18n.translate(
         context,
@@ -221,9 +224,28 @@ abstract class RecoverAccountControllerBase with Store {
       );
       isNameValid = false;
     } else {
-      usernameError = null;
-      isNameValid = true;
+      isValidating = true;
+      final result = await getUsernameExistsUsecase(name ?? '');
+      result.fold((l) {
+        usernameError = FlutterI18n.translate(
+          context,
+          'recoverAccount.pleaseEnterUsername',
+        );
+        isNameValid = false;
+      }, (r) {
+        if (r) {
+          usernameError = null;
+          isNameValid = true;
+        } else {
+          usernameError = FlutterI18n.translate(
+            context,
+            'recoverAccount.usernameIsNotValid',
+          );
+          isNameValid = false;
+        }
+      });
     }
+    isValidating = false;
   }
 
   Future<Object?> openDialog(BuildContext context) async {

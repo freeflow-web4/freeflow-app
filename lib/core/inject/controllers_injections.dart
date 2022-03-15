@@ -2,6 +2,7 @@ import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biom
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_pin_code_view_controller.dart';
@@ -19,6 +20,7 @@ registerControllerDependencies(GetIt getIt) {
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
       biometricDriver: getIt.get<BiometricAuthDriver>(),
       userSetPincodeUsecase: getIt.get<UserSetPincodeUsecase>(),
+      getUsernameExistsUsecase: getIt.get<GetUsernameExistsUsecase>(),
     ),
   );
 

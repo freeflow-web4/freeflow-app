@@ -1,8 +1,10 @@
 import 'package:freeflow/layers/data/datasources/cache/user_pincode_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/remote/user_recover_login_datasource_imp.dart';
+import 'package:freeflow/layers/data/datasources/remote/username_exists_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/user_biometric_datasource.dart';
 import 'package:freeflow/layers/data/datasources/user_pincode_datasource.dart';
 import 'package:freeflow/layers/data/datasources/user_recover_login_datasource.dart';
+import 'package:freeflow/layers/data/datasources/username_exists_datasource.dart';
 import 'package:freeflow/layers/infra/cache/cache_storage.dart';
 import 'package:freeflow/layers/infra/http/http_client.dart';
 import 'package:get_it/get_it.dart';
@@ -18,5 +20,9 @@ registerDatasourcesDependencies(GetIt getIt) {
   );
   getIt.registerFactory<UserPincodeDatasource>(
     () => UserPincodeDatasourceImp(getIt.get<CacheStorage>()),
+  );
+
+  getIt.registerFactory<UsernameExistsDatasource>(
+    () => UsernameExistsDatasourceImp(getIt.get<HttpClient>()),
   );
 }

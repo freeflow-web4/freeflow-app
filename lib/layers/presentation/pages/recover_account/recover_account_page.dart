@@ -14,6 +14,7 @@ import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_pin_code_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:get_it/get_it.dart';
 
@@ -74,6 +75,9 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                 constraints: const BoxConstraints(maxWidth: 720),
                 child: Observer(
                   builder: (context) {
+                    if (recoverAccountController.isValidating) {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    }
                     return Column(
                       children: [
                         recoverAccountController.currentIndex == 0
@@ -120,13 +124,12 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                             ),
                           ),
                         ),
-                        const SizedBox(height: xxlargeSpacing),
-                        Observer(builder: (context) {
-                          return Visibility(
-                            visible: recoverAccountController.isValidating,
-                            child: const CircularProgressIndicator(),
-                          );
-                        }),
+                        const SizedBox(height: 127),
+                        Observer(
+                          builder: (context) => LoadingWidget(
+                            isLoading: recoverAccountController.isValidating,
+                          ),
+                        ),
                         const Spacer(),
                         StaggerOpacity(
                           opacity: animation.buttonOpacity,
