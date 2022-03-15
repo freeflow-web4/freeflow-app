@@ -4,8 +4,8 @@ import 'package:mocktail/mocktail.dart';
 
 class DioHttpClientMock extends Mock implements HttpClient {
   When _mockGetRequestCall() => when(() => get(any()));
-  void mockGetRequestSuccess(String value) =>
-      _mockGetRequestCall().thenAnswer((_) async => value);
+  void mockGetRequestSuccess(Response response) =>
+      _mockGetRequestCall().thenAnswer((_) async => response);
   void mockGetRequestFailure(String error) =>
       _mockGetRequestCall().thenThrow(Exception(error));
 
