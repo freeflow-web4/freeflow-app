@@ -1,10 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:freeflow/layers/domain/entities/user_local_auth_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
-import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase.dart';
-import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase_imp.dart';
 import 'package:mocktail/mocktail.dart';
@@ -24,7 +21,7 @@ void main() {
   });
 
   setUpAll(() {
-    registerFallbackValue(UserLocalAuthEntityFake());
+    registerFallbackValue(UserEntityFake());
   });
 
   test('should return true if username exists', () async {

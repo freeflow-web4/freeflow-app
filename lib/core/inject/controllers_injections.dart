@@ -8,6 +8,7 @@ import 'package:freeflow/layers/presentation/pages/recover_account/controller/re
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_pin_code_view_controller.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import '../../layers/presentation/pages/recover_account_loading/controller/recover_account_loading_controller.dart';
 
 registerControllerDependencies(GetIt getIt) {
@@ -21,6 +22,7 @@ registerControllerDependencies(GetIt getIt) {
       biometricDriver: getIt.get<BiometricAuthDriver>(),
       userSetPincodeUsecase: getIt.get<UserSetPincodeUsecase>(),
       getUsernameExistsUsecase: getIt.get<GetUsernameExistsUsecase>(),
+      saveUserLocalAuthUsecase: getIt.get<SaveUserLocalAuthUsecase>(),
     ),
   );
 

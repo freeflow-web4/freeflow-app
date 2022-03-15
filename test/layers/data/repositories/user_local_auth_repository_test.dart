@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:freeflow/layers/data/repositories/user_local_auth_repository_imp.dart';
-import 'package:freeflow/layers/domain/entities/user_local_auth_entity.dart';
+import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/repositories/user_local_auth_repository.dart';
 import 'package:mocktail/mocktail.dart';
@@ -12,16 +12,21 @@ import '../mocks/user_local_auth_datasource_mock.dart';
 void main() {
   late UserLocalAuthDatasourceMock datasourceMock;
   late UserLocalAuthRepository repository;
-  late UserLocalAuthEntity entity;
+  late UserEntity entity;
 
   setUp(() {
     datasourceMock = UserLocalAuthDatasourceMock();
     repository = UserLocalAuthRepositoryImp(datasourceMock);
-    entity = UserLocalAuthEntity(pinCode: '1234', hasBiometrics: true);
+    entity = UserEntity(
+      email: 'email',
+      id: 'id',
+      token: '123',
+      username: 'username',
+    );
   });
 
   setUpAll(() {
-    registerFallbackValue(UserLocalAuthEntityFake());
+    registerFallbackValue(UserEntityFake());
   });
 
   group('get local auth user', () {

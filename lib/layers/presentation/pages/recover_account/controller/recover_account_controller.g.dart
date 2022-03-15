@@ -434,13 +434,6 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
         confirmPincode: confirmPincode));
   }
 
-  final _$authAsyncAction = AsyncAction('RecoverAccountControllerBase.auth');
-
-  @override
-  Future<void> auth(BuildContext context, String? key) {
-    return _$authAsyncAction.run(() => super.auth(context, key));
-  }
-
   final _$hasBiometricAvailableAsyncAction =
       AsyncAction('RecoverAccountControllerBase.hasBiometricAvailable');
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
@@ -19,11 +20,14 @@ abstract class RecoverAccountControllerBase with Store {
   final BiometricAuthDriver biometricDriver;
   final UserSetPincodeUsecase userSetPincodeUsecase;
   final GetUsernameExistsUsecase getUsernameExistsUsecase;
+  final SaveUserLocalAuthUsecase saveUserLocalAuthUsecase;
+
   RecoverAccountControllerBase({
     required this.userRecoverLoginUseCase,
     required this.biometricDriver,
     required this.userSetPincodeUsecase,
     required this.getUsernameExistsUsecase,
+    required this.saveUserLocalAuthUsecase,
   });
 
   @observable
@@ -136,25 +140,6 @@ abstract class RecoverAccountControllerBase with Store {
   }
 
   @action
-  Future<void> auth(BuildContext context, String? key) async {
-    final result = await userRecoverLoginUseCase(
-        username: username, privateKey: key ?? '');
-    result.fold(
-      (l) {
-        isKeyValid = false;
-        privateKeyError = FlutterI18n.translate(
-          context,
-          'recoverAccount.privateKeyIsNotValid',
-        );
-      },
-      (r) {
-        isKeyValid = true;
-        privateKeyError = null;
-      },
-    );
-  }
-
-  @action
   void onChangedField(BuildContext context, String? value) {
     if (isInFirstView) {
       validateName(context, value);
@@ -197,7 +182,22 @@ abstract class RecoverAccountControllerBase with Store {
       );
     } else {
       isValidating = true;
-      await auth(context, key);
+      final result = await userRecoverLoginUseCase(
+          username: username, privateKey: key ?? '');
+      result.fold(
+        (l) {
+          isKeyValid = false;
+          privateKeyError = FlutterI18n.translate(
+            context,
+            'recoverAccount.privateKeyIsNotValid',
+          );
+        },
+        (r) {
+          isKeyValid = true;
+          privateKeyError = null;
+          saveUserLocalAuthUsecase(r);
+        },
+      );
     }
     isValidating = false;
   }

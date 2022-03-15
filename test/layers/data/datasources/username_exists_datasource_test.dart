@@ -22,7 +22,7 @@ void main() {
   test('should return true if username exists', () async {
     clientMock.mockGetRequestSuccess(
       Response(
-        data: "USER_ALREADY_EXISTS",
+        data: {"message": "USER_ALREADY_EXISTS"},
         requestOptions: RequestOptions(baseUrl: url, path: ''),
       ),
     );
@@ -33,7 +33,7 @@ void main() {
   test('should return false if username dont exists', () async {
     clientMock.mockGetRequestSuccess(
       Response(
-        data: "OK",
+        data: {"message": "OK"},
         requestOptions: RequestOptions(baseUrl: url, path: ''),
       ),
     );

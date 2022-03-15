@@ -17,7 +17,7 @@ void main() {
   late String privateKey;
   late String url;
   late UserEntity userEntity;
-  late String responseEntity;
+  late Map<String, dynamic> response;
 
   setUp(() {
     clientMock = DioHttpClientMock();
@@ -31,14 +31,13 @@ void main() {
       email: "email",
       token: "token",
     );
-    responseEntity =
-        jsonEncode(UserRecoverLoginDto.fromEntity(userEntity).toJson());
+    response = UserRecoverLoginDto.fromEntity(userEntity).toJson();
   });
 
   test('should return a UserEntity when succeed', () async {
     clientMock.mockPostRequestSuccess(
       Response(
-        data: responseEntity,
+        data: response,
         requestOptions: RequestOptions(baseUrl: url, path: ''),
       ),
     );
