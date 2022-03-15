@@ -54,7 +54,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       return SizedBox(
-        height: 70,
+        height: 80,
         child: Stack(
           children: <Widget>[
             TextFormField(
@@ -115,7 +115,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             Visibility(
               visible: widget.errorText != null,
               child: Positioned(
-                bottom: 10,
+                bottom: widget.maxLines == 2 ? -2 : 10,
                 child: textCaption(
                   context,
                   text: widget.errorText ?? '',

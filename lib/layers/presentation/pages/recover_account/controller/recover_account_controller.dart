@@ -98,6 +98,9 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   bool isBiometricAvailable = true;
 
+  @observable
+  String username = '';
+
   int animationDuration = 10;
 
   @action
@@ -128,8 +131,27 @@ abstract class RecoverAccountControllerBase with Store {
         updateIndex(3);
       }
     } else if (isInFourthView) {
-      auth(username!, privateKey!);
+      print('eita');
     }
+  }
+
+  @action
+  Future<void> auth(BuildContext context, String? key) async {
+    final result = await userRecoverLoginUseCase(
+        username: username, privateKey: key ?? '');
+    result.fold(
+      (l) {
+        isKeyValid = false;
+        privateKeyError = FlutterI18n.translate(
+          context,
+          'recoverAccount.privateKeyIsNotValid',
+        );
+      },
+      (r) {
+        isKeyValid = true;
+        privateKeyError = null;
+      },
+    );
   }
 
   @action
@@ -152,9 +174,6 @@ abstract class RecoverAccountControllerBase with Store {
     if (pinCode != null) userSetPincodeUsecase(pinCode!);
   }
 
-  void auth(String username, String privateKey) async =>
-      await userRecoverLoginUseCase(username: username, privateKey: privateKey);
-
   bool isContinueButtonActive() {
     if (isInFirstView) {
       return isNameValid;
@@ -169,7 +188,7 @@ abstract class RecoverAccountControllerBase with Store {
     }
   }
 
-  void validatePrivateKey(BuildContext context, String? key) {
+  validatePrivateKey(BuildContext context, String? key) async {
     if ((key ?? '').isEmpty) {
       isKeyValid = false;
       privateKeyError = FlutterI18n.translate(
@@ -177,9 +196,10 @@ abstract class RecoverAccountControllerBase with Store {
         'recoverAccount.pleaseEnterPrivateKey',
       );
     } else {
-      isKeyValid = true;
-      privateKeyError = null;
+      isValidating = true;
+      await auth(context, key);
     }
+    isValidating = false;
   }
 
   void validatePinCode(BuildContext context, String? code) {
@@ -236,6 +256,7 @@ abstract class RecoverAccountControllerBase with Store {
         if (r) {
           usernameError = null;
           isNameValid = true;
+          username = name ?? '';
         } else {
           usernameError = FlutterI18n.translate(
             context,

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:freeflow/layers/data/datasources/user_recover_login_datasource.dart';
 import 'package:freeflow/layers/data/dtos/user_recover_login/user_recover_login_dto.dart';
@@ -20,8 +18,7 @@ class UserRecoverLoginDataSourceImp implements UserRecoverLoginDataSource {
           "seedPhrase": privateKey,
         },
       );
-      final json = jsonDecode(response.data);
-      final user = UserRecoverLoginDto.fromJson(json).toEntity();
+      final user = UserRecoverLoginDto.fromJson(response.data).toEntity();
       return user;
     } catch (error) {
       if (error is DioError) {

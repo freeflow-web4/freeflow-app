@@ -402,6 +402,21 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$usernameAtom = Atom(name: 'RecoverAccountControllerBase.username');
+
+  @override
+  String get username {
+    _$usernameAtom.reportRead();
+    return super.username;
+  }
+
+  @override
+  set username(String value) {
+    _$usernameAtom.reportWrite(value, super.username, () {
+      super.username = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -417,6 +432,13 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
         username: username,
         pincode: pincode,
         confirmPincode: confirmPincode));
+  }
+
+  final _$authAsyncAction = AsyncAction('RecoverAccountControllerBase.auth');
+
+  @override
+  Future<void> auth(BuildContext context, String? key) {
+    return _$authAsyncAction.run(() => super.auth(context, key));
   }
 
   final _$hasBiometricAvailableAsyncAction =
@@ -479,7 +501,8 @@ isInFourthView: ${isInFourthView},
 currentIndex: ${currentIndex},
 pinCode: ${pinCode},
 isValidating: ${isValidating},
-isBiometricAvailable: ${isBiometricAvailable}
+isBiometricAvailable: ${isBiometricAvailable},
+username: ${username}
     ''';
   }
 }
