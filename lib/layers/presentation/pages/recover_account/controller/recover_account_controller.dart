@@ -89,6 +89,12 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   String? pinCode;
 
+  @observable
+  bool isValidating = false;
+
+  @observable
+  bool isBiometricAvailable = true;
+
   int animationDuration = 10;
 
   @action
@@ -118,6 +124,8 @@ abstract class RecoverAccountControllerBase with Store {
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(3);
       }
+    } else if (isInFourthView) {
+      auth(username!, privateKey!);
     }
   }
 
@@ -141,35 +149,8 @@ abstract class RecoverAccountControllerBase with Store {
     if (pinCode != null) userSetPincodeUsecase(pinCode!);
   }
 
-  void validateConfirmPinCode(BuildContext context, String? value) {
-    if (value?.length == 4) {
-      if (value != pinCode) {
-        confirmPinCodeError = FlutterI18n.translate(
-          context,
-          'recoverAccount.pleaseConfirYourPinCode',
-        );
-        isConfirmPinCodeValid = false;
-      } else {
-        confirmPinCodeError = null;
-        isConfirmPinCodeValid = true;
-      }
-    } else {
-      isConfirmPinCodeValid = false;
-    }
-  }
-
-  void validateName(BuildContext context, String? name) {
-    if ((name ?? '').trim().isEmpty) {
-      usernameError = FlutterI18n.translate(
-        context,
-        'recoverAccount.pleaseEnterUsername',
-      );
-      isNameValid = false;
-    } else {
-      usernameError = null;
-      isNameValid = true;
-    }
-  }
+  void auth(String username, String privateKey) async =>
+      await userRecoverLoginUseCase(username: username, privateKey: privateKey);
 
   bool isContinueButtonActive() {
     if (isInFirstView) {
@@ -212,6 +193,36 @@ abstract class RecoverAccountControllerBase with Store {
       isPinValid = true;
       pinCodeError = null;
       pinCode = code;
+    }
+  }
+
+  void validateConfirmPinCode(BuildContext context, String? value) {
+    if (value?.length == 4) {
+      if (value != pinCode) {
+        confirmPinCodeError = FlutterI18n.translate(
+          context,
+          'recoverAccount.pleaseConfirYourPinCode',
+        );
+        isConfirmPinCodeValid = false;
+      } else {
+        confirmPinCodeError = null;
+        isConfirmPinCodeValid = true;
+      }
+    } else {
+      isConfirmPinCodeValid = false;
+    }
+  }
+
+  void validateName(BuildContext context, String? name) {
+    if ((name ?? '').trim().isEmpty) {
+      usernameError = FlutterI18n.translate(
+        context,
+        'recoverAccount.pleaseEnterUsername',
+      );
+      isNameValid = false;
+    } else {
+      usernameError = null;
+      isNameValid = true;
     }
   }
 
@@ -275,13 +286,16 @@ abstract class RecoverAccountControllerBase with Store {
       } else {
         isAnimatingExitThirdView = false;
         isAnimatingExitSecondView = true;
+        isAnimatingExitFourthView = true;
         Timer.periodic(const Duration(seconds: 3), (timer) {
           isInFirstView = false;
           isInSecondView = false;
           isInThirdView = true;
+          isInFourthView = false;
           currentIndex = 2;
           isAnimatingExitThirdViewEnd = false;
           isAnimatingExitSecondViewEnd = true;
+          isAnimatingExitFourthViewEnd = true;
           timer.cancel();
         });
       }
@@ -330,5 +344,14 @@ abstract class RecoverAccountControllerBase with Store {
       updateIndex(0);
       return false;
     }
+  }
+
+  @action
+  Future<void> hasBiometricAvailable() async {
+    final result = await biometricDriver.getAvailableBiometrics();
+    result.fold(
+      (l) => isBiometricAvailable = false,
+      (r) => isBiometricAvailable = r.isNotEmpty,
+    );
   }
 }

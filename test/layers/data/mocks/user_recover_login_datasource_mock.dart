@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 
 class MockUserLoginDatasource extends Mock
     implements UserRecoverLoginDataSource {
-  When mockRequestCall() => when(() => call(
+  When mockRequestCall() => when(() => recover(
         username: any(named: "username"),
         privateKey: any(named: "privateKey"),
       ));

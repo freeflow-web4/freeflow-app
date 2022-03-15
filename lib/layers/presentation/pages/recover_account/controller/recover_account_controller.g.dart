@@ -369,6 +369,39 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isValidatingAtom =
+      Atom(name: 'RecoverAccountControllerBase.isValidating');
+
+  @override
+  bool get isValidating {
+    _$isValidatingAtom.reportRead();
+    return super.isValidating;
+  }
+
+  @override
+  set isValidating(bool value) {
+    _$isValidatingAtom.reportWrite(value, super.isValidating, () {
+      super.isValidating = value;
+    });
+  }
+
+  final _$isBiometricAvailableAtom =
+      Atom(name: 'RecoverAccountControllerBase.isBiometricAvailable');
+
+  @override
+  bool get isBiometricAvailable {
+    _$isBiometricAvailableAtom.reportRead();
+    return super.isBiometricAvailable;
+  }
+
+  @override
+  set isBiometricAvailable(bool value) {
+    _$isBiometricAvailableAtom.reportWrite(value, super.isBiometricAvailable,
+        () {
+      super.isBiometricAvailable = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -384,6 +417,15 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
         username: username,
         pincode: pincode,
         confirmPincode: confirmPincode));
+  }
+
+  final _$hasBiometricAvailableAsyncAction =
+      AsyncAction('RecoverAccountControllerBase.hasBiometricAvailable');
+
+  @override
+  Future<void> hasBiometricAvailable() {
+    return _$hasBiometricAvailableAsyncAction
+        .run(() => super.hasBiometricAvailable());
   }
 
   final _$RecoverAccountControllerBaseActionController =
@@ -435,7 +477,9 @@ isInSecondView: ${isInSecondView},
 isInThirdView: ${isInThirdView},
 isInFourthView: ${isInFourthView},
 currentIndex: ${currentIndex},
-pinCode: ${pinCode}
+pinCode: ${pinCode},
+isValidating: ${isValidating},
+isBiometricAvailable: ${isBiometricAvailable}
     ''';
   }
 }

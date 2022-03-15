@@ -20,6 +20,14 @@ class UserRecoverLoginDto {
   UserEntity toEntity() =>
       UserEntity(id: id, username: username, email: email, token: token);
 
+  factory UserRecoverLoginDto.fromEntity(UserEntity entity) =>
+      UserRecoverLoginDto(
+        id: entity.id,
+        username: entity.username,
+        email: entity.email,
+        token: entity.token,
+      );
+
   factory UserRecoverLoginDto.fromJson(Map<String, dynamic> json) =>
       _$UserRecoverLoginDtoFromJson(json);
   Map<String, dynamic> toJson() => _$UserRecoverLoginDtoToJson(this);

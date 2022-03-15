@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:freeflow/layers/data/datasources/user_recover_login_datasource.dart';
 import 'package:freeflow/layers/data/dtos/user_recover_login/user_recover_login_dto.dart';
 import 'package:freeflow/layers/domain/entities/user_entity.dart';
@@ -9,22 +10,25 @@ class UserRecoverLoginDataSourceImp implements UserRecoverLoginDataSource {
   final HttpClient client;
   UserRecoverLoginDataSourceImp(this.client);
   @override
-  Future<UserEntity> call(
+  Future<UserEntity> recover(
       {required String username, required String privateKey}) async {
-    final response = await client.post(
-      'users/recover',
-      body: {
-        "login": username,
-        "seedPhrase": privateKey,
-      },
-    );
-
-    if (response.statusCode == 200) {
+    try {
+      final response = await client.post(
+        'users/recover',
+        body: {
+          "login": username,
+          "seedPhrase": privateKey,
+        },
+      );
       final json = jsonDecode(response.data);
       final user = UserRecoverLoginDto.fromJson(json).toEntity();
       return user;
-    } else {
-      throw Exception(response.data);
+    } catch (error) {
+      if (error is DioError) {
+        throw Exception(error.response!.statusMessage);
+      } else {
+        throw Exception(error.toString());
+      }
     }
   }
 }

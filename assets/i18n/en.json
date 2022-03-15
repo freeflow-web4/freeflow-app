@@ -19,5 +19,16 @@
         "pleaseEnterUsername": "Please enter your username",
         "pleaseEnterPinCode": "Please enter your pin code",
         "pleaseConfirYourPinCode": "Please confirm your pin code"
+    },
+    "domainError": {
+        "somethingWrong": "Something wrong!",
+        "tooManyAttempts": "Too many attempts, try again later!",
+        "invalidPrivateKey": "Invalid private key.",
+        "userDisabled": "User disabled.",
+        "serverError": "Internal server error.",
+        "noInternet": "No internet found.",
+        "invalidUsername": "Invalid username!",
+        "cacheError": "Cache error!",
+        "slowConnection": "Your connection is too slow!"
     }
 }

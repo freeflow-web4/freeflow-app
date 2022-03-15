@@ -12,7 +12,7 @@ class DioHttpClientMock extends Mock implements HttpClient {
   When _mockPostRequestCall() =>
       when(() => post(any(), body: any(named: "body")));
   void mockPostRequestSuccess(Response response) =>
-      _mockPostRequestCall().thenAnswer((invocation) => response);
+      _mockPostRequestCall().thenAnswer((invocation) async => response);
   void mockPostRequestFailure(String error) =>
       _mockGetRequestCall().thenThrow(Exception(error));
 }

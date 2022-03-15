@@ -120,6 +120,13 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                             ),
                           ),
                         ),
+                        const SizedBox(height: xxlargeSpacing),
+                        Observer(builder: (context) {
+                          return Visibility(
+                            visible: recoverAccountController.isValidating,
+                            child: const CircularProgressIndicator(),
+                          );
+                        }),
                         const Spacer(),
                         StaggerOpacity(
                           opacity: animation.buttonOpacity,
