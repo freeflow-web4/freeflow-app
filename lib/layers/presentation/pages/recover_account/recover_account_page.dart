@@ -124,7 +124,15 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                             ),
                           ),
                         ),
-                        const SizedBox(height: 127),
+                        Visibility(
+                          visible: recoverAccountController.currentIndex < 2,
+                          child: SizedBox(
+                              height: WidgetsBinding
+                                          .instance!.window.viewInsets.bottom >
+                                      0.0
+                                  ? 0
+                                  : 127),
+                        ),
                         Observer(
                           builder: (context) => LoadingWidget(
                             isLoading: recoverAccountController.isValidating,
