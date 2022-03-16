@@ -9,13 +9,8 @@ import 'package:freeflow/layers/presentation/pages/recover_account/controller/re
 import 'package:get_it/get_it.dart';
 
 import '../../layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
-import '../../layers/presentation/pages/recover_account_loading/controller/recover_account_loading_controller.dart';
 
 registerControllerDependencies(GetIt getIt) {
-  getIt.registerFactory<RecoverAccountLoadingController>(
-    () => RecoverAccountLoadingController(),
-  );
-
   getIt.registerLazySingleton<RecoverAccountController>(
     () => RecoverAccountController(
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
