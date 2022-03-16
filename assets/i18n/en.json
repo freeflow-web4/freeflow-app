@@ -26,9 +26,10 @@
         "invalidPrivateKey": "Invalid private key.",
         "userDisabled": "User disabled.",
         "serverError": "Internal server error.",
-        "noInternet": "No internet found.",
+        "noInternet": "No internet connection found.",
         "invalidUsername": "Invalid username!",
         "cacheError": "Cache error!",
-        "slowConnection": "Your connection is too slow!"
+        "slowConnection": "Your connection is too slow!",
+        "pleaseCheckConnection": "Please check your\nconnection"
     }
 }

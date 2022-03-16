@@ -3,6 +3,26 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 
 mixin TextThemes {
+  Text textH6(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    TextAlign? textAlign,
+    required String textKey,
+  }) {
+    return Text(
+      FlutterI18n.translate(context, textKey),
+      maxLines: maxLines,
+      textAlign: textAlign,
+      style: TextStyle(
+        color: color,
+        fontSize: 24,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
   Text textH4(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,

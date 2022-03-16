@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
@@ -14,9 +15,15 @@ import 'fullscreen_alert_dialog_animation.dart';
 
 class FullScreenAlertDialog extends StatefulWidget {
   final String textKey;
+  final String? icon;
+  final String? secondaryTextKey;
 
-  const FullScreenAlertDialog({Key? key, required this.textKey})
-      : super(key: key);
+  const FullScreenAlertDialog({
+    Key? key,
+    required this.textKey,
+    this.icon,
+    this.secondaryTextKey,
+  }) : super(key: key);
 
   @override
   State<FullScreenAlertDialog> createState() => _FullScreenAlertDialogState();
@@ -64,11 +71,46 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                textH4(
-                  context,
-                  textKey: widget.textKey,
-                  color: Colors.white,
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: widget.icon != null ? 100 : 0,
+                  ),
+                  child: textH4(
+                    context,
+                    textKey: widget.textKey,
+                    color: Colors.white,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Visibility(
+                  visible: widget.icon != null,
+                  child: const SizedBox(height: 89),
+                ),
+                Visibility(
+                  visible: widget.icon != null,
+                  child: SvgPicture.asset(
+                    widget.icon ?? '',
+                    height: 122,
+                    width: 167,
+                  ),
+                ),
+                Visibility(
+                  visible: widget.secondaryTextKey != null,
+                  child: const SizedBox(height: 89),
+                ),
+                Visibility(
+                  visible: widget.secondaryTextKey != null,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: normalSpacing,
+                    ),
+                    child: textH6(
+                      context,
+                      textKey: widget.secondaryTextKey ?? '',
+                      color: Colors.white,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
               ],
             ),

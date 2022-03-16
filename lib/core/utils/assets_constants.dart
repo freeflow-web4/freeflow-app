@@ -12,4 +12,5 @@ class IconsAsset {
   static const String closeBackIcon = "assets/images/icons/close_back_icon.svg";
   static const String closedEye = "assets/images/icons/closed_eye.svg";
   static const String loading = "assets/images/icons/loading.svg";
+  static const String noConnectionFound = "assets/images/icons/no_internet.svg";
 }

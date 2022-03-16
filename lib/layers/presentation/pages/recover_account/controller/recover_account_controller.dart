@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:freeflow/core/utils/assets_constants.dart';
+import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
@@ -114,14 +116,14 @@ abstract class RecoverAccountControllerBase with Store {
       String? pincode,
       String? confirmPincode}) async {
     if (isInFirstView) {
-      if ((username ?? '').isEmpty) {
+      if ((username ?? '').isEmpty || !isNameValid) {
         openDialog(context);
       } else {
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(1);
       }
     } else if (isInSecondView) {
-      if ((privateKey ?? '').isEmpty) {
+      if ((privateKey ?? '').isEmpty || !isKeyValid) {
         openDialog(context);
       } else {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -191,6 +193,9 @@ abstract class RecoverAccountControllerBase with Store {
             context,
             'recoverAccount.privateKeyIsNotValid',
           );
+          if (l == DomainError.noInternet) {
+            openErrorDialog(context);
+          }
         },
         (r) {
           isKeyValid = true;
@@ -252,6 +257,9 @@ abstract class RecoverAccountControllerBase with Store {
           'recoverAccount.pleaseEnterUsername',
         );
         isNameValid = false;
+        if (l == DomainError.noInternet) {
+          openErrorDialog(context);
+        }
       }, (r) {
         if (r) {
           usernameError = null;
@@ -282,6 +290,20 @@ abstract class RecoverAccountControllerBase with Store {
                       context, 'recoverAccount.pleaseEnterYourPrivateKey')
                   : FlutterI18n.translate(
                       context, 'recoverAccount.pleaseEnterYourPinCode'),
+        );
+      },
+    );
+  }
+
+  Future<Object?> openErrorDialog(BuildContext context) async {
+    return showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext context, animation1, animation2) {
+        return FullScreenAlertDialog(
+          textKey: FlutterI18n.translate(context, 'domainError.noInternet'),
+          secondaryTextKey: FlutterI18n.translate(
+              context, 'domainError.pleaseCheckConnection'),
+          icon: IconsAsset.noConnectionFound,
         );
       },
     );

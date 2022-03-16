@@ -56,8 +56,8 @@ DomainError convertToDomainError(String error) {
       return DomainError.invalidUsername;
     case 'Exception: Cache error!':
       return DomainError.cacheError;
-    case 'Connecting timed out [30000ms]':
-      return DomainError.slowConnection;
+    case 'Exception: Connecting timed out [30000ms]':
+      return DomainError.noInternet;
     default:
       return DomainError.somethingWrong;
   }

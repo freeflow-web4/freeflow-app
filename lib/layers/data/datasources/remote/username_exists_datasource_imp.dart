@@ -16,7 +16,7 @@ class UsernameExistsDatasourceImp implements UsernameExistsDatasource {
       }
     } catch (error) {
       if (error is DioError) {
-        throw Exception(error.response!.statusMessage);
+        throw Exception(error.message);
       } else {
         throw Exception(error.toString());
       }
