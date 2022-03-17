@@ -154,4 +154,58 @@ mixin TextThemes {
       ),
     );
   }
+
+  Text textBold20(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textBold22(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textBold24(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
 }
