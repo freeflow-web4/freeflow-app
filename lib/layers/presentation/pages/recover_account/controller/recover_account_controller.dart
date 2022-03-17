@@ -10,6 +10,7 @@ import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincod
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:mobx/mobx.dart';
 
 part 'recover_account_controller.g.dart';
@@ -127,7 +128,7 @@ abstract class RecoverAccountControllerBase with Store {
     } else if (isInThirdView) {
       updateIndex(3);
     } else if (isInFourthView) {
-      updateIndex(2);
+      Routes.instance.goToWelcomePageRoute(context);
     }
   }
 
@@ -219,7 +220,7 @@ abstract class RecoverAccountControllerBase with Store {
       if (value != pinCode) {
         confirmPinCodeError = FlutterI18n.translate(
           context,
-          'recoverAccount.pleaseConfirmYourPinCode',
+          'recoverAccount.pleaseEnterConfirmPinCode',
         );
         isConfirmPinCodeValid = false;
       } else {

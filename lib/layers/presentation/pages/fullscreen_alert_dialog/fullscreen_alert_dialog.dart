@@ -81,7 +81,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
                     child: textH4(
                       context,
                       textKey: widget.textKey,
-                      color: Colors.white,
+                      color: StandardColors.white,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -110,7 +110,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
                       child: textH6(
                         context,
                         textKey: widget.secondaryTextKey ?? '',
-                        color: Colors.white,
+                        color: StandardColors.white,
                         textAlign: TextAlign.center,
                       ),
                     ),

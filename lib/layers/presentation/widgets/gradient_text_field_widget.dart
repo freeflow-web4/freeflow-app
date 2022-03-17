@@ -67,14 +67,14 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                 color: widget.errorText == null
                     ? widget.isFieldValid
                         ? StandardColors.blueLight
-                        : Colors.white
+                        : StandardColors.white
                     : StandardColors.feedbackError,
               ),
               decoration: InputDecoration(
                 hintText: widget.isPinInput ? null : widget.hintText,
                 hintStyle: TextStyle(
                   color: widget.errorText == null
-                      ? Colors.white
+                      ? StandardColors.white
                       : StandardColors.feedbackError,
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
@@ -108,7 +108,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                   context,
                   text: widget.errorText ?? '',
                   color: widget.errorText == null
-                      ? Colors.white
+                      ? StandardColors.white
                       : StandardColors.feedbackError,
                 ),
               ),
@@ -129,7 +129,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                             context,
                             textKey: widget.hintText,
                             color: widget.errorText == null
-                                ? Colors.white
+                                ? StandardColors.white
                                 : StandardColors.feedbackError,
                           ),
                         )
@@ -139,7 +139,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                         context,
                         textKey: widget.pinCode ?? '',
                         color: widget.errorText == null
-                            ? Colors.white
+                            ? StandardColors.white
                             : StandardColors.feedbackError,
                       ),
                     ),
@@ -155,7 +155,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                   color: widget.errorText == null
                       ? widget.isFieldValid
                           ? StandardColors.blueLight
-                          : Colors.white
+                          : StandardColors.white
                       : StandardColors.feedbackError,
                 ),
               ),
@@ -177,7 +177,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                         )
                       : const Icon(
                           Icons.remove_red_eye_outlined,
-                          color: Colors.white,
+                          color: StandardColors.white,
                         ),
                 ),
               ),

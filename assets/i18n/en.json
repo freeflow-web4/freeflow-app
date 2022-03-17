@@ -8,6 +8,7 @@
         "pleaseEnterYourRegisteredName": "To continue,\nplease enter your\nregistered\nFlower name.",
         "pleaseEnterYourPrivateKey": "To continue,\nplease enter your\nprivate key.",
         "pleaseEnterYourPinCode": "To continue,\nplease enter your\nPIN code.",
+        "pleaseConfirmYourPinCode": "To continue,\nplease cconfirm your\nPIN code.",
         "privateKey": "Private key",
         "confirmPinCode": "Choose your pin code",
         "flowerName": "Flower Name",
@@ -18,7 +19,7 @@
         "pleaseEnterPrivateKey": "Please enter your private key",
         "pleaseEnterUsername": "Please enter your username",
         "pleaseEnterPinCode": "Please enter your pin code",
-        "pleaseConfirmYourPinCode": "To continue,\nplease cconfirm your\nPIN code."
+        "pleaseEnterConfirmPinCode": "Please confirm your pin code"
     },
     "domainError": {
         "somethingWrong": "Something wrong!",
@@ -31,5 +32,9 @@
         "cacheError": "Cache error!",
         "slowConnection": "Your connection is too slow!",
         "pleaseCheckConnection": "Please check your\nconnection"
+    },
+    "welcome": {
+        "welcomeBack": "Welcome Back",
+        "toFreeflow": "To your\n FreeFlow Pouch"
     }
 }

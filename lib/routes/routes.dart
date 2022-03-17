@@ -14,6 +14,10 @@ class Routes {
     _routeService.pushReplacement(context, const RecoverAccountRoute());
   }
 
+  void goToWelcomePageRoute(BuildContext context) async {
+    _routeService.pushReplacement(context, const WelcomeRoute());
+  }
+
   void pop(BuildContext context) {
     _routeService.pop(context);
   }
