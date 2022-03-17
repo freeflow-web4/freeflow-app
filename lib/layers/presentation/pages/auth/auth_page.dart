@@ -25,7 +25,6 @@ class _AuthPageState extends State<AuthPage>
     with TickerProviderStateMixin, TextThemes {
   static const animationDurationInMili = 1000;
   final authController = GetIt.I.get<AuthController>();
-  final TextEditingController pinTextController = TextEditingController();
   late final animatedController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: animationDurationInMili),
@@ -43,6 +42,12 @@ class _AuthPageState extends State<AuthPage>
             onBiometricsError,
           ),
         );
+  }
+
+  @override
+  void dispose() {
+    animatedController.dispose();
+    super.dispose();
   }
 
   @override
@@ -86,10 +91,10 @@ class _AuthPageState extends State<AuthPage>
                     child: Observer(
                       builder: (context) {
                         return GradientTextFieldWidget(
+                          pinCode: authController.currentPinCode,
                           onChanged: (_) {},
                           isFieldValid: authController.pinFieldState !=
                               PinFieldState.invalid,
-                          textController: pinTextController,
                           errorText: authController.pinFieldState !=
                                   PinFieldState.wrong
                               ? null
@@ -104,6 +109,7 @@ class _AuthPageState extends State<AuthPage>
                               authController.onPinObscureTextFieldTap,
                           obscureButtonColor:
                               obscureButtonColor(authController.pinFieldState),
+                          showObscureButton: true,
                         );
                       },
                     ),
@@ -120,12 +126,8 @@ class _AuthPageState extends State<AuthPage>
                     opacity: animations.keyboardAnimationOpacity.value,
                     child: InAppKeyboardWidget(
                       onTap: (digit) {
-                        final currentText = pinTextController.text;
-                        final nextCurrentText =
-                            authController.onKeyboardTap(digit, currentText);
-                        setState(() {
-                          pinTextController.text = nextCurrentText;
-                        });
+                        final currentText = authController.currentPinCode;
+                        authController.onKeyboardTap(digit, currentText);
                       },
                     ),
                   ),
@@ -144,7 +146,7 @@ class _AuthPageState extends State<AuthPage>
                       builder: (context) {
                         return AnimatedArrowRight(
                           onTap: () => authController.onLoginWithPin(
-                            pinTextController.text,
+                            authController.currentPinCode,
                             onLoginSuccess,
                           ),
                           isActive: authController.isPinValid,
