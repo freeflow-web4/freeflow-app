@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
@@ -14,7 +15,7 @@ class _HomePageState extends State<HomePage>
     with TickerProviderStateMixin, TextThemes {
   late final animatedController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1000),
+    duration: const Duration(milliseconds: 1200),
   );
 
   late final textOpacity = Tween<double>(begin: 0, end: 1).animate(
@@ -37,9 +38,10 @@ class _HomePageState extends State<HomePage>
       child: Center(
         child: AnimatedText(
           text: 'Home Page',
-          style: textH4TextStyle,
+          style: textH4TextStyle.copyWith(color: StandardColors.white),
           animation: textOpacity,
           animationController: animatedController,
+          textMainAxisAlignment: MainAxisAlignment.center,
         ),
       ),
     );
