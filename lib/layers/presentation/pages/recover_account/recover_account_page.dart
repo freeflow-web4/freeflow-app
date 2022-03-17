@@ -154,8 +154,20 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                               child: AnimatedFloatButtonWidget(
                                 isActive: recoverAccountController
                                     .isContinueButtonActive(),
+                                onTapInative: () => recoverAccountController
+                                    .openDialog(context),
                                 onTap: () {
-                                  isContinueButtonVisible = false;
+                                  if (recoverAccountController
+                                      .isContinueButtonActive()) {
+                                    isContinueButtonVisible = false;
+                                    Timer.periodic(const Duration(seconds: 8),
+                                        (timer) {
+                                      isContinueButtonVisible = true;
+                                      setState(() {});
+                                      timer.cancel();
+                                    });
+                                  }
+
                                   recoverAccountController.tapContinueButton(
                                     context,
                                     privateKey: privateKeyController.text,
@@ -163,12 +175,6 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                                     pincode: pinController.text,
                                     confirmPincode: confirmPinController.text,
                                   );
-                                  Timer.periodic(const Duration(seconds: 8),
-                                      (timer) {
-                                    isContinueButtonVisible = true;
-                                    setState(() {});
-                                    timer.cancel();
-                                  });
                                 },
                                 icon: IconsAsset.arrowIcon,
                               ),

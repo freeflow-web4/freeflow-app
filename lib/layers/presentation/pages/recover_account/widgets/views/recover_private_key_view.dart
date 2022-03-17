@@ -106,7 +106,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                   ),
                 ),
               ),
-              const SizedBox(height: xxlargeSpacing + 16),
+              const SizedBox(height: xxlargeSpacing + 6),
             ],
           ),
         );

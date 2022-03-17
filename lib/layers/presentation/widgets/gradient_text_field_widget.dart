@@ -89,19 +89,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
               maxLines: widget.maxLines,
             ),
             Positioned(
-              top: widget.crossTheMaxLines ? 60 : 40,
-              child: Container(
-                height: 2,
-                width: MediaQuery.of(context).size.width - 20,
-                decoration: BoxDecoration(
-                  gradient: widget.errorText == null
-                      ? StandardColors.greenGradient()
-                      : StandardColors.redGradient(),
-                ),
-              ),
-            ),
-            Positioned(
-              top: widget.crossTheMaxLines ? 60 : 40,
+              top: widget.crossTheMaxLines ? 50 : 40,
               child: Container(
                 height: 2,
                 width: MediaQuery.of(context).size.width - 20,
@@ -115,7 +103,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             Visibility(
               visible: widget.errorText != null,
               child: Positioned(
-                bottom: widget.maxLines == 2 ? -2 : 10,
+                bottom: widget.crossTheMaxLines ? 10 : 20,
                 child: textCaption(
                   context,
                   text: widget.errorText ?? '',

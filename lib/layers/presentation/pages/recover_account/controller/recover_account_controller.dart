@@ -119,28 +119,15 @@ abstract class RecoverAccountControllerBase with Store {
       String? pincode,
       String? confirmPincode}) async {
     if (isInFirstView) {
-      if ((username ?? '').isEmpty || !isNameValid) {
-        openDialog(context);
-      } else {
-        FocusScope.of(context).requestFocus(FocusNode());
-        updateIndex(1);
-      }
+      FocusScope.of(context).requestFocus(FocusNode());
+      updateIndex(1);
     } else if (isInSecondView) {
-      if ((privateKey ?? '').isEmpty || !isKeyValid) {
-        openDialog(context);
-      } else {
-        FocusScope.of(context).requestFocus(FocusNode());
-        updateIndex(2);
-      }
+      FocusScope.of(context).requestFocus(FocusNode());
+      updateIndex(2);
     } else if (isInThirdView) {
-      if ((pinCode ?? '').isEmpty) {
-        openDialog(context);
-      } else {
-        FocusScope.of(context).requestFocus(FocusNode());
-        updateIndex(3);
-      }
+      updateIndex(3);
     } else if (isInFourthView) {
-      print('eita');
+      updateIndex(2);
     }
   }
 
@@ -232,7 +219,7 @@ abstract class RecoverAccountControllerBase with Store {
       if (value != pinCode) {
         confirmPinCodeError = FlutterI18n.translate(
           context,
-          'recoverAccount.pleaseConfirYourPinCode',
+          'recoverAccount.pleaseConfirmYourPinCode',
         );
         isConfirmPinCodeValid = false;
       } else {
@@ -285,14 +272,15 @@ abstract class RecoverAccountControllerBase with Store {
       context: context,
       pageBuilder: (BuildContext context, animation1, animation2) {
         return FullScreenAlertDialog(
-          textKey: currentIndex == 0
-              ? FlutterI18n.translate(
-                  context, 'recoverAccount.pleaseEnterYourRegisteredName')
-              : currentIndex == 1
-                  ? FlutterI18n.translate(
-                      context, 'recoverAccount.pleaseEnterYourPrivateKey')
-                  : FlutterI18n.translate(
-                      context, 'recoverAccount.pleaseEnterYourPinCode'),
+          textKey: FlutterI18n.translate(
+              context,
+              currentIndex == 0
+                  ? 'recoverAccount.pleaseEnterYourRegisteredName'
+                  : currentIndex == 1
+                      ? 'recoverAccount.pleaseEnterYourPrivateKey'
+                      : currentIndex == 2
+                          ? 'recoverAccount.pleaseEnterYourPinCode'
+                          : 'recoverAccount.pleaseConfirmYourPinCode'),
         );
       },
     );

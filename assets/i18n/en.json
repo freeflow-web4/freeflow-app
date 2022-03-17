@@ -18,7 +18,7 @@
         "pleaseEnterPrivateKey": "Please enter your private key",
         "pleaseEnterUsername": "Please enter your username",
         "pleaseEnterPinCode": "Please enter your pin code",
-        "pleaseConfirYourPinCode": "Please confirm your pin code"
+        "pleaseConfirmYourPinCode": "To continue,\nplease cconfirm your\nPIN code."
     },
     "domainError": {
         "somethingWrong": "Something wrong!",

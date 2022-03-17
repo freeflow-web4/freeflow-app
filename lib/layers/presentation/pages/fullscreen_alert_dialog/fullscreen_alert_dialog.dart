@@ -68,51 +68,55 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
               sigmaY: 16,
               tileMode: TileMode.clamp,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: widget.icon != null ? 100 : 0,
-                  ),
-                  child: textH4(
-                    context,
-                    textKey: widget.textKey,
-                    color: Colors.white,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Visibility(
-                  visible: widget.icon != null,
-                  child: const SizedBox(height: 89),
-                ),
-                Visibility(
-                  visible: widget.icon != null,
-                  child: SvgPicture.asset(
-                    widget.icon ?? '',
-                    height: 122,
-                    width: 167,
-                  ),
-                ),
-                Visibility(
-                  visible: widget.secondaryTextKey != null,
-                  child: const SizedBox(height: 89),
-                ),
-                Visibility(
-                  visible: widget.secondaryTextKey != null,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: normalSpacing,
+            child: StaggerOpacity(
+              opacity: animation.textOpacity,
+              controller: animationController,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: widget.icon != null ? 100 : 0,
                     ),
-                    child: textH6(
+                    child: textH4(
                       context,
-                      textKey: widget.secondaryTextKey ?? '',
+                      textKey: widget.textKey,
                       color: Colors.white,
                       textAlign: TextAlign.center,
                     ),
                   ),
-                ),
-              ],
+                  Visibility(
+                    visible: widget.icon != null,
+                    child: const SizedBox(height: 89),
+                  ),
+                  Visibility(
+                    visible: widget.icon != null,
+                    child: SvgPicture.asset(
+                      widget.icon ?? '',
+                      height: 122,
+                      width: 167,
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.secondaryTextKey != null,
+                    child: const SizedBox(height: 89),
+                  ),
+                  Visibility(
+                    visible: widget.secondaryTextKey != null,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: normalSpacing,
+                      ),
+                      child: textH6(
+                        context,
+                        textKey: widget.secondaryTextKey ?? '',
+                        color: Colors.white,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -127,6 +131,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             child: Padding(
               padding: const EdgeInsets.only(bottom: bigSpacing),
               child: AnimatedFloatButtonWidget(
+                onTapInative: () {},
                 onTap: () =>
                     fullscreenAlertDialogController.closeDialog(context),
                 icon: IconsAsset.closeBackIcon,
