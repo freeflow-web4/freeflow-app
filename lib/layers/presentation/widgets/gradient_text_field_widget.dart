@@ -8,7 +8,7 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_pin_cod
 class GradientTextFieldWidget extends StatefulWidget {
   final String? errorText;
   final String hintText;
-  final TextEditingController textController;
+  final TextEditingController? textController;
   final bool showSecondText;
   final void Function(String)? onChanged;
   final FocusNode? inputNode;
@@ -26,7 +26,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     Key? key,
     required this.errorText,
     required this.hintText,
-    required this.textController,
+    this.textController,
     this.inputNode,
     required this.onChanged,
     required this.isFieldValid,
@@ -60,43 +60,50 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
           height: 80,
           child: Stack(
             children: <Widget>[
-              TextFormField(
-                onChanged: widget.onChanged,
-                obscureText: widget.isObscureText ?? false,
-                controller: widget.textController,
-                readOnly: widget.fieldReadOnly,
-                focusNode: widget.inputNode,
-                style: TextStyle(
-                  color: widget.errorText == null
-                      ? widget.isFieldValid
-                          ? StandardColors.blueLight
-                          : Colors.white
-                      : StandardColors.feedbackError,
-                ),
-                decoration: InputDecoration(
-                  hintText: widget.isPinInput ? null : widget.hintText,
-                  hintStyle: TextStyle(
-                    color: widget.errorText == null
-                        ? Colors.white
-                        : StandardColors.feedbackError,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Akrobat',
-                  ),
-                  border: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
-                  suffixIcon: widget.isObscureText != null
-                      ? IconButton(
-                          icon: widget.isObscureText! ? closedEye : openEye,
-                          onPressed: widget.onObscureButtonPressed,
-                        )
-                      : null,
-                ),
-                maxLines: widget.maxLines,
-              ),
+              widget.isObscureText == true
+                  ? SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top:13.0),
+                      child: GradientTextFieldPinCode(
+                        pinCode: widget.pinCode ?? '',
+                        color: widget.errorText?.isNotEmpty == true
+                            ? StandardColors.error
+                            : null,
+                      ),
+                    ),
+                  )
+                  : TextFormField(
+                      initialValue: widget.pinCode,
+                      onChanged: widget.onChanged,
+                      controller: widget.textController,
+                      readOnly: widget.fieldReadOnly,
+                      focusNode: widget.inputNode,
+                      style: TextStyle(
+                        color: widget.errorText == null
+                            ? widget.isFieldValid
+                                ? StandardColors.blueLight
+                                : Colors.white
+                            : StandardColors.feedbackError,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: widget.isPinInput ? null : widget.hintText,
+                        hintStyle: TextStyle(
+                          color: widget.errorText == null
+                              ? Colors.white
+                              : StandardColors.feedbackError,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Akrobat',
+                        ),
+                        border: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                      ),
+                      maxLines: widget.maxLines,
+                    ),
               Positioned(
                 top: widget.crossTheMaxLines ? 60 : 40,
                 child: Container(
@@ -182,21 +189,25 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                 ),
               ),
               Visibility(
-                visible: widget.showObscureButton &&
-                    widget.pinCode != null &&
-                    widget.pinCode!.isNotEmpty,
+                visible: widget.showObscureButton,
                 child: Positioned(
-                  top: widget.isObscureText ?? false ? 22 : 12,
                   right: 0,
+                  top: 12,
                   child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
+                    behavior: HitTestBehavior.opaque,
                     onTap: widget.onObscureButtonPressed,
-                    child: widget.isObscureText == true
-                        ? closedEye
-                        : const Icon(
-                            Icons.remove_red_eye_outlined,
-                            color: Colors.white,
-                          ),
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        widget.isObscureText == true
+                            ? IconsAsset.closedEye
+                            : IconsAsset.openEye,
+                        width: 20,
+                        color: widget.obscureButtonColor,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -204,22 +215,6 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
           ),
         );
       },
-    );
-  }
-
-  Widget get openEye {
-    return SvgPicture.asset(
-      IconsAsset.openEye,
-      height: 10,
-      color: widget.obscureButtonColor,
-    );
-  }
-
-  Widget get closedEye {
-    return SvgPicture.asset(
-      IconsAsset.closedEye,
-      height: 10,
-      color: widget.obscureButtonColor,
     );
   }
 }
