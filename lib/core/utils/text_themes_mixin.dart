@@ -102,6 +102,9 @@ mixin TextThemes {
     );
   }
 
+  //TODO: analyse if wouldn't be better remove size
+  // and let the window set with "copyWith"
+
   Text textSubtitle(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
