@@ -17,6 +17,9 @@ abstract class AuthControllerBase with Store, Login {
   AuthControllerBase(this.pinValidator);
 
   @observable
+  String currentPinCode = "";
+
+  @observable
   PinFieldState pinFieldState = PinFieldState.empty;
 
   @computed
@@ -24,6 +27,10 @@ abstract class AuthControllerBase with Store, Login {
 
   @observable
   bool isPinObscure = true;
+
+  void updateCurrentPinCode(String value) {
+    currentPinCode = value;
+  }
 
   void onLoginSuccess(Function onLoginSuccessCallBack) {
     onLoginSuccessCallBack.call().then((_) {
@@ -62,7 +69,7 @@ abstract class AuthControllerBase with Store, Login {
   }
 
   @action
-  String onKeyboardTap(String digit, String currentPinFieldText) {
+  void onKeyboardTap(String digit, String currentPinFieldText) {
     String nextCurrentText = '';
     if (digit == 'X') {
       final end = currentPinFieldText.length - 1 < 0
@@ -72,11 +79,14 @@ abstract class AuthControllerBase with Store, Login {
     } else if (digit == 'del') {
       nextCurrentText = '';
     } else {
+      if (currentPinFieldText.length >= 4) {
+        return;
+      }
       nextCurrentText = currentPinFieldText + digit;
     }
     onPinChanged(nextCurrentText);
 
-    return nextCurrentText;
+    updateCurrentPinCode(nextCurrentText);
   }
 
   @action

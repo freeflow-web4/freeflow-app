@@ -17,6 +17,21 @@ mixin _$AuthController on AuthControllerBase, Store {
               name: 'AuthControllerBase.isPinValid'))
           .value;
 
+  final _$currentPinCodeAtom = Atom(name: 'AuthControllerBase.currentPinCode');
+
+  @override
+  String get currentPinCode {
+    _$currentPinCodeAtom.reportRead();
+    return super.currentPinCode;
+  }
+
+  @override
+  set currentPinCode(String value) {
+    _$currentPinCodeAtom.reportWrite(value, super.currentPinCode, () {
+      super.currentPinCode = value;
+    });
+  }
+
   final _$pinFieldStateAtom = Atom(name: 'AuthControllerBase.pinFieldState');
 
   @override
@@ -62,7 +77,7 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
-  String onKeyboardTap(String digit, String currentPinFieldText) {
+  void onKeyboardTap(String digit, String currentPinFieldText) {
     final _$actionInfo = _$AuthControllerBaseActionController.startAction(
         name: 'AuthControllerBase.onKeyboardTap');
     try {
@@ -97,6 +112,7 @@ mixin _$AuthController on AuthControllerBase, Store {
   @override
   String toString() {
     return '''
+currentPinCode: ${currentPinCode},
 pinFieldState: ${pinFieldState},
 isPinObscure: ${isPinObscure},
 isPinValid: ${isPinValid}
