@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage>
     _controller
         .animateBack(
           0,
-          duration: const Duration(milliseconds: _animationDurationInMili ~/ 3),
+          duration: const Duration(milliseconds: _animationDurationInMili ~/ 2),
         )
         .orCancel
         .then((value) => loginController.onSwipe());
@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage>
               textMainAxisAlignment: MainAxisAlignment.center,
             ),
             const AdaptativeSpacer(
-              heightValue: 8,
+              heightValue: 24,
             ),
             opacityAnimation(
               opacitySwipeButton,
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage>
               SecondaryButton(
                 child: Align(
                   alignment: Alignment.center,
-                  child: textBold18(
+                  child: textBold24(
                     context,
                     text: 'Recover Account',
                     color: StandardColors.white,
