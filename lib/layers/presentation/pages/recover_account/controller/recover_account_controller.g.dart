@@ -417,6 +417,23 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isContinueButtonVisibleAtom =
+      Atom(name: 'RecoverAccountControllerBase.isContinueButtonVisible');
+
+  @override
+  bool get isContinueButtonVisible {
+    _$isContinueButtonVisibleAtom.reportRead();
+    return super.isContinueButtonVisible;
+  }
+
+  @override
+  set isContinueButtonVisible(bool value) {
+    _$isContinueButtonVisibleAtom
+        .reportWrite(value, super.isContinueButtonVisible, () {
+      super.isContinueButtonVisible = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -495,7 +512,8 @@ currentIndex: ${currentIndex},
 pinCode: ${pinCode},
 isValidating: ${isValidating},
 isBiometricAvailable: ${isBiometricAvailable},
-username: ${username}
+username: ${username},
+isContinueButtonVisible: ${isContinueButtonVisible}
     ''';
   }
 }
