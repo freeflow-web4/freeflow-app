@@ -13,6 +13,10 @@ class Routes {
     _routeService.pushReplacement(const RecoverAccountRoute());
   }
 
+  void goToRecoverAccountLoadingPageRoute() {
+    _routeService.pushReplacement(const RecoverAccountLoadingRoute());
+  }
+
   void goToLoginPageRoute() {
     _routeService.pushReplacement(const LoginRoute());
   }
