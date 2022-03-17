@@ -9,16 +9,20 @@ class Routes {
 
   static Routes get instance => GetIt.I.get<Routes>();
 
-  void goToRecoverAccountPageRoute()  {
+  void goToRecoverAccountPageRoute() {
     _routeService.pushReplacement(const RecoverAccountRoute());
   }
 
-  void goToLoginPageRoute()  {
+  void goToLoginPageRoute() {
     _routeService.pushReplacement(const LoginRoute());
   }
 
   void goToAuthPageRoute() {
     _routeService.pushReplacement(const AuthRoute());
+  }
+
+  void goToHomePageRoute() {
+    _routeService.pushReplacement(const HomeRoute());
   }
 
   void pop() {

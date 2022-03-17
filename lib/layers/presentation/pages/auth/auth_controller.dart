@@ -3,6 +3,7 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/show_snackbar_dialog.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/login.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:mobx/mobx.dart';
 part 'auth_controller.g.dart';
 
@@ -41,7 +42,7 @@ abstract class AuthControllerBase with Store, Login {
   }
 
   void nextPage() {
-    print("hellohellohellohellohellohellohellohellohellohellohello");
+    Routes.instance.goToHomePageRoute();
   }
 
   @action
