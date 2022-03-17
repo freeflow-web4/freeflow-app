@@ -22,12 +22,16 @@ class SecondaryButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(backgroundColor),
+        padding: MaterialStateProperty.all(padding),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               20,
             ),
-            side: const BorderSide(color: borderColor),
+            side: const BorderSide(
+              color: borderColor,
+              width: 2,
+            ),
           ),
         ),
       ),
