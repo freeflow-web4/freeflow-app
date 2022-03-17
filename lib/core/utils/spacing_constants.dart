@@ -1,3 +1,4 @@
+const double miniSpacing = 4;
 const double smSpacing = 8;
 const double normalSpacing = 16;
 const double mdSpacing = 24;
