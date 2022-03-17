@@ -107,6 +107,9 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   String username = '';
 
+  @observable
+  bool isContinueButtonVisible = true;
+
   int animationDuration = 10;
 
   @action
@@ -317,6 +320,7 @@ abstract class RecoverAccountControllerBase with Store {
       } else {
         isAnimatingExitFirstView = false;
         isAnimatingExitSecondView = true;
+        isContinueButtonVisible = false;
         Timer.periodic(const Duration(seconds: 3), (timer) {
           isInFirstView = true;
           isInSecondView = false;
@@ -326,11 +330,13 @@ abstract class RecoverAccountControllerBase with Store {
           isAnimatingExitSecondViewEnd = true;
           timer.cancel();
         });
+        isContinueButtonVisible = true;
       }
     } else if (index == 1) {
       if (isInSecondView) {
         return;
       } else {
+        isContinueButtonVisible = false;
         isAnimatingExitSecondView = false;
         isAnimatingExitFirstView = true;
         isAnimatingExitThirdView = true;
@@ -344,11 +350,16 @@ abstract class RecoverAccountControllerBase with Store {
           isAnimatingExitThirdViewEnd = true;
           timer.cancel();
         });
+        Timer.periodic(const Duration(seconds: 4), (timer) {
+          isContinueButtonVisible = true;
+          timer.cancel();
+        });
       }
     } else if (index == 2) {
       if (isInThirdView) {
         return;
       } else {
+        isContinueButtonVisible = false;
         isAnimatingExitThirdView = false;
         isAnimatingExitSecondView = true;
         isAnimatingExitFourthView = true;
@@ -363,6 +374,10 @@ abstract class RecoverAccountControllerBase with Store {
           isAnimatingExitFourthViewEnd = true;
           timer.cancel();
         });
+        Timer.periodic(const Duration(seconds: 4), (timer) {
+          isContinueButtonVisible = true;
+          timer.cancel();
+        });
       }
     } else if (index == 3) {
       if (isInFourthView) {
@@ -370,6 +385,7 @@ abstract class RecoverAccountControllerBase with Store {
       } else {
         isAnimatingExitFourthView = false;
         isAnimatingExitThirdView = true;
+        isContinueButtonVisible = false;
         Timer.periodic(const Duration(seconds: 3), (timer) {
           isInFirstView = false;
           isInSecondView = false;
@@ -378,6 +394,10 @@ abstract class RecoverAccountControllerBase with Store {
           currentIndex = 3;
           isAnimatingExitFourthViewEnd = false;
           isAnimatingExitThirdViewEnd = true;
+          timer.cancel();
+        });
+        Timer.periodic(const Duration(seconds: 4), (timer) {
+          isContinueButtonVisible = true;
           timer.cancel();
         });
       }
