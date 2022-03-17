@@ -62,18 +62,19 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             children: <Widget>[
               widget.isObscureText == true
                   ? SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top:13.0),
-                      child: GradientTextFieldPinCode(
-                        pinCode: widget.pinCode ?? '',
-                        color: widget.errorText?.isNotEmpty == true
-                            ? StandardColors.error
-                            : null,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 13.0),
+                        child: GradientTextFieldPinCode(
+                          pinCode: widget.pinCode ?? '',
+                          color: widget.errorText?.isNotEmpty == true
+                              ? StandardColors.error
+                              : null,
+                        ),
                       ),
-                    ),
-                  )
+                    )
                   : TextFormField(
+                      key: ValueKey('key_for_text_field${widget.pinCode}'),
                       initialValue: widget.pinCode,
                       onChanged: widget.onChanged,
                       controller: widget.textController,
