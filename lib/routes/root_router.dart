@@ -9,7 +9,6 @@ import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    // AutoRoute(page: HomePage, initial: true),
     AutoRoute(page: SplashPage, initial: true),
     AutoRoute(page: LoginPage),
     AutoRoute(page: RecoverAccountLoadingPage),
