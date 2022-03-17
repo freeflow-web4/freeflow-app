@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_page.dart';
+import 'package:freeflow/layers/presentation/pages/home/home_page.dart';
 import 'package:freeflow/layers/presentation/pages/login/login_page.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account_loading/recover_account_loading_page.dart';
 import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
-import 'package:freeflow/pages/home/home.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',

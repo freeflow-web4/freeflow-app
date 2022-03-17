@@ -14,13 +14,13 @@ import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:flutter/material.dart' as _i8;
 
 import '../layers/presentation/pages/auth/auth_page.dart' as _i5;
+import '../layers/presentation/pages/home/home_page.dart' as _i6;
 import '../layers/presentation/pages/login/login_page.dart' as _i2;
 import '../layers/presentation/pages/recover_account/recover_account_page.dart'
     as _i4;
 import '../layers/presentation/pages/recover_account_loading/recover_account_loading_page.dart'
     as _i3;
 import '../layers/presentation/pages/splash/splash_page.dart' as _i1;
-import '../pages/home/home.dart' as _i6;
 
 class RootRouter extends _i7.RootStackRouter {
   RootRouter([_i8.GlobalKey<_i8.NavigatorState>? navigatorKey])
