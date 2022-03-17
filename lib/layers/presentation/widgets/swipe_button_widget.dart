@@ -37,7 +37,7 @@ class _SwipeButtonState extends State<SwipeButton>
     stops: [0.0, 0.6],
   );
   static const borderPadding = 2.0;
-  static const childPadding = 4.0;
+  static const childPadding = 8.0;
   static const totalPadding = borderPadding + childPadding;
   static const _buttonMaxRange = 0.15;
   static const _bigAnimationWeight = 0.8;
@@ -417,7 +417,7 @@ class _SwipeButtonState extends State<SwipeButton>
   }
 
   Widget textWidget(BuildContext context, String text) {
-    return textBold18(context, text: text, color: StandardColors.white);
+    return textBold22(context, text: text, color: StandardColors.white);
   }
 
   double _linearComeBackBuilder(
