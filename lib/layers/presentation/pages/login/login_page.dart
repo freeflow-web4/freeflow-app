@@ -8,6 +8,7 @@ import 'package:freeflow/layers/presentation/widgets/adaptative_spacer_widget.da
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/secondary_button.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_button_widget.dart';
+import 'package:freeflow/routes/routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -145,7 +146,7 @@ class _LoginPageState extends State<LoginPage>
                     color: StandardColors.white,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: Routes.instance.goToRecoverAccountLoadingPageRoute,
                 padding: const EdgeInsets.symmetric(
                   vertical: smSpacing,
                 ),
