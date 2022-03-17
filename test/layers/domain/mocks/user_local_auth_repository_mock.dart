@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:freeflow/layers/domain/entities/user_local_auth_entity.dart';
+import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/repositories/user_local_auth_repository.dart';
 import 'package:mocktail/mocktail.dart';
@@ -13,12 +13,10 @@ class UserLocalAuthRepositoryMock extends Mock
       (_) async => const Left<DomainError, bool>(DomainError.cacheError));
 
   When _mockRequestGetLocalAuth() => when(() => getLocalAuthUser());
-  void mockGetRequestSuccess(UserLocalAuthEntity entity) =>
-      _mockRequestGetLocalAuth().thenAnswer(
-          (_) async => Right<DomainError, UserLocalAuthEntity>(entity));
-  void mockGetRequestFailure() =>
-      _mockRequestGetLocalAuth().thenAnswer((_) async =>
-          const Left<DomainError, UserLocalAuthEntity>(DomainError.cacheError));
+  void mockGetRequestSuccess(UserEntity entity) => _mockRequestGetLocalAuth()
+      .thenAnswer((_) async => Right<DomainError, UserEntity>(entity));
+  void mockGetRequestFailure() => _mockRequestGetLocalAuth().thenAnswer(
+      (_) async => const Left<DomainError, UserEntity>(DomainError.cacheError));
 }
 
-class UserLocalAuthEntityFake extends Fake implements UserLocalAuthEntity {}
+class UserEntityFake extends Fake implements UserEntity {}

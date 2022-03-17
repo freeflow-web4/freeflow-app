@@ -6,7 +6,6 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
-import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
@@ -95,7 +94,8 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                       inputNode: inputNode,
                       showObscureButton: true,
                       isPinInput: true,
-                      isFieldValid: widget.recoverAccountController.isPinValid,
+                      isFieldValid:
+                          widget.recoverAccountController.isConfirmPinCodeValid,
                       isObscureText: viewController.isObscuredPin,
                       onChanged: widget.onInputChanged,
                       onObscureButtonPressed: () =>
@@ -103,9 +103,10 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                       fieldReadOnly: true,
                       hintText: FlutterI18n.translate(
                           context, "recoverAccount.confirmPinCode"),
-                      errorText: widget.recoverAccountController.pinCodeError,
+                      errorText:
+                          widget.recoverAccountController.confirmPinCodeError,
                       textController: widget.textEditingController,
-                      pinCode: viewController.pinCode,
+                      pinCode: viewController.confirmPinCode,
                     );
                   },
                 ),
@@ -116,7 +117,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                 controller: animationController,
                 child: Center(
                   child: InAppKeyboardWidget(
-                    onTap: (value) => viewController.getTypePinCode(
+                    onTap: (value) => viewController.getTypeConfirmPinCode(
                       context,
                       value,
                       widget.recoverAccountController.onChangedField,

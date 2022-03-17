@@ -1,24 +1,30 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:freeflow/data/models/user.dart';
 import 'package:freeflow/layers/data/datasources/cache/user_local_auth_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/user_local_auth_datasource.dart';
-import 'package:freeflow/layers/data/dtos/user_local_auth/user_local_auth_dto.dart';
-import 'package:freeflow/layers/domain/entities/user_local_auth_entity.dart';
+import 'package:freeflow/layers/data/dtos/user_recover_login/user_recover_login_dto.dart';
+import 'package:freeflow/layers/domain/entities/user_entity.dart';
 
 import '../mocks/cache_storage_mock.dart';
 
 void main() {
   late UserLocalAuthDatasource dataSource;
   late CacheStorageMock cacheStorageMock;
-  late UserLocalAuthEntity entity;
+  late UserEntity entity;
   late String entityString;
 
   setUp(() {
     cacheStorageMock = CacheStorageMock();
     dataSource = UserLocalAuthDatasourceImp(cacheStorageMock);
-    entity = UserLocalAuthEntity(hasBiometrics: true, pinCode: '1234');
-    entityString = jsonEncode(UserLocalAuthDto.fromEntity(entity).toJson());
+    entity = UserEntity(
+      email: 'email',
+      id: 'id',
+      token: '123',
+      username: 'username',
+    );
+    entityString = jsonEncode(UserRecoverLoginDto.fromEntity(entity).toJson());
   });
 
   group('save local auth user', () {
@@ -36,22 +42,15 @@ void main() {
   });
 
   group('get local auth user', () {
-    test('should return the correct entity', () async {
+    test('should return an UserEntity if succeed', () async {
       cacheStorageMock.mockGetRequestSuccess(entityString);
       final result = await dataSource.getUser();
-      expect(result.hasBiometrics, entity.hasBiometrics);
-      expect(result.pinCode, entity.pinCode);
-    });
-    test('should return an UserLocalAuthEntity', () async {
-      cacheStorageMock.mockGetRequestSuccess(entityString);
-      final result = await dataSource.getUser();
-      expect(result, isA<UserLocalAuthEntity>());
+      expect(result, isA<UserEntity>());
     });
 
     test('should throw an Exception if dont succeed ', () async {
       cacheStorageMock.mockGetRequestFailure('Cache error!');
-      final result = dataSource.getUser();
-      expect(result, throwsA(isA<Exception>()));
+      expect(() => dataSource.getUser(), throwsException);
     });
   });
 }

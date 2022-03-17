@@ -45,11 +45,11 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
       duration: const Duration(seconds: 5),
       vsync: this,
     );
-
+    widget.recoverAccountController.hasBiometricAvailable();
     recoverAccountViewAnimation =
         RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
-    widget.recoverAccountController.userSetBiometricsUsecase(false);
+    viewController.userSetBiometricsUsecase(false);
     viewController.canCheckBiometrics();
     viewController.setRememberMe(false);
   }
@@ -115,25 +115,32 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                 ),
               ),
               const SizedBox(height: 13),
-              StaggerOpacity(
-                opacity: recoverAccountViewAnimation.secondTextPinCodeOpacity,
-                controller: animationController,
-                child: Row(
-                  children: [
-                    textSubtitle(
-                      context,
-                      textKey: "recoverAccount.rememberMe",
-                      color: Colors.white,
-                      maxLines: 2,
+              Observer(builder: (context) {
+                return Visibility(
+                  visible: widget.recoverAccountController.isBiometricAvailable,
+                  child: StaggerOpacity(
+                    opacity:
+                        recoverAccountViewAnimation.secondTextPinCodeOpacity,
+                    controller: animationController,
+                    child: Row(
+                      children: [
+                        textSubtitle(
+                          context,
+                          textKey: "recoverAccount.rememberMe",
+                          color: Colors.white,
+                          maxLines: 2,
+                        ),
+                        const SizedBox(width: mdSpacingx2),
+                        CustomSwitch(
+                          value: viewController.rememberMe,
+                          onChanged: (value) =>
+                              viewController.biometricAuth(value),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: mdSpacingx2),
-                    CustomSwitch(
-                      value: viewController.rememberMe,
-                      onChanged: (value) => viewController.biometricAuth(value),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              }),
               const SizedBox(height: largeSpacingx2),
               StaggerOpacity(
                 opacity: recoverAccountViewAnimation.keyboardPinCodeOpacity,

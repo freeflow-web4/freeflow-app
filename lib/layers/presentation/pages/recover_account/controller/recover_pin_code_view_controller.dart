@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:mobx/mobx.dart';
 
@@ -34,6 +36,9 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   @observable
   bool hasAvailableBiometrics = false;
 
+  @observable
+  String confirmPinCode = '';
+
   @action
   Future<void> setRememberMe(bool value) async {
     await userSetBiometricsUsecase(value);
@@ -41,10 +46,13 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   }
 
   @action
-  void biometricAuth(bool value) {
+  Future<void> biometricAuth(bool value) async {
     if (value) {
-      biometricDriver.authenticateUser();
-      setRememberMe(true);
+      final biometricResult = await biometricDriver.authenticateUser();
+      biometricResult.fold(
+        (l) => setRememberMe(false),
+        (r) => setRememberMe(true),
+      );
     } else {
       setRememberMe(false);
     }
@@ -77,6 +85,30 @@ abstract class RecoverPinCodeViewControllerBase with Store {
       }
     }
     onChangedField(context, pinCode);
+  }
+
+  @action
+  void getTypeConfirmPinCode(
+    BuildContext context,
+    String value,
+    void Function(BuildContext context, String pinCode) onChangedField,
+  ) {
+    if (value == 'del') {
+      if (confirmPinCode == '') {
+        return;
+      } else {
+        confirmPinCode = confirmPinCode.substring(0, confirmPinCode.length - 1);
+      }
+    } else if (value == 'X') {
+      confirmPinCode = '';
+    } else {
+      if (confirmPinCode.length == 4) {
+        return;
+      } else {
+        confirmPinCode = confirmPinCode + value;
+      }
+    }
+    onChangedField(context, confirmPinCode);
   }
 
   Future<List<dynamic>> getAvailableBiometrics() async {

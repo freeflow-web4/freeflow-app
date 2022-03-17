@@ -2,9 +2,12 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
-import 'package:freeflow/layers/domain/usecases/user_login/user_recover_login_usecase.dart';
-import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
+import 'package:freeflow/core/utils/assets_constants.dart';
+import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
@@ -16,14 +19,17 @@ class RecoverAccountController = RecoverAccountControllerBase
 
 abstract class RecoverAccountControllerBase with Store {
   final UserRecoverLoginUseCase userRecoverLoginUseCase;
-  final UserHasBiometricsUsecase userHasBiometricsUsecase;
-  final UserSetBiometricsUsecase userSetBiometricsUsecase;
   final BiometricAuthDriver biometricDriver;
+  final UserSetPincodeUsecase userSetPincodeUsecase;
+  final GetUsernameExistsUsecase getUsernameExistsUsecase;
+  final SaveUserLocalAuthUsecase saveUserLocalAuthUsecase;
+
   RecoverAccountControllerBase({
     required this.userRecoverLoginUseCase,
-    required this.userHasBiometricsUsecase,
-    required this.userSetBiometricsUsecase,
     required this.biometricDriver,
+    required this.userSetPincodeUsecase,
+    required this.getUsernameExistsUsecase,
+    required this.saveUserLocalAuthUsecase,
   });
 
   @observable
@@ -60,6 +66,9 @@ abstract class RecoverAccountControllerBase with Store {
   String? pinCodeError;
 
   @observable
+  String? confirmPinCodeError;
+
+  @observable
   bool isNameValid = false;
 
   @observable
@@ -67,6 +76,9 @@ abstract class RecoverAccountControllerBase with Store {
 
   @observable
   bool isPinValid = false;
+
+  @observable
+  bool isConfirmPinCodeValid = false;
 
   @observable
   bool isInFirstView = true;
@@ -86,6 +98,18 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   String? pinCode;
 
+  @observable
+  bool isValidating = false;
+
+  @observable
+  bool isBiometricAvailable = true;
+
+  @observable
+  String username = '';
+
+  @observable
+  bool isContinueButtonVisible = true;
+
   int animationDuration = 10;
 
   @action
@@ -95,14 +119,14 @@ abstract class RecoverAccountControllerBase with Store {
       String? pincode,
       String? confirmPincode}) async {
     if (isInFirstView) {
-      if ((username ?? '').isEmpty) {
+      if ((username ?? '').isEmpty || !isNameValid) {
         openDialog(context);
       } else {
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(1);
       }
     } else if (isInSecondView) {
-      if ((privateKey ?? '').isEmpty) {
+      if ((privateKey ?? '').isEmpty || !isKeyValid) {
         openDialog(context);
       } else {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -115,6 +139,8 @@ abstract class RecoverAccountControllerBase with Store {
         FocusScope.of(context).requestFocus(FocusNode());
         updateIndex(3);
       }
+    } else if (isInFourthView) {
+      print('eita');
     }
   }
 
@@ -126,22 +152,16 @@ abstract class RecoverAccountControllerBase with Store {
       validatePrivateKey(context, value);
     } else if (isInThirdView) {
       validatePinCode(context, value);
-    } else {
-      validateName(context, value);
+    } else if (isInFourthView) {
+      validateConfirmPinCode(context, value);
+      if (isConfirmPinCodeValid) {
+        savePinCode();
+      }
     }
   }
 
-  void validateName(BuildContext context, String? name) {
-    if ((name ?? '').trim().isEmpty) {
-      usernameError = FlutterI18n.translate(
-        context,
-        'recoverAccount.pleaseEnterUsername',
-      );
-      isNameValid = false;
-    } else {
-      usernameError = null;
-      isNameValid = true;
-    }
+  void savePinCode() {
+    if (pinCode != null) userSetPincodeUsecase(pinCode!);
   }
 
   bool isContinueButtonActive() {
@@ -151,12 +171,14 @@ abstract class RecoverAccountControllerBase with Store {
       return isKeyValid;
     } else if (isInThirdView) {
       return isPinValid;
+    } else if (isInFourthView) {
+      return isConfirmPinCodeValid;
     } else {
-      return isNameValid;
+      return true;
     }
   }
 
-  void validatePrivateKey(BuildContext context, String? key) {
+  validatePrivateKey(BuildContext context, String? key) async {
     if ((key ?? '').isEmpty) {
       isKeyValid = false;
       privateKeyError = FlutterI18n.translate(
@@ -164,9 +186,28 @@ abstract class RecoverAccountControllerBase with Store {
         'recoverAccount.pleaseEnterPrivateKey',
       );
     } else {
-      isKeyValid = true;
-      privateKeyError = null;
+      isValidating = true;
+      final result = await userRecoverLoginUseCase(
+          username: username, privateKey: key ?? '');
+      result.fold(
+        (l) {
+          isKeyValid = false;
+          privateKeyError = FlutterI18n.translate(
+            context,
+            'recoverAccount.privateKeyIsNotValid',
+          );
+          if (l == DomainError.noInternet) {
+            openErrorDialog(context);
+          }
+        },
+        (r) {
+          isKeyValid = true;
+          privateKeyError = null;
+          saveUserLocalAuthUsecase(r);
+        },
+      );
     }
+    isValidating = false;
   }
 
   void validatePinCode(BuildContext context, String? code) {
@@ -184,6 +225,59 @@ abstract class RecoverAccountControllerBase with Store {
       pinCodeError = null;
       pinCode = code;
     }
+  }
+
+  void validateConfirmPinCode(BuildContext context, String? value) {
+    if (value?.length == 4) {
+      if (value != pinCode) {
+        confirmPinCodeError = FlutterI18n.translate(
+          context,
+          'recoverAccount.pleaseConfirYourPinCode',
+        );
+        isConfirmPinCodeValid = false;
+      } else {
+        confirmPinCodeError = null;
+        isConfirmPinCodeValid = true;
+      }
+    } else {
+      isConfirmPinCodeValid = false;
+    }
+  }
+
+  void validateName(BuildContext context, String? name) async {
+    if ((name ?? '').trim().isEmpty) {
+      usernameError = FlutterI18n.translate(
+        context,
+        'recoverAccount.pleaseEnterUsername',
+      );
+      isNameValid = false;
+    } else {
+      isValidating = true;
+      final result = await getUsernameExistsUsecase(name ?? '');
+      result.fold((l) {
+        usernameError = FlutterI18n.translate(
+          context,
+          'recoverAccount.pleaseEnterUsername',
+        );
+        isNameValid = false;
+        if (l == DomainError.noInternet) {
+          openErrorDialog(context);
+        }
+      }, (r) {
+        if (r) {
+          usernameError = null;
+          isNameValid = true;
+          username = name ?? '';
+        } else {
+          usernameError = FlutterI18n.translate(
+            context,
+            'recoverAccount.usernameIsNotValid',
+          );
+          isNameValid = false;
+        }
+      });
+    }
+    isValidating = false;
   }
 
   Future<Object?> openDialog(BuildContext context) async {
@@ -204,6 +298,20 @@ abstract class RecoverAccountControllerBase with Store {
     );
   }
 
+  Future<Object?> openErrorDialog(BuildContext context) async {
+    return showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext context, animation1, animation2) {
+        return FullScreenAlertDialog(
+          textKey: FlutterI18n.translate(context, 'domainError.noInternet'),
+          secondaryTextKey: FlutterI18n.translate(
+              context, 'domainError.pleaseCheckConnection'),
+          icon: IconsAsset.noConnectionFound,
+        );
+      },
+    );
+  }
+
   @action
   void updateIndex(int index) {
     if (index == 0) {
@@ -212,6 +320,7 @@ abstract class RecoverAccountControllerBase with Store {
       } else {
         isAnimatingExitFirstView = false;
         isAnimatingExitSecondView = true;
+        isContinueButtonVisible = false;
         Timer.periodic(const Duration(seconds: 3), (timer) {
           isInFirstView = true;
           isInSecondView = false;
@@ -221,11 +330,13 @@ abstract class RecoverAccountControllerBase with Store {
           isAnimatingExitSecondViewEnd = true;
           timer.cancel();
         });
+        isContinueButtonVisible = true;
       }
     } else if (index == 1) {
       if (isInSecondView) {
         return;
       } else {
+        isContinueButtonVisible = false;
         isAnimatingExitSecondView = false;
         isAnimatingExitFirstView = true;
         isAnimatingExitThirdView = true;
@@ -239,20 +350,32 @@ abstract class RecoverAccountControllerBase with Store {
           isAnimatingExitThirdViewEnd = true;
           timer.cancel();
         });
+        Timer.periodic(const Duration(seconds: 4), (timer) {
+          isContinueButtonVisible = true;
+          timer.cancel();
+        });
       }
     } else if (index == 2) {
       if (isInThirdView) {
         return;
       } else {
+        isContinueButtonVisible = false;
         isAnimatingExitThirdView = false;
         isAnimatingExitSecondView = true;
+        isAnimatingExitFourthView = true;
         Timer.periodic(const Duration(seconds: 3), (timer) {
           isInFirstView = false;
           isInSecondView = false;
           isInThirdView = true;
+          isInFourthView = false;
           currentIndex = 2;
           isAnimatingExitThirdViewEnd = false;
           isAnimatingExitSecondViewEnd = true;
+          isAnimatingExitFourthViewEnd = true;
+          timer.cancel();
+        });
+        Timer.periodic(const Duration(seconds: 4), (timer) {
+          isContinueButtonVisible = true;
           timer.cancel();
         });
       }
@@ -262,6 +385,7 @@ abstract class RecoverAccountControllerBase with Store {
       } else {
         isAnimatingExitFourthView = false;
         isAnimatingExitThirdView = true;
+        isContinueButtonVisible = false;
         Timer.periodic(const Duration(seconds: 3), (timer) {
           isInFirstView = false;
           isInSecondView = false;
@@ -270,6 +394,10 @@ abstract class RecoverAccountControllerBase with Store {
           currentIndex = 3;
           isAnimatingExitFourthViewEnd = false;
           isAnimatingExitThirdViewEnd = true;
+          timer.cancel();
+        });
+        Timer.periodic(const Duration(seconds: 4), (timer) {
+          isContinueButtonVisible = true;
           timer.cancel();
         });
       }
@@ -301,5 +429,14 @@ abstract class RecoverAccountControllerBase with Store {
       updateIndex(0);
       return false;
     }
+  }
+
+  @action
+  Future<void> hasBiometricAvailable() async {
+    final result = await biometricDriver.getAvailableBiometrics();
+    result.fold(
+      (l) => isBiometricAvailable = false,
+      (r) => isBiometricAvailable = r.isNotEmpty,
+    );
   }
 }

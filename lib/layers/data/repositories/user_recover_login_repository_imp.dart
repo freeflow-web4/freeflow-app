@@ -12,7 +12,7 @@ class UserRecoverLoginRepositoryImp implements UserRecoverLoginRepository {
   Future<Either<DomainError, UserEntity>> auth(
       {required String username, required String privateKey}) async {
     try {
-      final result = await _userLoginDataSource(
+      final result = await _userLoginDataSource.recover(
           username: username, privateKey: privateKey);
       return Right(result);
     } on Exception catch (error) {

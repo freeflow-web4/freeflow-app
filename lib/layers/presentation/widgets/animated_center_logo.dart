@@ -27,7 +27,6 @@ class _AnimatedCenterLogoState extends State<AnimatedCenterLogo>
 
   bool showFirstFrame = true;
   bool showSecondFrame = false;
-  bool showThirdFrame = false;
 
   late Animation<double> _logoOpacity;
 
@@ -44,47 +43,47 @@ class _AnimatedCenterLogoState extends State<AnimatedCenterLogo>
   }
 
   void updateAnimation() {
-    Timer.periodic(const Duration(milliseconds: 300), (timer) {
+    Timer.periodic(const Duration(milliseconds: 1000), (timer) {
       _controller.forward().orCancel;
       timer.cancel();
     });
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    Timer.periodic(const Duration(milliseconds: 1500), (timer) {
+      showFirstFrame = true;
+      showSecondFrame = false;
+      setState(() {});
+      timer.cancel();
+    });
+    Timer.periodic(const Duration(milliseconds: 3000), (timer) {
       showFirstFrame = false;
       showSecondFrame = true;
       setState(() {});
       timer.cancel();
     });
-    Timer.periodic(const Duration(seconds: 2), (timer) {
+    Timer.periodic(const Duration(milliseconds: 4500), (timer) {
+      showFirstFrame = true;
       showSecondFrame = false;
-      showThirdFrame = true;
-      setState(() {});
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 3), (timer) {
-      showFirstFrame = false;
-      showSecondFrame = true;
-      setState(() {});
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 4), (timer) {
-      showSecondFrame = false;
-      showThirdFrame = true;
-      setState(() {});
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 5), (timer) {
-      showFirstFrame = false;
-      showSecondFrame = true;
-      setState(() {});
-      timer.cancel();
-    });
-    Timer.periodic(const Duration(seconds: 6), (timer) {
-      showSecondFrame = false;
-      showThirdFrame = true;
       setState(() {});
       timer.cancel();
     });
     Timer.periodic(const Duration(milliseconds: 6000), (timer) {
+      showFirstFrame = false;
+      showSecondFrame = true;
+      setState(() {});
+      timer.cancel();
+    });
+    Timer.periodic(const Duration(milliseconds: 7500), (timer) {
+      showFirstFrame = true;
+      showSecondFrame = false;
+      setState(() {});
+      timer.cancel();
+    });
+    Timer.periodic(const Duration(milliseconds: 9000), (timer) {
+      showFirstFrame = false;
+      showSecondFrame = true;
+      setState(() {});
+      timer.cancel();
+    });
+    Timer.periodic(const Duration(milliseconds: 9500), (timer) {
       _controller.reverse();
       widget.onAnimationEnd?.call();
       timer.cancel();
@@ -109,15 +108,10 @@ class _AnimatedCenterLogoState extends State<AnimatedCenterLogo>
                   IconsAsset.freeflowLogoAnimation2,
                   key: const Key('image1'),
                 )
-              : showSecondFrame
-                  ? SvgPicture.asset(
-                      IconsAsset.freeflowLogoAnimation2,
-                      key: const Key('image2'),
-                    )
-                  : SvgPicture.asset(
-                      IconsAsset.freeflowLogoAnimation3,
-                      key: const Key('image3'),
-                    ),
+              : SvgPicture.asset(
+                  IconsAsset.freeflowLogoAnimation3,
+                  key: const Key('image3'),
+                ),
           duration: const Duration(milliseconds: 1200),
         ),
       ),

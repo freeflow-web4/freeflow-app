@@ -13,6 +13,7 @@ import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_pin_code_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:get_it/get_it.dart';
 
@@ -31,6 +32,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
   final pinController = TextEditingController();
   final confirmPinController = TextEditingController();
   late RecoverAccountPageAnimation animation;
+  bool isContinueButtonVisible = true;
   Timer? _debounce;
   late AnimationController animationController = AnimationController(
     duration: const Duration(seconds: 10),
@@ -73,6 +75,10 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                 constraints: const BoxConstraints(maxWidth: 720),
                 child: Observer(
                   builder: (context) {
+                    print(recoverAccountController.isContinueButtonVisible);
+                    if (recoverAccountController.isValidating) {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    }
                     return Column(
                       children: [
                         recoverAccountController.currentIndex == 0
@@ -119,26 +125,52 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                             ),
                           ),
                         ),
+                        Visibility(
+                          visible: recoverAccountController.currentIndex < 2,
+                          child: SizedBox(
+                              height: WidgetsBinding
+                                          .instance!.window.viewInsets.bottom >
+                                      0.0
+                                  ? 0
+                                  : 127),
+                        ),
+                        Observer(
+                          builder: (context) => LoadingWidget(
+                            isLoading: recoverAccountController.isValidating,
+                          ),
+                        ),
                         const Spacer(),
-                        StaggerOpacity(
-                          opacity: animation.buttonOpacity,
-                          controller: animationController,
-                          child: StaggerScale(
-                            height: animation.buttonHeight,
-                            width: animation.buttonWidth,
+                        AnimatedOpacity(
+                          duration: const Duration(milliseconds: 1200),
+                          opacity: isContinueButtonVisible ? 1 : 0,
+                          child: StaggerOpacity(
+                            opacity: animation.buttonOpacity,
                             controller: animationController,
-                            child: AnimatedFloatButtonWidget(
-                              isActive: recoverAccountController
-                                  .isContinueButtonActive(),
-                              onTap: () =>
+                            child: StaggerScale(
+                              height: animation.buttonHeight,
+                              width: animation.buttonWidth,
+                              controller: animationController,
+                              child: AnimatedFloatButtonWidget(
+                                isActive: recoverAccountController
+                                    .isContinueButtonActive(),
+                                onTap: () {
+                                  isContinueButtonVisible = false;
                                   recoverAccountController.tapContinueButton(
-                                context,
-                                privateKey: privateKeyController.text,
-                                username: flowerNameController.text,
-                                pincode: pinController.text,
-                                confirmPincode: confirmPinController.text,
+                                    context,
+                                    privateKey: privateKeyController.text,
+                                    username: flowerNameController.text,
+                                    pincode: pinController.text,
+                                    confirmPincode: confirmPinController.text,
+                                  );
+                                  Timer.periodic(const Duration(seconds: 8),
+                                      (timer) {
+                                    isContinueButtonVisible = true;
+                                    setState(() {});
+                                    timer.cancel();
+                                  });
+                                },
+                                icon: IconsAsset.arrowIcon,
                               ),
-                              icon: IconsAsset.arrowIcon,
                             ),
                           ),
                         ),
