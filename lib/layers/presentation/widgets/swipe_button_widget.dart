@@ -262,13 +262,6 @@ class _SwipeButtonState extends State<SwipeButton>
                                 .orCancel
                                 .then((value) async {
                               isButtonComingBackAndKicking = false;
-                              await Future.delayed(
-                                const Duration(
-                                  milliseconds: 5 *
-                                      _animationLenghtInMili ~/
-                                      _totalAnimationWeight,
-                                ),
-                              );
                               animationController.repeat().orCancel;
                             });
                           });
