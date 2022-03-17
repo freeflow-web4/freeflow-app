@@ -16,7 +16,7 @@ class GradientTextFieldPinCode extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: CircleAvatar(
-            radius: subString.isNotEmpty ? 4 : 2,
+            radius: subString.isNotEmpty ? 5 : 3,
             backgroundColor: color ??
                 (subString.isNotEmpty
                     ? StandardColors.blueLight
