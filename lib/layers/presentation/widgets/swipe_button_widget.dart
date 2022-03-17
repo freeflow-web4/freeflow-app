@@ -43,20 +43,30 @@ class _SwipeButtonState extends State<SwipeButton>
   static const _bigAnimationWeight = 0.8;
   static const _kick = 0.01;
   static const _elasticAnimationWeight = 0.5;
+  static const _animationLenghtInMili = 6000;
+  static const _totalAnimationWeight =
+      _bigAnimationWeight * 2 + _kick + _elasticAnimationWeight * 2 + 5;
+  static const _kickFactor = 2.5;
 
-  List<TweenSequenceItem<double>> _kickAnimation(double times) => [
+  double _lastProgress = 0;
+
+  List<TweenSequenceItem<double>> _kickAnimationTween(
+    double times, [
+    num factor = 1,
+  ]) =>
+      [
         TweenSequenceItem(
-          tween: Tween<double>(begin: 0, end: _kick * times),
+          tween: Tween<double>(begin: 0, end: _kick * times * factor),
           weight: _elasticAnimationWeight,
         ),
         TweenSequenceItem(
-          tween: Tween<double>(begin: _kick * times, end: 0),
+          tween: Tween<double>(begin: _kick * times * factor, end: 0),
           weight: _elasticAnimationWeight,
         ),
       ];
 
   late final AnimationController animationController = AnimationController(
-    duration: const Duration(milliseconds: 6000),
+    duration: const Duration(milliseconds: _animationLenghtInMili),
     vsync: this,
   );
 
@@ -64,9 +74,13 @@ class _SwipeButtonState extends State<SwipeButton>
 
   bool swiped = false;
 
-  Animation<double>? _buttonAnimation;
+  late Animation<double> _buttonAnimation;
+  late Animation<double> _kickAnimation;
 
-  bool? animationDone;
+  bool? animationDone = false;
+
+  bool isButtonComingBack = false;
+  bool isButtonComingBackAndKicking = false;
 
   @override
   void initState() {
@@ -84,9 +98,9 @@ class _SwipeButtonState extends State<SwipeButton>
         tween: ConstantTween(0.0),
         weight: _kick,
       ),
-      ..._kickAnimation(3),
-      ..._kickAnimation(2),
-      ..._kickAnimation(1),
+      ..._kickAnimationTween(3),
+      ..._kickAnimationTween(2),
+      ..._kickAnimationTween(1),
       TweenSequenceItem(
         tween: ConstantTween(0.0),
         weight: 5,
@@ -100,8 +114,24 @@ class _SwipeButtonState extends State<SwipeButton>
           curve: Curves.ease,
         ),
       ),
-    )..addStatusListener(onAnimationChanged);
-    animationDone = false;
+    );
+    _kickAnimation = TweenSequence([
+      ..._kickAnimationTween(3, _kickFactor),
+      ..._kickAnimationTween(2, _kickFactor),
+      ..._kickAnimationTween(1, _kickFactor),
+    ]).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(
+          0,
+          1,
+          curve: Curves.ease,
+        ),
+      ),
+    );
+    if (widget.startAnimation) {
+      animationController.repeat();
+    }
   }
 
   @override
@@ -116,7 +146,6 @@ class _SwipeButtonState extends State<SwipeButton>
 
   @override
   void dispose() {
-    _buttonAnimation?.removeStatusListener(onAnimationChanged);
     animationController.dispose();
     super.dispose();
   }
@@ -159,10 +188,9 @@ class _SwipeButtonState extends State<SwipeButton>
                   animation: animationController,
                   child: _progressBar(),
                   builder: (context, child) {
-                    final widthFactor = _buttonAnimation!.value;
                     final progressFactor = _buttonProgressFactor != null
                         ? _buttonProgressFactor ?? 0
-                        : widthFactor;
+                        : getCurrentAnimationValue();
 
                     return _builderProgressBar(
                       context,
@@ -201,13 +229,69 @@ class _SwipeButtonState extends State<SwipeButton>
                   details.globalPosition.dx,
                   details.delta.dx,
                 ),
-                child: (animationDone ?? true) == false &&
-                        _buttonProgressFactor == null
+                onHorizontalDragEnd: (_) async {
+                  if (widget.movementEnable && !swiped) {
+                    _lastProgress = _buttonProgressFactor ?? 0;
+                    setState(() {
+                      _buttonProgressFactor = null;
+                      isButtonComingBack = true;
+                      Future.delayed(const Duration(seconds: 0)).then(
+                        (value) async {
+                          animationController.reset();
+                          animationController
+                              .animateTo(
+                                1,
+                                duration: const Duration(
+                                  milliseconds: 300,
+                                ),
+                                curve: Curves.easeIn,
+                              )
+                              .orCancel
+                              .then((value) async {
+                            isButtonComingBack = false;
+                            isButtonComingBackAndKicking = true;
+                            animationController.reset();
+                            animationController
+                                .animateTo(
+                                  1,
+                                  duration: const Duration(
+                                    milliseconds: _animationLenghtInMili,
+                                  ),
+                                  curve: Curves.elasticOut,
+                                )
+                                .orCancel
+                                .then((value) async {
+                              isButtonComingBackAndKicking = false;
+                              await Future.delayed(
+                                const Duration(
+                                  milliseconds: 5 *
+                                      _animationLenghtInMili ~/
+                                      _totalAnimationWeight,
+                                ),
+                              );
+                              animationController.repeat().orCancel;
+                            });
+                          });
+                        },
+                      );
+                    });
+                  }
+                },
+                child: _buttonProgressFactor == null
                     ? AnimatedBuilder(
                         child: ppoint,
                         animation: animationController,
-                        builder: (context, child) =>
-                            _builder(context, child, _buttonAnimation!),
+                        builder: (context, child) {
+                          final animation = getCurrentAnimationValue();
+
+                          final animationInRange =
+                              _calcHorizontalInRange(animation);
+                          return _builder(
+                            context,
+                            child,
+                            animationInRange,
+                          );
+                        },
                       )
                     : Align(
                         alignment: Alignment(
@@ -343,26 +427,41 @@ class _SwipeButtonState extends State<SwipeButton>
     return textBold18(context, text: text, color: StandardColors.white);
   }
 
+  double _linearComeBackBuilder(
+    double animation,
+  ) {
+    final reversedAnimationValue = 1 - animation;
+    final factorForLastProgress = reversedAnimationValue * _lastProgress;
+    return factorForLastProgress;
+  }
+
+  double getCurrentAnimationValue() {
+    if (isButtonComingBack) {
+      return _linearComeBackBuilder(
+        animationController.value,
+      );
+    } else if (isButtonComingBackAndKicking) {
+      final kickAnimationWithFactor = _kickAnimation.value *
+          (5 * _lastProgress) *
+          (1 - animationController.value);
+      return kickAnimationWithFactor;
+    } else {
+      return _buttonAnimation.value;
+    }
+  }
+
   Widget _builder(
     BuildContext context,
     Widget? child,
-    Animation<double> animation,
+    double animation,
   ) {
     return Align(
       alignment: Alignment(
-        _calcHorizontalInRange(animation.value),
+        animation,
         0,
       ),
       child: child ?? const SizedBox.shrink(),
     );
-  }
-
-  void onAnimationChanged(AnimationStatus status) {
-    if (status == AnimationStatus.completed) {
-      setState(() {
-        animationDone = true;
-      });
-    }
   }
 
   Widget _builderProgressBar(
