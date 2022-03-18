@@ -62,12 +62,6 @@ abstract class AuthControllerBase with Store, Login {
     }
   }
 
-  void onBiometricsError(BuildContext context, Exception error) {
-    final errorMessage =
-        TranslationService.translate(context, 'auth.biometricsError');
-    showSnackBar(context, errorMessage);
-  }
-
   @action
   void onKeyboardTap(String digit, String currentPinFieldText) {
     String nextCurrentText = '';
