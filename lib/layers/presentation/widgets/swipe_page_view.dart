@@ -27,7 +27,8 @@ class _SwipePageViewState extends State<SwipePageView> {
   @override
   void didUpdateWidget(covariant SwipePageView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.initialIndex != oldWidget.initialIndex) {
+    if (widget.initialIndex != oldWidget.initialIndex &&
+        widget.initialIndex != currentIndex) {
       setState(() {
         shoudlAnimated = false;
         currentIndex = widget.initialIndex;
