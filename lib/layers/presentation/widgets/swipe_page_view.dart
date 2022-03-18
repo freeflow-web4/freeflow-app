@@ -80,9 +80,12 @@ class _SwipePageViewState extends State<SwipePageView> {
 
   void onHorizontalUpdate(DragUpdateDetails details, double screenWidth) {
     final deltaX = details.delta.dx;
-    if ((canMove || currentIndex > 0)) {
+    if ((canMove || currentIndex > 0) && left >= 0 || deltaX > 0) {
+      final increment = getScreenWidthFactor(deltaX, screenWidth);
       setState(
-        () => left += getScreenWidthFactor(deltaX, screenWidth),
+        () {
+          left = left + increment < 0 ? 0 : left + increment;
+        },
       );
     }
     checkRight();
