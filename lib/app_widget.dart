@@ -1,28 +1,42 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:freeflow/layers/presentation/ui/pages/login_page.dart';
-import 'package:freeflow/pages/home/home.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:freeflow/routes/root_router.gr.dart';
+import 'package:get_it/get_it.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final FlutterI18nDelegate flutterI18nDelegate;
+  MyApp({Key? key, required this.flutterI18nDelegate}) : super(key: key);
 
-  // This widget is the root of your application.
+  final _rootRouter = GetIt.I.get<RootRouter>();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    return MaterialApp.router(
+      routerDelegate: _rootRouter.delegate(),
+      routeInformationParser: _rootRouter.defaultRouteParser(),
       title: 'FreeFlow',
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: (context, widget) => ResponsiveWrapper.builder(
+        BouncingScrollWrapper.builder(context, widget!),
+        minWidth: 480,
+        defaultScale: true,
+        breakpoints: [
+          const ResponsiveBreakpoint.resize(480, name: MOBILE),
+          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          const ResponsiveBreakpoint.autoScale(1000, name: DESKTOP),
+        ],
+      ),
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      localizationsDelegates: [flutterI18nDelegate],
     );
   }
 }
