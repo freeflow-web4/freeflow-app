@@ -27,7 +27,8 @@ class _SwipePageViewState extends State<SwipePageView> {
   @override
   void didUpdateWidget(covariant SwipePageView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.initialIndex != oldWidget.initialIndex) {
+    if (widget.initialIndex != oldWidget.initialIndex &&
+        widget.initialIndex != currentIndex) {
       setState(() {
         shoudlAnimated = false;
         currentIndex = widget.initialIndex;
@@ -39,6 +40,7 @@ class _SwipePageViewState extends State<SwipePageView> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, contraints) {
       final width = contraints.maxWidth;
+      final height = contraints.maxHeight;
       return GestureDetector(
         onHorizontalDragUpdate: (details) => onHorizontalUpdate(
           details,
@@ -60,8 +62,8 @@ class _SwipePageViewState extends State<SwipePageView> {
                 ),
                 right: right * width,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+                  width: width,
+                  height: height,
                   child: widget.children[1],
                 ),
                 onEnd: onAnimationEnd,
