@@ -17,8 +17,8 @@ class Routes {
     _routeService.pushReplacement(const WelcomeRoute());
   }
 
-  void goToRecoverAccountLoadingPageRoute() {
-    _routeService.pushReplacement(const RecoverAccountLoadingRoute());
+  void goToFreeflowLogoLoadingRoute() {
+    _routeService.pushReplacement(const FreeflowLogoLoadingRoute());
   }
 
   void goToLoginPageRoute() {
