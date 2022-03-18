@@ -18,7 +18,7 @@ class SwipePageView extends StatefulWidget {
 }
 
 class _SwipePageViewState extends State<SwipePageView> {
-  double right = 0;
+  double left = 0;
   bool canMove = true;
   bool shoudlAnimated = true;
   late int currentIndex = widget.initialIndex;
@@ -60,7 +60,7 @@ class _SwipePageViewState extends State<SwipePageView> {
                           : 500
                       : 0,
                 ),
-                right: right * width,
+                left: left * width,
                 child: SizedBox(
                   width: width,
                   height: height,
@@ -82,17 +82,17 @@ class _SwipePageViewState extends State<SwipePageView> {
     final deltaX = details.delta.dx;
     if ((canMove || currentIndex > 0)) {
       setState(
-        () => right += getScreenWidthFactor(deltaX, screenWidth),
+        () => left += getScreenWidthFactor(deltaX, screenWidth),
       );
     }
     checkRight();
   }
 
   void checkRight([void Function()? onNotCompleted]) {
-    if (right >= widget.minimalFactorToSwipe) {
+    if (left >= widget.minimalFactorToSwipe) {
       canMove = false;
       setState(() {
-        right = 1;
+        left = 1;
       });
     } else {
       onNotCompleted?.call();
@@ -113,7 +113,7 @@ class _SwipePageViewState extends State<SwipePageView> {
     if (canMove) {
       checkRight(
         () => setState(() {
-          right = 0;
+          left = 0;
         }),
       );
     }
