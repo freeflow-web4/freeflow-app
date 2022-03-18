@@ -128,7 +128,7 @@ abstract class RecoverAccountControllerBase with Store {
     } else if (isInThirdView) {
       updateIndex(3);
     } else if (isInFourthView) {
-      Routes.instance.goToWelcomePageRoute(context);
+      Routes.instance.goToWelcomePageRoute();
     }
   }
 

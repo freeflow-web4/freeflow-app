@@ -9,7 +9,7 @@ class UserBiometricsDatasourceImp implements UserBiometricsDataSource {
 
   @override
   Future<bool> getHasBiometrics() async {
-    final response = await cacheStorage.get('userHasBiometrics');
+    final response = await cacheStorage.get('userHasBiometrics') ?? 'false';
     return jsonDecode(response);
   }
 

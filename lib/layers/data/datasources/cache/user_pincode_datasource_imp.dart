@@ -8,12 +8,15 @@ class UserPincodeDatasourceImp implements UserPincodeDatasource {
   UserPincodeDatasourceImp(this.cacheStorage);
 
   @override
-  Future<bool> getPincode() async {
+  Future<String> getPincode() async {
     try {
-      final response = await cacheStorage.get('userHasBiometrics');
+      final response = (await cacheStorage.get('userPincode') as String?) ?? '';
+      if(response.isEmpty) {
+        return response;
+      }
       return jsonDecode(response);
     } catch (e) {
-      throw Exception();
+      throw Exception(e);
     }
   }
 

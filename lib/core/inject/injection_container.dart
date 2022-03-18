@@ -3,6 +3,7 @@ import 'package:freeflow/core/inject/datasources_injections.dart';
 import 'package:freeflow/core/inject/infra_injections.dart';
 import 'package:freeflow/core/inject/repositories_injections.dart';
 import 'package:freeflow/core/inject/usecases_injections.dart';
+import 'package:freeflow/core/inject/validators_injections.dart';
 
 import 'package:get_it/get_it.dart';
 
@@ -13,6 +14,7 @@ class Inject {
     registerRepositoriesDependencies(getIt);
     registerUsecasesDependencies(getIt);
     registerDatasourcesDependencies(getIt);
+    registerValidatorDependencies(getIt);
     registerInfraDependencies(getIt);
   }
 }

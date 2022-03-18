@@ -53,7 +53,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => fullscreenAlertDialogController.closeDialog(context),
+      onTap: () => fullscreenAlertDialogController.closeDialog(),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
@@ -133,7 +133,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
               child: AnimatedFloatButtonWidget(
                 onTapInative: () {},
                 onTap: () =>
-                    fullscreenAlertDialogController.closeDialog(context),
+                    fullscreenAlertDialogController.closeDialog(),
                 icon: IconsAsset.closeBackIcon,
               ),
             ),

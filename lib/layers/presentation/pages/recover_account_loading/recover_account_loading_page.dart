@@ -12,8 +12,7 @@ class RecoverAccountLoadingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: StandardColors.backgroundDark,
       body: AnimatedCenterLogo(
-        onAnimationEnd: () =>
-            Routes.instance.goToRecoverAccountPageRoute(context),
+        onAnimationEnd: Routes.instance.goToRecoverAccountPageRoute,
       ),
     );
   }

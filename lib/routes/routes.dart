@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
@@ -8,18 +7,34 @@ class Routes {
 
   Routes(this._routeService);
 
-  static get instance => GetIt.I.get<Routes>();
+  static Routes get instance => GetIt.I.get<Routes>();
 
-  void goToRecoverAccountPageRoute(BuildContext context) async {
-    _routeService.pushReplacement(context, const RecoverAccountRoute());
+  void goToRecoverAccountPageRoute() {
+    _routeService.pushReplacement(const RecoverAccountRoute());
   }
 
-  void goToWelcomePageRoute(BuildContext context) async {
-    _routeService.pushReplacement(context, const WelcomeRoute());
+  void goToWelcomePageRoute() async {
+    _routeService.pushReplacement(const WelcomeRoute());
   }
 
-  void pop(BuildContext context) {
-    _routeService.pop(context);
+  void goToRecoverAccountLoadingPageRoute() {
+    _routeService.pushReplacement(const RecoverAccountLoadingRoute());
+  }
+
+  void goToLoginPageRoute() {
+    _routeService.pushReplacement(const LoginRoute());
+  }
+
+  void goToAuthPageRoute() {
+    _routeService.pushReplacement(const AuthRoute());
+  }
+
+  void goToHomePageRoute() {
+    _routeService.pushReplacement(const HomeRoute());
+  }
+
+  void pop() {
+    _routeService.pop();
   }
 
 //   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(
@@ -40,11 +55,3 @@ class Routes {
 //     return Right(routeResponse);
 //   }
 }
-
-class ProfileRoute {}
-
-class Failure {}
-
-class ProfileRouteRequest {}
-
-class ProfileRouteResponse {}

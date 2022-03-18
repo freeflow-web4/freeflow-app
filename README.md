@@ -2,6 +2,18 @@
 
 A new Flutter project.
 
+# Current jira tasks
+Login page:
+* https://devmagic.atlassian.net/browse/FREEF-12
+
+# Prototype
+* Page: MVP-Wallet
+* Link: https://www.figma.com/file/DkUFyruPzo8OSf7y25pAFC/FreeFlow--lofi?node-id=3148%3A19410
+
+# IPHONE 12 Size
+* Height: 812
+* Width: 375
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

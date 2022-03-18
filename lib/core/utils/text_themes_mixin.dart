@@ -34,10 +34,31 @@ mixin TextThemes {
       FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       textAlign: textAlign,
-      style: TextStyle(
-        color: color,
+      style: textH4TextStyle.copyWith(color: color),
+    );
+  }
+
+  TextStyle get textH4TextStyle => const TextStyle(
         fontSize: 38,
         fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+      );
+
+  Text textH5(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    TextAlign textAlign = TextAlign.left,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      textAlign: textAlign,
+      style: TextStyle(
+        color: color,
+        fontSize: 35,
+        fontWeight: FontWeight.w400,
         fontFamily: 'Akrobat',
       ),
     );
@@ -81,6 +102,9 @@ mixin TextThemes {
     );
   }
 
+  //TODO: analyse if wouldn't be better remove size
+  // and let the window set with "copyWith"
+
   Text textSubtitle(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
@@ -111,6 +135,78 @@ mixin TextThemes {
         color: color,
         fontSize: 12,
         fontWeight: FontWeight.w800,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textBold18(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textBold20(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textBold22(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textBold24(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
         fontFamily: 'Akrobat',
       ),
     );

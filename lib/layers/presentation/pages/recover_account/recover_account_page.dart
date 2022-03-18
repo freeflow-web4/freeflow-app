@@ -5,7 +5,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
-import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page_animation.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_confirm_pin_code_view.dart';
@@ -18,7 +17,7 @@ import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:get_it/get_it.dart';
 
-class RecoverAccountPage extends StatefulWidget with TextThemes {
+class RecoverAccountPage extends StatefulWidget {
   const RecoverAccountPage({Key? key}) : super(key: key);
 
   @override
