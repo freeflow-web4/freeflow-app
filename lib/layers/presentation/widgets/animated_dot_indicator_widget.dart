@@ -7,10 +7,14 @@ import 'package:freeflow/layers/presentation/widgets/widget_animations/dot_indic
 
 class AnimatedDotIndicatorWidget extends StatefulWidget {
   final int currentIndex;
+  final int length;
+  final Duration totalAnimationStartUpTime;
 
   const AnimatedDotIndicatorWidget({
     Key? key,
     required this.currentIndex,
+    required this.length,
+    required this.totalAnimationStartUpTime,
   }) : super(key: key);
 
   @override
@@ -21,17 +25,27 @@ class AnimatedDotIndicatorWidget extends StatefulWidget {
 class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
     with TickerProviderStateMixin {
   late AnimationController animationController;
+  late AnimationController dotSizeControler;
   late AnimationController firstDotSizeControler;
   late AnimationController thirdDotSizeControler;
   late AnimationController secondDotSizeControler;
   late DotIndicatorAnimation animation;
   bool showIndexAnimation = false;
+  late final animationTimeBetweenDotsInStartUp = Duration(
+    milliseconds:
+        widget.totalAnimationStartUpTime.inMilliseconds ~/ widget.length,
+  );
+
+  late final animationTimeBetweenDotsInStartUpFactor =
+      animationTimeBetweenDotsInStartUp.inMilliseconds ~/
+          widget.totalAnimationStartUpTime.inMilliseconds;
+  int thePreviusDot = 0;
 
   @override
   void initState() {
     super.initState();
     animationController = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: widget.totalAnimationStartUpTime,
       vsync: this,
     );
     firstDotSizeControler = AnimationController(
@@ -49,6 +63,7 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
 
     animation = DotIndicatorAnimation(
       animationController,
+      dotSizeControler,
       firstDotSizeControler,
       secondDotSizeControler,
       thirdDotSizeControler,
@@ -74,85 +89,70 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
   void didUpdateWidget(covariant AnimatedDotIndicatorWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentIndex != widget.currentIndex) {
-      switch (widget.currentIndex) {
-        case 0:
-          firstDotSizeControler.forward();
-          Timer.periodic(const Duration(seconds: 1), (timer) {
-            firstDotSizeControler.reverse();
-            timer.cancel();
-          });
-          break;
-        case 1:
-          secondDotSizeControler.forward();
-          Timer.periodic(const Duration(seconds: 1), (timer) {
-            secondDotSizeControler.reverse();
-            timer.cancel();
-          });
-          break;
-        case 2:
-          thirdDotSizeControler.forward();
-          Timer.periodic(const Duration(seconds: 1), (timer) {
-            thirdDotSizeControler.reverse();
-            timer.cancel();
-          });
-          break;
-        default:
-          firstDotSizeControler.forward();
-          Timer.periodic(const Duration(seconds: 1), (timer) {
-            timer.cancel();
-            firstDotSizeControler.reverse();
-          });
-      }
+      dotSizeControler.reset();
+      dotSizeControler.forward().then((value) => dotSizeControler.reverse());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        StaggerOpacity(
-          opacity: animation.firstDotOpacity,
-          controller: animationController,
-          child: StaggerScale(
-            controller: firstDotSizeControler,
-            height: animation.firstDotHeight,
-            width: animation.firstDotWidth,
-            child: AnimatedDotWidget(
-              isIndex: widget.currentIndex == 0,
-              isCompleted: widget.currentIndex == 1 || widget.currentIndex == 2,
-            ),
-          ),
-        ),
-        const SizedBox(width: 4),
-        StaggerOpacity(
-          opacity: animation.secondDotOpacity,
-          controller: animationController,
-          child: StaggerScale(
-            controller: secondDotSizeControler,
-            height: animation.secondDotHeight,
-            width: animation.secondDotWidth,
-            child: AnimatedDotWidget(
-              isIndex: widget.currentIndex == 1,
-              isCompleted: widget.currentIndex == 2,
-            ),
-          ),
-        ),
-        const SizedBox(width: 4),
-        StaggerOpacity(
-          opacity: animation.thirdDotOpacity,
-          controller: animationController,
-          child: StaggerScale(
-            controller: thirdDotSizeControler,
-            height: animation.thirdDotHeight,
-            width: animation.thirdDotWidth,
-            child: AnimatedDotWidget(
-              isIndex: widget.currentIndex == 2,
-              isCompleted: widget.currentIndex == 3,
-            ),
-          ),
-        ),
-      ],
+    return AnimatedBuilder(
+      animation: dotSizeControler,
+      builder: (context, _) {
+        return AnimatedBuilder(
+          animation: animationController,
+          builder: (context, __) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: getDotList(),
+            );
+          },
+        );
+      },
     );
+  }
+
+  List<Widget> getDotList() {
+    final dotList = <Widget>[];
+    for (var i = 0; i < widget.length; i++) {
+      final opacity = getOpacityValueFromAnimationStartUp(i);
+      final size = getScaleValueFromAnimationStartUp(i);
+      dotList.add(
+        Opacity(
+          opacity: opacity,
+          child: Transform.scale(
+            scale: size,
+            child: AnimatedDotWidget(
+              isIndex: widget.currentIndex == i,
+              isCompleted: widget.currentIndex > i,
+            ),
+          ),
+        ),
+      );
+    }
+    return dotList;
+  }
+
+  double getOpacityValueFromAnimationStartUp(int index) {
+    final minTimeFactor = index * animationTimeBetweenDotsInStartUpFactor;
+    final maxTimeFactor =
+        minTimeFactor + animationTimeBetweenDotsInStartUpFactor;
+    if (animationController.value > maxTimeFactor) {
+      return 1;
+    } else if (animationController.value < minTimeFactor) {
+      return 0;
+    } else {
+      return (animationController.value - minTimeFactor) /
+          animationTimeBetweenDotsInStartUpFactor;
+    }
+  }
+
+  double getScaleValueFromAnimationStartUp(int index) {
+    if (index == widget.currentIndex) {
+      return animation.dotSize.value;
+    } else if (index == thePreviusDot) {
+      return 1 - animation.dotSize.value;
+    }
+    return 0;
   }
 }
