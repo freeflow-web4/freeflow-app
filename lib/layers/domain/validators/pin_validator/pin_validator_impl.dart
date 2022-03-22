@@ -1,4 +1,4 @@
-import 'package:freeflow/layers/domain/validators/pin_validator.dart';
+import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 
 class PinValidatorImpl implements PinValidator {
   @override

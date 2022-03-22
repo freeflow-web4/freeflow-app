@@ -434,6 +434,22 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$currentPageAtom =
+      Atom(name: 'RecoverAccountControllerBase.currentPage');
+
+  @override
+  int get currentPage {
+    _$currentPageAtom.reportRead();
+    return super.currentPage;
+  }
+
+  @override
+  set currentPage(int value) {
+    _$currentPageAtom.reportWrite(value, super.currentPage, () {
+      super.currentPage = value;
+    });
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 
@@ -462,6 +478,17 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
 
   final _$RecoverAccountControllerBaseActionController =
       ActionController(name: 'RecoverAccountControllerBase');
+
+  @override
+  dynamic setCurrentPage(int value) {
+    final _$actionInfo = _$RecoverAccountControllerBaseActionController
+        .startAction(name: 'RecoverAccountControllerBase.setCurrentPage');
+    try {
+      return super.setCurrentPage(value);
+    } finally {
+      _$RecoverAccountControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void onChangedField(BuildContext context, String? value) {
@@ -513,7 +540,8 @@ pinCode: ${pinCode},
 isValidating: ${isValidating},
 isBiometricAvailable: ${isBiometricAvailable},
 username: ${username},
-isContinueButtonVisible: ${isContinueButtonVisible}
+isContinueButtonVisible: ${isContinueButtonVisible},
+currentPage: ${currentPage}
     ''';
   }
 }

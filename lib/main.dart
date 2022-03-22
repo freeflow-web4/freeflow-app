@@ -29,7 +29,7 @@ Future<void> main() async {
   GetIt.I.registerSingleton<RootRouter>(RootRouter());
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) =>
           MyApp(flutterI18nDelegate: flutterI18nDelegate), // Wrap your app
     ),

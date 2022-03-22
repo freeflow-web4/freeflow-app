@@ -1,6 +1,9 @@
+import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
+import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_username_controller.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
@@ -41,6 +44,12 @@ registerControllerDependencies(GetIt getIt) {
   );
 
   getIt.registerLazySingleton<AuthController>(
-    () => AuthController(GetIt.I.get()),
+    () => AuthController(getIt.get<PinValidator>()),
+  );
+  getIt.registerLazySingleton<RecoverUsernameController>(
+    () => RecoverUsernameController(
+      validator: getIt.get<UsernameValidator>(),
+      getUsernameExistsUsecase: getIt.get<GetUsernameExistsUsecase>(),
+    ),
   );
 }

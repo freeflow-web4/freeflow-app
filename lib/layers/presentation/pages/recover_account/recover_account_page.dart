@@ -2,19 +2,21 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page_animation.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_confirm_pin_code_view.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_private_key_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view/recover_username_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_privatekey_view/recover_private_key_view.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_pin_code_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
+import 'package:freeflow/layers/presentation/widgets/swipe_page_view.dart';
 import 'package:get_it/get_it.dart';
 
 class RecoverAccountPage extends StatefulWidget {
@@ -59,6 +61,8 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
     });
   }
 
+  int currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -68,128 +72,115 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: StandardColors.backgroundDark,
-          body: LayoutBuilder(builder: (context, constraints) {
-            return Center(
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 720),
-                child: Observer(
-                  builder: (context) {
-                    print(recoverAccountController.isContinueButtonVisible);
-                    if (recoverAccountController.isValidating) {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    }
-                    return Column(
-                      children: [
-                        recoverAccountController.currentIndex == 0
-                            ? RecoverUsernameView(
-                                key: const Key('1'),
-                                onInputChanged: _onInputChanged,
-                                textEditingController: flowerNameController,
-                                recoverAccountController:
-                                    recoverAccountController,
-                              )
-                            : recoverAccountController.currentIndex == 1
-                                ? RecoverPrivateKeyView(
-                                    key: const Key('2'),
-                                    onInputChanged: _onInputChanged,
-                                    textEditingController: privateKeyController,
-                                    recoverAccountController:
-                                        recoverAccountController,
-                                  )
-                                : recoverAccountController.currentIndex == 2
-                                    ? RecoverPinCodeView(
-                                        key: const Key('3'),
-                                        onInputChanged: _onInputChanged,
-                                        textEditingController: pinController,
-                                        recoverAccountController:
-                                            recoverAccountController,
-                                      )
-                                    : RecoverConfirmPinCodeView(
-                                        key: const Key('4'),
-                                        onInputChanged: _onInputChanged,
-                                        textEditingController:
-                                            confirmPinController,
-                                        recoverAccountController:
-                                            recoverAccountController,
-                                      ),
-                        const SizedBox(height: xxlargeSpacing),
-                        Visibility(
-                          visible: recoverAccountController.currentIndex < 2,
-                          child: StaggerOpacity(
-                            opacity: animation.dotOpacity,
-                            controller: animationController,
-                            child: AnimatedDotIndicatorWidget(
-                              currentIndex:
-                                  recoverAccountController.currentIndex,
-                            ),
-                          ),
-                        ),
-                        Visibility(
-                          visible: recoverAccountController.currentIndex < 2,
-                          child: SizedBox(
-                              height: WidgetsBinding
-                                          .instance!.window.viewInsets.bottom >
-                                      0.0
-                                  ? 0
-                                  : 127),
-                        ),
-                        Observer(
-                          builder: (context) => LoadingWidget(
-                            isLoading: recoverAccountController.isValidating,
-                          ),
-                        ),
-                        const Spacer(),
-                        AnimatedOpacity(
-                          duration: const Duration(milliseconds: 1200),
-                          opacity: isContinueButtonVisible ? 1 : 0,
-                          child: StaggerOpacity(
-                            opacity: animation.buttonOpacity,
-                            controller: animationController,
-                            child: StaggerScale(
-                              height: animation.buttonHeight,
-                              width: animation.buttonWidth,
-                              controller: animationController,
-                              child: AnimatedFloatButtonWidget(
-                                isActive: recoverAccountController
-                                    .isContinueButtonActive(),
-                                onTapInative: () => recoverAccountController
-                                    .openDialog(context),
-                                onTap: () {
-                                  if (recoverAccountController
-                                      .isContinueButtonActive()) {
-                                    isContinueButtonVisible = false;
-                                    Timer.periodic(const Duration(seconds: 8),
-                                        (timer) {
-                                      isContinueButtonVisible = true;
-                                      setState(() {});
-                                      timer.cancel();
-                                    });
-                                  }
-
-                                  recoverAccountController.tapContinueButton(
-                                    context,
-                                    privateKey: privateKeyController.text,
-                                    username: flowerNameController.text,
-                                    pincode: pinController.text,
-                                    confirmPincode: confirmPinController.text,
-                                  );
-                                },
-                                icon: IconsAsset.arrowIcon,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: bigSpacing),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            );
-          }),
+          body: Container(
+            constraints: const BoxConstraints(maxWidth: 720),
+            alignment: Alignment.center,
+            child: Observer(
+              builder: (context) {
+                if (recoverAccountController.isValidating) {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                }
+                return SwipePageView(
+                  children: [
+                    RecoverUsernameView(
+                      textEditingController: flowerNameController,
+                      recoverAccountController: recoverAccountController,
+                    ),
+                    RecoverPrivateKeyView(
+                      onInputChanged: _onInputChanged,
+                      textEditingController: privateKeyController,
+                      recoverAccountController: recoverAccountController,
+                    ),
+                    RecoverPinCodeView(
+                      onInputChanged: _onInputChanged,
+                      textEditingController: pinController,
+                      recoverAccountController: recoverAccountController,
+                    ),
+                    RecoverConfirmPinCodeView(
+                      onInputChanged: _onInputChanged,
+                      textEditingController: confirmPinController,
+                      recoverAccountController: recoverAccountController,
+                    ),
+                  ],
+                  initialIndex: recoverAccountController.currentPage,
+                  onPageSwiped: recoverAccountController.setCurrentPage,
+                );
+              },
+            ),
+          ),
         ),
       ),
     );
   }
 }
+
+ // Column(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     Visibility(
+                    //       visible: recoverAccountController.currentIndex < 2,
+                    //       child: StaggerOpacity(
+                    //         opacity: animation.dotOpacity,
+                    //         controller: animationController,
+                    //         child: AnimatedDotIndicatorWidget(
+                    //           currentIndex:
+                    //               recoverAccountController.currentIndex,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     SizedBox(height: 120),
+                    //     Observer(
+                    //       builder: (context) => LoadingWidget(
+                    //         isLoading: true,
+                    //       ),
+                    //     ),
+                    //     SizedBox(height: 117),
+                    //     Padding(
+                    //       padding: const EdgeInsets.only(bottom: bigSpacing),
+                    //       child: AnimatedOpacity(
+                    //         duration: const Duration(milliseconds: 1200),
+                    //         opacity: isContinueButtonVisible ? 1 : 0,
+                    //         child: StaggerOpacity(
+                    //           opacity: animation.buttonOpacity,
+                    //           controller: animationController,
+                    //           child: StaggerScale(
+                    //             height: animation.buttonHeight,
+                    //             width: animation.buttonWidth,
+                    //             controller: animationController,
+                    //             child: AnimatedFloatButtonWidget(
+                    //               isActive: recoverAccountController
+                    //                   .isContinueButtonActive(),
+                    //               onTapInative: () {},
+                    //               onTap: () {
+                    //                 currentPage = 1;
+
+                    //                 setState(() {});
+                    //                 if (recoverAccountController
+                    //                     .isContinueButtonActive()) {
+                    //                   isContinueButtonVisible = false;
+                    //                   Timer.periodic(const Duration(seconds: 8),
+                    //                       (timer) {
+                    //                     isContinueButtonVisible = true;
+                    //                     setState(() {});
+                    //                     timer.cancel();
+                    //                   });
+                    //                 }
+
+                    //                 recoverAccountController.tapContinueButton(
+                    //                   context,
+                    //                   privateKey: privateKeyController.text,
+                    //                   username: flowerNameController.text,
+                    //                   pincode: pinController.text,
+                    //                   confirmPincode: confirmPinController.text,
+                    //                 );
+                    //               },
+                    //               icon: IconsAsset.arrowIcon,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),

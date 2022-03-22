@@ -7,10 +7,12 @@ import 'package:freeflow/layers/presentation/widgets/widget_animations/dot_indic
 
 class AnimatedDotIndicatorWidget extends StatefulWidget {
   final int currentIndex;
+  final bool makeAnimation;
 
   const AnimatedDotIndicatorWidget({
     Key? key,
     required this.currentIndex,
+    this.makeAnimation = true,
   }) : super(key: key);
 
   @override
@@ -31,19 +33,19 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
   void initState() {
     super.initState();
     animationController = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: Duration(seconds: widget.makeAnimation ? 10 : 0),
       vsync: this,
     );
     firstDotSizeControler = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: widget.makeAnimation ? 2 : 0),
       vsync: this,
     );
     secondDotSizeControler = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: widget.makeAnimation ? 2 : 0),
       vsync: this,
     );
     thirdDotSizeControler = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: widget.makeAnimation ? 2 : 0),
       vsync: this,
     );
 
@@ -54,11 +56,11 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
       thirdDotSizeControler,
     );
     animationController.forward();
-    Timer.periodic(const Duration(seconds: 4), (timer) {
+    Timer.periodic(Duration(seconds: widget.makeAnimation ? 4 : 0), (timer) {
       firstDotSizeControler.forward();
       timer.cancel();
     });
-    Timer.periodic(const Duration(seconds: 5), (timer) {
+    Timer.periodic(Duration(seconds: widget.makeAnimation ? 5 : 0), (timer) {
       firstDotSizeControler.reverse();
       timer.cancel();
     });

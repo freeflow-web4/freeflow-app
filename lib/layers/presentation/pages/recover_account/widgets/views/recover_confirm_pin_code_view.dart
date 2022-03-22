@@ -6,7 +6,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_pin_code_view_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_account_view_animation.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view/recover_username_view_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
@@ -32,7 +32,7 @@ class RecoverConfirmPinCodeView extends StatefulWidget {
 
 class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
     with TextThemes, TickerProviderStateMixin {
-  late RecoverAccountViewAnimation recoverAccountViewAnimation;
+  late RecoverUsernameAnimation recoverAccountViewAnimation;
   late final AnimationController animationController;
   final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverPinCodeViewController>();
@@ -45,8 +45,6 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
       vsync: this,
     );
 
-    recoverAccountViewAnimation =
-        RecoverAccountViewAnimation(animationController);
     animationController.forward().orCancel;
   }
 
@@ -73,56 +71,42 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 104),
-              StaggerOpacity(
-                opacity: recoverAccountViewAnimation.firstTextPinCodeOpacity,
-                controller: animationController,
-                child: textH4(
-                  context,
-                  textKey: "recoverAccount.enterPinCode",
-                  color: StandardColors.white,
-                  maxLines: 2,
-                ),
+              textH4(
+                context,
+                textKey: "recoverAccount.enterPinCode",
+                color: StandardColors.white,
+                maxLines: 2,
               ),
               const SizedBox(height: mdSpacingx2),
-              StaggerPosition(
-                opacity: recoverAccountViewAnimation.textFieldPinCodeOpacity,
-                horizontalOffset: recoverAccountViewAnimation
-                    .textFieldPinCodeHorizontalPosition,
-                controller: animationController,
-                child: Observer(
-                  builder: (context) {
-                    return GradientTextFieldWidget(
-                      inputNode: inputNode,
-                      showObscureButton: true,
-                      isPinInput: true,
-                      isFieldValid:
-                          widget.recoverAccountController.isConfirmPinCodeValid,
-                      isObscureText: viewController.isObscuredPin,
-                      onChanged: widget.onInputChanged,
-                      onObscureButtonPressed: () =>
-                          viewController.setObscuredPin(),
-                      fieldReadOnly: true,
-                      hintText: FlutterI18n.translate(
-                          context, "recoverAccount.confirmPinCode"),
-                      errorText:
-                          widget.recoverAccountController.confirmPinCodeError,
-                      textController: widget.textEditingController,
-                      pinCode: viewController.confirmPinCode,
-                    );
-                  },
-                ),
+              Observer(
+                builder: (context) {
+                  return GradientTextFieldWidget(
+                    inputNode: inputNode,
+                    showObscureButton: true,
+                    isPinInput: true,
+                    isFieldValid:
+                        widget.recoverAccountController.isConfirmPinCodeValid,
+                    isObscureText: viewController.isObscuredPin,
+                    onChanged: widget.onInputChanged,
+                    onObscureButtonPressed: () =>
+                        viewController.setObscuredPin(),
+                    fieldReadOnly: true,
+                    hintText: FlutterI18n.translate(
+                        context, "recoverAccount.confirmPinCode"),
+                    errorText:
+                        widget.recoverAccountController.confirmPinCodeError,
+                    textController: widget.textEditingController,
+                    pinCode: viewController.confirmPinCode,
+                  );
+                },
               ),
               const SizedBox(height: xxlargeSpacing),
-              StaggerOpacity(
-                opacity: recoverAccountViewAnimation.keyboardPinCodeOpacity,
-                controller: animationController,
-                child: Center(
-                  child: InAppKeyboardWidget(
-                    onTap: (value) => viewController.getTypeConfirmPinCode(
-                      context,
-                      value,
-                      widget.recoverAccountController.onChangedField,
-                    ),
+              Center(
+                child: InAppKeyboardWidget(
+                  onTap: (value) => viewController.getTypeConfirmPinCode(
+                    context,
+                    value,
+                    widget.recoverAccountController.onChangedField,
                   ),
                 ),
               ),

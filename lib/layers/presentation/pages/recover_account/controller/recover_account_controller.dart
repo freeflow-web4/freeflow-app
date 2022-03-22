@@ -111,7 +111,13 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   bool isContinueButtonVisible = true;
 
+  @observable
+  int currentPage = 0;
+
   int animationDuration = 10;
+
+  @action
+  setCurrentPage(int value) => currentPage = value;
 
   @action
   tapContinueButton(BuildContext context,
@@ -184,9 +190,7 @@ abstract class RecoverAccountControllerBase with Store {
             context,
             'recoverAccount.privateKeyIsNotValid',
           );
-          if (l == DomainError.noInternet) {
-            openErrorDialog(context);
-          }
+          if (l == DomainError.noInternet) {}
         },
         (r) {
           isKeyValid = true;
@@ -248,9 +252,7 @@ abstract class RecoverAccountControllerBase with Store {
           'recoverAccount.pleaseEnterUsername',
         );
         isNameValid = false;
-        if (l == DomainError.noInternet) {
-          openErrorDialog(context);
-        }
+        if (l == DomainError.noInternet) {}
       }, (r) {
         if (r) {
           usernameError = null;
@@ -266,39 +268,6 @@ abstract class RecoverAccountControllerBase with Store {
       });
     }
     isValidating = false;
-  }
-
-  Future<Object?> openDialog(BuildContext context) async {
-    return showGeneralDialog(
-      context: context,
-      pageBuilder: (BuildContext context, animation1, animation2) {
-        return FullScreenAlertDialog(
-          textKey: FlutterI18n.translate(
-              context,
-              currentIndex == 0
-                  ? 'recoverAccount.pleaseEnterYourRegisteredName'
-                  : currentIndex == 1
-                      ? 'recoverAccount.pleaseEnterYourPrivateKey'
-                      : currentIndex == 2
-                          ? 'recoverAccount.pleaseEnterYourPinCode'
-                          : 'recoverAccount.pleaseConfirmYourPinCode'),
-        );
-      },
-    );
-  }
-
-  Future<Object?> openErrorDialog(BuildContext context) async {
-    return showGeneralDialog(
-      context: context,
-      pageBuilder: (BuildContext context, animation1, animation2) {
-        return FullScreenAlertDialog(
-          textKey: FlutterI18n.translate(context, 'domainError.noInternet'),
-          secondaryTextKey: FlutterI18n.translate(
-              context, 'domainError.pleaseCheckConnection'),
-          icon: IconsAsset.noConnectionFound,
-        );
-      },
-    );
   }
 
   @action

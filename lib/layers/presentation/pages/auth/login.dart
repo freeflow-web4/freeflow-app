@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
-import 'package:freeflow/layers/domain/validators/pin_validator.dart';
+import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:get_it/get_it.dart';
 
