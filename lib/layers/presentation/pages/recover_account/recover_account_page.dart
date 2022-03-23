@@ -11,7 +11,7 @@ import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_private_key_view.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_pin_code_view.dart';
-import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
@@ -122,6 +122,8 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                             child: AnimatedDotIndicatorWidget(
                               currentIndex:
                                   recoverAccountController.currentIndex,
+                              length: 3,
+                              totalAnimationStartUpDuration: const Duration(seconds: 4),
                             ),
                           ),
                         ),
