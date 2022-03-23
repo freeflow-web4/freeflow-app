@@ -450,6 +450,14 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$backPageAsyncAction =
+      AsyncAction('RecoverAccountControllerBase.backPage');
+
+  @override
+  Future<void> backPage() {
+    return _$backPageAsyncAction.run(() => super.backPage());
+  }
+
   final _$tapContinueButtonAsyncAction =
       AsyncAction('RecoverAccountControllerBase.tapContinueButton');
 

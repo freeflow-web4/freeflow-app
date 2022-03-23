@@ -35,18 +35,22 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
     animationController = AnimationController(
       duration: Duration(seconds: widget.makeAnimation ? 10 : 0),
       vsync: this,
+      reverseDuration: const Duration(seconds: 2),
     );
     firstDotSizeControler = AnimationController(
       duration: Duration(seconds: widget.makeAnimation ? 2 : 0),
       vsync: this,
+      reverseDuration: const Duration(seconds: 2),
     );
     secondDotSizeControler = AnimationController(
       duration: Duration(seconds: widget.makeAnimation ? 2 : 0),
       vsync: this,
+      reverseDuration: const Duration(seconds: 2),
     );
     thirdDotSizeControler = AnimationController(
       duration: Duration(seconds: widget.makeAnimation ? 2 : 0),
       vsync: this,
+      reverseDuration: const Duration(seconds: 2),
     );
 
     animation = DotIndicatorAnimation(
@@ -56,14 +60,9 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
       thirdDotSizeControler,
     );
     animationController.forward();
-    Timer.periodic(Duration(seconds: widget.makeAnimation ? 4 : 0), (timer) {
-      firstDotSizeControler.forward();
-      timer.cancel();
-    });
-    Timer.periodic(Duration(seconds: widget.makeAnimation ? 5 : 0), (timer) {
-      firstDotSizeControler.reverse();
-      timer.cancel();
-    });
+    Future.delayed(
+      const Duration(seconds: 4),
+    ).then((_) => showCurrentIndexAnimation());
   }
 
   @override
@@ -72,39 +71,35 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
     super.dispose();
   }
 
-  @override
-  void didUpdateWidget(covariant AnimatedDotIndicatorWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentIndex != widget.currentIndex) {
-      switch (widget.currentIndex) {
-        case 0:
-          firstDotSizeControler.forward();
-          Timer.periodic(const Duration(seconds: 1), (timer) {
-            firstDotSizeControler.reverse();
-            timer.cancel();
-          });
-          break;
-        case 1:
-          secondDotSizeControler.forward();
-          Timer.periodic(const Duration(seconds: 1), (timer) {
-            secondDotSizeControler.reverse();
-            timer.cancel();
-          });
-          break;
-        case 2:
-          thirdDotSizeControler.forward();
-          Timer.periodic(const Duration(seconds: 1), (timer) {
-            thirdDotSizeControler.reverse();
-            timer.cancel();
-          });
-          break;
-        default:
-          firstDotSizeControler.forward();
-          Timer.periodic(const Duration(seconds: 1), (timer) {
-            timer.cancel();
-            firstDotSizeControler.reverse();
-          });
-      }
+  void showCurrentIndexAnimation() {
+    switch (widget.currentIndex) {
+      case 0:
+        firstDotSizeControler.forward();
+        Timer.periodic(const Duration(seconds: 1), (timer) {
+          firstDotSizeControler.reverse();
+          timer.cancel();
+        });
+        break;
+      case 1:
+        secondDotSizeControler.forward();
+        Timer.periodic(const Duration(seconds: 1), (timer) {
+          secondDotSizeControler.reverse();
+          timer.cancel();
+        });
+        break;
+      case 2:
+        thirdDotSizeControler.forward();
+        Timer.periodic(const Duration(seconds: 1), (timer) {
+          thirdDotSizeControler.reverse();
+          timer.cancel();
+        });
+        break;
+      default:
+        firstDotSizeControler.forward();
+        Timer.periodic(const Duration(seconds: 1), (timer) {
+          timer.cancel();
+          firstDotSizeControler.reverse();
+        });
     }
   }
 

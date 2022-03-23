@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/helpers/get_cross_max_lines.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page_animation.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_privatekey_view/recover_privatekey_animation.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view/recover_username_view_animation.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_privatekey_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 
 import '../../../../../../../core/utils/assets_constants.dart';
@@ -72,12 +66,12 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
         return Container(
           color: Colors.black,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 104),
+                const SizedBox(height: huge4Spacing),
                 StaggerOpacity(
                   opacity: animation.secondTextOpacity,
                   controller: animationController,
@@ -105,8 +99,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                 //     maxWidth: MediaQuery.of(context).size.width - 120,
                 //   ),
                 // ),
-                SizedBox(height: 187),
-                SizedBox(height: 20),
+                const SizedBox(height: mdSpacing),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

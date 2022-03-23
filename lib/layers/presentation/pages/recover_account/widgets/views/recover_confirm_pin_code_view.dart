@@ -5,12 +5,10 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_pin_code_view_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view/recover_username_view_animation.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_view_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 import 'package:get_it/get_it.dart';
 
 class RecoverConfirmPinCodeView extends StatefulWidget {

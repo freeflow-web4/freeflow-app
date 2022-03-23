@@ -1,18 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_username_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view/recover_username_view_animation.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_view_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../../../core/utils/assets_constants.dart';
@@ -115,35 +112,35 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                   ),
                 ),
                 const SizedBox(height: mdSpacingx2),
-                StaggerPosition(
-                  horizontalOffset: animation.textFieldHorizontalPosition,
-                  controller: animationController,
-                  child: GradientTextFieldWidget(
-                    inputNode: inputNode,
-                    isFieldValid: viewController.usernameFieldState !=
-                        UsernameFieldState.invalid,
-                    showSecondText: true,
-                    onChanged: _onInputChanged,
-                    hintText: FlutterI18n.translate(
-                      context,
-                      "recoverAccount.flowerName",
-                    ),
-                    errorText: viewController.usernameFieldState ==
-                            UsernameFieldState.empty
-                        ? FlutterI18n.translate(
-                            context,
-                            "recoverAccount.pleaseEnterUsername",
-                          )
-                        : viewController.usernameFieldState ==
-                                UsernameFieldState.invalid
-                            ? FlutterI18n.translate(
-                                context,
-                                "recoverAccount.usernameIsNotValid",
-                              )
-                            : null,
-                    textController: widget.textEditingController,
-                  ),
-                ),
+                // StaggerPosition(
+                //   horizontalOffset: animation.textFieldHorizontalPosition,
+                //   controller: animationController,
+                //   child: GradientTextFieldWidget(
+                //     inputNode: inputNode,
+                //     isFieldValid: viewController.usernameFieldState !=
+                //         UsernameFieldState.invalid,
+                //     showSecondText: true,
+                //     onChanged: _onInputChanged,
+                //     hintText: FlutterI18n.translate(
+                //       context,
+                //       "recoverAccount.flowerName",
+                //     ),
+                //     errorText: viewController.usernameFieldState ==
+                //             UsernameFieldState.empty
+                //         ? FlutterI18n.translate(
+                //             context,
+                //             "recoverAccount.pleaseEnterUsername",
+                //           )
+                //         : viewController.usernameFieldState ==
+                //                 UsernameFieldState.invalid
+                //             ? FlutterI18n.translate(
+                //                 context,
+                //                 "recoverAccount.usernameIsNotValid",
+                //               )
+                //             : null,
+                //     textController: widget.textEditingController,
+                //   ),
+                // ),
                 const SizedBox(height: mdSpacing),
                 Expanded(
                   child: Column(
@@ -167,7 +164,8 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: bigSpacing),
                           child: AnimatedFloatButtonWidget(
-                            isActive: viewController.isNameValid,
+                            // isActive: viewController.isNameValid,
+                            isActive: true,
                             icon: IconsAsset.arrowIcon,
                             onTap: () => goToNextPage(),
                             onTapInative: () => showCustomDialog(
@@ -190,13 +188,12 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
   }
 
   void goToNextPage() async {
-    animationController
-        .animateBack(0, duration: const Duration(seconds: 5))
-        .orCancel;
+    animationController.animateBack(0, duration: const Duration(seconds: 5));
     Future.delayed(const Duration(seconds: 5)).then(
       (_) {
-        widget.recoverAccountController.setCurrentPage(1);
+        widget.recoverAccountController.setCurrentPage(2);
         animationController.forward();
+        animationDotsController.forward();
       },
     );
   }

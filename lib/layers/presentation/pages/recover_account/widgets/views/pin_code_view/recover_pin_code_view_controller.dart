@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
-import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
-import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
+import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:mobx/mobx.dart';
 
 part 'recover_pin_code_view_controller.g.dart';
+
+enum PinCodeFieldState {
+  initial,
+  empty,
+  valid,
+  invalid,
+  wrong,
+  connectionError
+}
 
 class RecoverPinCodeViewController = RecoverPinCodeViewControllerBase
     with _$RecoverPinCodeViewController;
@@ -15,10 +23,12 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   final UserHasBiometricsUsecase userHasBiometricsUsecase;
   final UserSetBiometricsUsecase userSetBiometricsUsecase;
   final BiometricAuthDriver biometricDriver;
+  final PinValidator validator;
   RecoverPinCodeViewControllerBase({
     required this.userHasBiometricsUsecase,
     required this.userSetBiometricsUsecase,
     required this.biometricDriver,
+    required this.validator,
   });
 
   @observable
@@ -31,7 +41,7 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   bool rememberMe = false;
 
   @observable
-  String pinCode = '';
+  String currentPinCode = '';
 
   @observable
   bool hasAvailableBiometrics = false;
@@ -39,10 +49,63 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   @observable
   String confirmPinCode = '';
 
+  @observable
+  bool isBiometricAvailable = true;
+
+  @observable
+  PinCodeFieldState pinCodeFieldState = PinCodeFieldState.initial;
+
+  @computed
+  bool get isPinCodeValid => pinCodeFieldState == PinCodeFieldState.valid;
+
   @action
   Future<void> setRememberMe(bool value) async {
     await userSetBiometricsUsecase(value);
     rememberMe = value;
+  }
+
+  @action
+  Future<void> onPinCodeChanged(
+    String value,
+  ) async {
+    validatePinCode(value);
+  }
+
+  @action
+  Future<void> validatePinCode(
+    String value,
+  ) async {
+    if (value.length < 4) {
+      onValidatePinCodeEmpty();
+    } else {
+      final _isPinValid = validator(value);
+      if (_isPinValid) {
+        onValidatePinCodeSuccess(value);
+      } else {
+        onValidatePinCodeFailure();
+      }
+    }
+  }
+
+  @action
+  void onValidatePinCodeSuccess(String value) {
+    updatePinCodeFieldState(PinCodeFieldState.valid);
+    currentPinCode = value;
+  }
+
+  @action
+  void onValidatePinCodeFailure() {
+    updatePinCodeFieldState(PinCodeFieldState.invalid);
+  }
+
+  @action
+  void onValidatePinCodeEmpty() {
+    updatePinCodeFieldState(PinCodeFieldState.empty);
+  }
+
+  @action
+  void updatePinCodeFieldState(PinCodeFieldState state) {
+    pinCodeFieldState = state;
   }
 
   @action
@@ -67,24 +130,23 @@ abstract class RecoverPinCodeViewControllerBase with Store {
   void getTypePinCode(
     BuildContext context,
     String value,
-    void Function(BuildContext context, String pinCode) onChangedField,
   ) {
     if (value == 'del') {
-      if (pinCode == '') {
+      if (currentPinCode == '') {
         return;
       } else {
-        pinCode = pinCode.substring(0, pinCode.length - 1);
+        currentPinCode = currentPinCode.substring(0, currentPinCode.length - 1);
       }
     } else if (value == 'X') {
-      pinCode = '';
+      currentPinCode = '';
     } else {
-      if (pinCode.length == 4) {
+      if (currentPinCode.length == 4) {
         return;
       } else {
-        pinCode = pinCode + value;
+        currentPinCode = currentPinCode + value;
       }
     }
-    onChangedField(context, pinCode);
+    onPinCodeChanged(currentPinCode);
   }
 
   @action
@@ -129,6 +191,15 @@ abstract class RecoverPinCodeViewControllerBase with Store {
     isBiometricAvailableResponse.fold(
       (l) => hasAvailableBiometrics = false,
       (r) => hasAvailableBiometrics = r,
+    );
+  }
+
+  @action
+  Future<void> hasBiometricAvailable() async {
+    final result = await biometricDriver.getAvailableBiometrics();
+    result.fold(
+      (l) => isBiometricAvailable = false,
+      (r) => isBiometricAvailable = r.isNotEmpty,
     );
   }
 }

@@ -2,20 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:freeflow/core/utils/adaptative_size.dart';
-import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
-import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/recover_account_page_animation.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_confirm_pin_code_view.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_username_view/recover_username_view.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_privatekey_view/recover_private_key_view.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/recover_pin_code_view.dart';
-import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_private_key_view.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_page_view.dart';
 import 'package:get_it/get_it.dart';
 
@@ -66,7 +59,10 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => recoverAccountController.onWillPop(),
+      onWillPop: () async {
+        recoverAccountController.backPage();
+        return false;
+      },
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
