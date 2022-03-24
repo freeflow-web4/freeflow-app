@@ -23,6 +23,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final bool isFieldValid;
   final String? pinCode;
   final Color? obscureButtonColor;
+  final Widget Function(Color)? sufixWidget;
   const GradientTextFieldWidget({
     Key? key,
     required this.errorText,
@@ -41,6 +42,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.isPinInput = false,
     this.pinCode,
     this.obscureButtonColor,
+    this.sufixWidget,
   }) : super(key: key);
 
   @override
@@ -118,11 +120,11 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                         ),
                         maxLines: widget.maxLines,
                       ),
-                Visibility(
-                  visible: widget.showObscureButton,
-                  child: Positioned(
-                    right: 0,
-                    top: 14,
+                Positioned(
+                  right: 0,
+                  top: 14,
+                  child: Visibility(
+                    visible: widget.showObscureButton,
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: widget.onObscureButtonPressed,
@@ -141,23 +143,22 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                     ),
                   ),
                 ),
+                if (widget.sufixWidget != null)
+                  Positioned(
+                    right: 0,
+                    top: 13,
+                    child: Visibility(
+                      visible: widget.showSecondText,
+                      child: widget.sufixWidget!(
+                        widget.errorText == null
+                            ? widget.isFieldValid
+                                ? StandardColors.blueLight
+                                : Colors.white
+                            : StandardColors.feedbackError,
+                      ),
+                    ),
+                  )
               ],
-            ),
-            Visibility(
-              visible: widget.showSecondText,
-              child: Positioned(
-                top: 13,
-                right: 0,
-                child: textBoldSubtitle(
-                  context,
-                  textKey: '.flw ',
-                  color: widget.errorText == null
-                      ? widget.isFieldValid
-                          ? StandardColors.blueLight
-                          : Colors.white
-                      : StandardColors.feedbackError,
-                ),
-              ),
             ),
             Container(
               height: 2,

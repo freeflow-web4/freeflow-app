@@ -16,6 +16,8 @@ class AnimatedDotIndicatorWidget extends StatefulWidget {
   ///
   /// Default is 1.5 second
   final Duration? swipeAnimationDuration;
+  /// Set it to false if the opacity and quicking animation is **not** desired
+  final bool animatedOnStart;
 
   const AnimatedDotIndicatorWidget({
     Key? key,
@@ -23,6 +25,7 @@ class AnimatedDotIndicatorWidget extends StatefulWidget {
     required this.length,
     required this.totalAnimationStartUpDuration,
     this.swipeAnimationDuration,
+    this.animatedOnStart = true,
   }) : super(key: key);
 
   @override
@@ -67,12 +70,18 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
     swipingAnimation = _SwipingDotIndicatorAnimation(
       swipingAnimationController,
     );
-    startingAnimationController.forward().then((value) {
-      setState(() {
-        isInitDone = true;
+    if (widget.animatedOnStart) {
+      startingAnimationController.forward().then((value) {
+        setState(() {
+          isInitDone = true;
+        });
+        swipeAnimation();
       });
-      swipeAnimation();
-    });
+    } else {
+      startingAnimationController
+          .animateTo(1, duration: Duration.zero)
+          .then((value) => isInitDone = true);
+    }
   }
 
   @override
@@ -144,7 +153,11 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
     } else if (time < minTimeFactor) {
       return 0;
     } else {
-      return (time - minTimeFactor) / animationTimeBetweenDotsInStartUpFactor;
+      final opacity =
+          (time - minTimeFactor) / animationTimeBetweenDotsInStartUpFactor;
+      if (opacity > 1) return 1;
+      if (opacity < 0) return 0;
+      return opacity;
     }
   }
 
