@@ -33,6 +33,22 @@ mixin _$RecoverPrivateKeyController on RecoverPrivateKeyControllerBase, Store {
     });
   }
 
+  final _$isValidatingAtom =
+      Atom(name: 'RecoverPrivateKeyControllerBase.isValidating');
+
+  @override
+  bool get isValidating {
+    _$isValidatingAtom.reportRead();
+    return super.isValidating;
+  }
+
+  @override
+  set isValidating(bool value) {
+    _$isValidatingAtom.reportWrite(value, super.isValidating, () {
+      super.isValidating = value;
+    });
+  }
+
   final _$privateKeyFieldStateAtom =
       Atom(name: 'RecoverPrivateKeyControllerBase.privateKeyFieldState');
 
@@ -54,18 +70,20 @@ mixin _$RecoverPrivateKeyController on RecoverPrivateKeyControllerBase, Store {
       AsyncAction('RecoverPrivateKeyControllerBase.onPrivateKeyChanged');
 
   @override
-  Future<void> onPrivateKeyChanged(String value) {
+  Future<void> onPrivateKeyChanged(
+      String value, String username, Function loadingCallBack) {
     return _$onPrivateKeyChangedAsyncAction
-        .run(() => super.onPrivateKeyChanged(value));
+        .run(() => super.onPrivateKeyChanged(value, username, loadingCallBack));
   }
 
   final _$validatePrivateKeyAsyncAction =
       AsyncAction('RecoverPrivateKeyControllerBase.validatePrivateKey');
 
   @override
-  Future<void> validatePrivateKey(String value) {
+  Future<void> validatePrivateKey(
+      String value, String username, Function loadingCallBack) {
     return _$validatePrivateKeyAsyncAction
-        .run(() => super.validatePrivateKey(value));
+        .run(() => super.validatePrivateKey(value, username, loadingCallBack));
   }
 
   final _$RecoverPrivateKeyControllerBaseActionController =
@@ -85,13 +103,13 @@ mixin _$RecoverPrivateKeyController on RecoverPrivateKeyControllerBase, Store {
   }
 
   @override
-  void onValidatePrivateKeyFailure(DomainError error, Function errorCallBack) {
+  void onValidatePrivateKeyFailure(DomainError error) {
     final _$actionInfo =
         _$RecoverPrivateKeyControllerBaseActionController.startAction(
             name:
                 'RecoverPrivateKeyControllerBase.onValidatePrivateKeyFailure');
     try {
-      return super.onValidatePrivateKeyFailure(error, errorCallBack);
+      return super.onValidatePrivateKeyFailure(error);
     } finally {
       _$RecoverPrivateKeyControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -113,6 +131,7 @@ mixin _$RecoverPrivateKeyController on RecoverPrivateKeyControllerBase, Store {
   String toString() {
     return '''
 currentPrivateKey: ${currentPrivateKey},
+isValidating: ${isValidating},
 privateKeyFieldState: ${privateKeyFieldState},
 isPrivateKeyValid: ${isPrivateKeyValid}
     ''';

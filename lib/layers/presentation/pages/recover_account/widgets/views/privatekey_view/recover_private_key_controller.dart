@@ -1,4 +1,5 @@
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
+import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
@@ -21,12 +22,17 @@ class RecoverPrivateKeyController = RecoverPrivateKeyControllerBase
 abstract class RecoverPrivateKeyControllerBase with Store {
   RecoverPrivateKeyControllerBase({
     required this.validator,
+    required this.userRecoverLoginUseCase,
   });
 
   final PrivateKeyValidator validator;
+  final UserRecoverLoginUseCase userRecoverLoginUseCase;
 
   @observable
   String currentPrivateKey = "";
+
+  @observable
+  bool isValidating = false;
 
   @observable
   PrivateKeyFieldState privateKeyFieldState = PrivateKeyFieldState.initial;
@@ -38,18 +44,46 @@ abstract class RecoverPrivateKeyControllerBase with Store {
   @action
   Future<void> onPrivateKeyChanged(
     String value,
+    String username,
+    Function loadingCallBack,
   ) async {
-    validatePrivateKey(value);
+    if (value.isEmpty) {
+      privateKeyFieldState = PrivateKeyFieldState.empty;
+      return;
+    }
+    validatePrivateKey(value, username, loadingCallBack);
   }
 
   @action
-  Future<void> validatePrivateKey(String value) async {
+  Future<void> validatePrivateKey(
+    String value,
+    String username,
+    Function loadingCallBack,
+  ) async {
+    loadingCallBack();
+    isValidating = true;
     final _isPrivateKeyValid = validator(value);
     if (_isPrivateKeyValid) {
-      onValidatePrivateKeySuccess(value);
+      auth(username: username, key: value);
     } else {
       updatePrivateKeyFieldState(PrivateKeyFieldState.invalid);
     }
+  }
+
+  Future<void> auth({required String username, required String key}) async {
+    final result = await userRecoverLoginUseCase(
+      username: username,
+      privateKey: key,
+    );
+    result.fold(
+      (l) {
+        onValidatePrivateKeyFailure(l);
+      },
+      (r) {
+        onValidatePrivateKeySuccess(key);
+      },
+    );
+    isValidating = false;
   }
 
   @action
@@ -59,11 +93,8 @@ abstract class RecoverPrivateKeyControllerBase with Store {
   }
 
   @action
-  void onValidatePrivateKeyFailure(DomainError error, Function errorCallBack) {
+  void onValidatePrivateKeyFailure(DomainError error) {
     updatePrivateKeyFieldState(PrivateKeyFieldState.invalid);
-    if (error == DomainError.noInternet) {
-      errorCallBack();
-    }
   }
 
   @action

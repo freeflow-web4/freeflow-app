@@ -2,20 +2,7 @@ import 'package:flutter/material.dart';
 
 class RecoverPrivateKeyAnimation {
   RecoverPrivateKeyAnimation(this.controller)
-      : dotsOpacity = Tween<double>(
-          begin: 0,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: const Interval(
-              0.1,
-              0.22,
-              curve: Curves.ease,
-            ),
-          ),
-        ),
-        firstTextOpacity = Tween<double>(
+      : firstTextOpacity = Tween<double>(
           begin: 0,
           end: 1,
         ).animate(
@@ -28,19 +15,6 @@ class RecoverPrivateKeyAnimation {
             ),
           ),
         ),
-        secondTextOpacity = Tween<double>(
-          begin: 0,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: const Interval(
-              0.62,
-              0.74,
-              curve: Curves.ease,
-            ),
-          ),
-        ),
         textFieldHorizontalPosition = Tween<double>(
           begin: 1000,
           end: 1,
@@ -48,8 +22,8 @@ class RecoverPrivateKeyAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.7,
-              0.85,
+              0.62,
+              0.74,
               curve: Curves.linear,
             ),
           ),
@@ -61,8 +35,8 @@ class RecoverPrivateKeyAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
+              0.7,
               0.85,
-              0.95,
               curve: Curves.linear,
             ),
           ),
@@ -74,8 +48,8 @@ class RecoverPrivateKeyAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
+              0.85,
               0.95,
-              1,
               curve: Curves.linear,
             ),
           ),
@@ -87,8 +61,8 @@ class RecoverPrivateKeyAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
+              0.85,
               0.95,
-              1,
               curve: Curves.linear,
             ),
           ),
@@ -96,7 +70,6 @@ class RecoverPrivateKeyAnimation {
 
   late Animation<double> dotsOpacity;
   late Animation<double> firstTextOpacity;
-  late Animation<double> secondTextOpacity;
   late Animation<double> textFieldHorizontalPosition;
   late Animation<double> buttonOpacity;
   late Animation<double> buttonWidth;
