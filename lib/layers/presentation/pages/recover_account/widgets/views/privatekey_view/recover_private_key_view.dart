@@ -166,10 +166,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                                 child: AnimatedFloatButtonWidget(
                                   isActive: viewController.isPrivateKeyValid,
                                   onTapInative: () {},
-                                  onTap: () {
-                                    widget.recoverAccountController
-                                        .setCurrentPage(2);
-                                  },
+                                  onTap: () => goToNextPage(),
                                   icon: IconsAsset.arrowIcon,
                                 ),
                               ),
@@ -185,6 +182,16 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
           );
         },
       ),
+    );
+  }
+
+  void goToNextPage() async {
+    animationController.animateBack(0, duration: const Duration(seconds: 5));
+    Future.delayed(const Duration(seconds: 5)).then(
+      (_) {
+        widget.recoverAccountController.setCurrentPage(2);
+        animationController.forward();
+      },
     );
   }
 }

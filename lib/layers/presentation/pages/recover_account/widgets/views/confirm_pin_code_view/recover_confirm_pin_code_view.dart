@@ -17,6 +17,7 @@ import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 
 class RecoverConfirmPinCodeView extends StatefulWidget {
@@ -139,7 +140,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                       child: AnimatedFloatButtonWidget(
                         isActive: viewController.isConfirmPinCodeValid,
                         icon: IconsAsset.arrowIcon,
-                        onTap: () {},
+                        onTap: () => goToNextPage(),
                         onTapInative: () => showCustomDialog(
                           context,
                           textKey: 'recoverAccount.pleaseConfirmYourPinCode',
@@ -153,6 +154,16 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
           );
         },
       ),
+    );
+  }
+
+  void goToNextPage() async {
+    animationController.animateBack(0, duration: const Duration(seconds: 5));
+    Future.delayed(const Duration(seconds: 5)).then(
+      (_) {
+        Routes.instance.goToWelcomePageRoute();
+        animationController.forward();
+      },
     );
   }
 }
