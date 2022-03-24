@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
@@ -110,6 +111,11 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                       errorText: widget.recoverAccountController.pinCodeError,
                       textController: widget.textEditingController,
                       pinCode: viewController.pinCode,
+                      sufixWidget: (color) => textBoldSubtitle(
+                        context,
+                        textKey: '.flw ',
+                        color: color,
+                      ),
                     );
                   },
                 ),
