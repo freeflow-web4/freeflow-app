@@ -16,7 +16,7 @@ class AnimatedDotIndicatorWidget extends StatefulWidget {
   ///
   /// Default is 1.5 second
   final Duration? swipeAnimationDuration;
-  
+  /// Set it to false if the opacity and quicking animation is **not** desired
   final bool animatedOnStart;
 
   const AnimatedDotIndicatorWidget({
