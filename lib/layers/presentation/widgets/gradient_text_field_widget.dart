@@ -57,135 +57,132 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: <Widget>[
-                widget.isObscureText == true
-                    ? SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 18,
-                            bottom: 18,
-                          ),
-                          child: Container(
-                            height: 12,
-                            alignment: Alignment.centerLeft,
-                            child: GradientTextFieldPinCode(
-                              pinCode: widget.pinCode ?? '',
-                              color: widget.errorText?.isNotEmpty == true
-                                  ? StandardColors.error
-                                  : null,
-                            ),
-                          ),
-                        ),
-                      )
-                    : TextFormField(
-                        key: ValueKey(
-                          'key_for_text_field${widget.pinCode}',
-                        ),
-                        initialValue: widget.pinCode,
-                        onChanged: widget.onChanged,
-                        controller: widget.textController,
-                        readOnly: widget.fieldReadOnly,
-                        focusNode: widget.inputNode,
-                        style: TextStyle(
-                          color: widget.errorText == null
-                              ? widget.isFieldValid
-                                  ? StandardColors.blueLight
-                                  : Colors.white
-                              : StandardColors.feedbackError,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: widget.isPinInput ? null : widget.hintText,
-                          hintStyle: TextStyle(
-                            color: widget.errorText == null
-                                ? Colors.white
-                                : StandardColors.feedbackError,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Akrobat',
-                          ),
-                          contentPadding: const EdgeInsets.all(0),
-                          border: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          focusedErrorBorder: InputBorder.none,
-                        ),
-                        maxLines: widget.maxLines,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          children: <Widget>[
+            widget.isObscureText == true
+                ? SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 18,
+                        //TODO: analyze these padding
+                        bottom: 18,
                       ),
-                Positioned(
-                  right: 0,
-                  top: 14,
-                  child: Visibility(
-                    visible: widget.showObscureButton,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: widget.onObscureButtonPressed,
                       child: Container(
-                        width: 20,
-                        height: 20,
-                        alignment: Alignment.center,
-                        child: SvgPicture.asset(
-                          widget.isObscureText == true
-                              ? IconsAsset.closedEye
-                              : IconsAsset.openEye,
-                          width: 20,
-                          color: widget.obscureButtonColor,
+                        height: 12,
+                        alignment: Alignment.centerLeft,
+                        child: GradientTextFieldPinCode(
+                          pinCode: widget.pinCode ?? '',
+                          color: widget.errorText?.isNotEmpty == true
+                              ? StandardColors.error
+                              : null,
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                if (widget.sufixWidget != null)
-                  Positioned(
-                    right: 0,
-                    top: 13,
-                    child: Visibility(
-                      visible: widget.showSecondText,
-                      child: widget.sufixWidget!(
-                        widget.errorText == null
-                            ? widget.isFieldValid
-                                ? StandardColors.blueLight
-                                : Colors.white
-                            : StandardColors.feedbackError,
                       ),
                     ),
                   )
-              ],
-            ),
-            Container(
-              height: 2,
-              padding: EdgeInsets.only(top: widget.crossTheMaxLines ? 20 : 0),
-              width: MediaQuery.of(context).size.width - 20,
-              decoration: BoxDecoration(
-                gradient: widget.errorText == null
-                    ? StandardColors.greenGradient()
-                    : StandardColors.redGradient(),
+                : TextFormField(
+                    key: ValueKey(
+                      'key_for_text_field${widget.pinCode}',
+                    ),
+                    initialValue: widget.pinCode,
+                    onChanged: widget.onChanged,
+                    controller: widget.textController,
+                    readOnly: widget.fieldReadOnly,
+                    focusNode: widget.inputNode,
+                    style: TextStyle(
+                      color: widget.errorText == null
+                          ? widget.isFieldValid
+                              ? StandardColors.blueLight
+                              : Colors.white
+                          : StandardColors.feedbackError,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: widget.isPinInput ? null : widget.hintText,
+                      hintStyle: TextStyle(
+                        color: widget.errorText == null
+                            ? StandardColors.white
+                            : StandardColors.feedbackError,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Akrobat',
+                      ),
+                      contentPadding: const EdgeInsets.all(0),
+                      border: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      focusedErrorBorder: InputBorder.none,
+                    ),
+                    maxLines: widget.maxLines,
+                  ),
+            Positioned(
+              right: 0,
+              top: 14,
+              child: Visibility(
+                visible: widget.showObscureButton,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: widget.onObscureButtonPressed,
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      widget.isObscureText == true
+                          ? IconsAsset.closedEye
+                          : IconsAsset.openEye,
+                      width: 20,
+                      color: widget.obscureButtonColor,
+                    ),
+                  ),
+                ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: miniSpacing,
-                bottom: widget.maxLines == 2 ? -2 : 10,
-              ),
-              child: textCaption(
-                context,
-                text: widget.errorText ?? '',
-                color: widget.errorText == null
-                    ? Colors.white
-                    : StandardColors.feedbackError,
-              ),
-            )
+            if (widget.sufixWidget != null)
+              Positioned(
+                right: 0,
+                top: 13,
+                child: Visibility(
+                  visible: widget.showSecondText,
+                  child: widget.sufixWidget!(
+                    widget.errorText == null
+                        ? widget.isFieldValid
+                            ? StandardColors.blueLight
+                            : Colors.white
+                        : StandardColors.feedbackError,
+                  ),
+                ),
+              )
           ],
-        );
-      },
+        ),
+        Container(
+          height: 2,
+          padding: EdgeInsets.only(top: widget.crossTheMaxLines ? 20 : 0),
+          width: MediaQuery.of(context).size.width - 20,
+          decoration: BoxDecoration(
+            gradient: widget.errorText == null
+                ? StandardColors.greenGradient()
+                : StandardColors.redGradient(),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: miniSpacing,
+            bottom: widget.maxLines == 2 ? 2 : 10,
+          ),
+          child: textCaption(
+            context,
+            text: widget.errorText ?? '',
+            color: widget.errorText == null
+                ? Colors.white
+                : StandardColors.feedbackError,
+          ),
+        )
+      ],
     );
   }
 }
