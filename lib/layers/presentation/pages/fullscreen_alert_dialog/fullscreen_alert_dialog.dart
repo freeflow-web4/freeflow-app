@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/controller/fullscreen_alert_dialog_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_scale.dart';
 
@@ -78,11 +80,17 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
                     padding: EdgeInsets.symmetric(
                       horizontal: widget.icon != null ? 100 : 0,
                     ),
-                    child: textH4(
-                      context,
-                      textKey: widget.textKey,
-                      color: StandardColors.white,
-                      textAlign: TextAlign.center,
+                    child: AnimatedText(
+                      text: TranslationService.translate(
+                        context,
+                        widget.textKey,
+                      ),
+                      textMainAxisAlignment: MainAxisAlignment.center,
+                      animationController: animationController,
+                      style: textH4TextStyle.copyWith(
+                        color: StandardColors.white,
+                      ),
+                      animation: animation.textOpacity,
                     ),
                   ),
                   Visibility(
@@ -107,11 +115,17 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
                       padding: const EdgeInsets.symmetric(
                         horizontal: normalSpacing,
                       ),
-                      child: textH6(
-                        context,
-                        textKey: widget.secondaryTextKey ?? '',
-                        color: StandardColors.white,
-                        textAlign: TextAlign.center,
+                      child: AnimatedText(
+                        text: TranslationService.translate(
+                          context,
+                          widget.secondaryTextKey ?? '',
+                        ),
+                        textMainAxisAlignment: MainAxisAlignment.center,
+                        animationController: animationController,
+                        style: textH6TextStyle.copyWith(
+                          color: StandardColors.white,
+                        ),
+                        animation: animation.textOpacity,
                       ),
                     ),
                   ),
@@ -120,7 +134,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: StaggerOpacity(
           controller: animationController,
           opacity: animation.buttonOpacity,
@@ -128,14 +142,10 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             controller: animationController,
             height: animation.buttonHeight,
             width: animation.buttonWidth,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: bigSpacing),
-              child: AnimatedFloatButtonWidget(
-                onTapInative: () {},
-                onTap: () =>
-                    fullscreenAlertDialogController.closeDialog(),
-                icon: IconsAsset.closeBackIcon,
-              ),
+            child: AnimatedFloatButtonWidget(
+              onTapInative: () {},
+              onTap: () => fullscreenAlertDialogController.closeDialog(),
+              icon: IconsAsset.closeBackIcon,
             ),
           ),
         ),

@@ -14,12 +14,7 @@ mixin TextThemes {
       FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       textAlign: textAlign,
-      style: TextStyle(
-        color: color,
-        fontSize: 24,
-        fontWeight: FontWeight.w500,
-        fontFamily: 'Akrobat',
-      ),
+      style: textH6TextStyle.copyWith(color: color),
     );
   }
 
@@ -41,6 +36,17 @@ mixin TextThemes {
   TextStyle get textH4TextStyle => const TextStyle(
         fontSize: 38,
         fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+      );
+
+  TextStyle get textH6TextStyle => const TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+      );
+
+  TextStyle get subtitleTextStyle => const TextStyle(
+        fontSize: 20,
         fontFamily: 'Akrobat',
       );
 

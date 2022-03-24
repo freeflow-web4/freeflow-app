@@ -1,15 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_view_animation.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_animation.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../../../core/utils/assets_constants.dart';
@@ -39,6 +43,10 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
   late AnimationController animationDotsController;
   final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverUsernameController>();
+  late final animatedTextController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1000),
+  );
 
   @override
   void initState() {
@@ -51,11 +59,13 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
       duration: const Duration(seconds: 10),
       vsync: this,
     );
+
     animation = RecoverUsernameAnimation(
       animationController,
       animationDotsController,
     );
     animationDotsController.forward();
+    animatedTextController.forward();
     animationController.forward();
     widget.recoverAccountController.openKeyboard(context, inputNode: inputNode);
   }
@@ -68,7 +78,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
 
   _onInputChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
+    _debounce = Timer(const Duration(milliseconds: 1000), () {
       viewController.onUsernameChanged(
         value,
         () => showConnectionErrorDialog(context),
@@ -90,57 +100,59 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: huge4Spacing),
-                StaggerOpacity(
-                  opacity: animation.firstTextOpacity,
-                  controller: animationController,
-                  child: textH4(
+                AnimatedText(
+                  text: TranslationService.translate(
                     context,
-                    textKey: "recoverAccount.hello",
-                    color: StandardColors.white,
-                    maxLines: 2,
+                    "recoverAccount.hello",
                   ),
+                  animationController: animationController,
+                  style: textH4TextStyle.copyWith(
+                    color: StandardColors.white,
+                  ),
+                  animation: animation.firstTextOpacity,
                 ),
                 const SizedBox(height: mdSpacingx2),
-                StaggerOpacity(
-                  opacity: animation.secondTextOpacity,
-                  controller: animationController,
-                  child: textH4(
+                AnimatedText(
+                  text: TranslationService.translate(
                     context,
-                    textKey: "recoverAccount.enterFlowerName",
-                    color: StandardColors.white,
-                    maxLines: 2,
+                    "recoverAccount.enterFlowerName",
                   ),
+                  animationController: animationController,
+                  style: textH4TextStyle.copyWith(
+                    color: StandardColors.white,
+                  ),
+                  animation: animation.secondTextOpacity,
                 ),
                 const SizedBox(height: mdSpacingx2),
-                // StaggerPosition(
-                //   horizontalOffset: animation.textFieldHorizontalPosition,
-                //   controller: animationController,
-                //   child: GradientTextFieldWidget(
-                //     inputNode: inputNode,
-                //     isFieldValid: viewController.usernameFieldState !=
-                //         UsernameFieldState.invalid,
-                //     showSecondText: true,
-                //     onChanged: _onInputChanged,
-                //     hintText: FlutterI18n.translate(
-                //       context,
-                //       "recoverAccount.flowerName",
-                //     ),
-                //     errorText: viewController.usernameFieldState ==
-                //             UsernameFieldState.empty
-                //         ? FlutterI18n.translate(
-                //             context,
-                //             "recoverAccount.pleaseEnterUsername",
-                //           )
-                //         : viewController.usernameFieldState ==
-                //                 UsernameFieldState.invalid
-                //             ? FlutterI18n.translate(
-                //                 context,
-                //                 "recoverAccount.usernameIsNotValid",
-                //               )
-                //             : null,
-                //     textController: widget.textEditingController,
-                //   ),
-                // ),
+                StaggerPosition(
+                  horizontalOffset: animation.textFieldHorizontalPosition,
+                  controller: animationController,
+                  child: GradientTextFieldWidget(
+                    inputNode: inputNode,
+                    isFieldValid: viewController.usernameFieldState !=
+                        UsernameFieldState.invalid,
+                    showSecondText: true,
+                    onChanged: _onInputChanged,
+                    hintText: FlutterI18n.translate(
+                      context,
+                      "recoverAccount.flowerName",
+                    ),
+                    errorText: viewController.usernameFieldState ==
+                            UsernameFieldState.empty
+                        ? FlutterI18n.translate(
+                            context,
+                            "recoverAccount.pleaseEnterUsername",
+                          )
+                        : viewController.usernameFieldState ==
+                                UsernameFieldState.invalid
+                            ? FlutterI18n.translate(
+                                context,
+                                "recoverAccount.usernameIsNotValid",
+                              )
+                            : null,
+                    textController: widget.textEditingController,
+                  ),
+                ),
                 const SizedBox(height: mdSpacing),
                 Expanded(
                   child: Column(
@@ -164,8 +176,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: bigSpacing),
                           child: AnimatedFloatButtonWidget(
-                            // isActive: viewController.isNameValid,
-                            isActive: true,
+                            isActive: viewController.isNameValid,
                             icon: IconsAsset.arrowIcon,
                             onTap: () => goToNextPage(),
                             onTapInative: () => showCustomDialog(
@@ -191,7 +202,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
     animationController.animateBack(0, duration: const Duration(seconds: 5));
     Future.delayed(const Duration(seconds: 5)).then(
       (_) {
-        widget.recoverAccountController.setCurrentPage(2);
+        widget.recoverAccountController.setCurrentPage(1);
         animationController.forward();
         animationDotsController.forward();
       },

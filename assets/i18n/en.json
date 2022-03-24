@@ -18,7 +18,8 @@
         "privateKeyIsNotValid": "Private key is not valid",
         "pleaseEnterPrivateKey": "Please enter your private key",
         "pleaseEnterUsername": "Please enter your username",
-        "pleaseEnterPinCode": "Please enter your pin code"
+        "pleaseEnterPinCode": "Please enter your pin code",
+        "pleaseEnterSamePinCode": "Please enter same pin code"
     },
     "login": {
         "authTitle": "Authentication",

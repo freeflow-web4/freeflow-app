@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RecoverPinCodeAnimation {
-  RecoverPinCodeAnimation(this.controller)
+class RecoverConfirmPinCodeAnimation {
+  RecoverConfirmPinCodeAnimation(this.controller)
       : firstTextOpacity = Tween<double>(
           begin: 0,
           end: 1,
@@ -22,13 +22,13 @@ class RecoverPinCodeAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.38,
-              0.55,
+              0.42,
+              0.57,
               curve: Curves.linear,
             ),
           ),
         ),
-        biometryOpacity = Tween<double>(
+        keyboardOpacity = Tween<double>(
           begin: 0,
           end: 1,
         ).animate(
@@ -41,19 +41,6 @@ class RecoverPinCodeAnimation {
             ),
           ),
         ),
-        keyboardOpacity = Tween<double>(
-          begin: 0,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: const Interval(
-              0.72,
-              0.84,
-              curve: Curves.linear,
-            ),
-          ),
-        ),
         buttonOpacity = Tween<double>(
           begin: 0,
           end: 1,
@@ -61,8 +48,8 @@ class RecoverPinCodeAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.84,
-              0.96,
+              0.74,
+              0.86,
               curve: Curves.linear,
             ),
           ),
@@ -70,7 +57,6 @@ class RecoverPinCodeAnimation {
 
   late Animation<double> firstTextOpacity;
   late Animation<double> textFieldHorizontalPosition;
-  late Animation<double> biometryOpacity;
   late Animation<double> keyboardOpacity;
   late Animation<double> buttonOpacity;
   final AnimationController controller;

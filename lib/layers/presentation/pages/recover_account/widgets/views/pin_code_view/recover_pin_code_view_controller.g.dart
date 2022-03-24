@@ -115,6 +115,23 @@ mixin _$RecoverPinCodeViewController
     });
   }
 
+  final _$isBiometricAvailableAtom =
+      Atom(name: 'RecoverPinCodeViewControllerBase.isBiometricAvailable');
+
+  @override
+  bool get isBiometricAvailable {
+    _$isBiometricAvailableAtom.reportRead();
+    return super.isBiometricAvailable;
+  }
+
+  @override
+  set isBiometricAvailable(bool value) {
+    _$isBiometricAvailableAtom.reportWrite(value, super.isBiometricAvailable,
+        () {
+      super.isBiometricAvailable = value;
+    });
+  }
+
   final _$pinCodeFieldStateAtom =
       Atom(name: 'RecoverPinCodeViewControllerBase.pinCodeFieldState');
 
@@ -173,6 +190,15 @@ mixin _$RecoverPinCodeViewController
         .run(() => super.canCheckBiometrics());
   }
 
+  final _$hasBiometricAvailableAsyncAction =
+      AsyncAction('RecoverPinCodeViewControllerBase.hasBiometricAvailable');
+
+  @override
+  Future<void> hasBiometricAvailable() {
+    return _$hasBiometricAvailableAsyncAction
+        .run(() => super.hasBiometricAvailable());
+  }
+
   final _$RecoverPinCodeViewControllerBaseActionController =
       ActionController(name: 'RecoverPinCodeViewControllerBase');
 
@@ -196,6 +222,19 @@ mixin _$RecoverPinCodeViewController
             name: 'RecoverPinCodeViewControllerBase.onValidatePinCodeFailure');
     try {
       return super.onValidatePinCodeFailure();
+    } finally {
+      _$RecoverPinCodeViewControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void onValidatePinCodeEmpty() {
+    final _$actionInfo =
+        _$RecoverPinCodeViewControllerBaseActionController.startAction(
+            name: 'RecoverPinCodeViewControllerBase.onValidatePinCodeEmpty');
+    try {
+      return super.onValidatePinCodeEmpty();
     } finally {
       _$RecoverPinCodeViewControllerBaseActionController
           .endAction(_$actionInfo);
@@ -262,6 +301,7 @@ rememberMe: ${rememberMe},
 currentPinCode: ${currentPinCode},
 hasAvailableBiometrics: ${hasAvailableBiometrics},
 confirmPinCode: ${confirmPinCode},
+isBiometricAvailable: ${isBiometricAvailable},
 pinCodeFieldState: ${pinCodeFieldState},
 isPinCodeValid: ${isPinCodeValid}
     ''';

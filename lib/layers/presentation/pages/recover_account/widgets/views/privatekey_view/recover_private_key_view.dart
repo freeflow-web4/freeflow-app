@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_privatekey_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
@@ -16,13 +18,11 @@ import '../../../../../widgets/animated_dot_indicator_widget.dart';
 class RecoverPrivateKeyView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
-  final void Function(String)? onInputChanged;
 
   const RecoverPrivateKeyView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
-    required this.onInputChanged,
   }) : super(key: key);
 
   @override
@@ -72,15 +72,16 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: huge4Spacing),
-                StaggerOpacity(
-                  opacity: animation.secondTextOpacity,
-                  controller: animationController,
-                  child: textH4(
+                AnimatedText(
+                  text: TranslationService.translate(
                     context,
-                    textKey: "recoverAccount.enterPrivateKey",
-                    color: StandardColors.white,
-                    maxLines: 2,
+                    "recoverAccount.enterPrivateKey",
                   ),
+                  animationController: animationController,
+                  style: textH4TextStyle.copyWith(
+                    color: StandardColors.white,
+                  ),
+                  animation: animation.secondTextOpacity,
                 ),
                 const SizedBox(height: mdSpacingx2),
                 // GradientTextFieldWidget(

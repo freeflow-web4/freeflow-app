@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
@@ -11,6 +12,7 @@ import 'package:freeflow/layers/presentation/pages/recover_account/controller/re
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_animation.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
@@ -21,13 +23,11 @@ import 'package:get_it/get_it.dart';
 class RecoverPinCodeView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
-  final void Function(String)? onInputChanged;
 
   const RecoverPinCodeView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
-    required this.onInputChanged,
   }) : super(key: key);
 
   @override
@@ -74,15 +74,16 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: huge4Spacing),
-              StaggerOpacity(
-                opacity: animation.firstTextOpacity,
-                controller: animationController,
-                child: textH4(
+              AnimatedText(
+                text: TranslationService.translate(
                   context,
-                  textKey: "recoverAccount.configPinCode",
-                  color: StandardColors.white,
-                  maxLines: 2,
+                  "recoverAccount.configPinCode",
                 ),
+                animationController: animationController,
+                style: textH4TextStyle.copyWith(
+                  color: StandardColors.white,
+                ),
+                animation: animation.firstTextOpacity,
               ),
               const SizedBox(height: mdSpacingx2),
               StaggerPosition(
@@ -127,11 +128,16 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                       visible: viewController.isBiometricAvailable,
                       child: Row(
                         children: [
-                          textSubtitle(
-                            context,
-                            textKey: "recoverAccount.rememberMe",
-                            color: StandardColors.white,
-                            maxLines: 2,
+                          AnimatedText(
+                            text: TranslationService.translate(
+                              context,
+                              "recoverAccount.rememberMe",
+                            ),
+                            animationController: animationController,
+                            style: subtitleTextStyle.copyWith(
+                              color: StandardColors.white,
+                            ),
+                            animation: animation.biometryOpacity,
                           ),
                           const SizedBox(width: mdSpacingx2),
                           CustomSwitch(
@@ -158,7 +164,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                   ),
                 ),
               ),
-              const SizedBox(height: normalSpacing),
+              const Spacer(),
               StaggerOpacity(
                 opacity: animation.buttonOpacity,
                 controller: animationController,
@@ -167,10 +173,10 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                   child: AnimatedFloatButtonWidget(
                     isActive: viewController.isPinCodeValid,
                     icon: IconsAsset.arrowIcon,
-                    onTap: () {},
+                    onTap: () => goToNextPage(),
                     onTapInative: () => showCustomDialog(
                       context,
-                      textKey: 'recoverAccount.pleaseEnterYourRegisteredName',
+                      textKey: 'recoverAccount.pleaseEnterYourPinCode',
                     ),
                   ),
                 ),
@@ -186,7 +192,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
     animationController.animateBack(0, duration: const Duration(seconds: 5));
     Future.delayed(const Duration(seconds: 5)).then(
       (_) {
-        widget.recoverAccountController.setCurrentPage(3);
+        widget.recoverAccountController.setCurrentPage(1);
         animationController.forward();
       },
     );
