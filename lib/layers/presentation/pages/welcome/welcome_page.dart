@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/welcome/welcome_page_animation.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -43,20 +45,33 @@ class _WelcomePageState extends State<WelcomePage>
             StaggerOpacity(
               opacity: animation.firstTextOpacity,
               controller: animationController,
-              child: textH4(
-                context,
-                textKey: 'welcome.welcomeBack',
-                textAlign: TextAlign.center,
+              child: AnimatedText(
+                text: TranslationService.translate(
+                  context,
+                  'welcome.welcomeBack',
+                ),
+                textMainAxisAlignment: MainAxisAlignment.center,
+                animationController: animationController,
+                style: textH4TextStyle.copyWith(
+                  color: StandardColors.backgroundDark,
+                ),
+                animation: animation.firstTextOpacity,
               ),
             ),
             StaggerOpacity(
               opacity: animation.secondTextOpacity,
               controller: animationController,
-              child: textH4(
-                context,
-                textKey: 'welcome.toFreeflow',
-                textAlign: TextAlign.center,
-                color: StandardColors.blueLight,
+              child: AnimatedText(
+                text: TranslationService.translate(
+                  context,
+                  'welcome.toFreeflow',
+                ),
+                textMainAxisAlignment: MainAxisAlignment.center,
+                animationController: animationController,
+                style: textH4TextStyle.copyWith(
+                  color: StandardColors.blueLight,
+                ),
+                animation: animation.secondTextOpacity,
               ),
             ),
           ],
