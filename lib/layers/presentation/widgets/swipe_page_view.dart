@@ -22,7 +22,6 @@ class _SwipePageViewState extends State<SwipePageView> {
   bool canMove = true;
   bool shoudlAnimated = true;
   late int currentIndex = widget.initialIndex;
-  bool isAnimatingToPageBefore = false;
 
   @override
   void didUpdateWidget(covariant SwipePageView oldWidget) {
@@ -32,46 +31,55 @@ class _SwipePageViewState extends State<SwipePageView> {
       setState(() {
         shoudlAnimated = false;
         currentIndex = widget.initialIndex;
+        left = 0;
+        canMove = true;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, contraints) {
-      final width = contraints.maxWidth;
-      final height = contraints.maxHeight;
-      return GestureDetector(
-        onHorizontalDragUpdate: (details) => onHorizontalUpdate(
-          details,
-          width,
-        ),
-        onHorizontalDragEnd: onHorizontalEnd,
-        onTap: () {},
-        child: Stack(
-          children: [
-            if (currentIndex == 0 || currentIndex == 1) widget.children[0],
-            if (currentIndex == 1 || currentIndex == 2)
-              AnimatedPositioned(
-                duration: Duration(
-                  milliseconds: shoudlAnimated
-                      ? canMove
-                          ? 100
-                          : 500
-                      : 0,
-                ),
-                left: left * width,
-                child: SizedBox(
-                  width: width,
-                  height: height,
-                  child: widget.children[1],
-                ),
-                onEnd: onAnimationEnd,
-              )
-          ],
-        ),
-      );
-    });
+    return LayoutBuilder(
+      builder: (context, contraints) {
+        final width = contraints.maxWidth;
+        final height = contraints.maxHeight;
+        return GestureDetector(
+          onHorizontalDragUpdate: (details) => onHorizontalUpdate(
+            details,
+            width,
+          ),
+          onHorizontalDragEnd: onHorizontalEnd,
+          onTap: () {},
+          child: Stack(
+            children: [
+              widget.children[getPreviusIndex],
+              if (currentIndex > 0)
+                AnimatedPositioned(
+                  duration: Duration(
+                    milliseconds: shoudlAnimated
+                        ? canMove
+                            ? 100
+                            : 500
+                        : 0,
+                  ),
+                  left: left * width,
+                  child: SizedBox(
+                    width: width,
+                    height: height,
+                    child: widget.children[currentIndex],
+                  ),
+                  onEnd: onAnimationEnd,
+                )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  int get getPreviusIndex {
+    final previusIndex = currentIndex - 1;
+    return previusIndex < 0 ? 0 : previusIndex;
   }
 
   double getScreenWidthFactor(double dx, double screenWidth) {
@@ -80,19 +88,20 @@ class _SwipePageViewState extends State<SwipePageView> {
 
   void onHorizontalUpdate(DragUpdateDetails details, double screenWidth) {
     final deltaX = details.delta.dx;
-    if ((canMove || currentIndex > 0) && left >= 0 || deltaX > 0) {
+    if (canMove && (currentIndex > 0 || left >= 0 || deltaX > 0)) {
       final increment = getScreenWidthFactor(deltaX, screenWidth);
       setState(
         () {
+          shoudlAnimated = true;
           left = left + increment < 0 ? 0 : left + increment;
         },
       );
     }
-    checkRight();
+    checkLeft();
   }
 
-  void checkRight([void Function()? onNotCompleted]) {
-    if (left >= widget.minimalFactorToSwipe) {
+  void checkLeft([void Function()? onNotCompleted]) {
+    if (left >= widget.minimalFactorToSwipe && canMove) {
       canMove = false;
       setState(() {
         left = 1;
@@ -103,10 +112,8 @@ class _SwipePageViewState extends State<SwipePageView> {
   }
 
   void onAnimationEnd() {
-    canMove = true;
-    shoudlAnimated = true;
-    if (isAnimatingToPageBefore) {
-      isAnimatingToPageBefore = false;
+    if (!canMove && left == 1) {
+      canMove = true;
       reduceCurrentPageIndex();
       widget.onPageSwiped?.call(currentIndex);
     }
@@ -114,7 +121,7 @@ class _SwipePageViewState extends State<SwipePageView> {
 
   void onHorizontalEnd(DragEndDetails details) {
     if (canMove) {
-      checkRight(
+      checkLeft(
         () => setState(() {
           left = 0;
         }),
@@ -123,6 +130,10 @@ class _SwipePageViewState extends State<SwipePageView> {
   }
 
   void reduceCurrentPageIndex() {
-    currentIndex = currentIndex == 0 ? 0 : currentIndex - 1;
+    setState(() {
+      currentIndex = currentIndex == 0 ? 0 : currentIndex - 1;
+      left = 0;
+      shoudlAnimated = false;
+    });
   }
 }
