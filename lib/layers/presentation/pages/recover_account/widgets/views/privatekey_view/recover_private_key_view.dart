@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/get_cross_max_lines.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_privatekey_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
@@ -86,22 +89,24 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                     animation: animation.secondTextOpacity,
                   ),
                   const SizedBox(height: mdSpacingx2),
-                  // GradientTextFieldWidget(
-                  //   inputNode: inputNode,
-                  //   onChanged: widget.onInputChanged,
-                  //   isFieldValid: widget.recoverAccountController.isKeyValid,
-                  //   hintText: FlutterI18n.translate(
-                  //       context, "recoverAccount.privateKey"),
-                  //   errorText: widget.recoverAccountController.privateKeyError,
-                  //   textController: widget.textEditingController,
-                  //   maxLines: 2,
-                  //   crossTheMaxLines: getIfTextCrossMaxLines(
-                  //     context,
-                  //     text: widget.textEditingController.text,
-                  //     maxLines: 1,
-                  //     maxWidth: MediaQuery.of(context).size.width - 120,
-                  //   ),
-                  // ),
+                  GradientTextFieldWidget(
+                    inputNode: inputNode,
+                    onChanged: (value) {},
+                    isFieldValid: true,
+                    hintText: FlutterI18n.translate(
+                      context,
+                      "recoverAccount.privateKey",
+                    ),
+                    errorText: '',
+                    textController: widget.textEditingController,
+                    maxLines: 2,
+                    crossTheMaxLines: getIfTextCrossMaxLines(
+                      context,
+                      text: widget.textEditingController.text,
+                      maxLines: 1,
+                      maxWidth: MediaQuery.of(context).size.width - 120,
+                    ),
+                  ),
                   const SizedBox(height: mdSpacing),
                   Expanded(
                     child: Column(
