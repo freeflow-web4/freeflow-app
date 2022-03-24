@@ -7,14 +7,14 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/get_cross_max_lines.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_private_key_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_privatekey_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../../../../core/utils/assets_constants.dart';
 
@@ -37,6 +37,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
   late RecoverPrivateKeyAnimation animation;
   late final AnimationController animationController;
   final FocusNode inputNode = FocusNode();
+  final viewController = GetIt.I.get<RecoverPrivateKeyController>();
 
   @override
   void initState() {
@@ -91,13 +92,19 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                   const SizedBox(height: mdSpacingx2),
                   GradientTextFieldWidget(
                     inputNode: inputNode,
-                    onChanged: (value) {},
-                    isFieldValid: true,
+                    onChanged: viewController.onPrivateKeyChanged,
+                    isFieldValid: viewController.isPrivateKeyValid,
                     hintText: FlutterI18n.translate(
                       context,
                       "recoverAccount.privateKey",
                     ),
-                    errorText: '',
+                    errorText: viewController.privateKeyFieldState ==
+                            PrivateKeyFieldState.invalid
+                        ? FlutterI18n.translate(
+                            context,
+                            "recoverAccount.pleaseEnterUsername",
+                          )
+                        : null,
                     textController: widget.textEditingController,
                     maxLines: 2,
                     crossTheMaxLines: getIfTextCrossMaxLines(
@@ -120,31 +127,10 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                         Padding(
                           padding: const EdgeInsets.only(bottom: bigSpacing),
                           child: AnimatedFloatButtonWidget(
-                            isActive: true,
+                            isActive: viewController.isPrivateKeyValid,
                             onTapInative: () {},
                             onTap: () {
                               widget.recoverAccountController.setCurrentPage(2);
-                              // currentPage = 1;
-
-                              // setState(() {});
-                              // if (recoverAccountController
-                              //     .isContinueButtonActive()) {
-                              //   isContinueButtonVisible = false;
-                              //   Timer.periodic(const Duration(seconds: 8),
-                              //       (timer) {
-                              //     isContinueButtonVisible = true;
-                              //     setState(() {});
-                              //     timer.cancel();
-                              //   });
-                              // }
-
-                              // recoverAccountController.tapContinueButton(
-                              //   context,
-                              //   privateKey: privateKeyController.text,
-                              //   username: flowerNameController.text,
-                              //   pincode: pinController.text,
-                              //   confirmPincode: confirmPinController.text,
-                              // );
                             },
                             icon: IconsAsset.arrowIcon,
                           ),

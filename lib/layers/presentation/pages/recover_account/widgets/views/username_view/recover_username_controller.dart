@@ -37,11 +37,6 @@ abstract class RecoverUsernameControllerBase with Store {
   @computed
   bool get isNameValid => usernameFieldState == UsernameFieldState.valid;
 
-  Future<void> onContinueWithUsername(
-    String currentUsername,
-    Function continueAnimationCallBack,
-  ) async {}
-
   @action
   Future<void> onUsernameChanged(
     String value,

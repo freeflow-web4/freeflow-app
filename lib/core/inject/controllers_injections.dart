@@ -1,10 +1,12 @@
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
+import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/confirm_pin_code_view/recover_confirm_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
+import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_private_key_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_controller.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
@@ -57,6 +59,11 @@ registerControllerDependencies(GetIt getIt) {
   getIt.registerLazySingleton<RecoverConfirmPinCodeViewController>(
     () => RecoverConfirmPinCodeViewController(
       getIt.get<UserSetPincodeUsecase>(),
+    ),
+  );
+  getIt.registerLazySingleton<RecoverPrivateKeyController>(
+    () => RecoverPrivateKeyController(
+      validator: getIt.get<PrivateKeyValidator>(),
     ),
   );
 }

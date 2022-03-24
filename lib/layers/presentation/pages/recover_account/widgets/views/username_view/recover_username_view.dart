@@ -143,7 +143,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                               UsernameFieldState.empty
                           ? FlutterI18n.translate(
                               context,
-                              "recoverAccount.pleaseEnterUsername",
+                              "recoverAccount.pleaseEnterPrivateKey",
                             )
                           : viewController.usernameFieldState ==
                                   UsernameFieldState.invalid
