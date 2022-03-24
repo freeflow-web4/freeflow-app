@@ -53,11 +53,39 @@ class RecoverConfirmPinCodeAnimation {
               curve: Curves.linear,
             ),
           ),
+        ),
+        buttonHeight = Tween<double>(
+          begin: 1.2,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.95,
+              1,
+              curve: Curves.linear,
+            ),
+          ),
+        ),
+        buttonWidth = Tween<double>(
+          begin: 1.2,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.95,
+              1,
+              curve: Curves.linear,
+            ),
+          ),
         );
 
   late Animation<double> firstTextOpacity;
   late Animation<double> textFieldHorizontalPosition;
   late Animation<double> keyboardOpacity;
   late Animation<double> buttonOpacity;
+  late Animation<double> buttonWidth;
+  late Animation<double> buttonHeight;
   final AnimationController controller;
 }

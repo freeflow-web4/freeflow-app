@@ -18,6 +18,7 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
+import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:get_it/get_it.dart';
 
 class RecoverPinCodeView extends StatefulWidget {
@@ -65,126 +66,134 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: huge4Spacing),
-              AnimatedText(
-                text: TranslationService.translate(
-                  context,
-                  "recoverAccount.configPinCode",
+    return Container(
+      color: Colors.black,
+      child: Observer(
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: huge4Spacing),
+                AnimatedText(
+                  text: TranslationService.translate(
+                    context,
+                    "recoverAccount.configPinCode",
+                  ),
+                  animationController: animationController,
+                  style: textH4TextStyle.copyWith(
+                    color: StandardColors.white,
+                  ),
+                  animation: animation.firstTextOpacity,
                 ),
-                animationController: animationController,
-                style: textH4TextStyle.copyWith(
-                  color: StandardColors.white,
+                const SizedBox(height: mdSpacingx2),
+                StaggerPosition(
+                  horizontalOffset: animation.textFieldHorizontalPosition,
+                  controller: animationController,
+                  child: Observer(
+                    builder: (context) {
+                      return GradientTextFieldWidget(
+                        inputNode: inputNode,
+                        showObscureButton: true,
+                        isPinInput: true,
+                        isFieldValid: viewController.isPinCodeValid,
+                        isObscureText: viewController.isObscuredPin,
+                        onChanged: (value) {},
+                        onObscureButtonPressed: () =>
+                            viewController.setObscuredPin(),
+                        fieldReadOnly: true,
+                        hintText: FlutterI18n.translate(
+                          context,
+                          "recoverAccount.confirmPinCode",
+                        ),
+                        errorText: viewController.pinCodeFieldState ==
+                                PinCodeFieldState.invalid
+                            ? FlutterI18n.translate(
+                                context,
+                                "recoverAccount.pleaseEnterPinCode",
+                              )
+                            : null,
+                        textController: widget.textEditingController,
+                        pinCode: viewController.currentPinCode,
+                      );
+                    },
+                  ),
                 ),
-                animation: animation.firstTextOpacity,
-              ),
-              const SizedBox(height: mdSpacingx2),
-              StaggerPosition(
-                horizontalOffset: animation.textFieldHorizontalPosition,
-                controller: animationController,
-                child: Observer(
-                  builder: (context) {
-                    return GradientTextFieldWidget(
-                      inputNode: inputNode,
-                      showObscureButton: true,
-                      isPinInput: true,
-                      isFieldValid: viewController.isPinCodeValid,
-                      isObscureText: viewController.isObscuredPin,
-                      onChanged: (value) {},
-                      onObscureButtonPressed: () =>
-                          viewController.setObscuredPin(),
-                      fieldReadOnly: true,
-                      hintText: FlutterI18n.translate(
+                const SizedBox(height: 13),
+                StaggerOpacity(
+                  opacity: animation.biometryOpacity,
+                  controller: animationController,
+                  child: Observer(
+                    builder: (context) {
+                      return Visibility(
+                        visible: viewController.isBiometricAvailable,
+                        child: Row(
+                          children: [
+                            AnimatedText(
+                              text: TranslationService.translate(
+                                context,
+                                "recoverAccount.rememberMe",
+                              ),
+                              animationController: animationController,
+                              style: subtitleTextStyle.copyWith(
+                                color: StandardColors.white,
+                              ),
+                              animation: animation.biometryOpacity,
+                            ),
+                            const SizedBox(width: mdSpacingx2),
+                            CustomSwitch(
+                              value: viewController.rememberMe,
+                              onChanged: (value) =>
+                                  viewController.biometricAuth(value),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: largeSpacingx2),
+                StaggerOpacity(
+                  opacity: animation.keyboardOpacity,
+                  controller: animationController,
+                  child: Center(
+                    child: InAppKeyboardWidget(
+                      onTap: (value) => viewController.getTypePinCode(
                         context,
-                        "recoverAccount.confirmPinCode",
+                        value,
                       ),
-                      errorText: viewController.pinCodeFieldState ==
-                              PinCodeFieldState.invalid
-                          ? FlutterI18n.translate(
-                              context,
-                              "recoverAccount.pleaseEnterPinCode",
-                            )
-                          : null,
-                      textController: widget.textEditingController,
-                      pinCode: viewController.currentPinCode,
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 13),
-              StaggerOpacity(
-                opacity: animation.biometryOpacity,
-                controller: animationController,
-                child: Observer(
-                  builder: (context) {
-                    return Visibility(
-                      visible: viewController.isBiometricAvailable,
-                      child: Row(
-                        children: [
-                          AnimatedText(
-                            text: TranslationService.translate(
-                              context,
-                              "recoverAccount.rememberMe",
-                            ),
-                            animationController: animationController,
-                            style: subtitleTextStyle.copyWith(
-                              color: StandardColors.white,
-                            ),
-                            animation: animation.biometryOpacity,
-                          ),
-                          const SizedBox(width: mdSpacingx2),
-                          CustomSwitch(
-                            value: viewController.rememberMe,
-                            onChanged: (value) =>
-                                viewController.biometricAuth(value),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: largeSpacingx2),
-              StaggerOpacity(
-                opacity: animation.keyboardOpacity,
-                controller: animationController,
-                child: Center(
-                  child: InAppKeyboardWidget(
-                    onTap: (value) => viewController.getTypePinCode(
-                      context,
-                      value,
                     ),
                   ),
                 ),
-              ),
-              const Spacer(),
-              StaggerOpacity(
-                opacity: animation.buttonOpacity,
-                controller: animationController,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: bigSpacing),
-                  child: AnimatedFloatButtonWidget(
-                    isActive: viewController.isPinCodeValid,
-                    icon: IconsAsset.arrowIcon,
-                    onTap: () => goToNextPage(),
-                    onTapInative: () => showCustomDialog(
-                      context,
-                      textKey: 'recoverAccount.pleaseEnterYourPinCode',
+                const Spacer(),
+                StaggerScale(
+                  controller: animationController,
+                  height: animation.buttonHeight,
+                  width: animation.buttonWidth,
+                  child: StaggerOpacity(
+                    opacity: animation.buttonOpacity,
+                    controller: animationController,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: bigSpacing),
+                      child: AnimatedFloatButtonWidget(
+                        isActive: viewController.isPinCodeValid,
+                        icon: IconsAsset.arrowIcon,
+                        onTap: () => goToNextPage(),
+                        onTapInative: () => showCustomDialog(
+                          context,
+                          textKey: 'recoverAccount.pleaseEnterYourPinCode',
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -192,7 +201,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
     animationController.animateBack(0, duration: const Duration(seconds: 5));
     Future.delayed(const Duration(seconds: 5)).then(
       (_) {
-        widget.recoverAccountController.setCurrentPage(1);
+        widget.recoverAccountController.setCurrentPage(3);
         animationController.forward();
       },
     );

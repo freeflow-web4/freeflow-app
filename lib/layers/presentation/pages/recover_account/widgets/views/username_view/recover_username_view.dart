@@ -11,13 +11,13 @@ import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_animation.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../../../core/utils/assets_constants.dart';
-import '../../../../../widgets/animated_dot_indicator_widget.dart';
 import '../../../../../widgets/animated_float_button_widget.dart';
 import '../../../../../widgets/loading_widget.dart';
 
@@ -89,112 +89,123 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return Container(
-          color: Colors.black,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: huge4Spacing),
-                AnimatedText(
-                  text: TranslationService.translate(
-                    context,
-                    "recoverAccount.hello",
-                  ),
-                  animationController: animationController,
-                  style: textH4TextStyle.copyWith(
-                    color: StandardColors.white,
-                  ),
-                  animation: animation.firstTextOpacity,
-                ),
-                const SizedBox(height: mdSpacingx2),
-                AnimatedText(
-                  text: TranslationService.translate(
-                    context,
-                    "recoverAccount.enterFlowerName",
-                  ),
-                  animationController: animationController,
-                  style: textH4TextStyle.copyWith(
-                    color: StandardColors.white,
-                  ),
-                  animation: animation.secondTextOpacity,
-                ),
-                const SizedBox(height: mdSpacingx2),
-                StaggerPosition(
-                  horizontalOffset: animation.textFieldHorizontalPosition,
-                  controller: animationController,
-                  child: GradientTextFieldWidget(
-                    inputNode: inputNode,
-                    isFieldValid: viewController.usernameFieldState !=
-                        UsernameFieldState.invalid,
-                    showSecondText: true,
-                    onChanged: _onInputChanged,
-                    hintText: FlutterI18n.translate(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: Observer(
+        builder: (context) {
+          return Container(
+            color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: huge4Spacing),
+                  AnimatedText(
+                    text: TranslationService.translate(
                       context,
-                      "recoverAccount.flowerName",
+                      "recoverAccount.hello",
                     ),
-                    errorText: viewController.usernameFieldState ==
-                            UsernameFieldState.empty
-                        ? FlutterI18n.translate(
-                            context,
-                            "recoverAccount.pleaseEnterUsername",
-                          )
-                        : viewController.usernameFieldState ==
-                                UsernameFieldState.invalid
-                            ? FlutterI18n.translate(
-                                context,
-                                "recoverAccount.usernameIsNotValid",
-                              )
-                            : null,
-                    textController: widget.textEditingController,
+                    animationController: animationController,
+                    style: textH4TextStyle.copyWith(
+                      color: StandardColors.white,
+                    ),
+                    animation: animation.firstTextOpacity,
                   ),
-                ),
-                const SizedBox(height: mdSpacing),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      StaggerOpacity(
-                        opacity: animation.dotsOpacity,
-                        controller: animationDotsController,
-                        child: const AnimatedDotIndicatorWidget(
-                          currentIndex: 0,
-                        ),
+                  const SizedBox(height: mdSpacingx2),
+                  AnimatedText(
+                    text: TranslationService.translate(
+                      context,
+                      "recoverAccount.enterFlowerName",
+                    ),
+                    animationController: animationController,
+                    style: textH4TextStyle.copyWith(
+                      color: StandardColors.white,
+                    ),
+                    animation: animation.secondTextOpacity,
+                  ),
+                  const SizedBox(height: mdSpacingx2),
+                  StaggerPosition(
+                    horizontalOffset: animation.textFieldHorizontalPosition,
+                    controller: animationController,
+                    child: GradientTextFieldWidget(
+                      inputNode: inputNode,
+                      isFieldValid: viewController.usernameFieldState !=
+                          UsernameFieldState.invalid,
+                      showSecondText: true,
+                      onChanged: _onInputChanged,
+                      hintText: FlutterI18n.translate(
+                        context,
+                        "recoverAccount.flowerName",
                       ),
-                      Observer(
-                        builder: (context) => LoadingWidget(
-                          isLoading: viewController.isValidating,
-                        ),
-                      ),
-                      StaggerOpacity(
-                        opacity: animation.buttonOpacity,
-                        controller: animationController,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: bigSpacing),
-                          child: AnimatedFloatButtonWidget(
-                            isActive: viewController.isNameValid,
-                            icon: IconsAsset.arrowIcon,
-                            onTap: () => goToNextPage(),
-                            onTapInative: () => showCustomDialog(
+                      errorText: viewController.usernameFieldState ==
+                              UsernameFieldState.empty
+                          ? FlutterI18n.translate(
                               context,
-                              textKey:
-                                  'recoverAccount.pleaseEnterYourRegisteredName',
+                              "recoverAccount.pleaseEnterUsername",
+                            )
+                          : viewController.usernameFieldState ==
+                                  UsernameFieldState.invalid
+                              ? FlutterI18n.translate(
+                                  context,
+                                  "recoverAccount.usernameIsNotValid",
+                                )
+                              : null,
+                      textController: widget.textEditingController,
+                    ),
+                  ),
+                  const SizedBox(height: mdSpacing),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        StaggerOpacity(
+                          opacity: animation.dotsOpacity,
+                          controller: animationDotsController,
+                          child: const AnimatedDotIndicatorWidget(
+                            currentIndex: 0,
+                            length: 3,
+                            totalAnimationStartUpDuration: Duration(seconds: 4),
+                          ),
+                        ),
+                        Observer(
+                          builder: (context) => LoadingWidget(
+                            isLoading: viewController.isValidating,
+                          ),
+                        ),
+                        StaggerScale(
+                          controller: animationController,
+                          height: animation.buttonHeight,
+                          width: animation.buttonWidth,
+                          child: StaggerOpacity(
+                            opacity: animation.buttonOpacity,
+                            controller: animationController,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: bigSpacing),
+                              child: AnimatedFloatButtonWidget(
+                                isActive: viewController.isNameValid,
+                                icon: IconsAsset.arrowIcon,
+                                onTap: () => goToNextPage(),
+                                onTapInative: () => showCustomDialog(
+                                  context,
+                                  textKey:
+                                      'recoverAccount.pleaseEnterYourRegisteredName',
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

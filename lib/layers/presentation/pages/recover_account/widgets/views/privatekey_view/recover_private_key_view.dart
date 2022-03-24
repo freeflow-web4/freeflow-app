@@ -6,6 +6,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_privatekey_animation.dart';
+import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
@@ -13,7 +14,6 @@ import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_o
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 
 import '../../../../../../../core/utils/assets_constants.dart';
-import '../../../../../widgets/animated_dot_indicator_widget.dart';
 
 class RecoverPrivateKeyView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
@@ -61,99 +61,98 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return Container(
-          color: Colors.black,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: huge4Spacing),
-                AnimatedText(
-                  text: TranslationService.translate(
-                    context,
-                    "recoverAccount.enterPrivateKey",
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: Observer(
+        builder: (context) {
+          return Container(
+            color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: huge4Spacing),
+                  AnimatedText(
+                    text: TranslationService.translate(
+                      context,
+                      "recoverAccount.enterPrivateKey",
+                    ),
+                    animationController: animationController,
+                    style: textH4TextStyle.copyWith(
+                      color: StandardColors.white,
+                    ),
+                    animation: animation.secondTextOpacity,
                   ),
-                  animationController: animationController,
-                  style: textH4TextStyle.copyWith(
-                    color: StandardColors.white,
-                  ),
-                  animation: animation.secondTextOpacity,
-                ),
-                const SizedBox(height: mdSpacingx2),
-                // GradientTextFieldWidget(
-                //   inputNode: inputNode,
-                //   onChanged: widget.onInputChanged,
-                //   isFieldValid: widget.recoverAccountController.isKeyValid,
-                //   hintText: FlutterI18n.translate(
-                //       context, "recoverAccount.privateKey"),
-                //   errorText: widget.recoverAccountController.privateKeyError,
-                //   textController: widget.textEditingController,
-                //   maxLines: 2,
-                //   crossTheMaxLines: getIfTextCrossMaxLines(
-                //     context,
-                //     text: widget.textEditingController.text,
-                //     maxLines: 1,
-                //     maxWidth: MediaQuery.of(context).size.width - 120,
-                //   ),
-                // ),
-                const SizedBox(height: mdSpacing),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const AnimatedDotIndicatorWidget(
-                        currentIndex: 1,
-                        makeAnimation: false,
-                      ),
-                      Observer(
-                        builder: (context) => LoadingWidget(
-                          isLoading: true,
+                  const SizedBox(height: mdSpacingx2),
+                  // GradientTextFieldWidget(
+                  //   inputNode: inputNode,
+                  //   onChanged: widget.onInputChanged,
+                  //   isFieldValid: widget.recoverAccountController.isKeyValid,
+                  //   hintText: FlutterI18n.translate(
+                  //       context, "recoverAccount.privateKey"),
+                  //   errorText: widget.recoverAccountController.privateKeyError,
+                  //   textController: widget.textEditingController,
+                  //   maxLines: 2,
+                  //   crossTheMaxLines: getIfTextCrossMaxLines(
+                  //     context,
+                  //     text: widget.textEditingController.text,
+                  //     maxLines: 1,
+                  //     maxWidth: MediaQuery.of(context).size.width - 120,
+                  //   ),
+                  // ),
+                  const SizedBox(height: mdSpacing),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const AnimatedDotIndicatorWidget(
+                          currentIndex: 1,
+                          length: 3,
+                          totalAnimationStartUpDuration: Duration(seconds: 4),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: bigSpacing),
-                        child: AnimatedFloatButtonWidget(
-                          isActive: true,
-                          onTapInative: () {},
-                          onTap: () {
-                            widget.recoverAccountController.setCurrentPage(2);
-                            // currentPage = 1;
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: bigSpacing),
+                          child: AnimatedFloatButtonWidget(
+                            isActive: true,
+                            onTapInative: () {},
+                            onTap: () {
+                              widget.recoverAccountController.setCurrentPage(2);
+                              // currentPage = 1;
 
-                            // setState(() {});
-                            // if (recoverAccountController
-                            //     .isContinueButtonActive()) {
-                            //   isContinueButtonVisible = false;
-                            //   Timer.periodic(const Duration(seconds: 8),
-                            //       (timer) {
-                            //     isContinueButtonVisible = true;
-                            //     setState(() {});
-                            //     timer.cancel();
-                            //   });
-                            // }
+                              // setState(() {});
+                              // if (recoverAccountController
+                              //     .isContinueButtonActive()) {
+                              //   isContinueButtonVisible = false;
+                              //   Timer.periodic(const Duration(seconds: 8),
+                              //       (timer) {
+                              //     isContinueButtonVisible = true;
+                              //     setState(() {});
+                              //     timer.cancel();
+                              //   });
+                              // }
 
-                            // recoverAccountController.tapContinueButton(
-                            //   context,
-                            //   privateKey: privateKeyController.text,
-                            //   username: flowerNameController.text,
-                            //   pincode: pinController.text,
-                            //   confirmPincode: confirmPinController.text,
-                            // );
-                          },
-                          icon: IconsAsset.arrowIcon,
+                              // recoverAccountController.tapContinueButton(
+                              //   context,
+                              //   privateKey: privateKeyController.text,
+                              //   username: flowerNameController.text,
+                              //   pincode: pinController.text,
+                              //   confirmPincode: confirmPinController.text,
+                              // );
+                            },
+                            icon: IconsAsset.arrowIcon,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
