@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/get_cross_max_lines.dart';
@@ -104,6 +105,11 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                     maxLines: 1,
                     maxWidth: MediaQuery.of(context).size.width - 120,
                   ),
+                  sufixWidget: (color) => textBoldSubtitle(
+                        context,
+                        textKey: '.flw ',
+                        color: color,
+                      ),
                 ),
               ),
               const SizedBox(height: xxlargeSpacing + 16),

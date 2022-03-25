@@ -107,6 +107,11 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                           widget.recoverAccountController.confirmPinCodeError,
                       textController: widget.textEditingController,
                       pinCode: viewController.confirmPinCode,
+                      sufixWidget: (color) => textBoldSubtitle(
+                        context,
+                        textKey: '.flw ',
+                        color: color,
+                      ),
                     );
                   },
                 ),
