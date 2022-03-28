@@ -108,9 +108,6 @@ mixin TextThemes {
     );
   }
 
-  //TODO: analyse if wouldn't be better remove size
-  // and let the window set with "copyWith"
-
   Text textSubtitle(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
@@ -124,6 +121,24 @@ mixin TextThemes {
         color: color,
         fontSize: 20,
         fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textSubtitle3(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String textKey,
+  }) {
+    return Text(
+      FlutterI18n.translate(context, textKey),
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 20,
+        fontFamily: 'Akrobat',
+        fontWeight: FontWeight.bold,
       ),
     );
   }

@@ -39,9 +39,11 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverPinCodeAnimation animation;
   late final AnimationController animationController;
+  late final AnimationController animationButtonController;
   final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverPinCodeViewController>();
   bool biometricValue = false;
+  bool isLargeButton = true;
 
   @override
   void initState() {
@@ -50,9 +52,15 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
       duration: const Duration(seconds: 10),
       vsync: this,
     );
-    animation = RecoverPinCodeAnimation(animationController);
+    animationButtonController = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    );
+    animation =
+        RecoverPinCodeAnimation(animationController, animationButtonController);
     viewController.hasBiometricAvailable();
     animationController.forward().orCancel;
+    animationButtonController.forward().orCancel;
     viewController.userSetBiometricsUsecase(false);
     viewController.canCheckBiometrics();
     viewController.setRememberMe(false);
@@ -179,6 +187,8 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                       padding: const EdgeInsets.only(bottom: bigSpacing),
                       child: AnimatedFloatButtonWidget(
                         isActive: viewController.isPinCodeValid,
+                        isLargeButton:
+                            viewController.isPinCodeValid && isLargeButton,
                         icon: IconsAsset.arrowIcon,
                         onTap: () => goToNextPage(),
                         onTapInative: () => showCustomDialog(
@@ -198,12 +208,16 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
   }
 
   void goToNextPage() async {
-    animationController.animateBack(0, duration: const Duration(seconds: 5));
-    Future.delayed(const Duration(seconds: 5)).then(
-      (_) {
-        widget.recoverAccountController.setCurrentPage(3);
-        animationController.forward();
-      },
-    );
+    isLargeButton = false;
+    setState(() {});
+    Future.delayed(const Duration(seconds: 1)).then((value) {
+      animationController.animateBack(0, duration: const Duration(seconds: 5));
+      Future.delayed(const Duration(seconds: 5)).then(
+        (_) {
+          widget.recoverAccountController.setCurrentPage(3);
+          animationController.forward();
+        },
+      );
+    });
   }
 }

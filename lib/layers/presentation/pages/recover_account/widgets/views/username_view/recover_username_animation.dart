@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RecoverUsernameAnimation {
-  RecoverUsernameAnimation(this.controller, this.dotsController)
+  RecoverUsernameAnimation(
+      this.controller, this.dotsController, this.buttonController)
       : dotsOpacity = Tween<double>(
           begin: 0,
           end: 1,
@@ -72,7 +73,7 @@ class RecoverUsernameAnimation {
           end: 1,
         ).animate(
           CurvedAnimation(
-            parent: controller,
+            parent: buttonController,
             curve: const Interval(
               0.95,
               1,
@@ -85,7 +86,7 @@ class RecoverUsernameAnimation {
           end: 1,
         ).animate(
           CurvedAnimation(
-            parent: controller,
+            parent: buttonController,
             curve: const Interval(
               0.95,
               1,
@@ -103,4 +104,5 @@ class RecoverUsernameAnimation {
   late Animation<double> buttonHeight;
   final AnimationController controller;
   final AnimationController dotsController;
+  final AnimationController buttonController;
 }

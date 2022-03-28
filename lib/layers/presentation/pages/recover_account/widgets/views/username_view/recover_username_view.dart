@@ -40,6 +40,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
   Timer? _debounce;
   late RecoverUsernameAnimation animation;
   late AnimationController animationController;
+  late AnimationController animationButtonController;
   late AnimationController animationDotsController;
   final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverUsernameController>();
@@ -47,6 +48,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
     vsync: this,
     duration: const Duration(milliseconds: 1000),
   );
+  bool isLargeButton = true;
 
   @override
   void initState() {
@@ -59,12 +61,18 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
       duration: const Duration(seconds: 10),
       vsync: this,
     );
+    animationButtonController = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    );
 
     animation = RecoverUsernameAnimation(
       animationController,
       animationDotsController,
+      animationButtonController,
     );
     animationDotsController.forward();
+    animationButtonController.forward();
     animatedTextController.forward();
     animationController.forward();
     widget.recoverAccountController.openKeyboard(context, inputNode: inputNode);
@@ -134,6 +142,17 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                       isFieldValid: viewController.usernameFieldState !=
                           UsernameFieldState.invalid,
                       showSecondText: true,
+                      sufixWidget: (color) => textSubtitle3(
+                        context,
+                        textKey: '.flw',
+                        color: viewController.usernameFieldState ==
+                                UsernameFieldState.valid
+                            ? StandardColors.blueLight
+                            : viewController.usernameFieldState ==
+                                    UsernameFieldState.invalid
+                                ? StandardColors.error
+                                : StandardColors.white,
+                      ),
                       onChanged: _onInputChanged,
                       hintText: FlutterI18n.translate(
                         context,
@@ -186,6 +205,8 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                                   const EdgeInsets.only(bottom: bigSpacing),
                               child: AnimatedFloatButtonWidget(
                                 isActive: viewController.isNameValid,
+                                isLargeButton:
+                                    viewController.isNameValid && isLargeButton,
                                 icon: IconsAsset.arrowIcon,
                                 onTap: () => goToNextPage(),
                                 onTapInative: () => showCustomDialog(
@@ -210,13 +231,17 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
   }
 
   void goToNextPage() async {
-    animationController.animateBack(0, duration: const Duration(seconds: 5));
-    Future.delayed(const Duration(seconds: 5)).then(
-      (_) {
-        widget.recoverAccountController.setCurrentPage(1);
-        animationController.forward();
-        animationDotsController.forward();
-      },
-    );
+    isLargeButton = false;
+    setState(() {});
+    Future.delayed(const Duration(seconds: 1)).then((value) {
+      animationController.animateBack(0, duration: const Duration(seconds: 5));
+      Future.delayed(const Duration(seconds: 5)).then(
+        (_) {
+          widget.recoverAccountController.setCurrentPage(1);
+          animationController.forward();
+          animationDotsController.forward();
+        },
+      );
+    });
   }
 }

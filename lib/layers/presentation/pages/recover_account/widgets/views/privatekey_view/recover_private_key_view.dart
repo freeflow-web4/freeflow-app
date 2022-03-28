@@ -9,7 +9,6 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/get_cross_max_lines.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_private_key_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_privatekey_animation.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_controller.dart';
@@ -41,10 +40,12 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverPrivateKeyAnimation animation;
   late final AnimationController animationController;
+  late AnimationController animationButtonController;
   Timer? _debounce;
   final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverPrivateKeyController>();
   final usernameController = GetIt.I.get<RecoverUsernameController>();
+  bool isLargeButton = true;
 
   @override
   void initState() {
@@ -53,9 +54,15 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
       duration: const Duration(seconds: 7),
       vsync: this,
     );
+    animationButtonController = AnimationController(
+      duration: const Duration(seconds: 7),
+      vsync: this,
+    );
 
-    animation = RecoverPrivateKeyAnimation(animationController);
+    animation = RecoverPrivateKeyAnimation(
+        animationController, animationButtonController);
     animationController.forward().orCancel;
+    animationButtonController.forward().orCancel;
 
     widget.recoverAccountController.openKeyboard(
       context,
@@ -165,6 +172,9 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                                     const EdgeInsets.only(bottom: bigSpacing),
                                 child: AnimatedFloatButtonWidget(
                                   isActive: viewController.isPrivateKeyValid,
+                                  isLargeButton:
+                                      viewController.isPrivateKeyValid &&
+                                          isLargeButton,
                                   onTapInative: () {},
                                   onTap: () => goToNextPage(),
                                   icon: IconsAsset.arrowIcon,
@@ -186,12 +196,16 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
   }
 
   void goToNextPage() async {
-    animationController.animateBack(0, duration: const Duration(seconds: 5));
-    Future.delayed(const Duration(seconds: 5)).then(
-      (_) {
-        widget.recoverAccountController.setCurrentPage(2);
-        animationController.forward();
-      },
-    );
+    isLargeButton = false;
+    setState(() {});
+    Future.delayed(const Duration(seconds: 1)).then((value) {
+      animationController.animateBack(0, duration: const Duration(seconds: 5));
+      Future.delayed(const Duration(seconds: 5)).then(
+        (_) {
+          widget.recoverAccountController.setCurrentPage(2);
+          animationController.forward();
+        },
+      );
+    });
   }
 }

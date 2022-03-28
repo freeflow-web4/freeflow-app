@@ -36,10 +36,12 @@ class RecoverConfirmPinCodeView extends StatefulWidget {
 class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
     with TextThemes, TickerProviderStateMixin {
   late RecoverConfirmPinCodeAnimation animation;
-  late final AnimationController animationController;
+  late AnimationController animationController;
+  late AnimationController animationButtonController;
   final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverConfirmPinCodeViewController>();
   final pinCodeViewController = GetIt.I.get<RecoverPinCodeViewController>();
+  bool isLargeButton = true;
 
   @override
   void initState() {
@@ -48,9 +50,15 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
       duration: const Duration(seconds: 10),
       vsync: this,
     );
-    animation = RecoverConfirmPinCodeAnimation(animationController);
+    animationButtonController = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    );
+    animation = RecoverConfirmPinCodeAnimation(
+        animationController, animationButtonController);
 
     animationController.forward().orCancel;
+    animationButtonController.forward().orCancel;
   }
 
   @override
@@ -131,19 +139,26 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                   ),
                 ),
                 const Spacer(),
-                StaggerOpacity(
-                  opacity: animation.buttonOpacity,
-                  controller: animationController,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: bigSpacing),
-                      child: AnimatedFloatButtonWidget(
-                        isActive: viewController.isConfirmPinCodeValid,
-                        icon: IconsAsset.arrowIcon,
-                        onTap: () => goToNextPage(),
-                        onTapInative: () => showCustomDialog(
-                          context,
-                          textKey: 'recoverAccount.pleaseConfirmYourPinCode',
+                StaggerScale(
+                  controller: animationButtonController,
+                  width: animation.buttonWidth,
+                  height: animation.buttonHeight,
+                  child: StaggerOpacity(
+                    opacity: animation.buttonOpacity,
+                    controller: animationController,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: bigSpacing),
+                        child: AnimatedFloatButtonWidget(
+                          isActive: viewController.isConfirmPinCodeValid,
+                          isLargeButton: viewController.isConfirmPinCodeValid &&
+                              isLargeButton,
+                          icon: IconsAsset.arrowIcon,
+                          onTap: () => goToNextPage(),
+                          onTapInative: () => showCustomDialog(
+                            context,
+                            textKey: 'recoverAccount.pleaseConfirmYourPinCode',
+                          ),
                         ),
                       ),
                     ),
@@ -158,12 +173,16 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
   }
 
   void goToNextPage() async {
-    animationController.animateBack(0, duration: const Duration(seconds: 5));
-    Future.delayed(const Duration(seconds: 5)).then(
-      (_) {
-        Routes.instance.goToWelcomePageRoute();
-        animationController.forward();
-      },
-    );
+    isLargeButton = false;
+    setState(() {});
+    Future.delayed(const Duration(seconds: 1)).then((value) {
+      animationController.animateBack(0, duration: const Duration(seconds: 5));
+      Future.delayed(const Duration(seconds: 5)).then(
+        (_) {
+          Routes.instance.goToWelcomePageRoute();
+          animationController.forward();
+        },
+      );
+    });
   }
 }

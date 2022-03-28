@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RecoverPrivateKeyAnimation {
-  RecoverPrivateKeyAnimation(this.controller)
+  RecoverPrivateKeyAnimation(this.controller, this.buttonController)
       : firstTextOpacity = Tween<double>(
           begin: 0,
           end: 1,
@@ -46,7 +46,7 @@ class RecoverPrivateKeyAnimation {
           end: 1,
         ).animate(
           CurvedAnimation(
-            parent: controller,
+            parent: buttonController,
             curve: const Interval(
               0.85,
               0.95,
@@ -59,7 +59,7 @@ class RecoverPrivateKeyAnimation {
           end: 1,
         ).animate(
           CurvedAnimation(
-            parent: controller,
+            parent: buttonController,
             curve: const Interval(
               0.85,
               0.95,
@@ -75,4 +75,5 @@ class RecoverPrivateKeyAnimation {
   late Animation<double> buttonWidth;
   late Animation<double> buttonHeight;
   final AnimationController controller;
+  final AnimationController buttonController;
 }
