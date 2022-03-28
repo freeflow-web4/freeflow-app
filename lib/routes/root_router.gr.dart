@@ -63,10 +63,11 @@ class RootRouter extends _i8.RootStackRouter {
   List<_i8.RouteConfig> get routes => [
         _i8.RouteConfig(WelcomeRoute.name, path: '/welcome-page'),
         _i8.RouteConfig(SplashRoute.name, path: '/splash-page'),
-        _i8.RouteConfig(LoginRoute.name, path: '/login-page'),
+        _i8.RouteConfig(LoginRoute.name, path: '/'),
         _i8.RouteConfig(FreeflowLogoLoadingRoute.name,
             path: '/freeflow-logo-loading-page'),
-        _i8.RouteConfig(RecoverAccountRoute.name, path: '/'),
+        _i8.RouteConfig(RecoverAccountRoute.name,
+            path: '/recover-account-page'),
         _i8.RouteConfig(AuthRoute.name, path: '/auth-page'),
         _i8.RouteConfig(HomeRoute.name, path: '/home-page')
       ];
@@ -91,7 +92,7 @@ class SplashRoute extends _i8.PageRouteInfo<void> {
 /// generated route for
 /// [_i3.LoginPage]
 class LoginRoute extends _i8.PageRouteInfo<void> {
-  const LoginRoute() : super(LoginRoute.name, path: '/login-page');
+  const LoginRoute() : super(LoginRoute.name, path: '/');
 
   static const String name = 'LoginRoute';
 }
@@ -109,7 +110,8 @@ class FreeflowLogoLoadingRoute extends _i8.PageRouteInfo<void> {
 /// generated route for
 /// [_i5.RecoverAccountPage]
 class RecoverAccountRoute extends _i8.PageRouteInfo<void> {
-  const RecoverAccountRoute() : super(RecoverAccountRoute.name, path: '/');
+  const RecoverAccountRoute()
+      : super(RecoverAccountRoute.name, path: '/recover-account-page');
 
   static const String name = 'RecoverAccountRoute';
 }
