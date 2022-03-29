@@ -10,6 +10,14 @@ part of 'recover_pin_code_view_controller.dart';
 
 mixin _$RecoverPinCodeViewController
     on RecoverPinCodeViewControllerBase, Store {
+  Computed<bool>? _$isPinCodeValidComputed;
+
+  @override
+  bool get isPinCodeValid =>
+      (_$isPinCodeValidComputed ??= Computed<bool>(() => super.isPinCodeValid,
+              name: 'RecoverPinCodeViewControllerBase.isPinCodeValid'))
+          .value;
+
   final _$isPinValidAtom =
       Atom(name: 'RecoverPinCodeViewControllerBase.isPinValid');
 
@@ -58,18 +66,19 @@ mixin _$RecoverPinCodeViewController
     });
   }
 
-  final _$pinCodeAtom = Atom(name: 'RecoverPinCodeViewControllerBase.pinCode');
+  final _$currentPinCodeAtom =
+      Atom(name: 'RecoverPinCodeViewControllerBase.currentPinCode');
 
   @override
-  String get pinCode {
-    _$pinCodeAtom.reportRead();
-    return super.pinCode;
+  String get currentPinCode {
+    _$currentPinCodeAtom.reportRead();
+    return super.currentPinCode;
   }
 
   @override
-  set pinCode(String value) {
-    _$pinCodeAtom.reportWrite(value, super.pinCode, () {
-      super.pinCode = value;
+  set currentPinCode(String value) {
+    _$currentPinCodeAtom.reportWrite(value, super.currentPinCode, () {
+      super.currentPinCode = value;
     });
   }
 
@@ -106,12 +115,62 @@ mixin _$RecoverPinCodeViewController
     });
   }
 
+  final _$isBiometricAvailableAtom =
+      Atom(name: 'RecoverPinCodeViewControllerBase.isBiometricAvailable');
+
+  @override
+  bool get isBiometricAvailable {
+    _$isBiometricAvailableAtom.reportRead();
+    return super.isBiometricAvailable;
+  }
+
+  @override
+  set isBiometricAvailable(bool value) {
+    _$isBiometricAvailableAtom.reportWrite(value, super.isBiometricAvailable,
+        () {
+      super.isBiometricAvailable = value;
+    });
+  }
+
+  final _$pinCodeFieldStateAtom =
+      Atom(name: 'RecoverPinCodeViewControllerBase.pinCodeFieldState');
+
+  @override
+  PinCodeFieldState get pinCodeFieldState {
+    _$pinCodeFieldStateAtom.reportRead();
+    return super.pinCodeFieldState;
+  }
+
+  @override
+  set pinCodeFieldState(PinCodeFieldState value) {
+    _$pinCodeFieldStateAtom.reportWrite(value, super.pinCodeFieldState, () {
+      super.pinCodeFieldState = value;
+    });
+  }
+
   final _$setRememberMeAsyncAction =
       AsyncAction('RecoverPinCodeViewControllerBase.setRememberMe');
 
   @override
   Future<void> setRememberMe(bool value) {
     return _$setRememberMeAsyncAction.run(() => super.setRememberMe(value));
+  }
+
+  final _$onPinCodeChangedAsyncAction =
+      AsyncAction('RecoverPinCodeViewControllerBase.onPinCodeChanged');
+
+  @override
+  Future<void> onPinCodeChanged(String value) {
+    return _$onPinCodeChangedAsyncAction
+        .run(() => super.onPinCodeChanged(value));
+  }
+
+  final _$validatePinCodeAsyncAction =
+      AsyncAction('RecoverPinCodeViewControllerBase.validatePinCode');
+
+  @override
+  Future<void> validatePinCode(String value) {
+    return _$validatePinCodeAsyncAction.run(() => super.validatePinCode(value));
   }
 
   final _$biometricAuthAsyncAction =
@@ -131,8 +190,69 @@ mixin _$RecoverPinCodeViewController
         .run(() => super.canCheckBiometrics());
   }
 
+  final _$hasBiometricAvailableAsyncAction =
+      AsyncAction('RecoverPinCodeViewControllerBase.hasBiometricAvailable');
+
+  @override
+  Future<void> hasBiometricAvailable() {
+    return _$hasBiometricAvailableAsyncAction
+        .run(() => super.hasBiometricAvailable());
+  }
+
   final _$RecoverPinCodeViewControllerBaseActionController =
       ActionController(name: 'RecoverPinCodeViewControllerBase');
+
+  @override
+  void onValidatePinCodeSuccess(String value) {
+    final _$actionInfo =
+        _$RecoverPinCodeViewControllerBaseActionController.startAction(
+            name: 'RecoverPinCodeViewControllerBase.onValidatePinCodeSuccess');
+    try {
+      return super.onValidatePinCodeSuccess(value);
+    } finally {
+      _$RecoverPinCodeViewControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void onValidatePinCodeFailure() {
+    final _$actionInfo =
+        _$RecoverPinCodeViewControllerBaseActionController.startAction(
+            name: 'RecoverPinCodeViewControllerBase.onValidatePinCodeFailure');
+    try {
+      return super.onValidatePinCodeFailure();
+    } finally {
+      _$RecoverPinCodeViewControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void onValidatePinCodeEmpty() {
+    final _$actionInfo =
+        _$RecoverPinCodeViewControllerBaseActionController.startAction(
+            name: 'RecoverPinCodeViewControllerBase.onValidatePinCodeEmpty');
+    try {
+      return super.onValidatePinCodeEmpty();
+    } finally {
+      _$RecoverPinCodeViewControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updatePinCodeFieldState(PinCodeFieldState state) {
+    final _$actionInfo =
+        _$RecoverPinCodeViewControllerBaseActionController.startAction(
+            name: 'RecoverPinCodeViewControllerBase.updatePinCodeFieldState');
+    try {
+      return super.updatePinCodeFieldState(state);
+    } finally {
+      _$RecoverPinCodeViewControllerBaseActionController
+          .endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setObscuredPin() {
@@ -147,12 +267,11 @@ mixin _$RecoverPinCodeViewController
   }
 
   @override
-  void getTypePinCode(BuildContext context, String value,
-      void Function(BuildContext, String) onChangedField) {
+  void getTypePinCode(BuildContext context, String value) {
     final _$actionInfo = _$RecoverPinCodeViewControllerBaseActionController
         .startAction(name: 'RecoverPinCodeViewControllerBase.getTypePinCode');
     try {
-      return super.getTypePinCode(context, value, onChangedField);
+      return super.getTypePinCode(context, value);
     } finally {
       _$RecoverPinCodeViewControllerBaseActionController
           .endAction(_$actionInfo);
@@ -179,9 +298,12 @@ mixin _$RecoverPinCodeViewController
 isPinValid: ${isPinValid},
 isObscuredPin: ${isObscuredPin},
 rememberMe: ${rememberMe},
-pinCode: ${pinCode},
+currentPinCode: ${currentPinCode},
 hasAvailableBiometrics: ${hasAvailableBiometrics},
-confirmPinCode: ${confirmPinCode}
+confirmPinCode: ${confirmPinCode},
+isBiometricAvailable: ${isBiometricAvailable},
+pinCodeFieldState: ${pinCodeFieldState},
+isPinCodeValid: ${isPinCodeValid}
     ''';
   }
 }

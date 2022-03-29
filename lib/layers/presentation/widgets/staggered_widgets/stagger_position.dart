@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 class StaggerPosition extends StatelessWidget {
   final AnimationController controller;
   final Animation<double> horizontalOffset;
-  final Animation<double> opacity;
   final Widget child;
 
   const StaggerPosition({
     Key? key,
     required this.controller,
     required this.horizontalOffset,
-    required this.opacity,
     required this.child,
   }) : super(key: key);
 
@@ -24,14 +22,12 @@ class StaggerPosition extends StatelessWidget {
       animation: controller,
       child: child,
       builder: (context, child) {
-        return Opacity(
-          opacity: opacity.value,
-          child: Transform.translate(
-              offset: Offset(
-                horizontalOffset.value,
-                0,
-              ),
-              child: child),
+        return Transform.translate(
+          offset: Offset(
+            horizontalOffset.value,
+            0,
+          ),
+          child: child,
         );
       },
     );

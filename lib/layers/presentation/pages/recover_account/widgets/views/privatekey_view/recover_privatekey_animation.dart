@@ -1,17 +1,30 @@
-import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 
-class FullscreenAlertDialogAnimation {
-  FullscreenAlertDialogAnimation(this.controller)
-      : textOpacity = Tween<double>(
+class RecoverPrivateKeyAnimation {
+  RecoverPrivateKeyAnimation(this.controller, this.buttonController)
+      : firstTextOpacity = Tween<double>(
           begin: 0,
           end: 1,
         ).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.1,
-              0.4,
+              0.5,
+              0.62,
               curve: Curves.ease,
+            ),
+          ),
+        ),
+        textFieldHorizontalPosition = Tween<double>(
+          begin: 1000,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.62,
+              0.74,
+              curve: Curves.linear,
             ),
           ),
         ),
@@ -22,9 +35,9 @@ class FullscreenAlertDialogAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.4,
               0.7,
-              curve: Curves.ease,
+              0.85,
+              curve: Curves.linear,
             ),
           ),
         ),
@@ -33,15 +46,10 @@ class FullscreenAlertDialogAnimation {
           end: 1,
         ).animate(
           CurvedAnimation(
-            parent: controller,
+            parent: buttonController,
             curve: const Interval(
-              0.7,
-              0.9,
-              curve: Curves.linear,
-            ),
-            reverseCurve: const Interval(
-              0.7,
-              0.9,
+              0.85,
+              0.95,
               curve: Curves.linear,
             ),
           ),
@@ -51,22 +59,21 @@ class FullscreenAlertDialogAnimation {
           end: 1,
         ).animate(
           CurvedAnimation(
-            parent: controller,
+            parent: buttonController,
             curve: const Interval(
-              0.7,
-              0.9,
-              curve: Curves.linear,
-            ),
-            reverseCurve: const Interval(
-              0.7,
-              0.9,
+              0.85,
+              0.95,
               curve: Curves.linear,
             ),
           ),
         );
+
+  late Animation<double> dotsOpacity;
+  late Animation<double> firstTextOpacity;
+  late Animation<double> textFieldHorizontalPosition;
   late Animation<double> buttonOpacity;
-  late Animation<double> buttonHeight;
   late Animation<double> buttonWidth;
-  late Animation<double> textOpacity;
+  late Animation<double> buttonHeight;
   final AnimationController controller;
+  final AnimationController buttonController;
 }

@@ -13,8 +13,12 @@ class Routes {
     _routeService.pushReplacement(const RecoverAccountRoute());
   }
 
-  void goToRecoverAccountLoadingPageRoute() {
-    _routeService.pushReplacement(const RecoverAccountLoadingRoute());
+  void goToWelcomePageRoute() async {
+    _routeService.pushReplacement(const WelcomeRoute());
+  }
+
+  void goToFreeflowLogoLoadingRoute() {
+    _routeService.pushReplacement(const FreeflowLogoLoadingRoute());
   }
 
   void goToLoginPageRoute() {
