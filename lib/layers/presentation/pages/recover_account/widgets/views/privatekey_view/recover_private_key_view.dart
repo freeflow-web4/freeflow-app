@@ -18,6 +18,7 @@ import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
+import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../../../core/utils/assets_constants.dart';
@@ -181,7 +182,11 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                                   isLargeButton:
                                       viewController.isPrivateKeyValid &&
                                           isLargeButton,
-                                  onTapInative: () {},
+                                  onTapInative: () => showCustomDialog(
+                                    context,
+                                    textKey:
+                                        'recoverAccount.pleaseEnterYourPrivateKey',
+                                  ),
                                   onTap: () => goToNextPage(),
                                   icon: IconsAsset.arrowIcon,
                                 ),
