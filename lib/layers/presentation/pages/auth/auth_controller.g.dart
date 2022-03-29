@@ -35,13 +35,13 @@ mixin _$AuthController on AuthControllerBase, Store {
   final _$pinFieldStateAtom = Atom(name: 'AuthControllerBase.pinFieldState');
 
   @override
-  PinFieldState get pinFieldState {
+  GradientTextFieldState get pinFieldState {
     _$pinFieldStateAtom.reportRead();
     return super.pinFieldState;
   }
 
   @override
-  set pinFieldState(PinFieldState value) {
+  set pinFieldState(GradientTextFieldState value) {
     _$pinFieldStateAtom.reportWrite(value, super.pinFieldState, () {
       super.pinFieldState = value;
     });
@@ -99,7 +99,7 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
-  void updatePinFieldState(PinFieldState state) {
+  void updatePinFieldState(GradientTextFieldState state) {
     final _$actionInfo = _$AuthControllerBaseActionController.startAction(
         name: 'AuthControllerBase.updatePinFieldState');
     try {

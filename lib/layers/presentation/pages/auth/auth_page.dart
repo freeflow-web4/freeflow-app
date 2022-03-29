@@ -94,9 +94,9 @@ class _AuthPageState extends State<AuthPage>
                           pinCode: authController.currentPinCode,
                           onChanged: (_) {},
                           isFieldValid: authController.pinFieldState !=
-                              PinFieldState.invalid,
+                              GradientTextFieldState.invalid,
                           errorText: authController.pinFieldState !=
-                                  PinFieldState.wrong
+                                  GradientTextFieldState.wrong
                               ? null
                               : TranslationService.translate(
                                   context,
@@ -163,11 +163,11 @@ class _AuthPageState extends State<AuthPage>
     );
   }
 
-  Color obscureButtonColor(PinFieldState state) {
+  Color obscureButtonColor(GradientTextFieldState state) {
     late Color color;
-    if (state == PinFieldState.wrong) {
+    if (state == GradientTextFieldState.wrong) {
       color = StandardColors.error;
-    } else if (authController.pinFieldState == PinFieldState.valid) {
+    } else if (authController.pinFieldState == GradientTextFieldState.valid) {
       color = StandardColors.secondary;
     } else {
       color = StandardColors.white;

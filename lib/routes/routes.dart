@@ -33,6 +33,10 @@ class Routes {
     _routeService.pushReplacement(const HomeRoute());
   }
 
+  void goToWalletPageRoute() {
+    _routeService.pushReplacement(const CreateWalletRoute());
+  }
+
   void pop() {
     _routeService.pop();
   }

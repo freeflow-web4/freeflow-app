@@ -175,8 +175,11 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                                   isLargeButton:
                                       viewController.isPrivateKeyValid &&
                                           isLargeButton,
-                                  onTapInative: () {},
-                                  onTap: () => goToNextPage(),
+                                  onTap: (activate) {
+                                    if (activate) {
+                                      goToNextPage();
+                                    }
+                                  },
                                   icon: IconsAsset.arrowIcon,
                                 ),
                               ),

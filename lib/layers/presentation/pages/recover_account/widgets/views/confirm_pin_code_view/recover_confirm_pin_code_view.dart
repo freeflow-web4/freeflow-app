@@ -154,11 +154,17 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                           isLargeButton: viewController.isConfirmPinCodeValid &&
                               isLargeButton,
                           icon: IconsAsset.arrowIcon,
-                          onTap: () => goToNextPage(),
-                          onTapInative: () => showCustomDialog(
-                            context,
-                            textKey: 'recoverAccount.pleaseConfirmYourPinCode',
-                          ),
+                          onTap: (activate) {
+                            if (activate) {
+                              goToNextPage();
+                            } else {
+                              showCustomDialog(
+                                context,
+                                textKey:
+                                    'recoverAccount.pleaseConfirmYourPinCode',
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),

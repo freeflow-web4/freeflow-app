@@ -42,5 +42,8 @@
     "welcome": {
         "welcomeBack": "Welcome Back",
         "toFreeflow": "To your\n FreeFlow Pouch"
+    },
+    "createWallet": {
+        "nameTitle1": "Let's gather\nsome info\nto setup your\nFreeFlow Pouch."
     }
 }

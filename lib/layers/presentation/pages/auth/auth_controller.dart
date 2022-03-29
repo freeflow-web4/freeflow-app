@@ -1,10 +1,9 @@
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/login.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:mobx/mobx.dart';
 part 'auth_controller.g.dart';
-
-enum PinFieldState { empty, valid, invalid, wrong }
 
 class AuthController = AuthControllerBase with _$AuthController;
 
@@ -17,10 +16,10 @@ abstract class AuthControllerBase with Store, Login {
   String currentPinCode = "";
 
   @observable
-  PinFieldState pinFieldState = PinFieldState.empty;
+  GradientTextFieldState pinFieldState = GradientTextFieldState.empty;
 
   @computed
-  bool get isPinValid => pinFieldState == PinFieldState.valid;
+  bool get isPinValid => pinFieldState == GradientTextFieldState.valid;
 
   @observable
   bool isPinObscure = true;
@@ -40,8 +39,8 @@ abstract class AuthControllerBase with Store, Login {
       pinValidator,
       currentPin,
       () => onLoginSuccess(loginAnimationCallBack),
-      () => updatePinFieldState(PinFieldState.wrong),
-      () => updatePinFieldState(PinFieldState.invalid),
+      () => updatePinFieldState(GradientTextFieldState.wrong),
+      () => updatePinFieldState(GradientTextFieldState.invalid),
     );
   }
 
@@ -53,9 +52,9 @@ abstract class AuthControllerBase with Store, Login {
   void onPinChanged(String value) {
     final isPinValid = pinValidator(value);
     if (isPinValid) {
-      pinFieldState = PinFieldState.valid;
+      pinFieldState = GradientTextFieldState.valid;
     } else {
-      pinFieldState = PinFieldState.invalid;
+      pinFieldState = GradientTextFieldState.invalid;
     }
   }
 
@@ -86,7 +85,7 @@ abstract class AuthControllerBase with Store, Login {
   }
 
   @action
-  void updatePinFieldState(PinFieldState state) {
+  void updatePinFieldState(GradientTextFieldState state) {
     pinFieldState = state;
   }
 }

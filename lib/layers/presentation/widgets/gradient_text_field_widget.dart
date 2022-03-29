@@ -6,6 +6,8 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_pin_code.dart';
 
+enum GradientTextFieldState { empty, valid, invalid, wrong }
+
 class GradientTextFieldWidget extends StatefulWidget {
   final String? errorText;
   final String hintText;
