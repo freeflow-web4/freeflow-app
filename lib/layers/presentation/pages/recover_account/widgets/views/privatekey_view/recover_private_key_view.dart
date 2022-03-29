@@ -46,6 +46,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
   final viewController = GetIt.I.get<RecoverPrivateKeyController>();
   final usernameController = GetIt.I.get<RecoverUsernameController>();
   bool isLargeButton = true;
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -69,6 +70,11 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
       inputNode: inputNode,
       duration: 5,
     );
+
+    Future.delayed(const Duration(seconds: 1), () {
+      currentIndex = 1;
+      setState(() {});
+    });
   }
 
   @override
@@ -149,8 +155,8 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const AnimatedDotIndicatorWidget(
-                            currentIndex: 1,
+                          AnimatedDotIndicatorWidget(
+                            currentIndex: currentIndex,
                             length: 3,
                             totalAnimationStartUpDuration: Duration(seconds: 4),
                             animatedOnStart: false,
@@ -200,7 +206,11 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
     setState(() {});
     Future.delayed(const Duration(seconds: 1)).then((value) {
       animationController.animateBack(0, duration: const Duration(seconds: 5));
-      Future.delayed(const Duration(seconds: 5)).then(
+      Future.delayed(const Duration(seconds: 5), () {
+        currentIndex = 2;
+        setState(() {});
+      });
+      Future.delayed(const Duration(milliseconds: 6300)).then(
         (_) {
           widget.recoverAccountController.setCurrentPage(2);
           animationController.forward();
