@@ -19,7 +19,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
     animationController.forward();
     animationController.repeat();
@@ -42,7 +42,11 @@ class _LoadingWidgetState extends State<LoadingWidget>
       visible: widget.isLoading,
       child: RotationTransition(
         turns: Tween(begin: 0.0, end: 1.0).animate(animationController),
-        child: SvgPicture.asset(IconsAsset.loading),
+        child: SvgPicture.asset(
+          IconsAsset.loading,
+          height: 48,
+          width: 48,
+        ),
       ),
     );
   }
