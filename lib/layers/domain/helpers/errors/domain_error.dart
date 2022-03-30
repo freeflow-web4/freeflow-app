@@ -58,6 +58,8 @@ DomainError convertToDomainError(String error) {
       return DomainError.cacheError;
     case 'Exception: Connecting timed out [30000ms]':
       return DomainError.noInternet;
+    case "Exception: SocketException: Failed host lookup: 'develop-api.freeflow.devmagic.com.br' (OS Error: No address associated with hostname, errno = 7)":
+      return DomainError.noInternet;
     default:
       return DomainError.somethingWrong;
   }
