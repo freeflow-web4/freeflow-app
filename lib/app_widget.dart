@@ -23,15 +23,19 @@ class MyApp extends StatelessWidget {
       title: 'FreeFlow',
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
-      builder: (context, widget) => ResponsiveWrapper.builder(
-        BouncingScrollWrapper.builder(context, widget!),
-        minWidth: 480,
-        breakpoints: [
-          const ResponsiveBreakpoint.resize(480, name: MOBILE),
-          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-          const ResponsiveBreakpoint.autoScale(1000, name: DESKTOP),
-        ],
-      ),
+      builder: (context, widget) {
+        final double screenHeight = MediaQuery.of(context).size.height;
+        return ResponsiveWrapper.builder(
+          BouncingScrollWrapper.builder(context, widget!),
+          minWidth: 480,
+          defaultScale: screenHeight < 800,
+          breakpoints: [
+            const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+            const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            const ResponsiveBreakpoint.autoScale(1000, name: DESKTOP),
+          ],
+        );
+      },
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

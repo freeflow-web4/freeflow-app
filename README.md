@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+# Architecture map and documentation
+* https://www.figma.com/file/GAmXSpLAXvjd3zlxZQ3Gv7/FreeFlow-Arquitetura?node-id=0%3A1
+* https://devmagic.atlassian.net/wiki/spaces/DEV/pages/2417754113/Arquitetura+Freeflow
 # Current jira tasks
 Login page:
 * https://devmagic.atlassian.net/browse/FREEF-12
