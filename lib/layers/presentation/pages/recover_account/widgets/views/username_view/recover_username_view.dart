@@ -235,7 +235,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
     setState(() {});
     Future.delayed(const Duration(seconds: 1)).then((value) {
       animationController.animateBack(0, duration: const Duration(seconds: 5));
-      Future.delayed(const Duration(seconds: 5)).then(
+      Future.delayed(const Duration(seconds: 4)).then(
         (_) {
           widget.recoverAccountController.setCurrentPage(1);
           animationController.forward();
