@@ -34,15 +34,27 @@ abstract class RecoverAccountControllerBase with Store {
   @observable
   int currentPage = 0;
 
+  @observable
+  bool isBacking = false;
+
   @action
-  setCurrentPage(int value) => currentPage = value;
+  setCurrentPage(int value) {
+    if (currentPage > value) {
+      isBacking = true;
+      currentPage = value;
+    } else {
+      isBacking = false;
+      currentPage = value;
+    }
+  }
 
   @action
   Future<void> backPage() async {
     if (currentPage == 0) {
+      Routes.instance.goToHomePageRoute();
       return;
     } else {
-      currentPage -= currentPage;
+      currentPage = currentPage - 1;
     }
   }
 
