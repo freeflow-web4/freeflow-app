@@ -36,19 +36,12 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 position = height;
               }
               wasOpenMenu = true;
-              // if(position > height/2){
-              //   position = height;
-              // }
             }else{
               position = position - 30;
               if(position < 0 ){
                 position = 0;
               }
               wasOpenMenu = false;
-
-              // if(position < height/2){
-              //   position = 0;
-              // }
             }
           });
         },
@@ -142,8 +135,6 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
               child: SvgPicture.asset(
                 IconsAsset.menu,
                 width: 21,
-                //color: StandardColors.white,
-                //size: 27,
               ),
             ),
           ),
