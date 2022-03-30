@@ -59,10 +59,13 @@ abstract class RecoverAccountControllerBase with Store {
   }
 
   void openKeyboard(context, {required FocusNode inputNode, int? duration}) {
-    Timer.periodic(Duration(seconds: duration ?? 10), (timer) {
-      FocusManager.instance.primaryFocus?.unfocus();
-      FocusScope.of(context).requestFocus(inputNode);
-      timer.cancel();
-    });
+    if (currentPage == 2 || currentPage == 3) {
+      return;
+    } else {
+      Future.delayed(Duration(seconds: duration ?? 10)).then((value) {
+        FocusManager.instance.primaryFocus?.unfocus();
+        FocusScope.of(context).requestFocus(inputNode);
+      });
+    }
   }
 }

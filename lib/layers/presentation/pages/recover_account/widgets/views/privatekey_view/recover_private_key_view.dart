@@ -161,9 +161,11 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AnimatedDotIndicatorWidget(
-                            currentIndex: currentIndex,
+                            currentIndex:
+                                widget.isBackingPage ? 1 : currentIndex,
                             length: 3,
-                            totalAnimationStartUpDuration: Duration(seconds: 4),
+                            totalAnimationStartUpDuration:
+                                const Duration(seconds: 4),
                             animatedOnStart: false,
                           ),
                           Observer(
