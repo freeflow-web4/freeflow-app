@@ -26,11 +26,13 @@ import '../../../../../../../core/utils/assets_constants.dart';
 class RecoverPrivateKeyView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
+  final bool isBackingPage;
 
   const RecoverPrivateKeyView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
+    required this.isBackingPage,
   }) : super(key: key);
 
   @override
@@ -53,16 +55,18 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
   void initState() {
     super.initState();
     animationController = AnimationController(
-      duration: const Duration(seconds: 7),
+      duration: Duration(seconds: widget.isBackingPage ? 0 : 7),
       vsync: this,
     );
     animationButtonController = AnimationController(
-      duration: const Duration(seconds: 7),
+      duration: Duration(seconds: widget.isBackingPage ? 0 : 7),
       vsync: this,
     );
 
     animation = RecoverPrivateKeyAnimation(
-        animationController, animationButtonController);
+      animationController,
+      animationButtonController,
+    );
     animationController.forward().orCancel;
     animationButtonController.forward().orCancel;
 
@@ -157,9 +161,11 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AnimatedDotIndicatorWidget(
-                            currentIndex: currentIndex,
+                            currentIndex:
+                                widget.isBackingPage ? 1 : currentIndex,
                             length: 3,
-                            totalAnimationStartUpDuration: Duration(seconds: 4),
+                            totalAnimationStartUpDuration:
+                                const Duration(seconds: 4),
                             animatedOnStart: false,
                           ),
                           Observer(

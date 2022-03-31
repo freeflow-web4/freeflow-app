@@ -25,6 +25,21 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
     });
   }
 
+  final _$isBackingAtom = Atom(name: 'RecoverAccountControllerBase.isBacking');
+
+  @override
+  bool get isBacking {
+    _$isBackingAtom.reportRead();
+    return super.isBacking;
+  }
+
+  @override
+  set isBacking(bool value) {
+    _$isBackingAtom.reportWrite(value, super.isBacking, () {
+      super.isBacking = value;
+    });
+  }
+
   final _$backPageAsyncAction =
       AsyncAction('RecoverAccountControllerBase.backPage');
 
@@ -50,7 +65,8 @@ mixin _$RecoverAccountController on RecoverAccountControllerBase, Store {
   @override
   String toString() {
     return '''
-currentPage: ${currentPage}
+currentPage: ${currentPage},
+isBacking: ${isBacking}
     ''';
   }
 }

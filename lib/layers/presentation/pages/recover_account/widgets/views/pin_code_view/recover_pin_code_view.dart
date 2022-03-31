@@ -16,19 +16,19 @@ import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
-import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_position.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:get_it/get_it.dart';
 
 class RecoverPinCodeView extends StatefulWidget {
   final RecoverAccountController recoverAccountController;
   final TextEditingController textEditingController;
+  final bool isBackingPage;
 
   const RecoverPinCodeView({
     Key? key,
     required this.recoverAccountController,
     required this.textEditingController,
+    required this.isBackingPage,
   }) : super(key: key);
 
   @override
@@ -40,7 +40,6 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
   late RecoverPinCodeAnimation animation;
   late final AnimationController animationController;
   late final AnimationController animationButtonController;
-  final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverPinCodeViewController>();
   bool biometricValue = false;
   bool isLargeButton = true;
@@ -49,11 +48,11 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
   void initState() {
     super.initState();
     animationController = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: Duration(seconds: widget.isBackingPage ? 0 : 10),
       vsync: this,
     );
     animationButtonController = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: Duration(seconds: widget.isBackingPage ? 0 : 10),
       vsync: this,
     );
     animation =
@@ -103,7 +102,6 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                   child: Observer(
                     builder: (context) {
                       return GradientTextFieldWidget(
-                        inputNode: inputNode,
                         showObscureButton: true,
                         isPinInput: true,
                         isFieldValid: viewController.isPinCodeValid,
@@ -120,7 +118,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                                 PinCodeFieldState.invalid
                             ? FlutterI18n.translate(
                                 context,
-                                "recoverAccount.pleaseEnterPinCode",
+                                "recoverAccount.pleaseEnterSamePinCode",
                               )
                             : null,
                         textController: widget.textEditingController,
