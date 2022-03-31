@@ -23,19 +23,17 @@ class IconMenu extends StatelessWidget {
         Material(
           color: Colors.transparent,
           borderRadius: const BorderRadius.all(Radius.circular(100)),
-          child: Ink(
-            child: InkWell(
-              borderRadius: const BorderRadius.all(Radius.circular(100)),
-              onTap: (){
-                onPress.call();
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: iconPadding,horizontal: iconPadding),
-                child: Image.asset(
-                  urlIcon,
-                  height: iconSize,
-                  width: iconSize,
-                ),
+          child: InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+            onTap: (){
+              onPress.call();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: iconPadding,horizontal: iconPadding),
+              child: Image.asset(
+                urlIcon,
+                height: iconSize,
+                width: iconSize,
               ),
             ),
           ),
