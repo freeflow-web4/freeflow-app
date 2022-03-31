@@ -90,7 +90,6 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                     ),
                     initialValue: widget.pinCode,
                     onChanged: widget.onChanged,
-                    controller: widget.textController,
                     readOnly: widget.fieldReadOnly,
                     focusNode: widget.inputNode,
                     style: TextStyle(

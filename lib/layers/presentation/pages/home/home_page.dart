@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -34,11 +37,12 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    return BlackScaffold(
-      child: Center(
+    return ScaffoldFreeFlow(
+      body: Container(
+        margin: EdgeInsets.only(top: Platform.isAndroid ? 57 : 72),
         child: AnimatedText(
           text: 'Home Page',
-          style: textH4TextStyle.copyWith(color: StandardColors.white),
+          style: textH4TextStyle.copyWith(color: StandardColors.backgroundDark),
           animation: textOpacity,
           animationController: animatedController,
           textMainAxisAlignment: MainAxisAlignment.center,
