@@ -3,14 +3,14 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 
 class IconMenu extends StatelessWidget {
   final String urlIcon;
-  final Function onPress;
+  final Function onTap;
   final double iconPadding;
   final double iconSize;
   late bool hasBottomDivisor;
 
    IconMenu({Key? key,
     required this.urlIcon,
-    required this.onPress,
+    required this.onTap,
     this.hasBottomDivisor = true,
     required this.iconPadding,
     required this.iconSize,}) : super(key: key);
@@ -25,9 +25,7 @@ class IconMenu extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(100)),
           child: InkWell(
             borderRadius: const BorderRadius.all(Radius.circular(100)),
-            onTap: (){
-              onPress.call();
-            },
+            onTap: onTap.call(),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: iconPadding,horizontal: iconPadding),
               child: Image.asset(

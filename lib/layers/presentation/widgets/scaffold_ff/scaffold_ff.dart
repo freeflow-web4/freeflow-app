@@ -193,7 +193,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.user,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -201,7 +201,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.money,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -209,7 +209,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.chat,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -217,7 +217,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.star,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -225,7 +225,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.cloud,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -233,7 +233,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.home,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -241,7 +241,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.tools,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -249,7 +249,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.shoppingCar,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -257,7 +257,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon : IconsAsset.example,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
@@ -266,7 +266,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 iconPadding: iconPadding,
                 hasBottomDivisor: false,
                 iconSize: iconSize,
-                onPress:(){
+                onTap:(){
                   //TODO ADD ACTION
                 },
               ),
