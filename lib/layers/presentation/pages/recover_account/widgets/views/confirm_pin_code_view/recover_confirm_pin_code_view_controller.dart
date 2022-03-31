@@ -63,7 +63,7 @@ abstract class RecoverConfirmPinCodeViewControllerBase with Store {
       updateConfirmPinCodeFieldState(ConfirmPinCodeFieldState.empty);
     } else {
       if (value == pinCode) {
-        updateConfirmPinCodeFieldState(ConfirmPinCodeFieldState.valid);
+        onValidatePinCodeSuccess(value);
       } else {
         updateConfirmPinCodeFieldState(ConfirmPinCodeFieldState.invalid);
       }
@@ -76,6 +76,7 @@ abstract class RecoverConfirmPinCodeViewControllerBase with Store {
   void onValidatePinCodeSuccess(String value) {
     updateConfirmPinCodeFieldState(ConfirmPinCodeFieldState.valid);
     currentConfirmPinCode = value;
+    savePinCode();
   }
 
   @action

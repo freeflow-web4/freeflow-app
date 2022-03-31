@@ -50,7 +50,7 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        recoverAccountController.backPage();
+        await recoverAccountController.backPage();
         return false;
       },
       child: GestureDetector(
@@ -74,10 +74,12 @@ class _RecoverAccountPageState extends State<RecoverAccountPage>
                     RecoverPrivateKeyView(
                       textEditingController: privateKeyController,
                       recoverAccountController: recoverAccountController,
+                      isBackingPage: recoverAccountController.isBacking,
                     ),
                     RecoverPinCodeView(
                       textEditingController: pinController,
                       recoverAccountController: recoverAccountController,
+                      isBackingPage: recoverAccountController.isBacking,
                     ),
                     RecoverConfirmPinCodeView(
                       textEditingController: confirmPinController,

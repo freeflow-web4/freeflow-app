@@ -86,6 +86,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/icons/
+    - assets/images/icons/menu/
     - assets/videos/
     - assets/images/icons/loading_freeflow_logos/
     - .env

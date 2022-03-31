@@ -38,7 +38,6 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
   late RecoverConfirmPinCodeAnimation animation;
   late AnimationController animationController;
   late AnimationController animationButtonController;
-  final FocusNode inputNode = FocusNode();
   final viewController = GetIt.I.get<RecoverConfirmPinCodeViewController>();
   final pinCodeViewController = GetIt.I.get<RecoverPinCodeViewController>();
   bool isLargeButton = true;
@@ -98,7 +97,6 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                   child: Observer(
                     builder: (context) {
                       return GradientTextFieldWidget(
-                        inputNode: inputNode,
                         showObscureButton: true,
                         isPinInput: true,
                         isFieldValid: viewController.isConfirmPinCodeValid,
