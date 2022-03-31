@@ -18,10 +18,6 @@ class IconMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return itemMenu();
-  }
-
-  Widget itemMenu(){
     return Column(
       children: [
         Material(
@@ -54,4 +50,5 @@ class IconMenu extends StatelessWidget {
       ],
     );
   }
+
 }
