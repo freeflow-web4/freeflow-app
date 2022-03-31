@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/layers/presentation/widgets/scaffold_ff/icon_menu.dart';
 
 class ScaffoldFreeFlow extends StatefulWidget {
   final Widget body;
@@ -72,35 +73,37 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
             width: MediaQuery.of(context).size.width,
             child: Stack(
               children: [
-                appBar(),
+
 
                 Container(
-                  margin: EdgeInsets.only(top: Platform.isAndroid ? 57 : 79),
                   child: widget.body,
                 ),
+
+                appBar(),
+
                 if(position != 0)...[
-                  AnimatedOpacity(
-                    opacity: (position/height),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
-                      child: Container(
-                        height: height,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              position < 0.8*height ?
-                              StandardColors.white.withOpacity(0.8) :
-                              StandardColors.white.withOpacity(0.8),
-                              position < 0.8*height ?
-                              StandardColors.white.withOpacity(0.2) :
-                              StandardColors.white.withOpacity(0.8)],),),
-                        child: appBarOpened(),
+                  Positioned.fill(
+                    child: AnimatedOpacity(
+                      opacity: (position/height),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                position < 0.8 * height ?
+                                StandardColors.white.withOpacity(0.8) :
+                                StandardColors.white.withOpacity(0.8),
+                                position < 0.8 * height ?
+                                StandardColors.white.withOpacity(0.2) :
+                                StandardColors.white.withOpacity(0.8)],),),
+                          child: appBarOpened(),
+                        ),
                       ),
-                    ),
-                    duration: const Duration(milliseconds: 100),),
+                      duration: const Duration(milliseconds: 100),),
+                  ),
                 ]
               ],
             ),
@@ -116,7 +119,6 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
       child: Column(
         children: [
           Container(
-
             alignment: Alignment.bottomCenter,
             height: Platform.isAndroid ? 50 : 72,
             width: 64,
@@ -130,11 +132,13 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 ],
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: SvgPicture.asset(
-                IconsAsset.menu,
-                width: 21,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: SvgPicture.asset(
+                  IconsAsset.menu,
+                  width: 21,
+                ),
               ),
             ),
           ),
@@ -185,36 +189,87 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
               SizedBox(
                 height: Platform.isAndroid ? 12 : 40,
               ),
-              itemMenu(IconsAsset.user, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.money, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.chat, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.star, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.cloud, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.home, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.tools, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.shoppingCar, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.example, (){
-                //TODO ADD ACTION
-              }),
-              itemMenu(IconsAsset.example, (){
-                //TODO ADD ACTION
-              }, hasBottomDivisor: false)
+              IconMenu(
+                urlIcon : IconsAsset.user,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.money,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.chat,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.star,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.cloud,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.home,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.tools,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.shoppingCar,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.example,
+                iconPadding: iconPadding,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
+              IconMenu(
+                urlIcon : IconsAsset.example,
+                iconPadding: iconPadding,
+                hasBottomDivisor: false,
+                iconSize: iconSize,
+                onPress:(){
+                  //TODO ADD ACTION
+                },
+              ),
             ],
           ),
         ),
@@ -234,40 +289,6 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
           width: 64,
           color: const Color(0XFF6DAD5F),
         ),
-      ],
-    );
-  }
-
-  Widget itemMenu(urlIcon,Function onPress, {bool hasBottomDivisor = true}){
-    return Column(
-      children: [
-        Material(
-          color: Colors.transparent,
-          borderRadius: const BorderRadius.all(Radius.circular(100)),
-          child: Ink(
-            child: InkWell(
-              borderRadius: const BorderRadius.all(Radius.circular(100)),
-              onTap: (){
-                onPress.call();
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: iconPadding,horizontal: iconPadding),
-                child: Image.asset(
-                  urlIcon,
-                  height: iconSize,
-                  width: iconSize,
-                ),
-              ),
-            ),
-          ),
-        ),
-        if(hasBottomDivisor)...[
-          Container(
-            height: 2,
-            width: 48,
-            color: StandardColors.white,
-          )
-        ]
       ],
     );
   }
