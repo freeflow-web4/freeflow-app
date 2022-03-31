@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/welcome/welcome_page_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
+import 'package:freeflow/routes/routes.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -34,8 +35,18 @@ class _WelcomePageState extends State<WelcomePage>
     super.dispose();
   }
 
+  void goToInitialPage() {
+    Future.delayed(const Duration(seconds: 6)).then((value) {
+      animationController.reverse();
+      Future.delayed(const Duration(seconds: 5)).then((value) {
+        Routes.instance.goToLoginPageRoute();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    goToInitialPage();
     return Scaffold(
       backgroundColor: StandardColors.white,
       body: Center(
