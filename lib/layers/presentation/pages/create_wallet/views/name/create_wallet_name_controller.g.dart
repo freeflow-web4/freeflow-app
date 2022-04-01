@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'create_wallet_controller.dart';
+part of 'create_wallet_name_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,7 +8,7 @@ part of 'create_wallet_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$CreateWalletController on _CreateWalletControllerBase, Store {
+mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
   Computed<bool>? _$buttonNextActivatedComputed;
 
   @override
@@ -24,20 +24,34 @@ mixin _$CreateWalletController on _CreateWalletControllerBase, Store {
               name: '_CreateWalletControllerBase.isGradientTextFieldValid'))
       .value;
 
-  final _$gradientTextFieldStateAtom =
-      Atom(name: '_CreateWalletControllerBase.gradientTextFieldState');
+  final _$nameFieldStateAtom =
+      Atom(name: '_CreateWalletControllerBase.nameFieldState');
 
   @override
-  GradientTextFieldState get gradientTextFieldState {
-    _$gradientTextFieldStateAtom.reportRead();
-    return super.gradientTextFieldState;
+  GradientTextFieldState get nameFieldState {
+    _$nameFieldStateAtom.reportRead();
+    return super.nameFieldState;
   }
 
   @override
-  set gradientTextFieldState(GradientTextFieldState value) {
-    _$gradientTextFieldStateAtom
-        .reportWrite(value, super.gradientTextFieldState, () {
-      super.gradientTextFieldState = value;
+  set nameFieldState(GradientTextFieldState value) {
+    _$nameFieldStateAtom.reportWrite(value, super.nameFieldState, () {
+      super.nameFieldState = value;
+    });
+  }
+
+  final _$formValidAtom = Atom(name: '_CreateWalletControllerBase.formValid');
+
+  @override
+  bool get formValid {
+    _$formValidAtom.reportRead();
+    return super.formValid;
+  }
+
+  @override
+  set formValid(bool value) {
+    _$formValidAtom.reportWrite(value, super.formValid, () {
+      super.formValid = value;
     });
   }
 
@@ -45,11 +59,22 @@ mixin _$CreateWalletController on _CreateWalletControllerBase, Store {
       ActionController(name: '_CreateWalletControllerBase');
 
   @override
-  void onEmailChanged(String value) {
+  void onNameChanged(String value) {
     final _$actionInfo = _$_CreateWalletControllerBaseActionController
-        .startAction(name: '_CreateWalletControllerBase.onEmailChanged');
+        .startAction(name: '_CreateWalletControllerBase.onNameChanged');
     try {
-      return super.onEmailChanged(value);
+      return super.onNameChanged(value);
+    } finally {
+      _$_CreateWalletControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void onNextButtonPressed(void Function() onValid, void Function() onInvalid) {
+    final _$actionInfo = _$_CreateWalletControllerBaseActionController
+        .startAction(name: '_CreateWalletControllerBase.onNextButtonPressed');
+    try {
+      return super.onNextButtonPressed(onValid, onInvalid);
     } finally {
       _$_CreateWalletControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -58,7 +83,8 @@ mixin _$CreateWalletController on _CreateWalletControllerBase, Store {
   @override
   String toString() {
     return '''
-gradientTextFieldState: ${gradientTextFieldState},
+nameFieldState: ${nameFieldState},
+formValid: ${formValid},
 buttonNextActivated: ${buttonNextActivated},
 isGradientTextFieldValid: ${isGradientTextFieldValid}
     ''';

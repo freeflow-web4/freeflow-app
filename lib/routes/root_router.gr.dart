@@ -68,7 +68,7 @@ class RootRouter extends _i9.RootStackRouter {
   @override
   List<_i9.RouteConfig> get routes => [
         _i9.RouteConfig(WelcomeRoute.name, path: '/welcome-page'),
-        _i9.RouteConfig(SplashRoute.name, path: '/'),
+        _i9.RouteConfig(SplashRoute.name, path: '/splash-page'),
         _i9.RouteConfig(LoginRoute.name, path: '/login-page'),
         _i9.RouteConfig(FreeflowLogoLoadingRoute.name,
             path: '/freeflow-logo-loading-page'),
@@ -76,7 +76,7 @@ class RootRouter extends _i9.RootStackRouter {
             path: '/recover-account-page'),
         _i9.RouteConfig(AuthRoute.name, path: '/auth-page'),
         _i9.RouteConfig(HomeRoute.name, path: '/home-page'),
-        _i9.RouteConfig(CreateWalletRoute.name, path: '/create-wallet-page')
+        _i9.RouteConfig(CreateWalletRoute.name, path: '/')
       ];
 }
 
@@ -91,7 +91,7 @@ class WelcomeRoute extends _i9.PageRouteInfo<void> {
 /// generated route for
 /// [_i2.SplashPage]
 class SplashRoute extends _i9.PageRouteInfo<void> {
-  const SplashRoute() : super(SplashRoute.name, path: '/');
+  const SplashRoute() : super(SplashRoute.name, path: '/splash-page');
 
   static const String name = 'SplashRoute';
 }
@@ -142,8 +142,7 @@ class HomeRoute extends _i9.PageRouteInfo<void> {
 /// generated route for
 /// [_i8.CreateWalletPage]
 class CreateWalletRoute extends _i9.PageRouteInfo<void> {
-  const CreateWalletRoute()
-      : super(CreateWalletRoute.name, path: '/create-wallet-page');
+  const CreateWalletRoute() : super(CreateWalletRoute.name, path: '/');
 
   static const String name = 'CreateWalletRoute';
 }

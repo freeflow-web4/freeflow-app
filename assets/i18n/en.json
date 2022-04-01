@@ -44,6 +44,17 @@
         "toFreeflow": "To your\n FreeFlow Pouch"
     },
     "createWallet": {
-        "nameTitle1": "Let's gather\nsome info\nto setup your\nFreeFlow Pouch."
+        "nameTitle1": "Let's gather\nsome info\nto setup your\nFreeFlow Pouch.",
+        "nameTextFieldHint": "How you wanna be called ?",
+        "nameTextFieldError": "Please enter a valid name",
+        "emailTitle1": "Flo\nwhat's your\nemail ?",
+        "emailTextFieldHint": "Email",
+        "emailTextFieldError": "Please enter a valid email",
+        "flowerNameTitle1": "Flo,\n\nChosse a\nFlower Name for\nyour FreeFlow Pouch.",
+        "flowerNameTextFieldHint": "Flower Name",
+        "flowerNameTextFieldError": "Username is not valid",
+        "privateKeyTitle1": "Now please tell us\n\nyour private key.",
+        "privateKeyTextFieldHint": "",
+        "privateKeyTextFieldError": "Please enter your private key"
     }
 }

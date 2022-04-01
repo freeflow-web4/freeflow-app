@@ -147,15 +147,12 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
               Positioned(
                 right: 0,
                 top: 13,
-                child: Visibility(
-                  visible: widget.showSecondText,
-                  child: widget.sufixWidget!(
-                    widget.errorText == null
-                        ? widget.isFieldValid
-                            ? StandardColors.blueLight
-                            : Colors.white
-                        : StandardColors.feedbackError,
-                  ),
+                child: widget.sufixWidget!(
+                  widget.errorText == null
+                      ? widget.isFieldValid
+                          ? StandardColors.blueLight
+                          : Colors.white
+                      : StandardColors.feedbackError,
                 ),
               )
           ],

@@ -12,13 +12,13 @@ import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(page: WelcomePage),
-    AutoRoute(page: SplashPage, initial:  true),
+    AutoRoute(page: SplashPage),
     AutoRoute(page: LoginPage),
     AutoRoute(page: FreeflowLogoLoadingPage),
     AutoRoute(page: RecoverAccountPage),
     AutoRoute(page: AuthPage),
     AutoRoute(page: HomePage),
-    AutoRoute(page: CreateWalletPage),
+    AutoRoute(page: CreateWalletPage, initial:  true),
   ],
 )
 // extend the generated private router
