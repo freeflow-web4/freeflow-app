@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/wallet_page.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,16 +35,19 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    return BlackScaffold(
-      child: Center(
-        child: AnimatedText(
-          text: 'Home Page',
-          style: textH4TextStyle.copyWith(color: StandardColors.white),
-          animation: textOpacity,
-          animationController: animatedController,
-          textMainAxisAlignment: MainAxisAlignment.center,
-        ),
-      ),
+    return Scaffold(
+      body: SafeArea(child: WalletPage()),
     );
+    // return BlackScaffold(
+    //   child: Center(
+    //     child: AnimatedText(
+    //       text: 'Home Page',
+    //       style: textH4TextStyle.copyWith(color: StandardColors.white),
+    //       animation: textOpacity,
+    //       animationController: animatedController,
+    //       textMainAxisAlignment: MainAxisAlignment.center,
+    //     ),
+    //   ),
+    // );
   }
 }

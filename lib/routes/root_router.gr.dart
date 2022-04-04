@@ -56,21 +56,21 @@ class RootRouter extends _i7.RootStackRouter {
 
   @override
   List<_i7.RouteConfig> get routes => [
-        _i7.RouteConfig(SplashRoute.name, path: '/'),
+        _i7.RouteConfig(SplashRoute.name, path: '/splash-page'),
         _i7.RouteConfig(LoginRoute.name, path: '/login-page'),
         _i7.RouteConfig(RecoverAccountLoadingRoute.name,
             path: '/recover-account-loading-page'),
         _i7.RouteConfig(RecoverAccountRoute.name,
             path: '/recover-account-page'),
         _i7.RouteConfig(AuthRoute.name, path: '/auth-page'),
-        _i7.RouteConfig(HomeRoute.name, path: '/home-page')
+        _i7.RouteConfig(HomeRoute.name, path: '/')
       ];
 }
 
 /// generated route for
 /// [_i1.SplashPage]
 class SplashRoute extends _i7.PageRouteInfo<void> {
-  const SplashRoute() : super(SplashRoute.name, path: '/');
+  const SplashRoute() : super(SplashRoute.name, path: '/splash-page');
 
   static const String name = 'SplashRoute';
 }
@@ -113,7 +113,7 @@ class AuthRoute extends _i7.PageRouteInfo<void> {
 /// generated route for
 /// [_i6.HomePage]
 class HomeRoute extends _i7.PageRouteInfo<void> {
-  const HomeRoute() : super(HomeRoute.name, path: '/home-page');
+  const HomeRoute() : super(HomeRoute.name, path: '/');
 
   static const String name = 'HomeRoute';
 }
