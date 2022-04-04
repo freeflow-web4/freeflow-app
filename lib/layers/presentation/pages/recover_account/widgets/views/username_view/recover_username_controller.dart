@@ -56,19 +56,20 @@ abstract class RecoverUsernameControllerBase with Store {
     isValidating = true;
     final _isNameValid = validator(value);
     if (_isNameValid) {
-      final result = await getUsernameExistsUsecase(value);
-      result.fold(
-        (error) {
-          onValidateUsernameFailure(error, errorCallBack);
-        },
-        (success) {
-          if (success) {
-            onValidateUsernameSuccess(value);
-          } else {
-            updateUsernameFieldState(UsernameFieldState.invalid);
-          }
-        },
-      );
+      // final result = await getUsernameExistsUsecase(value);
+      // result.fold(
+      //   (error) {
+      //     onValidateUsernameFailure(error, errorCallBack);
+      //   },
+      //   (success) {
+      //     if (success) {
+      //       onValidateUsernameSuccess(value);
+      //     } else {
+      //       updateUsernameFieldState(UsernameFieldState.invalid);
+      //     }
+      //   },
+      // );
+      onValidateUsernameSuccess(value);
     } else {
       updateUsernameFieldState(UsernameFieldState.empty);
     }
