@@ -30,7 +30,7 @@ abstract class RecoverAccountControllerBase with Store {
   @action
   Future<void> backPage() async {
     if (currentPage == 0) {
-      Routes.instance.goToHomePageRoute();
+      Routes.instance.goToLoginPageRoute();
       return;
     } else {
       currentPage = currentPage - 1;
