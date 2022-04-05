@@ -98,8 +98,8 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                     ),
                     initialValue: widget.pinCode,
                     onChanged: (text) {
-                      widget.onChanged?.call(text);
                       _onInputChanged(text);
+                      widget.onChanged?.call(text);
                     },
                     readOnly: widget.fieldReadOnly,
                     focusNode: widget.inputNode,
