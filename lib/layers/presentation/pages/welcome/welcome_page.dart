@@ -39,7 +39,7 @@ class _WelcomePageState extends State<WelcomePage>
     Future.delayed(const Duration(seconds: 6)).then((value) {
       animationController.reverse();
       Future.delayed(const Duration(seconds: 5)).then((value) {
-        Routes.instance.goToLoginPageRoute();
+        Routes.instance.goToSplashRecoverRoute();
       });
     });
   }

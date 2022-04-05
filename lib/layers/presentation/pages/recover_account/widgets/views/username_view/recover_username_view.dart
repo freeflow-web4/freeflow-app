@@ -15,6 +15,7 @@ import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/anim
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../../../core/utils/assets_constants.dart';
@@ -49,6 +50,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
     duration: const Duration(milliseconds: 1000),
   );
   bool isLargeButton = true;
+  bool isTyping = false;
 
   @override
   void initState() {
@@ -85,6 +87,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
   }
 
   _onInputChanged(String value) {
+    isTyping = true;
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       viewController.onUsernameChanged(
@@ -92,6 +95,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
         () => showConnectionErrorDialog(context),
         () => FocusScope.of(context).requestFocus(FocusNode()),
       );
+      isTyping = false;
     });
   }
 
@@ -99,6 +103,12 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      onHorizontalDragUpdate: (details) {
+        int sensitivity = 12;
+        if (details.delta.dx > sensitivity) {
+          Routes.instance.goToLoginPageRoute();
+        }
+      },
       child: Observer(
         builder: (context) {
           return Container(
@@ -204,7 +214,8 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                               padding:
                                   const EdgeInsets.only(bottom: bigSpacing),
                               child: AnimatedFloatButtonWidget(
-                                isActive: viewController.isNameValid,
+                                isActive:
+                                    viewController.isNameValid && !isTyping,
                                 isLargeButton:
                                     viewController.isNameValid && isLargeButton,
                                 icon: IconsAsset.arrowIcon,
