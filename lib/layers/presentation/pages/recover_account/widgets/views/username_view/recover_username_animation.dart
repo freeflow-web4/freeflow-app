@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 
-class RecoverAccountViewAnimation {
-  RecoverAccountViewAnimation(this.controller)
-      : firstTextOpacity = Tween<double>(
+class RecoverUsernameAnimation {
+  RecoverUsernameAnimation(
+      this.controller, this.dotsController, this.buttonController)
+      : dotsOpacity = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.1,
+              0.22,
+              curve: Curves.ease,
+            ),
+          ),
+        ),
+        firstTextOpacity = Tween<double>(
           begin: 0,
           end: 1,
         ).animate(
@@ -28,19 +42,6 @@ class RecoverAccountViewAnimation {
             ),
           ),
         ),
-        textFieldOpacity = Tween<double>(
-          begin: 0,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: const Interval(
-              0.62,
-              0.74,
-              curve: Curves.bounceIn,
-            ),
-          ),
-        ),
         textFieldHorizontalPosition = Tween<double>(
           begin: 1000,
           end: 1,
@@ -54,81 +55,54 @@ class RecoverAccountViewAnimation {
             ),
           ),
         ),
-        firstTextPinCodeOpacity = Tween<double>(
+        buttonOpacity = Tween<double>(
           begin: 0,
           end: 1,
         ).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.1,
-              0.24,
-              curve: Curves.ease,
-            ),
-          ),
-        ),
-        textFieldPinCodeOpacity = Tween<double>(
-          begin: 0,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: const Interval(
-              0.24,
-              0.48,
-              curve: Curves.bounceIn,
-            ),
-          ),
-        ),
-        textFieldPinCodeHorizontalPosition = Tween<double>(
-          begin: 1000,
-          end: 1,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: const Interval(
-              0.24,
-              0.48,
+              0.85,
+              0.95,
               curve: Curves.linear,
             ),
           ),
         ),
-        secondTextPinCodeOpacity = Tween<double>(
-          begin: 0,
+        buttonHeight = Tween<double>(
+          begin: 1.2,
           end: 1,
         ).animate(
           CurvedAnimation(
-            parent: controller,
+            parent: buttonController,
             curve: const Interval(
-              0.52,
-              0.76,
-              curve: Curves.ease,
+              0.95,
+              1,
+              curve: Curves.linear,
             ),
           ),
         ),
-        keyboardPinCodeOpacity = Tween<double>(
-          begin: 0,
+        buttonWidth = Tween<double>(
+          begin: 1.2,
           end: 1,
         ).animate(
           CurvedAnimation(
-            parent: controller,
+            parent: buttonController,
             curve: const Interval(
-              0.76,
+              0.95,
               1,
-              curve: Curves.ease,
+              curve: Curves.linear,
             ),
           ),
         );
 
+  late Animation<double> dotsOpacity;
   late Animation<double> firstTextOpacity;
   late Animation<double> secondTextOpacity;
-  late Animation<double> textFieldOpacity;
   late Animation<double> textFieldHorizontalPosition;
+  late Animation<double> buttonOpacity;
+  late Animation<double> buttonWidth;
+  late Animation<double> buttonHeight;
   final AnimationController controller;
-
-  late Animation<double> firstTextPinCodeOpacity;
-  late Animation<double> secondTextPinCodeOpacity;
-  late Animation<double> textFieldPinCodeOpacity;
-  late Animation<double> keyboardPinCodeOpacity;
-  late Animation<double> textFieldPinCodeHorizontalPosition;
+  final AnimationController dotsController;
+  final AnimationController buttonController;
 }

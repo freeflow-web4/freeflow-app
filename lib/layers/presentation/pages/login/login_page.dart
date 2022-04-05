@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage>
                     color: StandardColors.white,
                   ),
                 ),
-                onPressed: Routes.instance.goToRecoverAccountLoadingPageRoute,
+                onPressed: Routes.instance.goToFreeflowLogoLoadingRoute,
                 padding: const EdgeInsets.symmetric(
                   vertical: smSpacing,
                 ),

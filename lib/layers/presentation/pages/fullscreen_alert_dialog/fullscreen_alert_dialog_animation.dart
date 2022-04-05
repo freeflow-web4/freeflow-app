@@ -2,7 +2,7 @@ import 'package:flutter/animation.dart';
 
 class FullscreenAlertDialogAnimation {
   FullscreenAlertDialogAnimation(this.controller)
-      : buttonOpacity = Tween<double>(
+      : textOpacity = Tween<double>(
           begin: 0,
           end: 1,
         ).animate(
@@ -15,6 +15,19 @@ class FullscreenAlertDialogAnimation {
             ),
           ),
         ),
+        buttonOpacity = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: const Interval(
+              0.4,
+              0.7,
+              curve: Curves.ease,
+            ),
+          ),
+        ),
         buttonHeight = Tween<double>(
           begin: 1.2,
           end: 1,
@@ -22,13 +35,13 @@ class FullscreenAlertDialogAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.4,
-              0.6,
+              0.7,
+              0.9,
               curve: Curves.linear,
             ),
             reverseCurve: const Interval(
-              0.4,
-              0.6,
+              0.7,
+              0.9,
               curve: Curves.linear,
             ),
           ),
@@ -40,13 +53,13 @@ class FullscreenAlertDialogAnimation {
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.4,
-              0.6,
+              0.7,
+              0.9,
               curve: Curves.linear,
             ),
             reverseCurve: const Interval(
-              0.4,
-              0.6,
+              0.7,
+              0.9,
               curve: Curves.linear,
             ),
           ),
@@ -54,5 +67,6 @@ class FullscreenAlertDialogAnimation {
   late Animation<double> buttonOpacity;
   late Animation<double> buttonHeight;
   late Animation<double> buttonWidth;
+  late Animation<double> textOpacity;
   final AnimationController controller;
 }

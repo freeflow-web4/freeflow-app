@@ -72,6 +72,39 @@ mixin _$WalletController on WalletControllerBase, Store {
     });
   }
 
+  final _$selectedFilterOptionAtom =
+      Atom(name: 'WalletControllerBase.selectedFilterOption');
+
+  @override
+  String? get selectedFilterOption {
+    _$selectedFilterOptionAtom.reportRead();
+    return super.selectedFilterOption;
+  }
+
+  @override
+  set selectedFilterOption(String? value) {
+    _$selectedFilterOptionAtom.reportWrite(value, super.selectedFilterOption,
+        () {
+      super.selectedFilterOption = value;
+    });
+  }
+
+  final _$viewContentTypeAtom =
+      Atom(name: 'WalletControllerBase.viewContentType');
+
+  @override
+  ViewContentType get viewContentType {
+    _$viewContentTypeAtom.reportRead();
+    return super.viewContentType;
+  }
+
+  @override
+  set viewContentType(ViewContentType value) {
+    _$viewContentTypeAtom.reportWrite(value, super.viewContentType, () {
+      super.viewContentType = value;
+    });
+  }
+
   final _$WalletControllerBaseActionController =
       ActionController(name: 'WalletControllerBase');
 
@@ -103,7 +136,9 @@ mixin _$WalletController on WalletControllerBase, Store {
 index: ${index},
 transcriptList: ${transcriptList},
 transcriptFilteredList: ${transcriptFilteredList},
-categoryList: ${categoryList}
+categoryList: ${categoryList},
+selectedFilterOption: ${selectedFilterOption},
+viewContentType: ${viewContentType}
     ''';
   }
 }
