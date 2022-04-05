@@ -60,9 +60,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
     viewController.hasBiometricAvailable();
     animationController.forward().orCancel;
     animationButtonController.forward().orCancel;
-    viewController.userSetBiometricsUsecase(false);
     viewController.canCheckBiometrics();
-    viewController.setRememberMe(false);
   }
 
   @override
