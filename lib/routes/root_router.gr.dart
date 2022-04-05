@@ -38,8 +38,13 @@ class RootRouter extends _i8.RootStackRouter {
           routeData: routeData, child: const _i2.SplashPage());
     },
     LoginRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.LoginPage());
+      return _i8.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i3.LoginPage(),
+          transitionsBuilder: _i8.TransitionsBuilders.slideRight,
+          durationInMilliseconds: 700,
+          opaque: true,
+          barrierDismissible: false);
     },
     FreeflowLogoLoadingRoute.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
