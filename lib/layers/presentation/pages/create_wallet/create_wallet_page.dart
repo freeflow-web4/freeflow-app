@@ -3,7 +3,7 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_page.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/create_wallet_private_key_page.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/create_wallet_private_key_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_page_view.dart';
 
@@ -46,28 +46,29 @@ class _CreateWalletPageState extends State<CreateWalletPage>
             CreateWalletPrivateKeyView(
               isCurrent: currentIndex == 3 && isIndicatorAnimationDone,
               onValid: onPrivateKeyPageValid,
+              //TODO: pass from controller
+              privateKey: 'love spirit earth play share abundance life geometry sacred ancient egypt rio',
             ),
           ],
           initialIndex: currentIndex,
           onPageSwiped: onSwiped,
         ),
         Positioned.fill(
-          child: Align(
+          child: Container(
             alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 450),
-              child: AnimatedDotIndicatorWidget(
-                currentIndex: currentIndex,
-                length: 4,
-                totalAnimationStartUpDuration: const Duration(
-                  seconds: 4,
-                ),
-                onAnimationEnd: () {
-                  setState(() {
-                    isIndicatorAnimationDone = true;
-                  });
-                },
+            padding: const EdgeInsets.only(top:450),
+            child: AnimatedDotIndicatorWidget(
+              key: const ValueKey('createWalletIndicatorKey'),
+              currentIndex: currentIndex,
+              length: 5,
+              totalAnimationStartUpDuration: const Duration(
+                seconds: 4,
               ),
+              onAnimationEnd: () {
+                setState(() {
+                  isIndicatorAnimationDone = true;
+                });
+              },
             ),
           ),
         )
@@ -88,14 +89,14 @@ class _CreateWalletPageState extends State<CreateWalletPage>
       isIndicatorAnimationDone = false;
     });
   }
-  
+
   void onFlowerNamePageValid() {
     setState(() {
       currentIndex = 3;
       isIndicatorAnimationDone = false;
     });
   }
-  
+
   void onPrivateKeyPageValid() {
     setState(() {
       currentIndex = 4;
@@ -108,6 +109,4 @@ class _CreateWalletPageState extends State<CreateWalletPage>
       currentIndex = index;
     });
   }
-
-
 }

@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
 
-class CreateWalletPrivateKeyAnimations {
+class CreateWalletPrivateKeyShowStateAnimations {
   final Animation<double> title1Opacity;
   final Animation<double> pinFieldAnimationOpacity;
   final Animation<double> keyboardAnimationOpacity;
   final Animation<double> confirmButtonAnimationOpacity;
 
-  CreateWalletPrivateKeyAnimations(AnimationController controller)
+  CreateWalletPrivateKeyShowStateAnimations(AnimationController controller)
       : title1Opacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,

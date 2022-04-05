@@ -6,46 +6,35 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_animations.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/confirm_key/create_wallet_private_key_confirm_animations.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/confirm_key/create_wallet_private_key_confirm_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 
-class CreateWalletPrivateKeyView extends StatefulWidget {
-  final bool isCurrent;
+class CreateWalletPrivateKeyConfirmView extends StatefulWidget {
   final void Function() onValid;
-  const CreateWalletPrivateKeyView({
+  final String privateKey;
+  const CreateWalletPrivateKeyConfirmView({
     Key? key,
-    required this.isCurrent,
     required this.onValid,
+    required this.privateKey,
   }) : super(key: key);
 
   @override
-  State<CreateWalletPrivateKeyView> createState() =>
-      _CreateWalletPrivateKeyViewState();
+  State<CreateWalletPrivateKeyConfirmView> createState() =>
+      _CreateWalletPrivateKeyConfirmViewState();
 }
 
-class _CreateWalletPrivateKeyViewState extends State<CreateWalletPrivateKeyView>
+class _CreateWalletPrivateKeyConfirmViewState extends State<CreateWalletPrivateKeyConfirmView>
     with TickerProviderStateMixin, TextThemes {
   static const _totalDuration = Duration(milliseconds: 3600);
 
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  final pageController = CreateWalletEmailController();
+  final pageController = CreateWalletPrivateKeyConfirmController();
 
-  late final animations = CreateWalletEmailAnimations(animationController);
-
-  @override
-  void didUpdateWidget(covariant CreateWalletPrivateKeyView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.isCurrent != widget.isCurrent) {
-      if (widget.isCurrent) {
-        animationController.forward();
-      }
-    }
-  }
+  late final animations = CreateWalletPrivateKeyConfirmAnimations(animationController);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +43,7 @@ class _CreateWalletPrivateKeyViewState extends State<CreateWalletPrivateKeyView>
         child: Padding(
           padding: const EdgeInsets.only(
             left: mdSpacingx2,
-            right: mdSpacingx2,
+            right: 3*mdSpacingx2,
             top: huge4Spacing,
           ),
           child: AnimatedBuilder(
@@ -75,27 +64,55 @@ class _CreateWalletPrivateKeyViewState extends State<CreateWalletPrivateKeyView>
                   const SizedBox(
                     height: mdSpacingx2,
                   ),
-                  Opacity(
-                    //TODO: add opacity from animations class
-                    opacity: animationController.value,
-                    child: Observer(
-                      builder: (context) {
-                        return GradientTextFieldWidget(
-                          errorText: pageController.privateKeyFieldState !=
-                                  GradientTextFieldState.invalid
-                              ? null
-                              : TranslationService.translate(
-                                  context,
-                                  'createWallet.privateKeyTextFieldError',
-                                ),
-                          hintText: TranslationService.translate(
-                            context,
-                            'createWallet.privateKeyTextFieldHint',
-                          ),
-                          onChanged: pageController.onNameChanged,
-                          isFieldValid: pageController.isEmailValid,
-                        );
-                      },
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Opacity(
+                      //TODO: add opacity from animations class
+                      opacity: animationController.value,
+                      child: RichText(
+                        text: TextSpan(
+                          style: subtitleTextStyle,
+                          children: [
+                            TextSpan(
+                              text: TranslationService.translate(
+                                context,
+                                'createWallet.privateKeyTitle2',
+                              ),
+                              style: subtitleTextStyle.copyWith(
+                                color: StandardColors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextSpan(
+                              text: TranslationService.translate(
+                                context,
+                                'createWallet.privateKeyTitle3',
+                              ),
+                              style: subtitleTextStyle.copyWith(
+                                color: StandardColors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: mdSpacingx2,
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Opacity(
+                      //TODO: add opacity from animations class
+                      opacity: animationController.value,
+                      child: Text(
+                        widget.privateKey,
+                        style: subtitleTextStyle.copyWith(
+                          color: StandardColors.secondary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ),
                   ),
                   Expanded(

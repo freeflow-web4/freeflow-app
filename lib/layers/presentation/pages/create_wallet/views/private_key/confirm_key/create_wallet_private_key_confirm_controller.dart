@@ -1,10 +1,10 @@
 import 'package:freeflow/layers/presentation/pages/create_wallet/validators/name_validator.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:mobx/mobx.dart';
-part 'create_wallet_private_key_controller.g.dart';
+part 'create_wallet_private_key_confirm_controller.g.dart';
 
-class CreateWalletPrivateKeyController = _CreateWalletEmailControllerBase
-    with _$CreateWalletPrivateKeyController;
+class CreateWalletPrivateKeyConfirmController = _CreateWalletEmailControllerBase
+    with _$CreateWalletPrivateKeyConfirmController;
 
 abstract class _CreateWalletEmailControllerBase with Store {
   @observable
