@@ -19,10 +19,12 @@ import '../layers/presentation/pages/create_wallet/create_wallet_page.dart'
 import '../layers/presentation/pages/freeflow_logo_loading/freeflow_logo_loading_page.dart'
     as _i4;
 import '../layers/presentation/pages/home/home_page.dart' as _i7;
-import '../layers/presentation/pages/login/login_page.dart' as _i3;
+import '../layers/presentation/pages/login/login_page.dart' as _i2;
 import '../layers/presentation/pages/recover_account/recover_account_page.dart'
     as _i5;
-import '../layers/presentation/pages/splash/splash_page.dart' as _i2;
+import '../layers/presentation/pages/recover_splash/recover_splash_page.dart'
+    as _i8;
+import '../layers/presentation/pages/splash/splash_page.dart' as _i3;
 import '../layers/presentation/pages/welcome/welcome_page.dart' as _i1;
 
 class RootRouter extends _i9.RootStackRouter {
@@ -102,6 +104,14 @@ class LoginRoute extends _i9.PageRouteInfo<void> {
   const LoginRoute() : super(LoginRoute.name, path: '/login-page');
 
   static const String name = 'LoginRoute';
+}
+
+/// generated route for
+/// [_i3.SplashPage]
+class SplashRoute extends _i9.PageRouteInfo<void> {
+  const SplashRoute() : super(SplashRoute.name, path: '/');
+
+  static const String name = 'SplashRoute';
 }
 
 /// generated route for

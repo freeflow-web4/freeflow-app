@@ -17,6 +17,10 @@ class Routes {
     _routeService.pushReplacement(const WelcomeRoute());
   }
 
+  void goToSplashRecoverRoute() async {
+    _routeService.pushReplacement(const RecoverSplashRoute());
+  }
+
   void goToFreeflowLogoLoadingRoute() {
     _routeService.pushReplacement(const FreeflowLogoLoadingRoute());
   }

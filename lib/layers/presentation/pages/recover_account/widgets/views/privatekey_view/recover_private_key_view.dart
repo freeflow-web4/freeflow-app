@@ -50,6 +50,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
   final usernameController = GetIt.I.get<RecoverUsernameController>();
   bool isLargeButton = true;
   int currentIndex = 0;
+  bool isTyping = false;
 
   @override
   void initState() {
@@ -89,6 +90,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
   }
 
   _onInputChanged(String value) {
+    isTyping = true;
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       viewController.onPrivateKeyChanged(
@@ -96,6 +98,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
         usernameController.currentUsername,
         () => FocusScope.of(context).requestFocus(FocusNode()),
       );
+      isTyping = false;
     });
   }
 
@@ -184,7 +187,8 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                                 padding:
                                     const EdgeInsets.only(bottom: bigSpacing),
                                 child: AnimatedFloatButtonWidget(
-                                  isActive: viewController.isPrivateKeyValid,
+                                  isActive: viewController.isPrivateKeyValid &&
+                                      !isTyping,
                                   isLargeButton:
                                       viewController.isPrivateKeyValid &&
                                           isLargeButton,
