@@ -12,13 +12,13 @@ import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
   routes: <AutoRoute>[
     // AutoRoute(page: HomePage, initial: true),
     AutoRoute(page: WelcomePage),
-    AutoRoute(page: SplashPage),
     CustomRoute(
       page: LoginPage,
       durationInMilliseconds: 700,
       transitionsBuilder: TransitionsBuilders.slideRight,
-      initial: true,
     ),
+    AutoRoute(page: SplashPage, initial: true),
+    AutoRoute(page: LoginPage),
     AutoRoute(page: FreeflowLogoLoadingPage),
     AutoRoute(page: RecoverAccountPage),
     AutoRoute(page: AuthPage),

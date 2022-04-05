@@ -67,8 +67,8 @@ class RootRouter extends _i8.RootStackRouter {
   @override
   List<_i8.RouteConfig> get routes => [
         _i8.RouteConfig(WelcomeRoute.name, path: '/welcome-page'),
-        _i8.RouteConfig(SplashRoute.name, path: '/splash-page'),
-        _i8.RouteConfig(LoginRoute.name, path: '/'),
+        _i8.RouteConfig(SplashRoute.name, path: '/'),
+        _i8.RouteConfig(LoginRoute.name, path: '/login-page'),
         _i8.RouteConfig(FreeflowLogoLoadingRoute.name,
             path: '/freeflow-logo-loading-page'),
         _i8.RouteConfig(RecoverAccountRoute.name,
@@ -89,7 +89,7 @@ class WelcomeRoute extends _i8.PageRouteInfo<void> {
 /// generated route for
 /// [_i2.SplashPage]
 class SplashRoute extends _i8.PageRouteInfo<void> {
-  const SplashRoute() : super(SplashRoute.name, path: '/splash-page');
+  const SplashRoute() : super(SplashRoute.name, path: '/');
 
   static const String name = 'SplashRoute';
 }
@@ -97,7 +97,7 @@ class SplashRoute extends _i8.PageRouteInfo<void> {
 /// generated route for
 /// [_i3.LoginPage]
 class LoginRoute extends _i8.PageRouteInfo<void> {
-  const LoginRoute() : super(LoginRoute.name, path: '/');
+  const LoginRoute() : super(LoginRoute.name, path: '/login-page');
 
   static const String name = 'LoginRoute';
 }
