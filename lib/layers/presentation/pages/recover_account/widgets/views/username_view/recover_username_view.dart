@@ -50,6 +50,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
     duration: const Duration(milliseconds: 1000),
   );
   bool isLargeButton = true;
+  bool isTyping = false;
 
   @override
   void initState() {
@@ -86,6 +87,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
   }
 
   _onInputChanged(String value) {
+    isTyping = true;
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       viewController.onUsernameChanged(
@@ -93,6 +95,7 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
         () => showConnectionErrorDialog(context),
         () => FocusScope.of(context).requestFocus(FocusNode()),
       );
+      isTyping = false;
     });
   }
 
@@ -211,7 +214,8 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                               padding:
                                   const EdgeInsets.only(bottom: bigSpacing),
                               child: AnimatedFloatButtonWidget(
-                                isActive: viewController.isNameValid,
+                                isActive:
+                                    viewController.isNameValid && !isTyping,
                                 isLargeButton:
                                     viewController.isNameValid && isLargeButton,
                                 icon: IconsAsset.arrowIcon,
