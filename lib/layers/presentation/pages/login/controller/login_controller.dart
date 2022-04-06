@@ -8,7 +8,7 @@ LoginController findLoginController() => GetIt.I.get<LoginController>();
 class LoginController = _LoginControllerBase with _$LoginController;
 
 abstract class _LoginControllerBase with Store {
-  void onSwipe() {
-    Routes.instance.goToAuthPageRoute();
+  Future<void> onSwipe() {
+    return Routes.instance.goToAuthPageRoute();
   }
 }

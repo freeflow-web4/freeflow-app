@@ -29,8 +29,8 @@ class Routes {
     _routeService.pushReplacement(const LoginRoute());
   }
 
-  void goToAuthPageRoute() {
-    _routeService.push(const AuthRoute());
+  Future<void> goToAuthPageRoute() {
+    return _routeService.push(const AuthRoute());
   }
 
   void goToHomePageRoute() {
