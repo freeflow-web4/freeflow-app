@@ -181,7 +181,8 @@ class _AuthPageState extends State<AuthPage>
           0,
           duration: const Duration(milliseconds: animationDurationInMili ~/ 3),
         )
-        .orCancel;
+        .orCancel
+        .then((value) => authController.nextPage());
   }
 
   void onBiometricsError(Exception error) {
