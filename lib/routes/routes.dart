@@ -30,7 +30,7 @@ class Routes {
   }
 
   void goToAuthPageRoute() {
-    _routeService.pushReplacement(const AuthRoute());
+    _routeService.push(const AuthRoute());
   }
 
   void goToHomePageRoute() {
