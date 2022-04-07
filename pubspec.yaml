@@ -118,5 +118,9 @@ flutter:
           weight: 700
         - asset: assets/fonts/Akrobat-Black.ttf
           weight: 900
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 
 mixin TextThemes {
@@ -121,6 +122,63 @@ mixin TextThemes {
         color: color,
         fontSize: 20,
         fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textButton(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String textKey,
+  }) {
+    return Text(
+      TranslationService.translate(context, textKey),
+      maxLines: maxLines,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        color: color,
+        fontSize: 18,
+        fontFamily: 'Akrobat',
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Text textBody2(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String textKey,
+  }) {
+    return Text(
+      TranslationService.translate(context, textKey),
+      maxLines: maxLines,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        color: color,
+        fontSize: 12,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  Text textBody4(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String textKey,
+  }) {
+    return Text(
+      TranslationService.translate(context, textKey),
+      maxLines: maxLines,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        color: color,
+        fontSize: 16,
+        fontFamily: 'Akrobat',
+        fontWeight: FontWeight.w600,
       ),
     );
   }

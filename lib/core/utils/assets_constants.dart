@@ -16,8 +16,18 @@ class IconsAsset {
   static const String cloud = "assets/images/icons/menu/cloud_icon.png";
   static const String home = "assets/images/icons/menu/home_icon.png";
   static const String tools = "assets/images/icons/menu/tools_icon.png";
-  static const String shoppingCar = "assets/images/icons/menu/shopping_car_icon.png";
+  static const String shoppingCar =
+      "assets/images/icons/menu/shopping_car_icon.png";
   static const String example = "assets/images/icons/menu/example_icon.png";
   static const String menu = "assets/images/icons/menu/hamburg.svg";
-
+  static const String noProfileImage = "assets/images/no-image-person.png";
+  static const String replaceProfileImage =
+      "assets/images/icons/replace_profile_image.svg";
+  static const String copyText = "assets/images/icons/copy_text_icon.svg";
+  static const String logout = "assets/images/icons/logout.svg";
+  static const String commitment = "assets/images/icons/commitment.png";
+  static const String gestures = "assets/images/icons/gestures.svg";
+  static const String pincode = "assets/images/icons/pincode.svg";
+  static const String privateKey = "assets/images/icons/private_key.svg";
+  static const String biometry = "assets/images/icons/biometry.svg";
 }

@@ -25,10 +25,11 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: (context, widget) {
         final double screenHeight = MediaQuery.of(context).size.height;
+        print(screenHeight);
         return ResponsiveWrapper.builder(
           BouncingScrollWrapper.builder(context, widget!),
           minWidth: 480,
-          defaultScale: screenHeight < 800,
+          defaultScale: screenHeight < 680,
           breakpoints: [
             const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
             const ResponsiveBreakpoint.autoScale(800, name: TABLET),
