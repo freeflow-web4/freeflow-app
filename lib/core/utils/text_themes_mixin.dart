@@ -232,4 +232,38 @@ mixin TextThemes {
       ),
     );
   }
+  Text button5(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+  Text button2(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
 }

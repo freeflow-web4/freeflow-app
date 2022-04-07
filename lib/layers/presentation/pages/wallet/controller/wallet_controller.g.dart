@@ -120,17 +120,6 @@ mixin _$WalletController on WalletControllerBase, Store {
   }
 
   @override
-  dynamic filterTrasncript(String category) {
-    final _$actionInfo = _$WalletControllerBaseActionController.startAction(
-        name: 'WalletControllerBase.filterTrasncript');
-    try {
-      return super.filterTrasncript(category);
-    } finally {
-      _$WalletControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 index: ${index},

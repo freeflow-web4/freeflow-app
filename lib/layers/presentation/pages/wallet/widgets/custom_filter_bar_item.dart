@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
-class CustomFilterBarItem extends StatelessWidget {
+class CustomFilterBarItem extends StatefulWidget {
   final EdgeInsets? tabMargin;
   final String tabName;
   final Function onTap;
@@ -16,24 +17,23 @@ class CustomFilterBarItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CustomFilterBarItem> createState() => _CustomFilterBarItemState();
+}
+
+class _CustomFilterBarItemState extends State<CustomFilterBarItem> with TextThemes {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap(),
+      onTap: () => widget.onTap(),
       child: Container(
-        height: height ?? 20,
-        padding: tabMargin ?? const EdgeInsets.symmetric(horizontal: 36),
+        height: widget.height ?? 26,
+        padding: widget.tabMargin,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              tabName,
-              style: const TextStyle(
-                  fontFamily: 'Akrobat',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey),
-            ),
-            customIndicator(isActive: isSelected)
+            button2(context, text: widget.tabName, color: Colors.grey),
+            customIndicator(isActive: widget.isSelected)
           ],
         ),
       ),
@@ -47,7 +47,7 @@ class CustomFilterBarItem extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: Curves.fastOutSlowIn,
-      height: isSelected ? 3 : 0,
+      height: widget.isSelected ? 3 : 0,
       width: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

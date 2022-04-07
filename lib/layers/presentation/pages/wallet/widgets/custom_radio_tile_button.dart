@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
-class CustomRadioTile<T> extends StatelessWidget {
+class CustomRadioTile<T> extends StatelessWidget with TextThemes {
   final T value;
   final T groupValue;
   final ValueChanged<T> onChanged;
@@ -20,13 +21,14 @@ class CustomRadioTile<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         onChanged(value);
       },
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -78,7 +80,7 @@ class CustomRadioTile<T> extends StatelessWidget {
               ],
             ),
           ),
-          Text(label)
+          button2(context, text: label)
         ],
       ),
     );

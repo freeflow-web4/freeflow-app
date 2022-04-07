@@ -42,21 +42,5 @@ abstract class WalletControllerBase with Store {
     }
   }
 
-  @action
-  filterTrasncript(String category) {
-    if (category == 'All') {
-      transcriptFilteredList.clear();
-      for (int i = 0; i < transcriptList.length; i++) {
-        transcriptFilteredList.add(transcriptList[i]);
-      }
-    } else {
-      transcriptFilteredList.clear();
-      // transcriptList.where((transcript) => transcript.category == category);
-      for (int i = 0; i < transcriptList.length; i++) {
-        if (transcriptList[i].category == category) {
-          transcriptFilteredList.add(transcriptList[i]);
-        }
-      }
-    }
-  }
+  
 }

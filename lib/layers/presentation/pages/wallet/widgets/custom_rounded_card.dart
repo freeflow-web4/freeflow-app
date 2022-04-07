@@ -5,7 +5,7 @@ class CustomRoundedCard extends StatelessWidget {
   final Color? backgroundColor, borderColor;
   final Widget? child;
   final EdgeInsets? padding, margin;
-  final double? borderRadius;
+  final BorderRadius? borderRadius;
 
   const CustomRoundedCard({
     Key? key,
@@ -28,7 +28,7 @@ class CustomRoundedCard extends StatelessWidget {
       margin: margin ?? EdgeInsets.zero,
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.white,
-        borderRadius: BorderRadius.circular(borderRadius ?? 16),
+        borderRadius: borderRadius ?? BorderRadius.circular(16),
         border: Border.all(
           width: 1.5,
           color: borderColor ?? const Color(0xffE0E2E2),
@@ -41,12 +41,7 @@ class CustomRoundedCard extends StatelessWidget {
           )
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(
-          borderRadius != null ? (borderRadius ?? 0) - 2 : 16,
-        ),
-        child: child,
-      ),
+      child: child,
     );
   }
 }
