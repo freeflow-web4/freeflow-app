@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'edit_profile_controller.dart';
+part of 'login_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
