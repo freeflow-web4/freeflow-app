@@ -40,8 +40,6 @@ class _CreateWalletPrivateKeyShowViewState
   late final animations =
       CreateWalletPrivateKeyShowStateAnimations(animationController);
 
-  bool buttonEnable = false;
-
   @override
   void initState() {
     super.initState();
@@ -51,9 +49,7 @@ class _CreateWalletPrivateKeyShowViewState
       animationController.value = 1.0;
     }
     Future.delayed(const Duration(milliseconds: 1000)).then(
-      (value) => setState(() {
-        buttonEnable = true;
-      }),
+      (value) => pageController.setButtonEnabled(),
     );
   }
 
@@ -61,109 +57,114 @@ class _CreateWalletPrivateKeyShowViewState
   Widget build(BuildContext context) {
     return BlackScaffold(
       child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: mdSpacingx2,
-            right: 3 * mdSpacingx2,
-            top: huge4Spacing,
-          ),
-          child: AnimatedBuilder(
-            animation: animationController,
-            builder: (context, _) {
-              return Column(
-                children: [
-                  AnimatedText(
-                    text: TranslationService.translate(
-                      context,
-                      "createWallet.privateKeyTitle1",
-                    ),
-                    animationController: animationController,
-                    style:
-                        textH4TextStyle.copyWith(color: StandardColors.white),
-                    animation: animations.title1Opacity,
+        child: AnimatedBuilder(
+          animation: animationController,
+          builder: (context, _) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: mdSpacingx2,
+                    right: 3 * mdSpacingx2,
+                    top: huge4Spacing,
                   ),
-                  const SizedBox(
-                    height: mdSpacingx2,
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Opacity(
-                      //TODO: add opacity from animations class
-                      opacity: animationController.value,
-                      child: RichText(
-                        text: TextSpan(
-                          style: subtitleTextStyle,
-                          children: [
-                            TextSpan(
-                              text: TranslationService.translate(
-                                context,
-                                'createWallet.privateKeyTitle2',
-                              ),
-                              style: subtitleTextStyle.copyWith(
-                                color: StandardColors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AnimatedText(
+                        text: TranslationService.translate(
+                          context,
+                          "createWallet.privateKeyTitle1",
+                        ),
+                        animationController: animationController,
+                        style: textH4TextStyle.copyWith(
+                            color: StandardColors.white),
+                        animation: animations.title1Opacity,
+                      ),
+                      const SizedBox(
+                        height: mdSpacingx2,
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Opacity(
+                          //TODO: add opacity from animations class
+                          opacity: animationController.value,
+                          child: RichText(
+                            text: TextSpan(
+                              style: subtitleTextStyle,
+                              children: [
+                                TextSpan(
+                                  text: TranslationService.translate(
+                                    context,
+                                    'createWallet.privateKeyTitle2',
+                                  ),
+                                  style: subtitleTextStyle.copyWith(
+                                    color: StandardColors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: TranslationService.translate(
+                                    context,
+                                    'createWallet.privateKeyTitle3',
+                                  ),
+                                  style: subtitleTextStyle.copyWith(
+                                    color: StandardColors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
                             ),
-                            TextSpan(
-                              text: TranslationService.translate(
-                                context,
-                                'createWallet.privateKeyTitle3',
-                              ),
-                              style: subtitleTextStyle.copyWith(
-                                color: StandardColors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: mdSpacingx2,
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Opacity(
+                          //TODO: add opacity from animations class
+                          opacity: animationController.value,
+                          child: Text(
+                            widget.privateKey,
+                            style: subtitleTextStyle.copyWith(
+                              color: StandardColors.secondary,
+                              fontWeight: FontWeight.w700,
                             ),
-                          ],
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    padding: const EdgeInsets.only(
+                      bottom: bigSpacing,
                     ),
-                  ),
-                  const SizedBox(
-                    height: mdSpacingx2,
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
                     child: Opacity(
-                      //TODO: add opacity from animations class
-                      opacity: animationController.value,
-                      child: Text(
-                        widget.privateKey,
-                        style: subtitleTextStyle.copyWith(
-                          color: StandardColors.secondary,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      opacity: animations.confirmButtonAnimationOpacity.value,
+                      child: Observer(
+                        builder: (context) {
+                          return AnimatedFloatButtonWidget(
+                            isActive: pageController.buttonNextActivated,
+                            onTap: (activate) {
+                              if (activate) {
+                                widget.onConfirm();
+                              }
+                            },
+                            icon: IconsAsset.arrowIcon,
+                          );
+                        },
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.bottomCenter,
-                      padding: const EdgeInsets.only(
-                        bottom: bigSpacing,
-                      ),
-                      child: Opacity(
-                        opacity: animations.confirmButtonAnimationOpacity.value,
-                        child: Observer(
-                          builder: (context) {
-                            return AnimatedFloatButtonWidget(
-                              isActive: pageController.buttonNextActivated,
-                              onTap: (activate) {
-                                if (activate) {
-                                  widget.onConfirm();
-                                }
-                              },
-                              icon: IconsAsset.arrowIcon,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
-            },
-          ),
+                )
+              ],
+            );
+          },
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
@@ -145,6 +146,6 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
   }
 
   void onInvalid() {
-    //TODO: show blured dialog with error message
+    showCustomDialog(context, textKey: 'createWallet.nameWarning');
   }
 }

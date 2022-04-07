@@ -22,7 +22,7 @@ abstract class _CreateWalletEmailControllerBase with Store {
   bool formValid = false;
 
   @action
-  void onFlowerNameChanged(String value) {
+  void onTextChanged(String value) {
     if (value.trim().isEmpty) {
       gradientTextFieldState = GradientTextFieldState.empty;
     } else if (CreateWalletNameValidator.isValid(value)) {

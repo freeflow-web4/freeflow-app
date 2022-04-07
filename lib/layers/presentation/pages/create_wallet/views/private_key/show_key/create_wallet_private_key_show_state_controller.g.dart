@@ -10,22 +10,6 @@ part of 'create_wallet_private_key_show_state_controller.dart';
 
 mixin _$CreateWalletPrivateKeyShowStateController
     on _CreateWalletEmailControllerBase, Store {
-  Computed<bool>? _$buttonNextActivatedComputed;
-
-  @override
-  bool get buttonNextActivated => (_$buttonNextActivatedComputed ??=
-          Computed<bool>(() => super.buttonNextActivated,
-              name: '_CreateWalletEmailControllerBase.buttonNextActivated'))
-      .value;
-  Computed<bool>? _$isGradientTextFieldValidComputed;
-
-  @override
-  bool get isGradientTextFieldValid => (_$isGradientTextFieldValidComputed ??=
-          Computed<bool>(() => super.isGradientTextFieldValid,
-              name:
-                  '_CreateWalletEmailControllerBase.isGradientTextFieldValid'))
-      .value;
-
   final _$gradientTextFieldStateAtom =
       Atom(name: '_CreateWalletEmailControllerBase.gradientTextFieldState');
 
@@ -43,19 +27,19 @@ mixin _$CreateWalletPrivateKeyShowStateController
     });
   }
 
-  final _$formValidAtom =
-      Atom(name: '_CreateWalletEmailControllerBase.formValid');
+  final _$buttonNextActivatedAtom =
+      Atom(name: '_CreateWalletEmailControllerBase.buttonNextActivated');
 
   @override
-  bool get formValid {
-    _$formValidAtom.reportRead();
-    return super.formValid;
+  bool get buttonNextActivated {
+    _$buttonNextActivatedAtom.reportRead();
+    return super.buttonNextActivated;
   }
 
   @override
-  set formValid(bool value) {
-    _$formValidAtom.reportWrite(value, super.formValid, () {
-      super.formValid = value;
+  set buttonNextActivated(bool value) {
+    _$buttonNextActivatedAtom.reportWrite(value, super.buttonNextActivated, () {
+      super.buttonNextActivated = value;
     });
   }
 
@@ -63,12 +47,11 @@ mixin _$CreateWalletPrivateKeyShowStateController
       ActionController(name: '_CreateWalletEmailControllerBase');
 
   @override
-  void onFlowerNameChanged(String value) {
-    final _$actionInfo =
-        _$_CreateWalletEmailControllerBaseActionController.startAction(
-            name: '_CreateWalletEmailControllerBase.onFlowerNameChanged');
+  void setButtonEnabled() {
+    final _$actionInfo = _$_CreateWalletEmailControllerBaseActionController
+        .startAction(name: '_CreateWalletEmailControllerBase.setButtonEnabled');
     try {
-      return super.onFlowerNameChanged(value);
+      return super.setButtonEnabled();
     } finally {
       _$_CreateWalletEmailControllerBaseActionController
           .endAction(_$actionInfo);
@@ -92,9 +75,7 @@ mixin _$CreateWalletPrivateKeyShowStateController
   String toString() {
     return '''
 gradientTextFieldState: ${gradientTextFieldState},
-formValid: ${formValid},
-buttonNextActivated: ${buttonNextActivated},
-isGradientTextFieldValid: ${isGradientTextFieldValid}
+buttonNextActivated: ${buttonNextActivated}
     ''';
   }
 }

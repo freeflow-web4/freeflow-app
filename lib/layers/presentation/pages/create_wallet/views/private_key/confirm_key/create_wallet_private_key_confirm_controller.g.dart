@@ -63,12 +63,11 @@ mixin _$CreateWalletPrivateKeyConfirmController
       ActionController(name: '_CreateWalletEmailControllerBase');
 
   @override
-  void onFlowerNameChanged(String value) {
-    final _$actionInfo =
-        _$_CreateWalletEmailControllerBaseActionController.startAction(
-            name: '_CreateWalletEmailControllerBase.onFlowerNameChanged');
+  void onTextChanged(String value) {
+    final _$actionInfo = _$_CreateWalletEmailControllerBaseActionController
+        .startAction(name: '_CreateWalletEmailControllerBase.onTextChanged');
     try {
-      return super.onFlowerNameChanged(value);
+      return super.onTextChanged(value);
     } finally {
       _$_CreateWalletEmailControllerBaseActionController
           .endAction(_$actionInfo);
