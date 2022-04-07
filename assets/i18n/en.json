@@ -47,14 +47,24 @@
         "nameTitle1": "Let's gather\nsome info\nto setup your\nFreeFlow Pouch.",
         "nameTextFieldHint": "How you wanna be called ?",
         "nameTextFieldError": "Please enter a valid name",
+        "nameWarning": "To continue,\nplease enter\nyour name.",
         "emailTitle1": "Flo\nwhat's your\nemail ?",
         "emailTextFieldHint": "Email",
         "emailTextFieldError": "Please enter a valid email",
+        "emailWarning": "To continue,\nplease enter\nyour email.",
         "flowerNameTitle1": "Flo,\n\nChosse a\nFlower Name for\nyour FreeFlow Pouch.",
         "flowerNameTextFieldHint": "Flower Name",
+        "flowerNameWarning": "To continue,\nplease choose a\nFlower Name.",
         "flowerNameTextFieldError": "Username is not valid",
         "privateKeyTitle1": "Please\nwrite down\nin a safe place\nyour private key.",
         "privateKeyTitle2": "This key is unique and it allows\nyou to controll all your assets and\naccount.",
-        "privateKeyTitle3": "If you it, there is\nnot other way to recover your\nFreeFlow assets and account."
+        "privateKeyTitle3": "If you it, there is\nnot other way to recover your\nFreeFlow assets and account.",
+        "privateKeyWarning": "Please write down in a safe\nplace your private key.",
+        "confirmPrivateKeyTitle1": "Please\nconfirm down\nyour private key.",
+        "confirmPrivateKeyTitle2": "Type 3 random words from your\nprivate key, separated by a space.",
+        "confirmPrivateTextFieldHint": "Phrase words",
+        "confirmPrivateTextFieldError": "Please enter valid phrase words",
+        "confirmPrivateKeyWarning": "To continue,\nplease confirm\nyour private key.",
+        "pinCodeWarning": "To continue,\nplease enter a\nPIN code."
     }
 }
