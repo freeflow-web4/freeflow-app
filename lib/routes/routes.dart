@@ -37,6 +37,10 @@ class Routes {
     _routeService.pushReplacement(const HomeRoute());
   }
 
+  void goToEditProfilePageRoute() {
+    _routeService.pushReplacement(const EditProfileRoute());
+  }
+
   void pop() {
     _routeService.pop();
   }

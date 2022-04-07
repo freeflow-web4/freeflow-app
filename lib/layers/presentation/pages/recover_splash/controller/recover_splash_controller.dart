@@ -10,7 +10,10 @@ class RecoverSplashController {
   late Timer periodic;
 
   void nextPage() {
-    Routes.instance.goToLoginPageRoute();
+    //TODO REMOVER
+    //Routes.instance.goToLoginPageRoute();
+    Routes.instance.goToEditProfilePageRoute();
+
   }
 
   void startPeriodicVideoEndCheck(ChewieController? chewieController) async {

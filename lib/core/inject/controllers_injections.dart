@@ -2,6 +2,7 @@ import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.da
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
+import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_profile_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/confirm_pin_code_view/recover_confirm_pin_code_view_controller.dart';
@@ -62,5 +63,9 @@ registerControllerDependencies(GetIt getIt) {
       validator: getIt.get<PrivateKeyValidator>(),
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
     ),
+  );
+
+  getIt.registerLazySingleton<EditProfileController>(
+        () => EditProfileController(),
   );
 }

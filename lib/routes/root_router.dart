@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_page.dart';
+import 'package:freeflow/layers/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:freeflow/layers/presentation/pages/freeflow_logo_loading/freeflow_logo_loading_page.dart';
 import 'package:freeflow/layers/presentation/pages/home/home_page.dart';
 import 'package:freeflow/layers/presentation/pages/login/login_page.dart';
@@ -12,6 +13,7 @@ import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     // AutoRoute(page: HomePage, initial: true),
+    AutoRoute(page: EditProfilePage, initial: true),
     AutoRoute(page: WelcomePage),
     AutoRoute(page: LoginPage),
     AutoRoute(page: SplashPage, initial: true),
