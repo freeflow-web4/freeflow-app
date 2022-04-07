@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/layers/presentation/helpers/get_plataform.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/icon_menu.dart';
 
-import '../../helpers/is_android.dart';
 
 class ScaffoldFreeFlow extends StatefulWidget {
   final Widget body;

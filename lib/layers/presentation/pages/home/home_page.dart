@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/get_plataform.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
-import '../../helpers/is_android.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return ScaffoldFreeFlow(
       body: Container(
-        margin: EdgeInsets.only(top: isAndroid() ? 57 : 72),
+        margin: EdgeInsets.only(top: isAndroidOrWeb() ? 57 : 72),
         child: AnimatedText(
           text: 'Home Page',
           style: textH4TextStyle.copyWith(color: StandardColors.backgroundDark),
