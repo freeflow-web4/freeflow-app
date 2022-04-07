@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_page.dart';
@@ -21,9 +23,20 @@ class _CreateWalletPageState extends State<CreateWalletPage>
     super.initState();
   }
 
+  final pageController = CreateWalletController();
+
   int currentIndex = 0;
 
   bool isIndicatorAnimationDone = false;
+
+  //TODO: analyze if it has been used
+  double get indicatorPadding {
+    final height = MediaQuery.of(context).size.height;
+    final halfHeight = (height / 2)*1.05;
+    return pageController.pageIndicatorHeight > halfHeight
+        ? pageController.pageIndicatorHeight
+        : halfHeight;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,29 +60,39 @@ class _CreateWalletPageState extends State<CreateWalletPage>
               isCurrent: currentIndex == 3 && isIndicatorAnimationDone,
               onValid: onPrivateKeyPageValid,
               //TODO: pass from controller
-              privateKey: 'love spirit earth play share abundance life geometry sacred ancient egypt rio',
+              privateKey:
+                  'love spirit earth play share abundance life geometry sacred ancient egypt rio',
+              onHeightChanged: pageController.updatePageIndicatorHeight,
             ),
           ],
           initialIndex: currentIndex,
           onPageSwiped: onSwiped,
         ),
         Positioned.fill(
-          child: Container(
-            alignment: Alignment.topCenter,
-            padding: const EdgeInsets.only(top:450),
-            child: AnimatedDotIndicatorWidget(
-              key: const ValueKey('createWalletIndicatorKey'),
-              currentIndex: currentIndex,
-              length: 5,
-              totalAnimationStartUpDuration: const Duration(
-                seconds: 4,
-              ),
-              onAnimationEnd: () {
-                setState(() {
-                  isIndicatorAnimationDone = true;
-                });
-              },
-            ),
+          child: Observer(
+            builder: (context) {
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease,
+                alignment: Alignment.topCenter,
+                padding: EdgeInsets.only(top: pageController.pageIndicatorHeight),
+                child:
+                    // Text((pageController.pageIndicatorHeight ~/1).toString())
+                    AnimatedDotIndicatorWidget(
+                  key: const ValueKey('createWalletIndicatorKey'),
+                  currentIndex: currentIndex,
+                  length: 5,
+                  totalAnimationStartUpDuration: const Duration(
+                    seconds: 4,
+                  ),
+                  onAnimationEnd: () {
+                    setState(() {
+                      isIndicatorAnimationDone = true;
+                    });
+                  },
+                ),
+              );
+            },
           ),
         )
       ],

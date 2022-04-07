@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class CreateWalletPrivateKeyShowStateAnimations {
   final Animation<double> title1Opacity;
-  final Animation<double> pinFieldAnimationOpacity;
-  final Animation<double> keyboardAnimationOpacity;
+  final Animation<double> title2Opacity;
+  final Animation<double> title3Opacity;
   final Animation<double> confirmButtonAnimationOpacity;
 
   CreateWalletPrivateKeyShowStateAnimations(AnimationController controller)
@@ -18,7 +18,7 @@ class CreateWalletPrivateKeyShowStateAnimations {
             ),
           ),
         ),
-        pinFieldAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
+        title2Opacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
@@ -28,7 +28,7 @@ class CreateWalletPrivateKeyShowStateAnimations {
             ),
           ),
         ),
-        keyboardAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
+        title3Opacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
