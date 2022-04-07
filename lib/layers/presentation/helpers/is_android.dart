@@ -1,6 +1,6 @@
 import 'dart:io';
 
-bool isAndroid(){
+bool isAndroidOrWeb(){
   try{
     return Platform.isAndroid;
   }catch(e){

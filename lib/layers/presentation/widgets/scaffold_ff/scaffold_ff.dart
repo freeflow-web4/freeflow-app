@@ -66,7 +66,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
         },
 
         child: SafeArea(
-          top: isAndroid(),
+          top: isAndroidOrWeb(),
           bottom: position != height,
           child: SizedBox(
             height: height,
@@ -120,7 +120,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
         children: [
           Container(
             alignment: Alignment.bottomCenter,
-            height: isAndroid() ? 50 : 72,
+            height: isAndroidOrWeb() ? 50 : 72,
             width: 64,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -187,7 +187,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               SizedBox(
-                height: isAndroid() ? 12 : 40,
+                height: isAndroidOrWeb() ? 12 : 40,
               ),
               IconMenu(
                 urlIcon : IconsAsset.user,
@@ -296,7 +296,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
   void checkSizeOfPage(){
     height = MediaQuery.of(context).size.height;
     if(height < 666 && !startedPage){
-      double pageSize = height - ((isAndroid() ? 50 : 72) + 74);
+      double pageSize = height - ((isAndroidOrWeb() ? 50 : 72) + 74);
       iconSize = (pageSize/10)* 0.6;
       iconPadding = iconSize * 0.4;
       startedPage = true;
