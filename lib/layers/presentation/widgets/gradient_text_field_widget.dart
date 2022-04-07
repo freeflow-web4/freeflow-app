@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
@@ -8,7 +9,7 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_pin_cod
 
 class GradientTextFieldWidget extends StatefulWidget {
   final String? errorText;
-  final String hintText;
+  final String? hintText;
   final TextEditingController? textController;
   final bool showSecondText;
   final void Function(String)? onChanged;
@@ -24,13 +25,15 @@ class GradientTextFieldWidget extends StatefulWidget {
   final String? pinCode;
   final Color? obscureButtonColor;
   final Widget Function(Color)? sufixWidget;
+  final void Function(String text)? onEditingComplete;
+  final int onEditingCompleteDurationInMili;
   const GradientTextFieldWidget({
     Key? key,
-    required this.errorText,
-    required this.hintText,
+    this.errorText,
+    this.hintText,
     this.textController,
     this.inputNode,
-    required this.onChanged,
+    this.onChanged,
     required this.isFieldValid,
     this.showSecondText = false,
     this.maxLines = 1,
@@ -43,6 +46,8 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.pinCode,
     this.obscureButtonColor,
     this.sufixWidget,
+    this.onEditingComplete,
+    this.onEditingCompleteDurationInMili = 1000,
   }) : super(key: key);
 
   @override
@@ -54,6 +59,9 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
     with TextThemes, SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<Offset> offset;
+
+  bool isTyping = false;
+  Timer? _debounce;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +97,10 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                       'key_for_text_field${widget.pinCode}',
                     ),
                     initialValue: widget.pinCode,
-                    onChanged: widget.onChanged,
+                    onChanged: (text) {
+                      _onInputChanged(text);
+                      widget.onChanged?.call(text);
+                    },
                     readOnly: widget.fieldReadOnly,
                     focusNode: widget.inputNode,
                     style: TextStyle(
@@ -183,5 +194,15 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
         )
       ],
     );
+  }
+
+  void _onInputChanged(String value) {
+    if (widget.onEditingComplete == null) return;
+    isTyping = true;
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(
+        Duration(milliseconds: widget.onEditingCompleteDurationInMili), () {
+      widget.onEditingComplete?.call(value);
+    });
   }
 }

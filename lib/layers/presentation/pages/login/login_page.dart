@@ -42,6 +42,8 @@ class _LoginPageState extends State<LoginPage>
 
   bool _swipeEnabled = true;
 
+  int currentButtonKey = 0;
+
   @override
   void initState() {
     super.initState();
@@ -76,7 +78,18 @@ class _LoginPageState extends State<LoginPage>
           duration: const Duration(milliseconds: _animationDurationInMili ~/ 2),
         )
         .orCancel
-        .then((value) => loginController.onSwipe());
+        .then((value) async {
+      await loginController.onSwipe();
+      _controller
+          .animateBack(
+            1,
+            duration: Duration.zero,
+          )
+          .orCancel;
+      setState(() {
+        currentButtonKey += 1;
+      });
+    });
   }
 
   @override
@@ -129,6 +142,7 @@ class _LoginPageState extends State<LoginPage>
                 text: "LET'S GO!",
                 startAnimation: animationDone,
                 movementEnable: _swipeEnabled,
+                key: ValueKey('swipeButton$currentButtonKey'),
               ),
             ),
             const AdaptativeSpacer(
