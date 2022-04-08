@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'controller/edit_profile_controller.dart';
@@ -21,14 +23,20 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   TextEditingController controllerName = TextEditingController();
   bool hasImage = true;
   bool invalidName = false;
+  bool loadingSendData = false;
+  bool loadingPhotos = false;
+  final _formKey = GlobalKey<FormState>();
+  int itemSelected = 0;
 
-
+  List images = [
+    'https://picsum.photos/250?image=9',
+    'https://picsum.photos/250?image=8',
+    'https://picsum.photos/250?image=10' ];
 
   @override
   void initState() {
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +63,13 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                   children: [
                     TextButton(
                       onPressed: (){
-
+                        onTapCancel();
                       },
                       child: Text(
                         TranslationService.translate(context, "editProfile.cancel",),
                         style: subtitleTextStyle.copyWith(
-                            color: StandardColors.grey79,
-                            fontWeight: FontWeight.w500
+                          color: StandardColors.grey79,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -71,13 +79,13 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                     ),
                     TextButton(
                       onPressed: (){
-
+                        onTapSave();
                       },
                       child: Text(
                         TranslationService.translate(context, "editProfile.save",),
                         style: subtitleTextStyle.copyWith(
-                            color: StandardColors.blueLight,
-                            fontWeight: FontWeight.bold
+                          color: StandardColors.blueLight,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     )
@@ -100,15 +108,45 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                       height: 128,
                       width: 128,
                       decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(64)),
-                          border: Border.all(
-                              color: StandardColors.backgroundDark,
-                              width: 3
-                          )
+                        borderRadius: const BorderRadius.all(Radius.circular(64)),
+                        border: Border.all(
+                          color: StandardColors.backgroundDark,
+                          width: 3,
+                        ),
                       ),
                       child: ClipRRect(
-                          borderRadius: const BorderRadius.all(Radius.circular(64)),
-                          child: imageUser('https://picsum.photos/250?image=9')),
+                        borderRadius: const BorderRadius.all(Radius.circular(64)),
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              width: 128.0,
+                              height: 128.0,
+                              child: Shimmer.fromColors(
+                                direction: ShimmerDirection.ltr,
+                                baseColor: const Color(0XFFD0D0D0).withOpacity(0.8),
+                                highlightColor: const Color(0XFFFCFCFC),
+                                child: Container(
+                                  width: 128.0,
+                                  height: 128.0,
+                                  color: Colors.white,
+                                ),),),
+                            imageUser('https://picsum.photos/250?image=9'),
+                            Material(
+                              borderRadius: const BorderRadius.all(Radius.circular(64)),
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: const BorderRadius.all(Radius.circular(64)),
+                                onTap: (){
+                                  onTapSelectImage();
+                                },
+                                child: const SizedBox(
+                                  height: 122,
+                                  width: 122,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),),
                     ),
 
                     const SizedBox(
@@ -117,7 +155,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
                     TextButton(
                       onPressed: (){
-
+                        onTapSelectImage();
                       },
                       child: Text(
                         TranslationService.translate(context, "editProfile.changeProfilePhoto",),
@@ -151,56 +189,58 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                       height: 50,
                       child: Stack(
                         children: [
-                          TextFormField(
-                            key: const ValueKey('key_for_text_field',),
-                            onChanged: (text) {
-                              setState(() {
-                                if(controllerName.text.substring(0,1) == ' '){
-                                  controllerName.text = controllerName.text.substring(1);
+                          Form(
+                            key: _formKey,
+                            child: TextFormField(
+                              key: const ValueKey('key_for_text_field',),
+                              onChanged: (text) {
+                                setState(() {
+                                  if(controllerName.text.substring(0,1) == ' '){
+                                    controllerName.text = controllerName.text.substring(1);
+                                  }
+                                });
+                              },
+                              validator: (text){
+                                if(text!.length > 60){
+                                  return TranslationService.translate(context, "editProfile.maximum60Characters",).replaceFirst('70', '${text.length}');
+                                }else if(text.isEmpty){
+                                  return TranslationService.translate(context, "editProfile.pleaseEnterYourName",);
                                 }
-                              });
-                            },
-                            validator: (text){
-                              if(text!.length > 60){
-                                return TranslationService.translate(context, "editProfile.maximum60Characters",).replaceFirst('70', '${text.length}');
-                              }else if(text.isEmpty){
-                                return TranslationService.translate(context, "editProfile.pleaseEnterYourName",);
-                              }
-                              return null;
-                            },
-                            textCapitalization: TextCapitalization.words,
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.go,
-                            style: TextStyle(
+                                return null;
+                              },
+                              textCapitalization: TextCapitalization.words,
+                              keyboardType: TextInputType.name,
+                              textInputAction: TextInputAction.go,
+                              style: TextStyle(
                                 color: keyboardIsVisible ?
                                 StandardColors.backgroundDark :
                                 StandardColors.grey69,
                                 fontFamily: 'Akrobat',
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold
-                            ),
-                            controller: controllerName,
-                            decoration:  InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-                              border: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              focusedErrorBorder: InputBorder.none,
-                              labelText: TranslationService.translate(context, "editProfile.name",),
-                              labelStyle: const TextStyle(
-                                fontSize: 16,
-                                color: StandardColors.grey79,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
                               ),
-                              suffixIcon: controllerName.text.isNotEmpty ? IconButton(
-                                onPressed: (){
-                                  setState(() {
-                                    controllerName.text = '';
-                                  });
-                                },
-                                icon: const Material(
+                              controller: controllerName,
+                              decoration:  InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                                border: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                focusedErrorBorder: InputBorder.none,
+                                labelText: TranslationService.translate(context, "editProfile.name",),
+                                labelStyle: const TextStyle(
+                                  fontSize: 16,
+                                  color: StandardColors.grey79,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Poppins',
+                                ),
+                                suffixIcon: controllerName.text.isNotEmpty ? IconButton(
+                                  onPressed: (){
+                                    setState(() {
+                                      controllerName.text = '';
+                                    });
+                                  },
+                                  icon: const Material(
                                     borderRadius: BorderRadius.all(Radius.circular(16)),
                                     color: StandardColors.grey69,
                                     child: Padding(
@@ -210,10 +250,11 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                         color: Colors.white,
                                         size: 16,
                                       ),
-                                    )),
-                              ) :  null,
+                                    ),),
+                                ) :  null,
+                              ),
+                              maxLines: 1,
                             ),
-                            maxLines: 1,
                           ),
                           Positioned(
                             bottom: 0,
@@ -233,7 +274,15 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                           )
                         ],
                       ),
-                    )
+                    ),
+
+
+                    if(loadingSendData)...[
+                      const Padding(
+                        padding: EdgeInsets.only(top: mdSpacingx2),
+                        child: CircularProgressIndicator(),
+                      )
+                    ]
 
 
 
@@ -252,23 +301,12 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
       return Image.network(
         urlImage,
         fit: BoxFit.cover,
-        loadingBuilder: (context, child, loadingProgress) {
-          //if (loadingProgress == null) return child;
-          return  SizedBox(
-            width: 128.0,
-            height: 128.0,
-            child: Shimmer.fromColors(
-              baseColor: Colors.red,
-              highlightColor: Colors.yellow,
-              child: Container(
-                  width: 128.0,
-                  height: 128.0,
-                color: Colors.white,
-              ),
-            ),
-          );
-        },
-        errorBuilder: (context, url, error) =>  const Icon(Icons.error),
+        errorBuilder: (context, url, error) =>  Container(
+          color: StandardColors.grey79,
+          child: const Center(
+            child: Icon(Icons.error,),
+          ),
+        ),
       );
     }else{
       return Image.asset(
@@ -281,5 +319,416 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   bool get keyboardIsVisible{
     return MediaQuery.of(context).viewInsets.bottom > 0;
   }
+
+  void onTapSelectImage() {
+    showModalSelectPhoto();
+  }
+
+  void onTapCancel() {
+    showModalCancel();
+  }
+
+  void onTapSave() {
+    if(_formKey.currentState!.validate()){
+      setState(() {
+        loadingSendData = true;
+        invalidName = false;
+      });
+
+
+    }else{
+      setState(() {
+        invalidName = true;
+      });
+    }
+    setState(() {
+      //loading = false;
+    });
+  }
+
+  void showModalCancel(){
+    showModalBottomSheet(
+        isDismissible: false,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        context: context,
+        builder: (context) {
+          return SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  height: 4,
+                  width: 52,
+                  margin: const EdgeInsets.symmetric(vertical: 17),
+                  decoration: const BoxDecoration(
+                      color: StandardColors.backgroundDark,
+                      borderRadius: BorderRadius.all(Radius.circular(2))
+                  ),
+                ),
+
+                Text(
+                  TranslationService.translate(context, "editProfile.discardChanges",),
+                  style: textH6TextStyle,
+                ),
+
+                const SizedBox(
+                  height: 24,
+                ),
+
+                Text(
+                  TranslationService.translate(context, "editProfile.discardChangesText",),
+                  textAlign: TextAlign.center,
+                  style: textH6TextStyle.copyWith(
+                    fontSize: 20,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 40,
+                ),
+
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  height: 39,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Future.delayed(const Duration(milliseconds: 100), (){
+                        Navigator.of(context).pop();
+                        Routes.instance.pop();
+                      });
+                    },
+                    style: OutlinedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+
+                        borderRadius: BorderRadius.all(Radius.circular(19.5),),
+                      ),
+                      primary: StandardColors.grey79,
+                      side: const BorderSide(color: StandardColors.grey79, width: 1),
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      alignment: Alignment.center,
+                      child: textBold18(
+                          context,
+                          text:TranslationService.translate(context, "editProfile.discardChangesAccept",),
+                          color: StandardColors.grey79
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 24,
+                ),
+
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  height: 39,
+                  child: Material(
+                    borderRadius: const BorderRadius.all(Radius.circular(19.5)),
+                    color: StandardColors.blueLight,
+                    child: InkWell(
+                      borderRadius: const BorderRadius.all(Radius.circular(19.5)),
+                      onTap: (){
+                        Future.delayed(const Duration(milliseconds: 100), (){
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 39,
+                        width: double.infinity,
+                        child: textBold18(
+                            context,
+                            text:TranslationService.translate(context, "editProfile.keepEdition",),
+                            color: StandardColors.white
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+              ],
+            ),
+          );
+        });
+  }
+
+  void showModalSelectPhoto(){
+    showModalBottomSheet(
+      isScrollControlled:true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height*0.8,
+          child: StatefulBuilder(builder: (BuildContext context, StateSetter mystate){
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  height: 4,
+                  width: 52,
+                  margin: const EdgeInsets.symmetric(vertical: 17),
+                  decoration: const BoxDecoration(
+                      color: StandardColors.backgroundDark,
+                      borderRadius: BorderRadius.all(Radius.circular(2))
+                  ),
+                ),
+
+                Text(
+                  TranslationService.translate(context, "editProfile.gallery",),
+                  style: textH6TextStyle,
+                ),
+
+                const SizedBox(
+                  height: 12,
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomFilterBarItem(
+                        tabName: TranslationService.translate(context, "editProfile.all",),
+                        tabMargin: EdgeInsets.zero,
+                        isSelected: itemSelected == 0,
+                        onTap: () {
+                          mystate(() {
+                            itemSelected = 0;
+                          });
+                        },
+                      ),
+                      CustomFilterBarItem(
+                        tabName: TranslationService.translate(context, "editProfile.tickets",),
+                        tabMargin: EdgeInsets.zero,
+                        isSelected: itemSelected == 1,
+                        onTap: () {
+                          mystate(() {
+                            itemSelected = 1;
+                          });
+                        },
+                      ),
+                      CustomFilterBarItem(
+                        tabName: TranslationService.translate(context, "editProfile.badges",),
+                        tabMargin: EdgeInsets.zero,
+                        isSelected: itemSelected == 2,
+                        onTap: () {
+                          mystate(() {
+                            itemSelected = 2;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 12,
+                ),
+
+                const Divider(
+                  color: StandardColors.greyCA,
+                  thickness: 1.5,
+                  indent: 32,
+                  endIndent: 32,
+                ),
+
+                const SizedBox(
+                  height: 12,
+                ),
+
+                if(images.isEmpty)...[
+                  Text(
+                    TranslationService.translate(context, "editProfile.noImage",),
+                    style: textH6TextStyle.copyWith(
+                        color: StandardColors.greyCA
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 24,
+                  ),
+
+                  SvgPicture.asset(
+                    IconsAsset.flowerLogo,
+                    height: 107,
+                    width: 107,
+                  ),
+
+                  const SizedBox(
+                    height: 24,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 56),
+                    child: Text(
+                      TranslationService.translate(context, "editProfile.noImageText",),
+                      textAlign: TextAlign.center,
+                      style: textH6TextStyle.copyWith(
+                          color: StandardColors.greyCA
+                      ),
+                    ),
+                  ),
+                ]else...[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height*0.8 - 145,
+                    child: GridView.count(
+                      primary: false,
+                      padding: const EdgeInsets.all(1),
+                      crossAxisSpacing: 1,
+                      mainAxisSpacing: 1,
+                      crossAxisCount: 3,
+                      children: <Widget>[
+                        if(loadingPhotos)...[
+                          for (int i=0; i<27; i++)...[
+                            Shimmer.fromColors(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width/3,
+                                height: MediaQuery.of(context).size.width/3,
+                                color: Colors.white,
+                              ),
+                              baseColor: const Color(0XFFD0D0D0).withOpacity(0.8),
+                              highlightColor: const Color(0XFFFCFCFC),
+                            ),
+                          ],
+                        ]else...[
+                          for (int i=0; i<images.length; i++)...[
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width/3,
+                              height: MediaQuery.of(context).size.width/3,
+                              child: Stack(
+                                children: [
+                                  Shimmer.fromColors(
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width/3,
+                                      height: MediaQuery.of(context).size.width/3,
+                                      color: Colors.white,
+                                    ),
+                                    baseColor: const Color(0XFFD0D0D0).withOpacity(0.8),
+                                    highlightColor: const Color(0XFFFCFCFC),
+                                  ),
+                                  Image.network(
+                                    images[i],
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, url, error) =>  Container(
+                                      color: StandardColors.grey79,
+                                      child: const Center(
+                                        child: Icon(Icons.error,),
+                                      ),
+                                    ),
+                                  ),
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: (){
+
+                                      },
+                                      child: SizedBox(
+                                        width: MediaQuery.of(context).size.width/3,
+                                        height: MediaQuery.of(context).size.width/3,
+                                      ),
+                                    ),
+                                  )
+
+                                ],
+                              ),
+                            ),
+                          ],
+                        ]
+
+                      ],
+                    ),
+                  )
+                ]
+              ],
+            );
+          }
+          ),
+        );
+      },
+    );
+  }
+
+
+
+}
+
+
+class CustomFilterBarItem extends StatelessWidget {
+  final EdgeInsets? tabMargin;
+  final String tabName;
+  final Function onTap;
+  final bool isSelected;
+  final double? height;
+  const CustomFilterBarItem({
+    Key? key,
+    required this.tabName,
+    required this.isSelected,
+    required this.onTap,
+    this.tabMargin,
+    this.height,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onTap(),
+      child: Container(
+        height: height ?? 25,
+        padding: tabMargin ?? const EdgeInsets.symmetric(horizontal: 36),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              tabName,
+              style: const TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Akrobat',
+                  fontWeight: FontWeight.w600,
+                  color: StandardColors.grey69),
+            ),
+            customIndicator(isActive: isSelected)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget customIndicator({
+    required bool isActive,
+    List<Color>? colors,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.fastOutSlowIn,
+      height: isSelected ? 3 : 0,
+      width: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        gradient: LinearGradient(
+          colors: colors ??
+              [
+                const Color(0xffDE83E0).withOpacity(0.6),
+                const Color(0xff32B4FF).withOpacity(0.6),
+              ],
+        ),
+      ),
+    );
+  }
+
+
 
 }

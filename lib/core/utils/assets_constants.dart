@@ -20,5 +20,6 @@ class IconsAsset {
   static const String example = "assets/images/icons/menu/example_icon.png";
   static const String menu = "assets/images/icons/menu/hamburg.svg";
   static const String backgroundHoroscope = "assets/images/background_horoscope.png";
+  static const String flowerLogo = "assets/images/flower_logo.svg";
 
 }
