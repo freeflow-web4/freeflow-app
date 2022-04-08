@@ -21,37 +21,70 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> with TextThemes {
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
     return ScaffoldFreeFlow(
-      body: SingleChildScrollView(
-        child: Column(
+      body: SizedBox(
+        height: screenHeight,
+        child: Stack(
           children: [
-            const SizedBox(height: huge5Spacing),
-            ProfileImageWidget(
-              onTap: () {},
+            Column(
+              children: [
+                const SizedBox(height: huge5Spacing),
+                ProfileImageWidget(
+                  onTap: () {},
+                ),
+                const SizedBox(height: normalSpacing),
+                const ProfileNamesWidget(
+                  fullname: 'Luiz Fernando Thomaz Ribeiro Coelho Junior',
+                  username: 'luis_fernandoribeiro',
+                ),
+                const SizedBox(height: mdSpacing),
+                ProfileSharedButtonsWidget(
+                  onTapShare: () => print('share'),
+                  onTapCopy: () => print('copy'),
+                ),
+                const SizedBox(height: mdSpacing),
+                const CustomDividerWidget(horizontalPadding: mdSpacingx2),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: mdSpacingx2),
+                        ProfileButtonListWidget(),
+                        SizedBox(height: mdSpacingx2),
+                        CustomDividerWidget(horizontalPadding: mdSpacingx2),
+                        SizedBox(height: mdSpacingx2),
+                        Visibility(
+                          visible: screenWidth <= 375,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: mdSpacingx2),
+                            child: ProfileButtonWidget(
+                              title: "profile.logout",
+                              icon: IconsAsset.logout,
+                              onTap: () {},
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
-            const SizedBox(height: normalSpacing),
-            const ProfileNamesWidget(
-              fullname: 'Luiz Fernando Thomaz Ribeiro Coelho Junior',
-              username: 'luis_fernandoribeiro',
-            ),
-            const SizedBox(height: mdSpacing),
-            ProfileSharedButtonsWidget(
-              onTapShare: () => print('share'),
-              onTapCopy: () => print('copy'),
-            ),
-            const SizedBox(height: mdSpacing),
-            const CustomDividerWidget(horizontalPadding: mdSpacingx2),
-            const SizedBox(height: mdSpacingx2),
-            const ProfileButtonListWidget(),
-            const SizedBox(height: mdSpacingx2),
-            const CustomDividerWidget(horizontalPadding: mdSpacingx2),
-            const SizedBox(height: mdSpacingx2),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
-              child: ProfileButtonWidget(
-                title: "profile.logout",
-                icon: IconsAsset.logout,
-                onTap: () {},
+            Visibility(
+              visible: screenWidth > 375,
+              child: Positioned(
+                bottom: 36,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
+                  child: ProfileButtonWidget(
+                    title: "profile.logout",
+                    icon: IconsAsset.logout,
+                    onTap: () {},
+                  ),
+                ),
               ),
             ),
           ],

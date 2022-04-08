@@ -27,7 +27,7 @@ class ProfileNamesWidget extends StatelessWidget with TextThemes {
           const SizedBox(height: smSpacing),
           textBody4(
             context,
-            textKey: '$username.flw',
+            textKey: '@$username.flw',
             maxLines: 1,
             color: StandardColors.lightGrey,
           ),
