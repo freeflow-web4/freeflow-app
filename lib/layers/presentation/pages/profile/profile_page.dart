@@ -24,6 +24,14 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return ScaffoldFreeFlow(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(IconsAsset.scaffoldBackground),
+          fit: BoxFit.cover,
+          opacity: 0.12,
+        ),
+      ),
+      backgroundColor: StandardColors.lightBackground,
       body: SizedBox(
         height: screenHeight,
         child: Stack(
