@@ -41,6 +41,10 @@ class Routes {
     _routeService.pushReplacement(const EditProfileRoute());
   }
 
+  void goToCutImagePageRoute(String url) {
+    _routeService.push( CutImageRoute( urlImage: url));
+  }
+
   void pop() {
     _routeService.pop();
   }

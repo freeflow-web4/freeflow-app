@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -28,7 +29,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   final _formKey = GlobalKey<FormState>();
   int itemSelected = 0;
 
-  List images = [
+  List<String> images = [
     'https://gizmodo.uol.com.br/wp-content/blogs.dir/8/files/2021/02/nyan-cat-1.gif',
     'https://picsum.photos/250?image=8',
     'https://picsum.photos/250?image=10' ];
@@ -193,6 +194,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                             key: _formKey,
                             child: TextFormField(
                               key: const ValueKey('key_for_text_field',),
+                              enabled: !loadingSendData,
                               onChanged: (text) {
                                 setState(() {
                                   if(controllerName.text.substring(0,1) == ' '){
@@ -280,7 +282,10 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                     if(loadingSendData)...[
                       const Padding(
                         padding: EdgeInsets.only(top: mdSpacingx2),
-                        child: CircularProgressIndicator(),
+                        child: LoadingWidget(isLoading: true,
+                          color: StandardColors.greyCA,
+                          size: 33,
+                        ),
                       )
                     ]
 
@@ -649,7 +654,9 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
             color: Colors.transparent,
             child: InkWell(
               onTap: (){
-
+                Future.delayed(Duration(milliseconds: 80), (){
+                  Routes.instance.goToCutImagePageRoute(images[index]);
+                });
               },
               child: SizedBox(
                 width: size,

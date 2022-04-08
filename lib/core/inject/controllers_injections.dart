@@ -2,6 +2,7 @@ import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.da
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
+import 'package:freeflow/layers/presentation/pages/cut_image/controller/cut_image_controller.dart';
 import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_profile_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
@@ -67,5 +68,9 @@ registerControllerDependencies(GetIt getIt) {
 
   getIt.registerLazySingleton<EditProfileController>(
         () => EditProfileController(),
+  );
+
+  getIt.registerLazySingleton<CutImageController>(
+        () => CutImageController(),
   );
 }
