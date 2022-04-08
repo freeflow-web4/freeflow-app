@@ -29,7 +29,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   int itemSelected = 0;
 
   List images = [
-    'https://picsum.photos/250?image=9',
+    'https://gizmodo.uol.com.br/wp-content/blogs.dir/8/files/2021/02/nyan-cat-1.gif',
     'https://picsum.photos/250?image=8',
     'https://picsum.photos/250?image=10' ];
 
@@ -123,8 +123,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                               height: 128.0,
                               child: Shimmer.fromColors(
                                 direction: ShimmerDirection.ltr,
-                                baseColor: const Color(0XFFD0D0D0).withOpacity(0.8),
-                                highlightColor: const Color(0XFFFCFCFC),
+                                baseColor: StandardColors.baseShimmer,
+                                highlightColor: StandardColors.highlightShimmer,
                                 child: Container(
                                   width: 128.0,
                                   height: 128.0,
@@ -549,7 +549,9 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                   height: 12,
                 ),
 
-                if(images.isEmpty)...[
+                if(loadingPhotos)...[
+                  gridView(shimmerImages())
+                ]else if(images.isEmpty)...[
                   Text(
                     TranslationService.translate(context, "editProfile.noImage",),
                     style: textH6TextStyle.copyWith(
@@ -582,75 +584,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                     ),
                   ),
                 ]else...[
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height*0.8 - 145,
-                    child: GridView.count(
-                      primary: false,
-                      padding: const EdgeInsets.all(1),
-                      crossAxisSpacing: 1,
-                      mainAxisSpacing: 1,
-                      crossAxisCount: 3,
-                      children: <Widget>[
-                        if(loadingPhotos)...[
-                          for (int i=0; i<27; i++)...[
-                            Shimmer.fromColors(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width/3,
-                                height: MediaQuery.of(context).size.width/3,
-                                color: Colors.white,
-                              ),
-                              baseColor: const Color(0XFFD0D0D0).withOpacity(0.8),
-                              highlightColor: const Color(0XFFFCFCFC),
-                            ),
-                          ],
-                        ]else...[
-                          for (int i=0; i<images.length; i++)...[
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width/3,
-                              height: MediaQuery.of(context).size.width/3,
-                              child: Stack(
-                                children: [
-                                  Shimmer.fromColors(
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width/3,
-                                      height: MediaQuery.of(context).size.width/3,
-                                      color: Colors.white,
-                                    ),
-                                    baseColor: const Color(0XFFD0D0D0).withOpacity(0.8),
-                                    highlightColor: const Color(0XFFFCFCFC),
-                                  ),
-                                  Image.network(
-                                    images[i],
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, url, error) =>  Container(
-                                      color: StandardColors.grey79,
-                                      child: const Center(
-                                        child: Icon(Icons.error,),
-                                      ),
-                                    ),
-                                  ),
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: (){
-
-                                      },
-                                      child: SizedBox(
-                                        width: MediaQuery.of(context).size.width/3,
-                                        height: MediaQuery.of(context).size.width/3,
-                                      ),
-                                    ),
-                                  )
-
-                                ],
-                              ),
-                            ),
-                          ],
-                        ]
-
-                      ],
-                    ),
-                  )
+                  gridView(imagesList()),
                 ]
               ],
             );
@@ -660,6 +594,89 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
       },
     );
   }
+
+  Widget gridView(List<Widget> children) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height*0.8 - 145,
+      child: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(1),
+        crossAxisSpacing: 1,
+        mainAxisSpacing: 1,
+        crossAxisCount: 3,
+        children: children,
+      ),
+    );
+  }
+
+  List<Widget> shimmerImages(){
+    List<Widget> list = [];
+    for (int i=0; i<27; i++){
+      list.add(shimmerItem());
+    }
+    return list;
+  }
+
+  List<Widget> imagesList(){
+    List<Widget> list = [];
+    for (int i=0; i<images.length; i++){
+      list.add(imagesItem(i));
+    }
+    return list;
+  }
+
+  Widget imagesItem(index){
+    double size = MediaQuery.of(context).size.width/3;
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        children: [
+          shimmerItem(),
+          Image.network(
+            images[index],
+            width: size,
+            height: size,
+            fit: BoxFit.cover,
+            errorBuilder: (context, url, error) =>  Container(
+              color: StandardColors.grey79,
+              child: const Center(
+                child: Icon(Icons.error,),
+              ),
+            ),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: (){
+
+              },
+              child: SizedBox(
+                width: size,
+                height: size,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget shimmerItem(){
+    double size = MediaQuery.of(context).size.width/3;
+    return Shimmer.fromColors(
+      child: Container(
+        width: size,
+        height: size,
+        color: Colors.white,
+      ),
+      baseColor: StandardColors.baseShimmer,
+      highlightColor: StandardColors.highlightShimmer,
+    );
+  }
+
+
+
 
 
 
