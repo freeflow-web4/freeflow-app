@@ -21,14 +21,10 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
-  final editController = findEditProfileController();
+  final EditProfileController editController = findEditProfileController();
   TextEditingController controllerName = TextEditingController();
-  bool hasImage = true;
-  bool invalidName = false;
-  bool loadingSendData = false;
-  bool loadingPhotos = false;
-  final _formKey = GlobalKey<FormState>();
-  int itemSelected = 0;
+
+
 
   List<String> images = [
     'https://gizmodo.uol.com.br/wp-content/blogs.dir/8/files/2021/02/nyan-cat-1.gif',
@@ -45,263 +41,256 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
     return Scaffold(
       backgroundColor: StandardColors.white,
 
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(IconsAsset.backgroundHoroscope),
-            opacity: 0.15,
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SafeArea(
-          bottom: false,
-          child: Stack(
-            children: [
-              Padding(
-                padding:  const EdgeInsets.symmetric(horizontal: mdSpacing),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: (){
-                        onTapCancel();
-                      },
-                      child: Text(
-                        TranslationService.translate(context, "editProfile.cancel",),
-                        style: subtitleTextStyle.copyWith(
-                          color: StandardColors.grey79,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      TranslationService.translate(context, "editProfile.editProfile",),
-                      style: textH6TextStyle,
-                    ),
-                    TextButton(
-                      onPressed: (){
-                        onTapSave();
-                      },
-                      child: Text(
-                        TranslationService.translate(context, "editProfile.save",),
-                        style: subtitleTextStyle.copyWith(
-                          color: StandardColors.blueLight,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+      body: Observer(
+        builder: (_) {
+          return Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(IconsAsset.backgroundHoroscope),
+                opacity: 0.15,
+                fit: BoxFit.cover,
               ),
-
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children:  [
-
-                    const SizedBox(
-                      height: hugeSpacing,
-                    ),
-
-                    Container(
-                      height: 128,
-                      width: 128,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(64)),
-                        border: Border.all(
-                          color: StandardColors.backgroundDark,
-                          width: 3,
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(64)),
-                        child: Stack(
-                          children: [
-                            SizedBox(
-                              width: 128.0,
-                              height: 128.0,
-                              child: Shimmer.fromColors(
-                                direction: ShimmerDirection.ltr,
-                                baseColor: StandardColors.baseShimmer,
-                                highlightColor: StandardColors.highlightShimmer,
-                                child: Container(
-                                  width: 128.0,
-                                  height: 128.0,
-                                  color: Colors.white,
-                                ),),),
-                            Observer(
-                              builder: (context) {
-                                return imageUser('https://picsum.photos/250?image=9');
-                              },
-                            ),
-                            Material(
-                              borderRadius: const BorderRadius.all(Radius.circular(64)),
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: const BorderRadius.all(Radius.circular(64)),
-                                onTap: (){
-                                  onTapSelectImage();
-                                },
-                                child: const SizedBox(
-                                  height: 122,
-                                  width: 122,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),),
-                    ),
-
-                    const SizedBox(
-                      height: normalSpacing,
-                    ),
-
-                    TextButton(
-                      onPressed: (){
-                        onTapSelectImage();
-                      },
-                      child: Text(
-                        TranslationService.translate(context, "editProfile.changeProfilePhoto",),
-                        style: const TextStyle(
-                          color: StandardColors.blueLight,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: mdSpacing,
-                    ),
-
-                    const Divider(
-                      color: StandardColors.greyCA,
-                      thickness: 1.5,
-                      endIndent: 32,
-                      indent: 32,
-                    ),
-
-                    const SizedBox(
-                      height: mdSpacing,
-                    ),
-
-
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 32),
-                      height: 50,
-                      child: Stack(
-                        children: [
-                          Form(
-                            key: _formKey,
-                            child: TextFormField(
-                              key: const ValueKey('key_for_text_field',),
-                              enabled: !loadingSendData,
-                              onChanged: (text) {
-                                setState(() {
-                                  if(controllerName.text.substring(0,1) == ' '){
-                                    controllerName.text = controllerName.text.substring(1);
-                                  }
-                                });
-                              },
-                              validator: (text){
-                                if(text!.length > 60){
-                                  return TranslationService.translate(context, "editProfile.maximum60Characters",).replaceFirst('70', '${text.length}');
-                                }else if(text.isEmpty){
-                                  return TranslationService.translate(context, "editProfile.pleaseEnterYourName",);
-                                }
-                                return null;
-                              },
-                              textCapitalization: TextCapitalization.words,
-                              keyboardType: TextInputType.name,
-                              textInputAction: TextInputAction.go,
-                              style: TextStyle(
-                                color: keyboardIsVisible ?
-                                StandardColors.backgroundDark :
-                                StandardColors.grey69,
-                                fontFamily: 'Akrobat',
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              controller: controllerName,
-                              decoration:  InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-                                border: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                focusedErrorBorder: InputBorder.none,
-                                labelText: TranslationService.translate(context, "editProfile.name",),
-                                labelStyle: const TextStyle(
-                                  fontSize: 16,
-                                  color: StandardColors.grey79,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Poppins',
-                                ),
-                                suffixIcon: controllerName.text.isNotEmpty ? IconButton(
-                                  onPressed: (){
-                                    setState(() {
-                                      controllerName.text = '';
-                                    });
-                                  },
-                                  icon: const Material(
-                                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                                    color: StandardColors.grey69,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(1.0),
-                                      child: Icon(
-                                        Icons.clear,
-                                        color: Colors.white,
-                                        size: 16,
-                                      ),
-                                    ),),
-                                ) :  null,
-                              ),
-                              maxLines: 1,
+            ),
+            child: SafeArea(
+              bottom: false,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding:  const EdgeInsets.symmetric(horizontal: mdSpacing),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: (){
+                            onTapCancel();
+                          },
+                          child: Text(
+                            TranslationService.translate(context, "editProfile.cancel",),
+                            style: subtitleTextStyle.copyWith(
+                              color: StandardColors.grey79,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              height: 3,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(1),
+                        ),
+                        Text(
+                          TranslationService.translate(context, "editProfile.editProfile",),
+                          style: textH6TextStyle,
+                        ),
+                        TextButton(
+                          onPressed: (){
+                            onTapSave();
+                          },
+                          child: Text(
+                            TranslationService.translate(context, "editProfile.save",),
+                            style: subtitleTextStyle.copyWith(
+                              color: StandardColors.blueLight,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children:  [
+
+                        const SizedBox(
+                          height: hugeSpacing,
+                        ),
+
+                        Container(
+                          height: 128,
+                          width: 128,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(64)),
+                            border: Border.all(
+                              color: StandardColors.backgroundDark,
+                              width: 3,
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(Radius.circular(64)),
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  width: 128.0,
+                                  height: 128.0,
+                                  child: Shimmer.fromColors(
+                                    direction: ShimmerDirection.ltr,
+                                    baseColor: StandardColors.baseShimmer,
+                                    highlightColor: StandardColors.highlightShimmer,
+                                    child: Container(
+                                      width: 128.0,
+                                      height: 128.0,
+                                      color: Colors.white,
+                                    ),),),
+                                Observer(
+                                  builder: (context) {
+                                    return imageUser('https://picsum.photos/250?image=9');
+                                  },
                                 ),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0XFF29B6B8),
-                                    Color(0xff6AAD6B)                                  ],
+                                Material(
+                                  borderRadius: const BorderRadius.all(Radius.circular(64)),
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: const BorderRadius.all(Radius.circular(64)),
+                                    onTap: (){
+                                      onTapSelectImage();
+                                    },
+                                    child: const SizedBox(
+                                      height: 122,
+                                      width: 122,
+                                    ),
+                                  ),
                                 ),
+                              ],
+                            ),),
+                        ),
+
+                        const SizedBox(
+                          height: normalSpacing,
+                        ),
+
+                        TextButton(
+                          onPressed: (){
+                            onTapSelectImage();
+                          },
+                          child: Text(
+                            TranslationService.translate(context, "editProfile.changeProfilePhoto",),
+                            style: const TextStyle(
+                              color: StandardColors.blueLight,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(
+                          height: mdSpacing,
+                        ),
+
+                        const Divider(
+                          color: StandardColors.greyCA,
+                          thickness: 1.5,
+                          endIndent: 32,
+                          indent: 32,
+                        ),
+
+                        const SizedBox(
+                          height: mdSpacing,
+                        ),
+
+
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 32),
+                          height: 50,
+                          child: Stack(
+                            children: [
+                              TextField(
+                                key: const ValueKey('key_for_text_field',),
+                                enabled: !editController.loadingSendData,
+                                onChanged: (text) {
+                                  setState(() {
+                                    if(controllerName.text.substring(0,1) == ' '){
+                                      controllerName.text = controllerName.text.substring(1);
+                                    }
+                                  });
+                                },
+                                textCapitalization: TextCapitalization.words,
+                                keyboardType: TextInputType.name,
+                                textInputAction: TextInputAction.go,
+                                style: TextStyle(
+                                  color: keyboardIsVisible ?
+                                  StandardColors.backgroundDark :
+                                  StandardColors.grey69,
+                                  fontFamily: 'Akrobat',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                controller: controllerName,
+                                decoration:  InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                                  border: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  labelText: TranslationService.translate(context, "editProfile.name",),
+                                  labelStyle: const TextStyle(
+                                    fontSize: 16,
+                                    color: StandardColors.grey79,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                  suffixIcon: controllerName.text.isNotEmpty ? IconButton(
+                                    onPressed: (){
+                                      setState(() {
+                                        controllerName.text = '';
+                                      });
+                                    },
+                                    icon: const Material(
+                                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                                      color: StandardColors.grey69,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(1.0),
+                                        child: Icon(
+                                          Icons.clear,
+                                          color: Colors.white,
+                                          size: 16,
+                                        ),
+                                      ),),
+                                  ) :  null,
+                                ),
+                                maxLines: 1,
                               ),
+                              Positioned(
+                                bottom: 0,
+                                child: Container(
+                                  height: 3,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(1),
+                                    ),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0XFF29B6B8),
+                                        Color(0xff6AAD6B)                                  ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+
+                        if(editController.loadingSendData)...[
+                          const Padding(
+                            padding: EdgeInsets.only(top: mdSpacingx2),
+                            child: LoadingWidget(isLoading: true,
+                              color: StandardColors.greyCA,
+                              size: 33,
                             ),
                           )
-                        ],
-                      ),
+                        ]
+
+
+
+                      ],
                     ),
-
-
-                    if(loadingSendData)...[
-                      const Padding(
-                        padding: EdgeInsets.only(top: mdSpacingx2),
-                        child: LoadingWidget(isLoading: true,
-                          color: StandardColors.greyCA,
-                          size: 33,
-                        ),
-                      )
-                    ]
-
-
-
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        }
       ),
     );
   }
@@ -346,17 +335,14 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   void onTapSave() {
-    if(_formKey.currentState!.validate()){
+    if(editController.validateName(controllerName.text, context)){
       setState(() {
-        loadingSendData = true;
-        invalidName = false;
+        editController.loadingSendData = true;
       });
 
 
     }else{
-      setState(() {
-        invalidName = true;
-      });
+
     }
     setState(() {
       //loading = false;
@@ -520,30 +506,30 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                       CustomFilterBarItem(
                         tabName: TranslationService.translate(context, "editProfile.all",),
                         tabMargin: EdgeInsets.zero,
-                        isSelected: itemSelected == 0,
+                        isSelected: editController.itemSelected == 0,
                         onTap: () {
                           mystate(() {
-                            itemSelected = 0;
+                            editController.itemSelected = 0;
                           });
                         },
                       ),
                       CustomFilterBarItem(
                         tabName: TranslationService.translate(context, "editProfile.tickets",),
                         tabMargin: EdgeInsets.zero,
-                        isSelected: itemSelected == 1,
+                        isSelected: editController.itemSelected == 1,
                         onTap: () {
                           mystate(() {
-                            itemSelected = 1;
+                            editController.itemSelected = 1;
                           });
                         },
                       ),
                       CustomFilterBarItem(
                         tabName: TranslationService.translate(context, "editProfile.badges",),
                         tabMargin: EdgeInsets.zero,
-                        isSelected: itemSelected == 2,
+                        isSelected: editController.itemSelected == 2,
                         onTap: () {
                           mystate(() {
-                            itemSelected = 2;
+                            editController.itemSelected = 2;
                           });
                         },
                       ),
@@ -566,7 +552,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                   height: 12,
                 ),
 
-                if(loadingPhotos)...[
+                if(editController.loadingPhotos)...[
                   gridView(shimmerImages())
                 ]else if(images.isEmpty)...[
                   Text(
@@ -575,7 +561,6 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                       color: StandardColors.greyCA,
                     ),
                   ),
-
                   const SizedBox(
                     height: 24,
                   ),

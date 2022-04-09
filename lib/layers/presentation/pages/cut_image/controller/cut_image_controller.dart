@@ -18,6 +18,7 @@ abstract class _CutImageControllerBase with Store {
   Uint8List? bytes;
 
   void onTapCancel()  {
+    bytes = null;
     Routes.instance.pop();
   }
 
@@ -34,6 +35,7 @@ abstract class _CutImageControllerBase with Store {
   }
 
   void backToEditProfile(Uint8List image){
+    bytes = null;
     Routes.instance.backToEditProfile(image);
   }
 
