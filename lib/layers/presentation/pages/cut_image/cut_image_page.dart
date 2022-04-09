@@ -7,6 +7,7 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 
 import 'controller/cut_image_controller.dart';
 
@@ -53,15 +54,18 @@ class _CutImagePageState extends State<CutImagePage>  with TextThemes{
                       overlayType: OverlayType.circle,
                       rotationTurns: 0,
                       zoomScale : 10,
-                      image: Image.memory(cutController.bytes!),
+                      image: Image.memory(cutController.bytes ?? Uint8List(1) ),
                     ),
-                    replacement: Container(
-                      //TODO
-                      ///DEFINIR O QUE IRÁ APARECER COM O LUIZ
+                    replacement: const Center(
+                      child: LoadingWidget(
+                        isLoading: true,
+                        color: StandardColors.greyCA,
+                        size: 33,
+                      ),
                     ),
-                  )
+                  ),
                 );
-              }
+              },
           ),
           Container(
             height: 72,

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -8,10 +10,16 @@ EditProfileController findEditProfileController() => GetIt.I.get<EditProfileCont
 class EditProfileController = _EditProfileControllerBase with _$EditProfileController;
 
 abstract class _EditProfileControllerBase with Store {
-  Future<void> onSwipe() {
-    return Routes.instance.goToAuthPageRoute();
-  }
 
+  @observable
+  Uint8List? imageBytes;
+
+  void onTapToChangePhoto(String urlImage) async {
+    Uint8List? bytes = await Routes.instance.goToCutImagePageRoute(urlImage);
+    if(bytes != null){
+      imageBytes = bytes;
+    }
+  }
 
 
 }

@@ -8,11 +8,26 @@ part of 'edit_profile_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$EditProfileController on _LoginControllerBase, Store {
+mixin _$EditProfileController on _EditProfileControllerBase, Store {
+  final _$imageBytesAtom = Atom(name: '_EditProfileControllerBase.imageBytes');
+
+  @override
+  Uint8List? get imageBytes {
+    _$imageBytesAtom.reportRead();
+    return super.imageBytes;
+  }
+
+  @override
+  set imageBytes(Uint8List? value) {
+    _$imageBytesAtom.reportWrite(value, super.imageBytes, () {
+      super.imageBytes = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
-
+imageBytes: ${imageBytes}
     ''';
   }
 }

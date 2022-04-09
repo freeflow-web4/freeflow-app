@@ -1,7 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
@@ -134,7 +132,11 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                   height: 128.0,
                                   color: Colors.white,
                                 ),),),
-                            imageUser('https://picsum.photos/250?image=9'),
+                            Observer(
+                              builder: (context) {
+                                return imageUser('https://picsum.photos/250?image=9');
+                              },
+                            ),
                             Material(
                               borderRadius: const BorderRadius.all(Radius.circular(64)),
                               color: Colors.transparent,
@@ -305,7 +307,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   Widget imageUser( String? urlImage) {
-    if(urlImage != null){
+    if(urlImage != null && editController.imageBytes == null){
       return Image.network(
         urlImage,
         fit: BoxFit.cover,
@@ -316,7 +318,14 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
           ),
         ),
       );
-    }else{
+    }
+    else if(editController.imageBytes != null){
+      return Image.memory(
+        editController.imageBytes!,
+        fit: BoxFit.cover,
+      );
+    }
+    else{
       return Image.asset(
         IconsAsset.backgroundHoroscope,
         fit: BoxFit.cover,
@@ -356,117 +365,117 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
   void showModalCancel(){
     showModalBottomSheet(
-        isDismissible: false,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        context: context,
-        builder: (context) {
-          return SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  height: 4,
-                  width: 52,
-                  margin: const EdgeInsets.symmetric(vertical: 17),
-                  decoration: const BoxDecoration(
-                      color: StandardColors.backgroundDark,
-                      borderRadius: BorderRadius.all(Radius.circular(2)),
+      isDismissible: false,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                height: 4,
+                width: 52,
+                margin: const EdgeInsets.symmetric(vertical: 17),
+                decoration: const BoxDecoration(
+                  color: StandardColors.backgroundDark,
+                  borderRadius: BorderRadius.all(Radius.circular(2)),
+                ),
+              ),
+
+              Text(
+                TranslationService.translate(context, "editProfile.discardChanges",),
+                style: textH6TextStyle,
+              ),
+
+              const SizedBox(
+                height: 24,
+              ),
+
+              Text(
+                TranslationService.translate(context, "editProfile.discardChangesText",),
+                textAlign: TextAlign.center,
+                style: textH6TextStyle.copyWith(
+                  fontSize: 20,
+                ),
+              ),
+
+              const SizedBox(
+                height: 40,
+              ),
+
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                height: 39,
+                child: OutlinedButton(
+                  onPressed: () {
+                    Future.delayed(const Duration(milliseconds: 100), (){
+                      Navigator.of(context).pop();
+                      Routes.instance.pop();
+                    });
+                  },
+                  style: OutlinedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+
+                      borderRadius: BorderRadius.all(Radius.circular(19.5),),
+                    ),
+                    primary: StandardColors.grey79,
+                    side: const BorderSide(color: StandardColors.grey79, width: 1),
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    alignment: Alignment.center,
+                    child: textBold18(
+                      context,
+                      text:TranslationService.translate(context, "editProfile.discardChangesAccept",),
+                      color: StandardColors.grey79,
+                    ),
                   ),
                 ),
+              ),
 
-                Text(
-                  TranslationService.translate(context, "editProfile.discardChanges",),
-                  style: textH6TextStyle,
-                ),
+              const SizedBox(
+                height: 24,
+              ),
 
-                const SizedBox(
-                  height: 24,
-                ),
-
-                Text(
-                  TranslationService.translate(context, "editProfile.discardChangesText",),
-                  textAlign: TextAlign.center,
-                  style: textH6TextStyle.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 40,
-                ),
-
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  height: 39,
-                  child: OutlinedButton(
-                    onPressed: () {
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                height: 39,
+                child: Material(
+                  borderRadius: const BorderRadius.all(Radius.circular(19.5)),
+                  color: StandardColors.blueLight,
+                  child: InkWell(
+                    borderRadius: const BorderRadius.all(Radius.circular(19.5)),
+                    onTap: (){
                       Future.delayed(const Duration(milliseconds: 100), (){
                         Navigator.of(context).pop();
-                        Routes.instance.pop();
                       });
                     },
-                    style: OutlinedButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-
-                        borderRadius: BorderRadius.all(Radius.circular(19.5),),
-                      ),
-                      primary: StandardColors.grey79,
-                      side: const BorderSide(color: StandardColors.grey79, width: 1),
-                    ),
                     child: Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(vertical: 8),
                       alignment: Alignment.center,
+                      height: 39,
+                      width: double.infinity,
                       child: textBold18(
-                          context,
-                          text:TranslationService.translate(context, "editProfile.discardChangesAccept",),
-                          color: StandardColors.grey79,
+                        context,
+                        text:TranslationService.translate(context, "editProfile.keepEdition",),
+                        color: StandardColors.white,
                       ),
                     ),
                   ),
                 ),
+              ),
 
-                const SizedBox(
-                  height: 24,
-                ),
+              const SizedBox(
+                height: 5,
+              ),
 
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  height: 39,
-                  child: Material(
-                    borderRadius: const BorderRadius.all(Radius.circular(19.5)),
-                    color: StandardColors.blueLight,
-                    child: InkWell(
-                      borderRadius: const BorderRadius.all(Radius.circular(19.5)),
-                      onTap: (){
-                        Future.delayed(const Duration(milliseconds: 100), (){
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 39,
-                        width: double.infinity,
-                        child: textBold18(
-                            context,
-                            text:TranslationService.translate(context, "editProfile.keepEdition",),
-                            color: StandardColors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 5,
-                ),
-
-              ],
-            ),
-          );
-        },);
+            ],
+          ),
+        );
+      },);
   }
 
   void showModalSelectPhoto(){
@@ -489,8 +498,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                   width: 52,
                   margin: const EdgeInsets.symmetric(vertical: 17),
                   decoration: const BoxDecoration(
-                      color: StandardColors.backgroundDark,
-                      borderRadius: BorderRadius.all(Radius.circular(2)),
+                    color: StandardColors.backgroundDark,
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
                   ),
                 ),
 
@@ -563,7 +572,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                   Text(
                     TranslationService.translate(context, "editProfile.noImage",),
                     style: textH6TextStyle.copyWith(
-                        color: StandardColors.greyCA,
+                      color: StandardColors.greyCA,
                     ),
                   ),
 
@@ -587,7 +596,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                       TranslationService.translate(context, "editProfile.noImageText",),
                       textAlign: TextAlign.center,
                       style: textH6TextStyle.copyWith(
-                          color: StandardColors.greyCA,
+                        color: StandardColors.greyCA,
                       ),
                     ),
                   ),
@@ -657,9 +666,11 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
             color: Colors.transparent,
             child: InkWell(
               onTap: (){
-                Future.delayed(Duration(milliseconds: 80), (){
-                  Routes.instance.goToCutImagePageRoute(images[index]);
+                Future.delayed(const Duration(milliseconds: 80), () async {
+                  editController.onTapToChangePhoto(images[index]);
+                  Navigator.of(context).pop();
                 });
+
               },
               child: SizedBox(
                 width: size,
@@ -722,10 +733,10 @@ class CustomFilterBarItem extends StatelessWidget {
             Text(
               tabName,
               style: const TextStyle(
-                  fontSize: 15,
-                  fontFamily: 'Akrobat',
-                  fontWeight: FontWeight.w600,
-                  color: StandardColors.grey69,),
+                fontSize: 15,
+                fontFamily: 'Akrobat',
+                fontWeight: FontWeight.w600,
+                color: StandardColors.grey69,),
             ),
             customIndicator(isActive: isSelected)
           ],
