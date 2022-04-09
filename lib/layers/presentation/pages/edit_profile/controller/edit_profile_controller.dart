@@ -5,9 +5,9 @@ part 'edit_profile_controller.g.dart';
 
 EditProfileController findEditProfileController() => GetIt.I.get<EditProfileController>();
 
-class EditProfileController = _LoginControllerBase with _$EditProfileController;
+class EditProfileController = _EditProfileControllerBase with _$EditProfileController;
 
-abstract class _LoginControllerBase with Store {
+abstract class _EditProfileControllerBase with Store {
   Future<void> onSwipe() {
     return Routes.instance.goToAuthPageRoute();
   }

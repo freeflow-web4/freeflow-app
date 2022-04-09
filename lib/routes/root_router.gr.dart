@@ -38,7 +38,7 @@ class RootRouter extends _i11.RootStackRouter {
       final args = routeData.argsAs<CutImageRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i1.CutImagePage(key: args.key, urlImage: args.urlImage));
+          child: _i1.CutImagePage(key: args.key, imageUrl: args.imageUrl));
     },
     EditProfileRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
@@ -98,24 +98,24 @@ class RootRouter extends _i11.RootStackRouter {
 /// generated route for
 /// [_i1.CutImagePage]
 class CutImageRoute extends _i11.PageRouteInfo<CutImageRouteArgs> {
-  CutImageRoute({_i12.Key? key, required String urlImage})
+  CutImageRoute({_i12.Key? key, required String imageUrl})
       : super(CutImageRoute.name,
             path: '/cut-image-page',
-            args: CutImageRouteArgs(key: key, urlImage: urlImage));
+            args: CutImageRouteArgs(key: key, imageUrl: imageUrl));
 
   static const String name = 'CutImageRoute';
 }
 
 class CutImageRouteArgs {
-  const CutImageRouteArgs({this.key, required this.urlImage});
+  const CutImageRouteArgs({this.key, required this.imageUrl});
 
   final _i12.Key? key;
 
-  final String urlImage;
+  final String imageUrl;
 
   @override
   String toString() {
-    return 'CutImageRouteArgs{key: $key, urlImage: $urlImage}';
+    return 'CutImageRouteArgs{key: $key, imageUrl: $imageUrl}';
   }
 }
 

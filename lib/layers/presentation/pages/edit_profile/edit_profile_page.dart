@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
@@ -369,7 +372,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                   margin: const EdgeInsets.symmetric(vertical: 17),
                   decoration: const BoxDecoration(
                       color: StandardColors.backgroundDark,
-                      borderRadius: BorderRadius.all(Radius.circular(2))
+                      borderRadius: BorderRadius.all(Radius.circular(2)),
                   ),
                 ),
 
@@ -419,7 +422,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                       child: textBold18(
                           context,
                           text:TranslationService.translate(context, "editProfile.discardChangesAccept",),
-                          color: StandardColors.grey79
+                          color: StandardColors.grey79,
                       ),
                     ),
                   ),
@@ -449,7 +452,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                         child: textBold18(
                             context,
                             text:TranslationService.translate(context, "editProfile.keepEdition",),
-                            color: StandardColors.white
+                            color: StandardColors.white,
                         ),
                       ),
                     ),
@@ -463,7 +466,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
               ],
             ),
           );
-        });
+        },);
   }
 
   void showModalSelectPhoto(){
@@ -487,7 +490,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                   margin: const EdgeInsets.symmetric(vertical: 17),
                   decoration: const BoxDecoration(
                       color: StandardColors.backgroundDark,
-                      borderRadius: BorderRadius.all(Radius.circular(2))
+                      borderRadius: BorderRadius.all(Radius.circular(2)),
                   ),
                 ),
 
@@ -560,7 +563,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                   Text(
                     TranslationService.translate(context, "editProfile.noImage",),
                     style: textH6TextStyle.copyWith(
-                        color: StandardColors.greyCA
+                        color: StandardColors.greyCA,
                     ),
                   ),
 
@@ -584,7 +587,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                       TranslationService.translate(context, "editProfile.noImageText",),
                       textAlign: TextAlign.center,
                       style: textH6TextStyle.copyWith(
-                          color: StandardColors.greyCA
+                          color: StandardColors.greyCA,
                       ),
                     ),
                   ),
@@ -593,7 +596,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                 ]
               ],
             );
-          }
+          },
           ),
         );
       },
@@ -602,7 +605,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
   Widget gridView(List<Widget> children) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height*0.8 - 145,
+      height: MediaQuery.of(context).size.height*0.8 - 150,
       child: GridView.count(
         primary: false,
         padding: const EdgeInsets.all(1),
@@ -722,7 +725,7 @@ class CustomFilterBarItem extends StatelessWidget {
                   fontSize: 15,
                   fontFamily: 'Akrobat',
                   fontWeight: FontWeight.w600,
-                  color: StandardColors.grey69),
+                  color: StandardColors.grey69,),
             ),
             customIndicator(isActive: isSelected)
           ],
