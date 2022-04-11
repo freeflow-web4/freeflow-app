@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/mock.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
@@ -43,18 +44,69 @@ abstract class WalletControllerBase with Store {
   }
 
   @action
-  List<String> getCategoryList(List<TranscriptEntity> transcripts) {
+  List<String> getCategoryList(
+    BuildContext context,
+    List<TranscriptEntity> transcripts,
+  ) {
     viewState = ViewState.loading;
     List<String> categoryList = [];
     if (categoryList.isEmpty) {
       categoryList.add('All');
     }
     for (int i = 0; i < transcripts.length; i++) {
-      if (!categoryList.contains(transcripts[i].category)) {
-        categoryList.add(transcripts[i].category);
+      if (!categoryList.contains(
+        getinternationalizedFilterName(context, transcripts[i].category),
+      )) {
+        categoryList.add(
+          getinternationalizedFilterName(context, transcripts[i].category),
+        );
       }
     }
+    categoryList.add(
+      TranslationService.translate(
+        context,
+        'wallet.networkUpdates',
+      ),
+    );
+    categoryList.add(
+      TranslationService.translate(
+        context,
+        'wallet.clearSelection',
+      ),
+    );
     viewState = ViewState.done;
+
     return categoryList;
+  }
+
+  String getinternationalizedFilterName(BuildContext context, String name) {
+    switch (name) {
+      case "gratitude":
+        {
+          return TranslationService.translate(
+            context,
+            'wallet.gratitude',
+          );
+        }
+
+      case "inter_action":
+        {
+          return TranslationService.translate(
+            context,
+            'wallet.interAction',
+          );
+        }
+      case "flower_exchange":
+        {
+          return TranslationService.translate(
+            context,
+            'wallet.flowerExchange',
+          );
+        }
+      default:
+        {
+          return name;
+        }
+    }
   }
 }

@@ -67,11 +67,12 @@ mixin _$WalletController on WalletControllerBase, Store {
       ActionController(name: 'WalletControllerBase');
 
   @override
-  List<String> getCategoryList(List<TranscriptEntity> transcripts) {
+  List<String> getCategoryList(
+      BuildContext context, List<TranscriptEntity> transcripts) {
     final _$actionInfo = _$WalletControllerBaseActionController.startAction(
         name: 'WalletControllerBase.getCategoryList');
     try {
-      return super.getCategoryList(transcripts);
+      return super.getCategoryList(context, transcripts);
     } finally {
       _$WalletControllerBaseActionController.endAction(_$actionInfo);
     }

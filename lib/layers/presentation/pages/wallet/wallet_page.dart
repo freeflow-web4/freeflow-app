@@ -37,11 +37,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           backgroundImage(context),
           Column(
             children: [
-              const SizedBox(height: largeSpacingx2),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
-                child: header(),
-              ),
+              header(),
               Expanded(
                 child: CustomTabBar(
                   width: double.infinity,
@@ -102,40 +98,48 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
   }
 
   Widget header() {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.bottomLeft,
-          margin: const EdgeInsets.only(
-            bottom: 16,
-          ),
-          child: textH6(
-            context,
-            textKey: TranslationService.translate(
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: mdSpacingx2,
+        right: mdSpacingx2,
+        top: largeSpacingx2,
+      ),
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.bottomLeft,
+            margin: const EdgeInsets.only(
+              bottom: normalSpacing,
+            ),
+            child: textH6(
               context,
-              'wallet.wallet',
-            ).toUpperCase(),
+              textKey: TranslationService.translate(
+                context,
+                'wallet.wallet',
+              ).toUpperCase(),
+            ),
           ),
-        ),
-        CustomActionCard(
-          cardHeight: 162,
-          cardWidth: double.infinity,
-          child: const TotalAmountText(totalAmount: '1111'),
-          onTapLeftAction: () {},
-          onTapRighAction: () {},
-          leftTextAction: TranslationService.translate(
-            context,
-            'wallet.deposit',
+          //TODO: awaiting data from backend (ThreeFold)
+          CustomActionCard(
+            cardHeight: 162,
+            cardWidth: double.infinity,
+            child: const TotalAmountText(totalAmount: '1111'),
+            onTapLeftAction: () {},
+            onTapRighAction: () {},
+            leftTextAction: TranslationService.translate(
+              context,
+              'wallet.deposit',
+            ),
+            rightTextAction: TranslationService.translate(
+              context,
+              'wallet.exchange',
+            ),
           ),
-          rightTextAction: TranslationService.translate(
-            context,
-            'wallet.exchange',
-          ),
-        ),
-        const SizedBox(
-          height: 16,
-        )
-      ],
+          const SizedBox(
+            height: normalSpacing,
+          )
+        ],
+      ),
     );
   }
 }
