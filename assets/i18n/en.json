@@ -62,5 +62,13 @@
         "noImage": "NO IMAGE",
         "noImageText": "YOU DO NOT HAVE COLLECTIBLES TO USE AS A PROFILE IMAGE.",
         "choose": "Choose"
+    },
+    "noInternet": {
+        "noInternetTitle": "NO INTERNET\nCONNECTION FOUND",
+        "noInternetSubtitle": "CHECK YOUR CONNECTION"
+    },
+    "systemInstability": {
+        "systemInstabilityTitle": "WE HAVE AN INSTABILITY\nIN THE SYSTEM",
+        "systemInstabilitySubtitle": "PLEASE RESTART THE APP"
     }
 }

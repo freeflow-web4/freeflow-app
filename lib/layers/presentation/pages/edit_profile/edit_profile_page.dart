@@ -6,7 +6,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,9 +35,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   @override
   void initState() {
     super.initState();
-    print(11111);
     editController.getUser();
-    print(11111);
 
   }
 
@@ -195,7 +193,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 32),
-                          height: 50,
+                          height: editController.invalidName == null ? 47 : 63 ,
                           child: Stack(
                             children: [
                               TextField(
@@ -258,6 +256,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                               Positioned(
                                 bottom: 0,
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                       height: 3,
@@ -274,9 +274,10 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                       Text(
                                         editController.invalidName!,
                                         style: const TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'Akrobat',
-                                            fontWeight: FontWeight.w800
+                                          fontSize: 12,
+                                          fontFamily: 'Akrobat',
+                                          fontWeight: FontWeight.w800,
+                                          color: StandardColors.error,
                                         ),
                                       )
                                     ]
@@ -352,6 +353,15 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   void onTapSave() {
+    showDialogDefault(
+      context,
+      type: DialogType.systemInstability,
+      onTap: (){
+        //TODO VERIFICAR SE SAI DA PAGINA
+        Navigator.of(context).pop();
+        Routes.instance.pop();
+      },
+    );
     if(editController.validateName(controllerName.text, context)){
 
     }
