@@ -1,3 +1,5 @@
+import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
@@ -67,7 +69,10 @@ registerControllerDependencies(GetIt getIt) {
   );
 
   getIt.registerLazySingleton<EditProfileController>(
-        () => EditProfileController(),
+        () => EditProfileController(
+            editProfileUsecase: getIt.get<EditProfileUsecase>(),
+            getProfileUsecase: getIt.get<GetProfileUsecase>()
+        ),
   );
 
   getIt.registerLazySingleton<CutImageController>(

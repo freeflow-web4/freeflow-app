@@ -9,21 +9,6 @@ part of 'edit_profile_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EditProfileController on _EditProfileControllerBase, Store {
-  final _$hasImageAtom = Atom(name: '_EditProfileControllerBase.hasImage');
-
-  @override
-  bool get hasImage {
-    _$hasImageAtom.reportRead();
-    return super.hasImage;
-  }
-
-  @override
-  set hasImage(bool value) {
-    _$hasImageAtom.reportWrite(value, super.hasImage, () {
-      super.hasImage = value;
-    });
-  }
-
   final _$invalidNameAtom =
       Atom(name: '_EditProfileControllerBase.invalidName');
 
@@ -37,22 +22,6 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
   set invalidName(String? value) {
     _$invalidNameAtom.reportWrite(value, super.invalidName, () {
       super.invalidName = value;
-    });
-  }
-
-  final _$loadingSendDataAtom =
-      Atom(name: '_EditProfileControllerBase.loadingSendData');
-
-  @override
-  bool get loadingSendData {
-    _$loadingSendDataAtom.reportRead();
-    return super.loadingSendData;
-  }
-
-  @override
-  set loadingSendData(bool value) {
-    _$loadingSendDataAtom.reportWrite(value, super.loadingSendData, () {
-      super.loadingSendData = value;
     });
   }
 
@@ -72,22 +41,6 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
     });
   }
 
-  final _$itemSelectedAtom =
-      Atom(name: '_EditProfileControllerBase.itemSelected');
-
-  @override
-  int get itemSelected {
-    _$itemSelectedAtom.reportRead();
-    return super.itemSelected;
-  }
-
-  @override
-  set itemSelected(int value) {
-    _$itemSelectedAtom.reportWrite(value, super.itemSelected, () {
-      super.itemSelected = value;
-    });
-  }
-
   final _$imageBytesAtom = Atom(name: '_EditProfileControllerBase.imageBytes');
 
   @override
@@ -103,15 +56,90 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
     });
   }
 
+  final _$userAtom = Atom(name: '_EditProfileControllerBase.user');
+
+  @override
+  ProfileEntity? get user {
+    _$userAtom.reportRead();
+    return super.user;
+  }
+
+  @override
+  set user(ProfileEntity? value) {
+    _$userAtom.reportWrite(value, super.user, () {
+      super.user = value;
+    });
+  }
+
+  final _$_pageStateAtom = Atom(name: '_EditProfileControllerBase._pageState');
+
+  @override
+  PageState get _pageState {
+    _$_pageStateAtom.reportRead();
+    return super._pageState;
+  }
+
+  @override
+  set _pageState(PageState value) {
+    _$_pageStateAtom.reportWrite(value, super._pageState, () {
+      super._pageState = value;
+    });
+  }
+
+  final _$_photoSelectedStateAtom =
+      Atom(name: '_EditProfileControllerBase._photoSelectedState');
+
+  @override
+  PhotoSelectedState get _photoSelectedState {
+    _$_photoSelectedStateAtom.reportRead();
+    return super._photoSelectedState;
+  }
+
+  @override
+  set _photoSelectedState(PhotoSelectedState value) {
+    _$_photoSelectedStateAtom.reportWrite(value, super._photoSelectedState, () {
+      super._photoSelectedState = value;
+    });
+  }
+
+  final _$getUserAsyncAction =
+      AsyncAction('_EditProfileControllerBase.getUser');
+
+  @override
+  Future<void> getUser() {
+    return _$getUserAsyncAction.run(() => super.getUser());
+  }
+
+  final _$onTapToChangePhotoAsyncAction =
+      AsyncAction('_EditProfileControllerBase.onTapToChangePhoto');
+
+  @override
+  Future<void> onTapToChangePhoto(String urlImage) {
+    return _$onTapToChangePhotoAsyncAction
+        .run(() => super.onTapToChangePhoto(urlImage));
+  }
+
+  final _$_EditProfileControllerBaseActionController =
+      ActionController(name: '_EditProfileControllerBase');
+
+  @override
+  bool validateName(dynamic text, dynamic context) {
+    final _$actionInfo = _$_EditProfileControllerBaseActionController
+        .startAction(name: '_EditProfileControllerBase.validateName');
+    try {
+      return super.validateName(text, context);
+    } finally {
+      _$_EditProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-hasImage: ${hasImage},
 invalidName: ${invalidName},
-loadingSendData: ${loadingSendData},
 loadingPhotos: ${loadingPhotos},
-itemSelected: ${itemSelected},
-imageBytes: ${imageBytes}
+imageBytes: ${imageBytes},
+user: ${user}
     ''';
   }
 }

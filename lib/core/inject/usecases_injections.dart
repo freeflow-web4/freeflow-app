@@ -1,12 +1,19 @@
 import 'package:freeflow/layers/domain/repositories/user_biometrics_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_local_auth_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_pincode_repository.dart';
+import 'package:freeflow/layers/domain/repositories/user_profile_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_recover_login_repository.dart';
 import 'package:freeflow/layers/domain/repositories/username_exists_repository.dart';
+import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
@@ -49,5 +56,17 @@ registerUsecasesDependencies(GetIt getIt) {
   );
   getIt.registerFactory<SaveUserLocalAuthUsecase>(
     () => SaveUserLocalAuthUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
+  );
+
+  getIt.registerFactory<EditProfileUsecase>(
+        () => EditProfileUsecaseImp(GetIt.I.get<UserProfileRepository>()),
+  );
+
+  getIt.registerFactory<GetProfileUsecase>(
+        () => GetProfileUsecaseImp(GetIt.I.get<UserProfileRepository>()),
+  );
+
+  getIt.registerFactory<GetUserLocalAuthUsecase>(
+        () => GetUserLocalAuthUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
   );
 }

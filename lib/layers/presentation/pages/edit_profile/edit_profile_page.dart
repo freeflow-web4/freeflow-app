@@ -34,6 +34,10 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   @override
   void initState() {
     super.initState();
+    print(11111);
+    editController.getUser();
+    print(11111);
+
   }
 
   @override
@@ -132,7 +136,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                     ),),),
                                 Observer(
                                   builder: (context) {
-                                    return imageUser('https://picsum.photos/250?image=9');
+                                    return imageUser();
                                   },
                                 ),
                                 Material(
@@ -195,7 +199,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                             children: [
                               TextField(
                                 key: const ValueKey('key_for_text_field',),
-                                enabled: !editController.loadingSendData,
+                                enabled: editController.pageState != PageState.loadingSendData,
                                 onChanged: (text) {
                                   setState(() {
                                     if(controllerName.text.substring(0,1) == ' '){
@@ -252,18 +256,30 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                               ),
                               Positioned(
                                 bottom: 0,
-                                child: Container(
-                                  height: 3,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(1),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 3,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(Radius.circular(1),
+                                        ),
+                                        gradient: LinearGradient(
+                                          colors: getLineColors(),
+                                        ),
+                                      ),
                                     ),
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0XFF29B6B8),
-                                        Color(0xff6AAD6B)                                  ],
-                                    ),
-                                  ),
+                                    if(editController.invalidName != null)...[
+                                      Text(
+                                        editController.invalidName!,
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Akrobat',
+                                            fontWeight: FontWeight.w800
+                                        ),
+                                      )
+                                    ]
+                                  ],
                                 ),
                               )
                             ],
@@ -271,7 +287,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                         ),
 
 
-                        if(editController.loadingSendData)...[
+                        if(editController.pageState == PageState.loadingSendData)...[
                           const Padding(
                             padding: EdgeInsets.only(top: mdSpacingx2),
                             child: LoadingWidget(isLoading: true,
@@ -290,15 +306,15 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
               ),
             ),
           );
-        }
+        },
       ),
     );
   }
 
-  Widget imageUser( String? urlImage) {
-    if(urlImage != null && editController.imageBytes == null){
+  Widget imageUser() {
+    if(editController.user?.profileImageUrl != null && editController.imageBytes == null){
       return Image.network(
-        urlImage,
+        editController.user!.profileImageUrl!,
         fit: BoxFit.cover,
         errorBuilder: (context, url, error) =>  Container(
           color: StandardColors.grey79,
@@ -336,17 +352,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
   void onTapSave() {
     if(editController.validateName(controllerName.text, context)){
-      setState(() {
-        editController.loadingSendData = true;
-      });
-
-
-    }else{
 
     }
-    setState(() {
-      //loading = false;
-    });
   }
 
   void showModalCancel(){
@@ -506,30 +513,30 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                       CustomFilterBarItem(
                         tabName: TranslationService.translate(context, "editProfile.all",),
                         tabMargin: EdgeInsets.zero,
-                        isSelected: editController.itemSelected == 0,
+                        isSelected: editController.photoSelectedState == PhotoSelectedState.all,
                         onTap: () {
                           mystate(() {
-                            editController.itemSelected = 0;
+                            editController.photoSelectedState = PhotoSelectedState.all;
                           });
                         },
                       ),
                       CustomFilterBarItem(
                         tabName: TranslationService.translate(context, "editProfile.tickets",),
                         tabMargin: EdgeInsets.zero,
-                        isSelected: editController.itemSelected == 1,
+                        isSelected: editController.photoSelectedState == PhotoSelectedState.tickets,
                         onTap: () {
                           mystate(() {
-                            editController.itemSelected = 1;
+                            editController.photoSelectedState = PhotoSelectedState.tickets;
                           });
                         },
                       ),
                       CustomFilterBarItem(
                         tabName: TranslationService.translate(context, "editProfile.badges",),
                         tabMargin: EdgeInsets.zero,
-                        isSelected: editController.itemSelected == 2,
+                        isSelected: editController.photoSelectedState == PhotoSelectedState.badges,
                         onTap: () {
                           mystate(() {
-                            editController.itemSelected = 2;
+                            editController.photoSelectedState = PhotoSelectedState.badges;
                           });
                         },
                       ),
@@ -679,6 +686,21 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
       baseColor: StandardColors.baseShimmer,
       highlightColor: StandardColors.highlightShimmer,
     );
+  }
+
+  List<Color> getLineColors() {
+    if(editController.invalidName == null){
+      return [
+        const Color(0XFF29B6B8),
+        const Color(0xff6AAD6B)
+      ];
+    }else{
+      return [
+        const Color(0XFFB82929),
+        const Color(0xffF27070),
+      ];
+    }
+
   }
 
 
