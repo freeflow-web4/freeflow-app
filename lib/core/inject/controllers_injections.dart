@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
@@ -54,7 +55,8 @@ registerControllerDependencies(GetIt getIt) {
   );
   getIt.registerLazySingleton<RecoverConfirmPinCodeViewController>(
     () => RecoverConfirmPinCodeViewController(
-      getIt.get<UserSetPincodeUsecase>(),
+      userSetPincodeUsecase: getIt.get<UserSetPincodeUsecase>(),
+      saveUserIsLoggedUsecase: getIt.get<SaveUserIsLoggedUsecase>(),
     ),
   );
   getIt.registerLazySingleton<RecoverPrivateKeyController>(
