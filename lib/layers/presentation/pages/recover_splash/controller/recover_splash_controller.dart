@@ -11,8 +11,8 @@ class RecoverSplashController {
 
   void nextPage() {
     //TODO REMOVER
-    //Routes.instance.goToLoginPageRoute();
-    Routes.instance.goToEditProfilePageRoute();
+    Routes.instance.goToLoginPageRoute();
+    //Routes.instance.goToEditProfilePageRoute();
 
   }
 

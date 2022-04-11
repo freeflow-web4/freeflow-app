@@ -7,9 +7,12 @@ import 'get_profile_usecase.dart';
 
 class GetProfileUsecaseImp implements GetProfileUsecase {
   final UserProfileRepository repository;
+
   GetProfileUsecaseImp(this.repository);
+
   @override
   Future<Either<DomainError, ProfileEntity>> call() async {
     return await repository.getProfile();
   }
+
 }

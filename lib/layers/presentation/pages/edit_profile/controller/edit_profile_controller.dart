@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:freeflow/core/translation/translation_service.dart';
-import 'package:freeflow/data/models/user.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
@@ -9,7 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'edit_profile_controller.g.dart';
 
-enum PageState { loading, ok, loadingSendData}
+enum PageState { loading, ready, loadingSendData}
 enum PhotoSelectedState { all, tickets, badges}
 
 EditProfileController findEditProfileController() => GetIt.I.get<EditProfileController>();
@@ -42,6 +41,7 @@ abstract class _EditProfileControllerBase with Store {
 
   @action
   Future<void> getUser() async{
+
     _pageState = PageState.loading;
 
     user = ProfileEntity(displayName: '');
@@ -54,7 +54,7 @@ abstract class _EditProfileControllerBase with Store {
         user = success;
       },
     );
-    _pageState = PageState.ok;
+    _pageState = PageState.ready;
 
   }
 

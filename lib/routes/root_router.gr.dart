@@ -81,10 +81,10 @@ class RootRouter extends _i11.RootStackRouter {
   @override
   List<_i11.RouteConfig> get routes => [
         _i11.RouteConfig(CutImageRoute.name, path: '/cut-image-page'),
-        _i11.RouteConfig(EditProfileRoute.name, path: '/edit-profile-page'),
+        _i11.RouteConfig(EditProfileRoute.name, path: '/'),
         _i11.RouteConfig(WelcomeRoute.name, path: '/welcome-page'),
         _i11.RouteConfig(LoginRoute.name, path: '/login-page'),
-        _i11.RouteConfig(SplashRoute.name, path: '/'),
+        _i11.RouteConfig(SplashRoute.name, path: '/splash-page'),
         _i11.RouteConfig(FreeflowLogoLoadingRoute.name,
             path: '/freeflow-logo-loading-page'),
         _i11.RouteConfig(RecoverAccountRoute.name,
@@ -122,8 +122,7 @@ class CutImageRouteArgs {
 /// generated route for
 /// [_i2.EditProfilePage]
 class EditProfileRoute extends _i11.PageRouteInfo<void> {
-  const EditProfileRoute()
-      : super(EditProfileRoute.name, path: '/edit-profile-page');
+  const EditProfileRoute() : super(EditProfileRoute.name, path: '/');
 
   static const String name = 'EditProfileRoute';
 }
@@ -147,7 +146,7 @@ class LoginRoute extends _i11.PageRouteInfo<void> {
 /// generated route for
 /// [_i5.SplashPage]
 class SplashRoute extends _i11.PageRouteInfo<void> {
-  const SplashRoute() : super(SplashRoute.name, path: '/');
+  const SplashRoute() : super(SplashRoute.name, path: '/splash-page');
 
   static const String name = 'SplashRoute';
 }

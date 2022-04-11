@@ -15,10 +15,10 @@ import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
   routes: <AutoRoute>[
     // AutoRoute(page: HomePage, initial: true),
     AutoRoute(page: CutImagePage),
-    AutoRoute(page: EditProfilePage),
+    AutoRoute(page: EditProfilePage, initial: true),
     AutoRoute(page: WelcomePage),
     AutoRoute(page: LoginPage),
-    AutoRoute(page: SplashPage, initial: true),
+    AutoRoute(page: SplashPage),
     AutoRoute(page: FreeflowLogoLoadingPage),
     AutoRoute(page: RecoverAccountPage),
     AutoRoute(page: AuthPage),
