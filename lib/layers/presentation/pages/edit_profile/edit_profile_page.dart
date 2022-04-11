@@ -132,7 +132,9 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                       width: 128.0,
                                       height: 128.0,
                                       color: Colors.white,
-                                    ),),),
+                                    ),
+                                  ),
+                                ),
                                 Observer(
                                   builder: (context) {
                                     return imageUser();

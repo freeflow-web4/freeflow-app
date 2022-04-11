@@ -15,8 +15,8 @@ class StandardColors {
   static const Color grey69 = Color(0xff696969);
   static const Color grey79 = Color(0xff797D83);
   static const Color error = Color(0xFFFF4747);
-  static const Color baseShimmer =  Color(0XFFD0D0D0);
-  static const Color highlightShimmer =  Color(0XFFF2f2f2);
+  static const Color baseShimmer =  Color(0xFFD0D0D0);
+  static const Color highlightShimmer =  Color(0xFFF2f2f2);
 
 
   static Gradient greenGradient() => const LinearGradient(
