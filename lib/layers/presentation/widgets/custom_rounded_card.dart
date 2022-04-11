@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 
 class CustomRoundedCard extends StatelessWidget {
   final double? width, height;
@@ -27,15 +28,15 @@ class CustomRoundedCard extends StatelessWidget {
       padding: padding ?? EdgeInsets.zero,
       margin: margin ?? EdgeInsets.zero,
       decoration: BoxDecoration(
-        color: backgroundColor ?? Colors.white,
+        color: backgroundColor ?? StandardColors.offWhite,
         borderRadius: borderRadius ?? BorderRadius.circular(16),
         border: Border.all(
           width: 1.5,
-          color: borderColor ?? const Color(0xffE0E2E2),
+          color: borderColor ?? StandardColors.borderGrey,
         ),
         boxShadow: const [
           BoxShadow(
-            color: Color(0xffE0E2E2),
+            color: StandardColors.borderGrey,
             offset: Offset(0, 2),
             blurRadius: 8,
           )

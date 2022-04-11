@@ -4,7 +4,7 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_action_card.dart';
 
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_tabbar.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_tabbar.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/transcript_view.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
 
@@ -42,7 +42,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                 child: CustomTabBar(
                   width: double.infinity,
                   tabList: tabList(),
-                  tabBarViewList:  [
+                  tabBarViewList: [
                     TranscriptView(walletController: walletController),
                     const SizedBox.shrink(),
                     const SizedBox.shrink(),
@@ -60,7 +60,12 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
     List<String> tabNameList = ['Transcript', '\$FLWR', 'Collectibles'];
     return tabNameList
         .map(
-          (tabName) => Tab(child: button5(context, text: tabName)),
+          (tabName) => Tab(
+            child: textButton5(
+              context,
+              text: tabName,
+            ),
+          ),
         )
         .toList();
   }
@@ -90,9 +95,9 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           child: textH6(context, textKey: 'WALLET'),
         ),
         CustomActionCard(
-          cardHeight: 160,
+          cardHeight: 162,
           cardWidth: double.infinity,
-          child: const TotalAmountText(totalAmount: '1000'),
+          child: const TotalAmountText(totalAmount: '1111'),
           onTapLeftAction: () {},
           onTapRighAction: () {},
           leftTextAction: 'Deposit',

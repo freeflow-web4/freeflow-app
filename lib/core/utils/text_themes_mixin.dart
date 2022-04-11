@@ -39,6 +39,13 @@ mixin TextThemes {
         fontFamily: 'Akrobat',
       );
 
+  TextStyle textH4TextStyleCustom(Color color) => TextStyle(
+        fontSize: 38,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+        color: color,
+      );
+
   TextStyle get textH6TextStyle => const TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w500,
@@ -121,6 +128,24 @@ mixin TextThemes {
         color: color,
         fontSize: 20,
         fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textSubtitle2(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String textKey,
+  }) {
+    return Text(
+      FlutterI18n.translate(context, textKey),
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 14,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w400,
       ),
     );
   }
@@ -232,24 +257,24 @@ mixin TextThemes {
       ),
     );
   }
-  Text button5(
+
+  Text textButton5(
     BuildContext context, {
-    Color color = StandardColors.backgroundDark,
     int? maxLines,
     required String text,
   }) {
     return Text(
       text,
       maxLines: maxLines,
-      style: TextStyle(
-        color: color,
+      style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
         fontFamily: 'Akrobat',
       ),
     );
   }
-  Text button2(
+
+  Text textButton2(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
     int? maxLines,

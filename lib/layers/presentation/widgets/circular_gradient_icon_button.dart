@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 
 class CircularGradientIconButton extends StatelessWidget {
-  final List<Color>? colorList;
   final Widget child;
   final double? size;
   final Function onTap;
@@ -11,7 +11,6 @@ class CircularGradientIconButton extends StatelessWidget {
     Key? key,
     required this.child,
     required this.onTap,
-    this.colorList,
     this.size,
     this.isSelected = false,
     this.margin,
@@ -32,16 +31,10 @@ class CircularGradientIconButton extends StatelessWidget {
               decoration: isSelected
                   ? BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: colorList ??
-                            [
-                              const Color(0xffDE83E0).withOpacity(0.6),
-                              const Color(0xff32B4FF).withOpacity(0.6),
-                            ],
-                      ),
+                      gradient: StandardColors.purpleBlueGradient(),
                     )
                   : const BoxDecoration(
-                      color: Colors.grey,
+                      color: StandardColors.borderMediumGrey,
                       shape: BoxShape.circle,
                     ),
             ),

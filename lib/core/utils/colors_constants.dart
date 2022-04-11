@@ -11,6 +11,10 @@ class StandardColors {
   static const Color white = Color(0xFFFCFCFC);
   static const Color darkGrey = Color(0xff4f4f4f);
   static const Color error = Color(0xFFFF4747);
+  static const Color offWhite = Color(0xFFFCFCFC);
+  static const Color borderGrey = Color(0xFFE0E2E2);
+  static const Color borderMediumGrey = Color(0xFFCACACA);
+  static const Color textMediumGrey = Color(0xFF696969);
 
   static Gradient greenGradient() => const LinearGradient(
         colors: [
@@ -55,5 +59,14 @@ class StandardColors {
         colors: [Color(0xff4f4f4f)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
+      );
+
+  static Gradient purpleBlueGradient() => LinearGradient(
+        colors: [
+          const Color(0xffDE83E0).withOpacity(0.6),
+          const Color(0xff32B4FF).withOpacity(0.6),
+        ],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
       );
 }

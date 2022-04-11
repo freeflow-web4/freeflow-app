@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_rounded_card.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 
-class CustomActionCard extends StatelessWidget {
+class CustomActionCard extends StatelessWidget with TextThemes {
   final double cardHeight, cardWidth;
   final Widget child;
   final Function onTapRighAction, onTapLeftAction;
@@ -35,11 +37,13 @@ class CustomActionCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     customActionTextWidget(
+                      context,
                       text: leftTextAction,
                       onTap: onTapLeftAction,
                     ),
                     verticalDivider(),
                     customActionTextWidget(
+                      context,
                       text: rightTextAction,
                       onTap: onTapRighAction,
                     )
@@ -56,7 +60,7 @@ class CustomActionCard extends StatelessWidget {
   Widget horizontalDivider() {
     return const Divider(
       thickness: 1.5,
-      color: Color(0xffE0E2E2),
+      color: StandardColors.borderGrey,
       height: 0,
     );
   }
@@ -65,20 +69,25 @@ class CustomActionCard extends StatelessWidget {
     return const VerticalDivider(
       thickness: 1.5,
       width: 0,
-      color: Color(0xffE0E2E2),
+      color: StandardColors.borderGrey,
     );
   }
 
-  Widget customActionTextWidget({required String text, Function? onTap}) {
+  Widget customActionTextWidget(
+    BuildContext context, {
+    required String text,
+    Function? onTap,
+  }) {
     return GestureDetector(
       onTap: () {
         onTap?.call();
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 14, color: Color(0xff222222)),
+        child: textSubtitle2(
+          context,
+          textKey: text,
+          color: StandardColors.darkGrey,
         ),
       ),
     );

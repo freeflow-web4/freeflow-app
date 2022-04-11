@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class CustomFilterBarItem extends StatefulWidget {
@@ -20,7 +21,8 @@ class CustomFilterBarItem extends StatefulWidget {
   State<CustomFilterBarItem> createState() => _CustomFilterBarItemState();
 }
 
-class _CustomFilterBarItemState extends State<CustomFilterBarItem> with TextThemes {
+class _CustomFilterBarItemState extends State<CustomFilterBarItem>
+    with TextThemes {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,7 +34,15 @@ class _CustomFilterBarItemState extends State<CustomFilterBarItem> with TextThem
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            button2(context, text: widget.tabName, color: Colors.grey),
+            textButton2(
+              context,
+              text: widget.tabName,
+              color: widget.isSelected
+                  ? StandardColors.textMediumGrey
+                  : StandardColors.textMediumGrey.withOpacity(
+                      0.6,
+                    ),
+            ),
             customIndicator(isActive: widget.isSelected)
           ],
         ),
@@ -42,7 +52,6 @@ class _CustomFilterBarItemState extends State<CustomFilterBarItem> with TextThem
 
   Widget customIndicator({
     required bool isActive,
-    List<Color>? colors,
   }) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -51,13 +60,7 @@ class _CustomFilterBarItemState extends State<CustomFilterBarItem> with TextThem
       width: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        gradient: LinearGradient(
-          colors: colors ??
-              [
-                const Color(0xffDE83E0).withOpacity(0.6),
-                const Color(0xff32B4FF).withOpacity(0.6),
-              ],
-        ),
+        gradient: StandardColors.purpleBlueGradient(),
       ),
     );
   }

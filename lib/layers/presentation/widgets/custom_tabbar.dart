@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 
@@ -28,14 +29,14 @@ class CustomTabBar extends StatelessWidget with TextThemes {
           children: [
             TabBar(
               indicatorSize: TabBarIndicatorSize.label,
-              unselectedLabelColor: Colors.grey,
-              labelColor: Colors.black,
+              unselectedLabelColor: StandardColors.textMediumGrey.withOpacity(0.6),
+              labelColor: StandardColors.darkGrey,
               padding: EdgeInsets.zero,
               indicatorPadding: EdgeInsets.zero,
               labelPadding: EdgeInsets.zero,
               tabs: tabList,
               indicator: const CustomTabIndicator(
-                color: Colors.black,
+                color: StandardColors.darkGrey,
                 indicatorHeight: 3,
               ),
             ),

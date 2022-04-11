@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/layers/data/datasources/remote/wallet_datasource_imp.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
-import 'package:freeflow/layers/domain/usecases/transcript_get_list/get_transcript_list_usecase.dart';
 import 'package:freeflow/layers/infra/http/http_client.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_bottom_sheet.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_filter_bar_item.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_radio_tile_button.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_rounded_card.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 import 'package:freeflow/layers/presentation/widgets/circular_gradient_icon_button.dart';
 import 'package:get_it/get_it.dart';
 
@@ -122,6 +122,7 @@ class _TranscriptViewState extends State<TranscriptView> {
       builder: (context, constraints) {
         return Container(
           constraints: BoxConstraints(minWidth: constraints.maxWidth),
+          margin: const EdgeInsets.only(top: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -133,7 +134,6 @@ class _TranscriptViewState extends State<TranscriptView> {
       },
     );
   }
-  
 
   List<Widget> mainFilterWidgetList(List mainFilters) {
     return mainFilters.map((e) {
@@ -152,9 +152,9 @@ class _TranscriptViewState extends State<TranscriptView> {
 
   Widget extraFilterWidgetMenu({required List<String> secondaryFilters}) {
     return CircularGradientIconButton(
-      child: const Icon(
+      child: Icon(
         Icons.add_rounded,
-        color: Colors.grey,
+        color: StandardColors.textMediumGrey.withOpacity(0.6),
       ),
       isSelected: index > 1,
       onTap: () {
@@ -166,7 +166,7 @@ class _TranscriptViewState extends State<TranscriptView> {
               topRight: Radius.circular(16),
             ),
           ),
-          barrierColor: Colors.black.withOpacity(0.5),
+          barrierColor: StandardColors.darkGrey.withOpacity(0.7),
           builder: (context) {
             return StatefulBuilder(
               builder: (context, setBottomSheetState) {

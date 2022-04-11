@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class CustomBottomSheet extends StatefulWidget {
   final Widget child;
@@ -8,7 +10,7 @@ class CustomBottomSheet extends StatefulWidget {
   State<CustomBottomSheet> createState() => _CustomBottomSheetState();
 }
 
-class _CustomBottomSheetState extends State<CustomBottomSheet> {
+class _CustomBottomSheetState extends State<CustomBottomSheet> with TextThemes{
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,17 +23,14 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             width: 52,
             margin: const EdgeInsets.only(bottom: 16),
             decoration: const BoxDecoration(
-              color: Colors.black,
+              color: StandardColors.darkGrey,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
               ),
             ),
           ),
-          const Text(
-            'OTHER TRANSCRIPTS',
-            style: TextStyle(fontSize: 20, fontFamily: 'Akrobat'),
-          ),
+          textSubtitle(context, textKey: 'OTHER TRANSCRIPTS'),
           widget.child
         ],
       ),

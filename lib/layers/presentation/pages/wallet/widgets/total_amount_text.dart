@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
-class TotalAmountText extends StatelessWidget {
+class TotalAmountText extends StatelessWidget with TextThemes {
   final String totalAmount;
   const TotalAmountText({Key? key, required this.totalAmount})
       : super(key: key);
@@ -15,7 +17,7 @@ class TotalAmountText extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             totalAmountValueWidget(),
-            totalAmountLabelWidget(),
+            totalAmountLabelWidget(context),
           ],
         ),
       ),
@@ -26,28 +28,19 @@ class TotalAmountText extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: totalAmount.toUpperCase(),
-        style: const TextStyle(
-          fontSize: 38,
-          color: Color(0xff222222),
-        ),
-        children: const <TextSpan>[
-          TextSpan(
-            text: ' FLWR',
-            style: TextStyle(
-              fontSize: 20,
-              color: Color(0xff222222),
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+        style: textH4TextStyleCustom(StandardColors.darkGrey),
+        children: <TextSpan>[
+          TextSpan(text: ' FLWR', style: subtitleTextStyle),
         ],
       ),
     );
   }
 
-  Widget totalAmountLabelWidget() {
-    return const Text(
-      'Total amount',
-      style: TextStyle(fontSize: 14, color: Color(0xff797D83)),
+  Widget totalAmountLabelWidget(BuildContext context) {
+    return textSubtitle2(
+      context,
+      textKey: 'Total amount',
+      color: StandardColors.textMediumGrey.withOpacity(0.6),
     );
   }
 }

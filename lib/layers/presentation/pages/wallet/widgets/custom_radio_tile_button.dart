@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class CustomRadioTile<T> extends StatelessWidget with TextThemes {
@@ -37,17 +38,14 @@ class CustomRadioTile<T> extends StatelessWidget with TextThemes {
                   width: width,
                   decoration: ShapeDecoration(
                     shape: const CircleBorder(),
-                    gradient: LinearGradient(
-                      colors: value == groupValue
-                          ? const [
-                              Color(0xFFDE83E0),
-                              Color(0xFF32B4FF),
-                            ]
-                          : const [
-                              Color(0xff797D83),
-                              Color(0xff797D83),
+                    gradient: value == groupValue
+                        ? StandardColors.purpleBlueGradient()
+                        : RadialGradient(
+                            colors: [
+                              StandardColors.textMediumGrey.withOpacity(0.6),
+                              StandardColors.textMediumGrey.withOpacity(0.6),
                             ],
-                    ),
+                          ),
                   ),
                 ),
                 Container(
@@ -64,23 +62,26 @@ class CustomRadioTile<T> extends StatelessWidget with TextThemes {
                   padding: const EdgeInsets.all(4),
                   decoration: ShapeDecoration(
                     shape: const CircleBorder(),
-                    gradient: RadialGradient(
-                      colors: value == groupValue
-                          ? const [
-                              Color(0xFF32B4FF),
-                              Color(0xFFDE83E0),
-                            ]
-                          : [
+                    gradient: value == groupValue
+                        ? StandardColors.purpleBlueGradient()
+                        : RadialGradient(
+                            colors: [
                               Theme.of(context).scaffoldBackgroundColor,
                               Theme.of(context).scaffoldBackgroundColor,
                             ],
-                    ),
+                          ),
                   ),
                 ),
               ],
             ),
           ),
-          button2(context, text: label)
+          textButton2(
+            context,
+            text: label,
+            color: value == groupValue
+                ? StandardColors.textMediumGrey
+                : StandardColors.textMediumGrey.withOpacity(0.6),
+          )
         ],
       ),
     );
