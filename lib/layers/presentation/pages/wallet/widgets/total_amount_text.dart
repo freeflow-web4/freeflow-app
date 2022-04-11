@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class TotalAmountText extends StatelessWidget with TextThemes {
@@ -12,7 +13,7 @@ class TotalAmountText extends StatelessWidget with TextThemes {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(mdSpacing),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

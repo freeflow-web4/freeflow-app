@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/data/datasources/remote/wallet_datasource_imp.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/infra/http/http_client.dart';
@@ -48,11 +49,11 @@ class _TranscriptViewState extends State<TranscriptView> {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 36),
+        padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
         child: widget.walletController.viewState == ViewState.loading
             ? const Center(
                 child: SizedBox(
-                  height: 40,
+                  height: bigSpacing,
                   child: CircularProgressIndicator(),
                 ),
               )
@@ -60,13 +61,13 @@ class _TranscriptViewState extends State<TranscriptView> {
                 children: [
                   getWidgetBar(),
                   const SizedBox(
-                    height: 16,
+                    height: normalSpacing,
                   ),
                   Expanded(
                     child: CustomRoundedCard(
                       borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16),
+                        topLeft: Radius.circular(normalSpacing),
+                        topRight: Radius.circular(normalSpacing),
                       ),
                       margin: EdgeInsets.zero,
                       width: double.infinity,
@@ -100,7 +101,7 @@ class _TranscriptViewState extends State<TranscriptView> {
           (e) => Container(
             height: 100,
             width: double.infinity,
-            margin: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(smSpacing),
             color: const Color.fromARGB(255, 236, 236, 236),
             child: Text(e),
           ),
@@ -122,7 +123,7 @@ class _TranscriptViewState extends State<TranscriptView> {
       builder: (context, constraints) {
         return Container(
           constraints: BoxConstraints(minWidth: constraints.maxWidth),
-          margin: const EdgeInsets.only(top: 16),
+          margin: const EdgeInsets.only(top: normalSpacing),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -162,8 +163,8 @@ class _TranscriptViewState extends State<TranscriptView> {
           context: context,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
+              topLeft: Radius.circular(normalSpacing),
+              topRight: Radius.circular(normalSpacing),
             ),
           ),
           barrierColor: StandardColors.darkGrey.withOpacity(0.7),

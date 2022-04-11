@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class CustomRadioTile<T> extends StatelessWidget with TextThemes {
@@ -29,7 +30,7 @@ class CustomRadioTile<T> extends StatelessWidget with TextThemes {
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(normalSpacing),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -59,7 +60,7 @@ class CustomRadioTile<T> extends StatelessWidget with TextThemes {
                 Container(
                   height: height - 10,
                   width: height - 10,
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(miniSpacing),
                   decoration: ShapeDecoration(
                     shape: const CircleBorder(),
                     gradient: value == groupValue

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
@@ -33,9 +34,9 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           backgroundImage(context),
           Column(
             children: [
-              const SizedBox(height: 60),
+              const SizedBox(height: largeSpacingx2),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 36),
+                padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
                 child: header(),
               ),
               Expanded(

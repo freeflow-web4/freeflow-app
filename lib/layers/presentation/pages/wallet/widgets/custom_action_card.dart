@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 
@@ -83,7 +84,7 @@ class CustomActionCard extends StatelessWidget with TextThemes {
         onTap?.call();
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: normalSpacing),
         child: textSubtitle2(
           context,
           textKey: text,

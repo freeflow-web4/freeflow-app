@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class CustomBottomSheet extends StatefulWidget {
@@ -14,14 +15,14 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> with TextThemes{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      padding: const EdgeInsets.symmetric(vertical: normalSpacing, horizontal: mdSpacing),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             height: 4,
             width: 52,
-            margin: const EdgeInsets.only(bottom: 16),
+            margin: const EdgeInsets.only(bottom: normalSpacing),
             decoration: const BoxDecoration(
               color: StandardColors.darkGrey,
               borderRadius: BorderRadius.only(
