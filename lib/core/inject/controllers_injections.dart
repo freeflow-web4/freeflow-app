@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/domain/usecases/transcript_get_list/get_transcript_list_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase_imp.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
@@ -16,6 +17,7 @@ import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biom
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
@@ -67,5 +69,8 @@ registerControllerDependencies(GetIt getIt) {
       validator: getIt.get<PrivateKeyValidator>(),
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
     ),
+  );
+  getIt.registerFactory<WalletController>(
+    () => WalletController(),
   );
 }

@@ -24,68 +24,18 @@ mixin _$WalletController on WalletControllerBase, Store {
     });
   }
 
-  final _$transcriptListAtom =
-      Atom(name: 'WalletControllerBase.transcriptList');
+  final _$viewStateAtom = Atom(name: 'WalletControllerBase.viewState');
 
   @override
-  ObservableList<Transcript> get transcriptList {
-    _$transcriptListAtom.reportRead();
-    return super.transcriptList;
+  ViewState get viewState {
+    _$viewStateAtom.reportRead();
+    return super.viewState;
   }
 
   @override
-  set transcriptList(ObservableList<Transcript> value) {
-    _$transcriptListAtom.reportWrite(value, super.transcriptList, () {
-      super.transcriptList = value;
-    });
-  }
-
-  final _$transcriptFilteredListAtom =
-      Atom(name: 'WalletControllerBase.transcriptFilteredList');
-
-  @override
-  ObservableList<Transcript> get transcriptFilteredList {
-    _$transcriptFilteredListAtom.reportRead();
-    return super.transcriptFilteredList;
-  }
-
-  @override
-  set transcriptFilteredList(ObservableList<Transcript> value) {
-    _$transcriptFilteredListAtom
-        .reportWrite(value, super.transcriptFilteredList, () {
-      super.transcriptFilteredList = value;
-    });
-  }
-
-  final _$categoryListAtom = Atom(name: 'WalletControllerBase.categoryList');
-
-  @override
-  List<String> get categoryList {
-    _$categoryListAtom.reportRead();
-    return super.categoryList;
-  }
-
-  @override
-  set categoryList(List<String> value) {
-    _$categoryListAtom.reportWrite(value, super.categoryList, () {
-      super.categoryList = value;
-    });
-  }
-
-  final _$selectedFilterOptionAtom =
-      Atom(name: 'WalletControllerBase.selectedFilterOption');
-
-  @override
-  String? get selectedFilterOption {
-    _$selectedFilterOptionAtom.reportRead();
-    return super.selectedFilterOption;
-  }
-
-  @override
-  set selectedFilterOption(String? value) {
-    _$selectedFilterOptionAtom.reportWrite(value, super.selectedFilterOption,
-        () {
-      super.selectedFilterOption = value;
+  set viewState(ViewState value) {
+    _$viewStateAtom.reportWrite(value, super.viewState, () {
+      super.viewState = value;
     });
   }
 
@@ -105,15 +55,23 @@ mixin _$WalletController on WalletControllerBase, Store {
     });
   }
 
+  final _$getTranscriptListAsyncAction =
+      AsyncAction('WalletControllerBase.getTranscriptList');
+
+  @override
+  Future<List<TranscriptEntity>> getTranscriptList() {
+    return _$getTranscriptListAsyncAction.run(() => super.getTranscriptList());
+  }
+
   final _$WalletControllerBaseActionController =
       ActionController(name: 'WalletControllerBase');
 
   @override
-  dynamic getTranscriptList() {
+  List<String> getCategoryList(List<TranscriptEntity> transcripts) {
     final _$actionInfo = _$WalletControllerBaseActionController.startAction(
-        name: 'WalletControllerBase.getTranscriptList');
+        name: 'WalletControllerBase.getCategoryList');
     try {
-      return super.getTranscriptList();
+      return super.getCategoryList(transcripts);
     } finally {
       _$WalletControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -123,10 +81,7 @@ mixin _$WalletController on WalletControllerBase, Store {
   String toString() {
     return '''
 index: ${index},
-transcriptList: ${transcriptList},
-transcriptFilteredList: ${transcriptFilteredList},
-categoryList: ${categoryList},
-selectedFilterOption: ${selectedFilterOption},
+viewState: ${viewState},
 viewContentType: ${viewContentType}
     ''';
   }

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:freeflow/data/models/transcript.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/layers/data/datasources/remote/wallet_datasource_imp.dart';
+import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
+import 'package:freeflow/layers/domain/usecases/transcript_get_list/get_transcript_list_usecase.dart';
+import 'package:freeflow/layers/infra/http/http_client.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_radio_tile_button.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_rounded_card.dart';
 import 'package:freeflow/layers/presentation/widgets/circular_gradient_icon_button.dart';
+import 'package:get_it/get_it.dart';
 
 class TranscriptView extends StatefulWidget {
   final WalletController walletController;
@@ -19,53 +24,63 @@ class TranscriptView extends StatefulWidget {
 }
 
 class _TranscriptViewState extends State<TranscriptView> {
-  late List<Transcript> transcriptList;
+  late List<TranscriptEntity> transcriptList;
   late List<String> categoryList;
+  WalletDatasourceImp transcriptDatasourceImp =
+      WalletDatasourceImp(GetIt.I.get<HttpClient>());
+
   @override
   void initState() {
     getTranscriptList();
     super.initState();
   }
 
-  getTranscriptList() {
-    setState(() {
-      transcriptList = widget.walletController.transcriptList;
-      categoryList = widget.walletController.categoryList;
-    });
+  getTranscriptList() async {
+    transcriptList = await widget.walletController.getTranscriptList();
+    categoryList = widget.walletController.getCategoryList(transcriptList);
   }
 
   int index = 0;
-
   List transcriptFiltereList = [];
-  String? filtroSecundarioSelecionado;
+  String? secondarySelectedFilter;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 36),
-      child: Column(
-        children: [
-          getWidgetBar(),
-          const SizedBox(
-            height: 16,
-          ),
-          Expanded(
-            child: CustomRoundedCard(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-              ),
-              margin: EdgeInsets.zero,
-              width: double.infinity,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: getTodosFiltrados(),
+    return Observer(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 36),
+        child: widget.walletController.viewState == ViewState.loading
+            ? const Center(
+                child: SizedBox(
+                  height: 40,
+                  child: CircularProgressIndicator(),
                 ),
+              )
+            : Column(
+                children: [
+                  getWidgetBar(),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Expanded(
+                    child: CustomRoundedCard(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
+                      margin: EdgeInsets.zero,
+                      width: double.infinity,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: getTodosFiltrados(),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ),
-          )
-        ],
-      ),
-    );
+      );
+    });
   }
 
   getTodosFiltrados() {
@@ -94,13 +109,13 @@ class _TranscriptViewState extends State<TranscriptView> {
   }
 
   Widget getWidgetBar() {
-    List filtrosPrincipais = [];
-    List<String> filtrosSecundarios = [];
+    List mainFilters = [];
+    List<String> secondaryFilters = [];
     for (int i = 0; i < categoryList.length; i++) {
       if (i < 2) {
-        filtrosPrincipais.add(categoryList[i]);
+        mainFilters.add(categoryList[i]);
       } else {
-        filtrosSecundarios.add(categoryList[i]);
+        secondaryFilters.add(categoryList[i]);
       }
     }
     return LayoutBuilder(
@@ -110,23 +125,24 @@ class _TranscriptViewState extends State<TranscriptView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ...mainFilterWidgetList(filtrosPrincipais),
-              extraFilterWidgetMenu(filtrosSecundarios: filtrosSecundarios)
+              ...mainFilterWidgetList(mainFilters),
+              extraFilterWidgetMenu(secondaryFilters: secondaryFilters)
             ],
           ),
         );
       },
     );
   }
+  
 
-  List<Widget> mainFilterWidgetList(List filtrosPrincipais) {
-    return filtrosPrincipais.map((e) {
+  List<Widget> mainFilterWidgetList(List mainFilters) {
+    return mainFilters.map((e) {
       return CustomFilterBarItem(
         tabName: e,
         isSelected: index == categoryList.indexOf(e),
         onTap: () {
           setState(() {
-            filtroSecundarioSelecionado = '';
+            secondarySelectedFilter = '';
             index = categoryList.indexOf(e);
           });
         },
@@ -134,7 +150,7 @@ class _TranscriptViewState extends State<TranscriptView> {
     }).toList();
   }
 
-  Widget extraFilterWidgetMenu({required List<String> filtrosSecundarios}) {
+  Widget extraFilterWidgetMenu({required List<String> secondaryFilters}) {
     return CircularGradientIconButton(
       child: const Icon(
         Icons.add_rounded,
@@ -157,14 +173,14 @@ class _TranscriptViewState extends State<TranscriptView> {
                 return CustomBottomSheet(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: filtrosSecundarios
+                    children: secondaryFilters
                         .map(
                           (e) => CustomRadioTile<String?>(
                             value: e,
-                            groupValue: filtroSecundarioSelecionado,
+                            groupValue: secondarySelectedFilter,
                             onChanged: (value) {
                               setBottomSheetState(() {
-                                filtroSecundarioSelecionado = value;
+                                secondarySelectedFilter = value;
                               });
 
                               setState(() {
