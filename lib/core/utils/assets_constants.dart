@@ -16,8 +16,12 @@ class IconsAsset {
   static const String cloud = "assets/images/icons/menu/cloud_icon.png";
   static const String home = "assets/images/icons/menu/home_icon.png";
   static const String tools = "assets/images/icons/menu/tools_icon.png";
-  static const String shoppingCar = "assets/images/icons/menu/shopping_car_icon.png";
+  static const String shoppingCar =
+      "assets/images/icons/menu/shopping_car_icon.png";
   static const String example = "assets/images/icons/menu/example_icon.png";
   static const String menu = "assets/images/icons/menu/hamburg.svg";
+}
 
+class ImagesAsset {
+  static const String background = "assets/images/background.png";
 }

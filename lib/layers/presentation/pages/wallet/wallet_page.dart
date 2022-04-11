@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
@@ -93,7 +94,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
       child: Opacity(
         opacity: 0.2,
         child: Image.asset(
-          'assets/images/background.png',
+          ImagesAsset.background,
           fit: BoxFit.cover,
         ),
       ),
