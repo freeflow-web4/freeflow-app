@@ -9,6 +9,8 @@ import 'package:freeflow/layers/presentation/widgets/custom_tabbar.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/transcript_view.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
 
+import '../../../../core/translation/translation_service.dart';
+
 class WalletPage extends StatefulWidget {
   const WalletPage({Key? key}) : super(key: key);
 
@@ -58,7 +60,20 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
   }
 
   List<Tab> tabList() {
-    List<String> tabNameList = ['Transcript', '\$FLWR', 'Collectibles'];
+    List<String> tabNameList = [
+      TranslationService.translate(
+        context,
+        'wallet.transcript',
+      ),
+      '\$ ${TranslationService.translate(
+        context,
+        'wallet.flwr',
+      ).toUpperCase()}',
+      TranslationService.translate(
+        context,
+        'wallet.collectibles',
+      ),
+    ];
     return tabNameList
         .map(
           (tabName) => Tab(
@@ -93,7 +108,13 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           margin: const EdgeInsets.only(
             bottom: 16,
           ),
-          child: textH6(context, textKey: 'WALLET'),
+          child: textH6(
+            context,
+            textKey: TranslationService.translate(
+              context,
+              'wallet.wallet',
+            ).toUpperCase(),
+          ),
         ),
         CustomActionCard(
           cardHeight: 162,
@@ -101,8 +122,14 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           child: const TotalAmountText(totalAmount: '1111'),
           onTapLeftAction: () {},
           onTapRighAction: () {},
-          leftTextAction: 'Deposit',
-          rightTextAction: 'Exchange',
+          leftTextAction: TranslationService.translate(
+            context,
+            'wallet.deposit',
+          ),
+          rightTextAction: TranslationService.translate(
+            context,
+            'wallet.exchange',
+          ),
         ),
         const SizedBox(
           height: 16,

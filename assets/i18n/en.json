@@ -42,5 +42,20 @@
     "welcome": {
         "welcomeBack": "Welcome Back",
         "toFreeflow": "To your\n FreeFlow Pouch"
+    },
+    "wallet": {
+        "wallet": "Wallet",
+        "totalAmount": "Total amount",
+        "deposit": "Deposit",
+        "exchange": "Exchange",
+        "transcript": "Transcript",
+        "flwr": "flwr",
+        "collectibles": "Collectibles",
+        "all": "All",
+        "gratitude": "Gratitude",
+        "flowerExchange": "Flower Exchange",
+        "interAction": "Inter Action",
+        "networkUpdates": "Network Updates",
+        "clearSelection": "Clear selection"
     }
 }

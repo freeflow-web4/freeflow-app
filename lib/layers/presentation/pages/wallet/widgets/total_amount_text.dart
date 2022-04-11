@@ -3,6 +3,8 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
+import '../../../../../core/translation/translation_service.dart';
+
 class TotalAmountText extends StatelessWidget with TextThemes {
   final String totalAmount;
   const TotalAmountText({Key? key, required this.totalAmount})
@@ -17,7 +19,7 @@ class TotalAmountText extends StatelessWidget with TextThemes {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            totalAmountValueWidget(),
+            totalAmountValueWidget(context),
             totalAmountLabelWidget(context),
           ],
         ),
@@ -25,13 +27,19 @@ class TotalAmountText extends StatelessWidget with TextThemes {
     );
   }
 
-  Widget totalAmountValueWidget() {
+  Widget totalAmountValueWidget(BuildContext context) {
     return RichText(
       text: TextSpan(
         text: totalAmount.toUpperCase(),
         style: textH4TextStyleCustom(StandardColors.darkGrey),
         children: <TextSpan>[
-          TextSpan(text: ' FLWR', style: subtitleTextStyle),
+          TextSpan(
+            text: ' ${TranslationService.translate(
+              context,
+              'wallet.flwr',
+            ).toUpperCase()}',
+            style: subtitleTextStyle,
+          ),
         ],
       ),
     );
@@ -40,7 +48,10 @@ class TotalAmountText extends StatelessWidget with TextThemes {
   Widget totalAmountLabelWidget(BuildContext context) {
     return textSubtitle2(
       context,
-      textKey: 'Total amount',
+      textKey: TranslationService.translate(
+        context,
+        'wallet.totalAmount',
+      ),
       color: StandardColors.textMediumGrey.withOpacity(0.6),
     );
   }

@@ -13,6 +13,8 @@ import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 import 'package:freeflow/layers/presentation/widgets/circular_gradient_icon_button.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../../../core/translation/translation_service.dart';
+
 class TranscriptView extends StatefulWidget {
   final WalletController walletController;
   const TranscriptView({
@@ -88,7 +90,11 @@ class _TranscriptViewState extends State<TranscriptView> {
     transcriptFiltereList.clear();
 
     for (int i = 0; i < transcriptList.length; i++) {
-      if (categoryList[index] == 'All') {
+      if (categoryList[index] ==
+          TranslationService.translate(
+            context,
+            'wallet.all',
+          )) {
         transcriptFiltereList.add(transcriptList[i].category);
       }
       if (categoryList[index] == transcriptList[i].category) {
