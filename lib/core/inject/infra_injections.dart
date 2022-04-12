@@ -24,7 +24,7 @@ registerInfraDependencies(GetIt getIt) {
   );
   getIt.registerLazySingleton<AuthInterceptors>(
     () => AuthInterceptors(
-      userIsLogged: getIt.get<GetUserIsLoggedUsecase>(),
+      userIsLoggedUsecase: getIt.get<GetUserIsLoggedUsecase>(),
       userLocalAuthUsecase: getIt.get<GetUserLocalAuthUsecase>(),
     ),
   );

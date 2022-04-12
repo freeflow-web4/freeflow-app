@@ -28,10 +28,10 @@ class DioInstance {
 }
 
 class AuthInterceptors extends InterceptorsWrapper {
-  final GetUserIsLoggedUsecase userIsLogged;
+  final GetUserIsLoggedUsecase userIsLoggedUsecase;
   final GetUserLocalAuthUsecase userLocalAuthUsecase;
   AuthInterceptors({
-    required this.userIsLogged,
+    required this.userIsLoggedUsecase,
     required this.userLocalAuthUsecase,
   });
 
@@ -52,7 +52,7 @@ class AuthInterceptors extends InterceptorsWrapper {
   };
 
   Future<Map<String, String>> getHeaders([String? contentType]) async {
-    getIsLoggedIn();
+    await setIsLoggedIn();
     if (!isLoggedIn) {
       return _headers;
     }
@@ -69,8 +69,8 @@ class AuthInterceptors extends InterceptorsWrapper {
     return headers;
   }
 
-  Future<void> getIsLoggedIn() async {
-    final result = await userIsLogged();
+  Future<void> setIsLoggedIn() async {
+    final result = await userIsLoggedUsecase();
     result.fold(
       (l) => isLoggedIn = false,
       (r) => isLoggedIn = r,
