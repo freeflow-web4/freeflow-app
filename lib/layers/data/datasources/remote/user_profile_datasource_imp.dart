@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:freeflow/layers/data/dtos/user_get_profile/user_profile_dto.dart';
+import 'package:freeflow/layers/data/dtos/user_profile/user_profile_dto.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/infra/http/http_client.dart';
 import '../user_profile_datasource.dart';
