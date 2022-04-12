@@ -56,6 +56,8 @@
         "flowerExchange": "Flower Exchange",
         "interAction": "Inter Action",
         "networkUpdates": "Network Updates",
-        "clearSelection": "Clear selection"
+        "clearSelection": "Clear selection",
+        "noActivity": "No Activity",
+        "soonYouWillReceiveNotifications": "Soon you will receive notifications!"
     }
 }

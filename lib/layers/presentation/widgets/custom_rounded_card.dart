@@ -8,18 +8,20 @@ class CustomRoundedCard extends StatelessWidget {
   final Widget? child;
   final EdgeInsets? padding, margin;
   final BorderRadius? borderRadius;
+  final List<BoxShadow>? boxShadow;
 
-  const CustomRoundedCard({
-    Key? key,
-    this.width,
-    this.height,
-    this.child,
-    this.backgroundColor,
-    this.borderColor,
-    this.margin,
-    this.padding,
-    this.borderRadius,
-  }) : super(key: key);
+  const CustomRoundedCard(
+      {Key? key,
+      this.width,
+      this.height,
+      this.child,
+      this.backgroundColor,
+      this.borderColor,
+      this.margin,
+      this.padding,
+      this.borderRadius,
+      this.boxShadow})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +37,14 @@ class CustomRoundedCard extends StatelessWidget {
           width: 1.5,
           color: borderColor ?? StandardColors.borderGrey,
         ),
-        boxShadow: const [
-          BoxShadow(
-            color: StandardColors.borderGrey,
-            offset: Offset(0, 2),
-            blurRadius: 8,
-          )
-        ],
+        boxShadow: boxShadow ??
+            const [
+              BoxShadow(
+                color: StandardColors.borderGrey,
+                offset: Offset(0, 2),
+                blurRadius: 8,
+              )
+            ],
       ),
       child: child,
     );

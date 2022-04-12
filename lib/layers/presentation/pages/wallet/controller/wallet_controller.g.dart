@@ -24,18 +24,19 @@ mixin _$WalletController on WalletControllerBase, Store {
     });
   }
 
-  final _$viewStateAtom = Atom(name: 'WalletControllerBase.viewState');
+  final _$trasncriptViewStateAtom =
+      Atom(name: 'WalletControllerBase.trasncriptViewState');
 
   @override
-  ViewState get viewState {
-    _$viewStateAtom.reportRead();
-    return super.viewState;
+  ViewState get trasncriptViewState {
+    _$trasncriptViewStateAtom.reportRead();
+    return super.trasncriptViewState;
   }
 
   @override
-  set viewState(ViewState value) {
-    _$viewStateAtom.reportWrite(value, super.viewState, () {
-      super.viewState = value;
+  set trasncriptViewState(ViewState value) {
+    _$trasncriptViewStateAtom.reportWrite(value, super.trasncriptViewState, () {
+      super.trasncriptViewState = value;
     });
   }
 
@@ -63,26 +64,11 @@ mixin _$WalletController on WalletControllerBase, Store {
     return _$getTranscriptListAsyncAction.run(() => super.getTranscriptList());
   }
 
-  final _$WalletControllerBaseActionController =
-      ActionController(name: 'WalletControllerBase');
-
-  @override
-  List<String> getCategoryList(
-      BuildContext context, List<TranscriptEntity> transcripts) {
-    final _$actionInfo = _$WalletControllerBaseActionController.startAction(
-        name: 'WalletControllerBase.getCategoryList');
-    try {
-      return super.getCategoryList(context, transcripts);
-    } finally {
-      _$WalletControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
   @override
   String toString() {
     return '''
 index: ${index},
-viewState: ${viewState},
+trasncriptViewState: ${trasncriptViewState},
 viewContentType: ${viewContentType}
     ''';
   }

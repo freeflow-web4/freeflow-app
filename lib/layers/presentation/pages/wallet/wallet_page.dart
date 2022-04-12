@@ -88,7 +88,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Opacity(
-        opacity: 0.2,
+        opacity: 0.15,
         child: Image.asset(
           ImagesAsset.background,
           fit: BoxFit.cover,

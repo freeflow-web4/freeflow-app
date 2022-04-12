@@ -20,6 +20,7 @@ class IconsAsset {
       "assets/images/icons/menu/shopping_car_icon.png";
   static const String example = "assets/images/icons/menu/example_icon.png";
   static const String menu = "assets/images/icons/menu/hamburg.svg";
+  static const String logoGrey = "assets/images/icons/logo_grey.png";
 }
 
 class ImagesAsset {

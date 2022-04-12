@@ -18,7 +18,7 @@ abstract class WalletControllerBase with Store {
   int index = 0;
 
   @observable
-  ViewState viewState = ViewState.start;
+  ViewState trasncriptViewState = ViewState.start;
 
   String? selectedFilterOption;
 
@@ -31,55 +31,19 @@ abstract class WalletControllerBase with Store {
   @action
   Future<List<TranscriptEntity>> getTranscriptList() async {
     late List<TranscriptEntity> transcriptList;
-    viewState = ViewState.loading;
+    trasncriptViewState = ViewState.loading;
     final response = await getTranscripListUsecase.call(offset: 5);
-    viewState = ViewState.done;
+    trasncriptViewState = ViewState.done;
 
     response.fold(
-      (l) => viewState = ViewState.error,
+      (l) => trasncriptViewState = ViewState.error,
       (r) => transcriptList = r,
     );
 
     return transcriptList;
   }
 
-  @action
-  List<String> getCategoryList(
-    BuildContext context,
-    List<TranscriptEntity> transcripts,
-  ) {
-    viewState = ViewState.loading;
-    List<String> categoryList = [];
-    if (categoryList.isEmpty) {
-      categoryList.add('All');
-    }
-    for (int i = 0; i < transcripts.length; i++) {
-      if (!categoryList.contains(
-        getinternationalizedFilterName(context, transcripts[i].category),
-      )) {
-        categoryList.add(
-          getinternationalizedFilterName(context, transcripts[i].category),
-        );
-      }
-    }
-    categoryList.add(
-      TranslationService.translate(
-        context,
-        'wallet.networkUpdates',
-      ),
-    );
-    categoryList.add(
-      TranslationService.translate(
-        context,
-        'wallet.clearSelection',
-      ),
-    );
-    viewState = ViewState.done;
-
-    return categoryList;
-  }
-
-  String getinternationalizedFilterName(BuildContext context, String name) {
+  String getInternationalizedFilterName(BuildContext context, String name) {
     switch (name) {
       case "gratitude":
         {

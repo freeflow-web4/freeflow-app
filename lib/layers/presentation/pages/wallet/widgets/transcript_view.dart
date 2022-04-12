@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_bottom_sheet.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/assets/constants_wallet.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/empty_content.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/secondary_filter_menu_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_radio_tile_button.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
-import 'package:freeflow/layers/presentation/widgets/circular_gradient_icon_button.dart';
 
 import '../../../../../core/translation/translation_service.dart';
 
@@ -35,26 +34,44 @@ class _TranscriptViewState extends State<TranscriptView> {
 
   getTranscriptList() async {
     transcriptList = await widget.walletController.getTranscriptList();
-    categoryList =
-        widget.walletController.getCategoryList(context, transcriptList);
+    categoryList = WalletConstants.transcriptFilters(context);
   }
 
-  int index = 0;
-  List<TranscriptEntity> transcriptFilteredList = [];
-  String? secondarySelectedFilter;
+  int selectedFilterIndex = 0;
+  List<TranscriptEntity> filteredTranscriptList = [];
+  String? selectedSecondaryFilter;
+  List<String> mainFilters = [];
+  List<String> secondaryFilters = [];
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
-          child: widget.walletController.viewState == ViewState.loading
-              ? loadingWidget()
-              : content(),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
+      child: Observer(
+        builder: (context) {
+          if (widget.walletController.trasncriptViewState ==
+              ViewState.loading) {
+            return loadingWidget();
+          } else if (transcriptList.isEmpty) {
+            return const CustomRoundedCard(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(normalSpacing),
+                topRight: Radius.circular(normalSpacing),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: mdSpacing),
+              child: EmptyContent(),
+            );
+          }
+          return content();
+        },
+      ),
     );
+  }
+
+  void refreshIndexFilter(int indexChild) {
+    setState(() {
+      selectedFilterIndex = indexChild;
+    });
   }
 
   Widget content() {
@@ -70,16 +87,54 @@ class _TranscriptViewState extends State<TranscriptView> {
               topLeft: Radius.circular(normalSpacing),
               topRight: Radius.circular(normalSpacing),
             ),
+            boxShadow: const [],
             margin: EdgeInsets.zero,
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(
-                children: listFilteredTranscriptsWidget(),
+                children:
+                    listFilteredTranscriptWidgets(listFilteredTranscript()),
               ),
             ),
           ),
         )
       ],
+    );
+  }
+
+  void separatesMainAndSecondaryFilters() {
+    for (int i = 0; i < categoryList.length; i++) {
+      if (i < 2) {
+        mainFilters.add(categoryList[i]);
+      } else {
+        secondaryFilters.add(categoryList[i]);
+      }
+    }
+  }
+
+  Widget getWidgetBar() {
+    separatesMainAndSecondaryFilters();
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          constraints: BoxConstraints(minWidth: constraints.maxWidth),
+          margin: const EdgeInsets.only(top: miniSpacing),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ...listMainFilteredTranScriptWidgets(mainFilters),
+              SecondaryFilterMenu(
+                index: selectedFilterIndex,
+                secondarySelectedFilter: selectedSecondaryFilter,
+                categoryList: categoryList,
+                context: context,
+                secondaryFilters: secondaryFilters,
+                refresh: refreshIndexFilter,
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -93,21 +148,11 @@ class _TranscriptViewState extends State<TranscriptView> {
     );
   }
 
-  List<Widget> listFilteredTranscriptsWidget() {
+  List<Widget> listFilteredTranscriptWidgets(
+    List<TranscriptEntity> transcriptList,
+  ) {
     List<Widget> filteredTranscriptsWidgetList;
-    transcriptFilteredList.clear();
-
-    for (int i = 0; i < transcriptList.length; i++) {
-      if (valueHasMatchWithFilterName(categoryList[index], 'all')) {
-        transcriptFilteredList.add(transcriptList[i]);
-      }
-      if (categoryList[index] ==
-          widget.walletController
-              .getinternationalizedFilterName(context, transcriptList[i].category)) {
-        transcriptFilteredList.add(transcriptList[i]);
-      }
-    }
-    filteredTranscriptsWidgetList = transcriptFilteredList
+    filteredTranscriptsWidgetList = transcriptList
         .map(
           (transcript) =>
               //TODO: must return an operation card (FREEF-85)
@@ -121,100 +166,9 @@ class _TranscriptViewState extends State<TranscriptView> {
         )
         .toList();
 
-    return filteredTranscriptsWidgetList;
-  }
-
-  Widget getWidgetBar() {
-    List mainFilters = [];
-    List<String> secondaryFilters = [];
-    for (int i = 0; i < categoryList.length; i++) {
-      if (i < 2) {
-        mainFilters.add(categoryList[i]);
-      } else {
-        secondaryFilters.add(categoryList[i]);
-      }
-    }
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Container(
-          constraints: BoxConstraints(minWidth: constraints.maxWidth),
-          margin: const EdgeInsets.only(top: normalSpacing),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ...mainFilterWidgetList(mainFilters),
-              secondaryFilterWidgetMenu(secondaryFilters: secondaryFilters)
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  List<Widget> mainFilterWidgetList(List mainFilters) {
-    return mainFilters.map((e) {
-      return CustomFilterBarItem(
-        tabName: e,
-        isSelected: index ==
-            categoryList
-                .indexOf(widget.walletController.getinternationalizedFilterName(context, e)),
-        onTap: () {
-          setState(() {
-            secondarySelectedFilter = '';
-            index = categoryList
-                .indexOf(widget.walletController.getinternationalizedFilterName(context, e));
-          });
-        },
-      );
-    }).toList();
-  }
-
-  Widget secondaryFilterWidgetMenu({required List<String> secondaryFilters}) {
-    return CircularGradientIconButton(
-      child: Icon(
-        Icons.add_rounded,
-        color: StandardColors.textMediumGrey.withOpacity(0.6),
-      ),
-      isSelected: index > 1,
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(normalSpacing),
-              topRight: Radius.circular(normalSpacing),
-            ),
-          ),
-          barrierColor: StandardColors.darkGrey.withOpacity(0.7),
-          builder: (context) {
-            return StatefulBuilder(
-              builder: (context, setBottomSheetState) {
-                return CustomBottomSheet(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: secondaryFilters
-                        .map(
-                          (e) => CustomRadioTile<String?>(
-                            value: e,
-                            groupValue: secondarySelectedFilter,
-                            onChanged: (value) {
-                              updateSecondaryFilters(
-                                value: value,
-                                setBottomSheetState: setBottomSheetState,
-                              );
-                            },
-                            label: e,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
-    );
+    return filteredTranscriptsWidgetList.isNotEmpty
+        ? filteredTranscriptsWidgetList
+        : const [EmptyContent()];
   }
 
   bool valueHasMatchWithFilterName(value, filterNamekey) =>
@@ -224,43 +178,47 @@ class _TranscriptViewState extends State<TranscriptView> {
         'wallet.$filterNamekey',
       );
 
-  void updateSecondaryFilters({
-    required String? value,
-    required StateSetter setBottomSheetState,
-  }) {
-    setBottomSheetState(() {
-      if (valueHasMatchWithFilterName(value, 'clearSelection')) {
-        secondarySelectedFilter = '';
-      } else if (valueHasMatchWithFilterName(value, 'networkUpdates')) {
-        showNetworkStatusDialog();
-      } else {
-        secondarySelectedFilter = value;
-      }
-    });
-    setState(() {
-      if (valueHasMatchWithFilterName(value, 'clearSelection')) {
-        index = 0;
-      } else if (valueHasMatchWithFilterName(value, 'networkUpdates')) {
-        showNetworkStatusDialog();
-      } else {
-        index = categoryList.indexOf(value!);
-      }
-    });
+  List<TranscriptEntity> listFilteredTranscript() {
+    filteredTranscriptList.clear();
 
-    Navigator.pop(context);
+    for (int i = 0; i < transcriptList.length; i++) {
+      if (valueHasMatchWithFilterName(
+        categoryList[selectedFilterIndex],
+        'all',
+      )) {
+        filteredTranscriptList.add(transcriptList[i]);
+      }
+      if (categoryList[selectedFilterIndex] ==
+          widget.walletController.getInternationalizedFilterName(
+            context,
+            transcriptList[i].category,
+          )) {
+        filteredTranscriptList.add(transcriptList[i]);
+      }
+    }
+
+    return filteredTranscriptList;
   }
 
-  showNetworkStatusDialog() {
-    //TODO: Must return a network status dialog (FREEF-70)
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: SizedBox(
-          height: 200,
-          width: 200,
-          child: Text('será feito na FREEF-70'),
-        ),
-      ),
-    );
+  List<Widget> listMainFilteredTranScriptWidgets(List<String> mainFilters) {
+    return mainFilters.map((e) {
+      return CustomFilterBarItem(
+        tabName: e,
+        isSelected: selectedFilterIndex ==
+            categoryList.indexOf(
+              widget.walletController
+                  .getInternationalizedFilterName(context, e),
+            ),
+        onTap: () {
+          setState(() {
+            selectedSecondaryFilter = '';
+            selectedFilterIndex = categoryList.indexOf(
+              widget.walletController
+                  .getInternationalizedFilterName(context, e),
+            );
+          });
+        },
+      );
+    }).toList();
   }
 }
