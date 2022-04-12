@@ -58,7 +58,8 @@ registerControllerDependencies(GetIt getIt) {
   );
   getIt.registerLazySingleton<RecoverConfirmPinCodeViewController>(
     () => RecoverConfirmPinCodeViewController(
-      getIt.get<UserSetPincodeUsecase>(),
+      userSetPincodeUsecase: getIt.get<UserSetPincodeUsecase>(),
+      saveUserIsLoggedUsecase: getIt.get<SaveUserIsLoggedUsecase>(),
     ),
   );
   getIt.registerLazySingleton<RecoverPrivateKeyController>(

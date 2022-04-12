@@ -14,6 +14,12 @@ import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biom
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_is_logged_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_is_logged_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
@@ -56,6 +62,15 @@ registerUsecasesDependencies(GetIt getIt) {
   );
   getIt.registerFactory<SaveUserLocalAuthUsecase>(
     () => SaveUserLocalAuthUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
+  );
+  getIt.registerFactory<SaveUserIsLoggedUsecase>(
+    () => SaveUserIsLoggedUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
+  );
+  getIt.registerFactory<GetUserIsLoggedUsecase>(
+    () => GetUserIsLoggedUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
+  );
+  getIt.registerFactory<GetUserLocalAuthUsecase>(
+    () => GetUserLocalAuthUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
   );
 
   getIt.registerFactory<EditProfileUsecase>(
