@@ -16,8 +16,6 @@ import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_a
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_is_logged_usecase_imp.dart';
-import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase.dart';
-import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
@@ -81,7 +79,5 @@ registerUsecasesDependencies(GetIt getIt) {
         () => GetProfileUsecaseImp(GetIt.I.get<UserProfileRepository>()),
   );
 
-  getIt.registerFactory<GetUserLocalAuthUsecase>(
-        () => GetUserLocalAuthUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
-  );
+
 }

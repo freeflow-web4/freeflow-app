@@ -41,7 +41,7 @@ class Routes {
   }
 
   void goToEditProfilePageRoute() {
-    _routeService.pushReplacement(const EditProfileRoute());
+    _routeService.push(const EditProfileRoute());
   }
 
   Future<Uint8List?> goToCutImagePageRoute(String imageUrl) async {

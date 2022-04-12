@@ -102,6 +102,22 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
     });
   }
 
+  final _$navigatorKeyAtom =
+      Atom(name: '_EditProfileControllerBase.navigatorKey');
+
+  @override
+  GlobalKey<State<StatefulWidget>> get navigatorKey {
+    _$navigatorKeyAtom.reportRead();
+    return super.navigatorKey;
+  }
+
+  @override
+  set navigatorKey(GlobalKey<State<StatefulWidget>> value) {
+    _$navigatorKeyAtom.reportWrite(value, super.navigatorKey, () {
+      super.navigatorKey = value;
+    });
+  }
+
   final _$getUserAsyncAction =
       AsyncAction('_EditProfileControllerBase.getUser');
 
@@ -139,7 +155,8 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
 invalidName: ${invalidName},
 loadingPhotos: ${loadingPhotos},
 imageBytes: ${imageBytes},
-user: ${user}
+user: ${user},
+navigatorKey: ${navigatorKey}
     ''';
   }
 }

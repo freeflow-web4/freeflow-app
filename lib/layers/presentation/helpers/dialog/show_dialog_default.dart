@@ -8,6 +8,7 @@ enum DialogType {noInternetConnection, systemInstability}
 Future showDialogDefault(BuildContext context, {required DialogType type, required void Function() onTap}) {
   return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: onTap,

@@ -6,7 +6,6 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
@@ -36,14 +35,13 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   void initState() {
     super.initState();
     editController.getUser();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: StandardColors.white,
-
+      key: editController.navigatorKey,
       body: Observer(
         builder: (_) {
           return Container(
@@ -355,17 +353,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   void onTapSave() {
-    showDialogDefault(
-      context,
-      type: DialogType.systemInstability,
-      onTap: (){
-        //TODO VERIFICAR SE SAI DA PAGINA
-        Navigator.of(context).pop();
-        Routes.instance.pop();
-      },
-    );
     if(editController.validateName(controllerName.text, context)){
-
     }
   }
 

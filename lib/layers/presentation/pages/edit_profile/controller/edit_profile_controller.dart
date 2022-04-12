@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
@@ -6,6 +7,8 @@ import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../../helpers/dialog/show_dialog_default.dart';
 part 'edit_profile_controller.g.dart';
 
 enum PageState { loading, ready, loadingSendData}
@@ -31,6 +34,8 @@ abstract class _EditProfileControllerBase with Store {
   PageState _pageState = PageState.loading;
   @observable
   PhotoSelectedState _photoSelectedState = PhotoSelectedState.all;
+  @observable
+  GlobalKey navigatorKey = GlobalKey<NavigatorState>();
 
   _EditProfileControllerBase({
     required this.editProfileUsecase,
@@ -48,7 +53,7 @@ abstract class _EditProfileControllerBase with Store {
     final result = await getProfileUsecase();
     result.fold(
       (error) {
-        print('error $error tratar');
+        showDialogError();
       },
       (success) {
         user = success;
@@ -89,6 +94,17 @@ abstract class _EditProfileControllerBase with Store {
 
   set photoSelectedState(PhotoSelectedState value) {
     _photoSelectedState = value;
+  }
+
+  void showDialogError() {
+    showDialogDefault(
+      navigatorKey.currentContext!,
+      type: DialogType.systemInstability,
+      onTap: (){
+        Navigator.of(navigatorKey.currentContext!).pop();
+        Routes.instance.pop();
+      },
+    );
   }
 
 }
