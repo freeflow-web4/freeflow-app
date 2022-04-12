@@ -1,4 +1,7 @@
+import 'package:flame/game.dart';
+import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
@@ -23,10 +26,12 @@ abstract class RecoverPrivateKeyControllerBase with Store {
   RecoverPrivateKeyControllerBase({
     required this.validator,
     required this.userRecoverLoginUseCase,
+    required this.saveUserLocalAuthUsecase,
   });
 
   final PrivateKeyValidator validator;
   final UserRecoverLoginUseCase userRecoverLoginUseCase;
+  final SaveUserLocalAuthUsecase saveUserLocalAuthUsecase;
 
   @observable
   String currentPrivateKey = "";
@@ -79,15 +84,23 @@ abstract class RecoverPrivateKeyControllerBase with Store {
       (l) {
         onValidatePrivateKeyFailure(l);
       },
-      (r) {
-        onValidatePrivateKeySuccess(key);
+      (r) async {
+        await onValidatePrivateKeySuccess(key, r);
       },
     );
     isValidating = false;
   }
 
   @action
-  void onValidatePrivateKeySuccess(String value) {
+  Future<void> saveUserOnCache(UserEntity user) async =>
+      await saveUserLocalAuthUsecase(user);
+
+  @action
+  Future<void> onValidatePrivateKeySuccess(
+    String value,
+    UserEntity user,
+  ) async {
+    await saveUserOnCache(user);
     updatePrivateKeyFieldState(PrivateKeyFieldState.valid);
     currentPrivateKey = value;
   }

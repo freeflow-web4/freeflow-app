@@ -25,9 +25,10 @@ class UserLocalAuthDatasourceImp implements UserLocalAuthDatasource {
   Future<bool> saveUser(UserEntity user) async {
     try {
       final jsonEntity = UserRecoverLoginDto.fromEntity(user).toJson();
+      final value = jsonEncode(jsonEntity);
       await cacheStorage.save(
         key: 'userLocalAuth',
-        value: jsonEncode(jsonEntity),
+        value: value,
       );
       return true;
     } catch (e) {
