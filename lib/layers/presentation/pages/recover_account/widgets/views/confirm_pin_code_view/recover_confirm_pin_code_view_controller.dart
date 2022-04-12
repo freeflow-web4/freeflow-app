@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
@@ -19,9 +22,13 @@ class RecoverConfirmPinCodeViewController = RecoverConfirmPinCodeViewControllerB
     with _$RecoverConfirmPinCodeViewController;
 
 abstract class RecoverConfirmPinCodeViewControllerBase with Store {
-  RecoverConfirmPinCodeViewControllerBase(this.userSetPincodeUsecase);
-
   final UserSetPincodeUsecase userSetPincodeUsecase;
+  final SaveUserIsLoggedUsecase saveUserIsLoggedUsecase;
+
+  RecoverConfirmPinCodeViewControllerBase({
+    required this.userSetPincodeUsecase,
+    required this.saveUserIsLoggedUsecase,
+  });
 
   @observable
   bool isObscuredPin = true;
@@ -72,11 +79,14 @@ abstract class RecoverConfirmPinCodeViewControllerBase with Store {
 
   void savePinCode() => userSetPincodeUsecase(currentConfirmPinCode);
 
+  void saveUserIsLogged() => saveUserIsLoggedUsecase(true);
+
   @action
   void onValidatePinCodeSuccess(String value) {
     updateConfirmPinCodeFieldState(ConfirmPinCodeFieldState.valid);
     currentConfirmPinCode = value;
     savePinCode();
+    saveUserIsLogged();
   }
 
   @action
