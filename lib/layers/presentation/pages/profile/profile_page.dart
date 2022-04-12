@@ -8,6 +8,7 @@ import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_image
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_names_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_shared_buttons_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/small_profile_buttons.dart';
+import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
 import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dart';
 
@@ -50,7 +51,14 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
               const SizedBox(height: mdSpacing),
               ProfileSharedButtonsWidget(
                 onTapShare: () => print('share'),
-                onTapCopy: () => print('copy'),
+                onTapCopy: () => showDialog(
+                  barrierColor: Colors.transparent,
+                  context: context,
+                  builder: (context) => const InformativeDialog(
+                    icon: IconsAsset.checkIcon,
+                    title: 'Public address copied to clipboard',
+                  ),
+                ),
               ),
               const SizedBox(height: mdSpacing),
               const CustomDividerWidget(horizontalPadding: mdSpacingx2),

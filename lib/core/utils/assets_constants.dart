@@ -30,6 +30,7 @@ class IconsAsset {
   static const String pincode = "assets/images/icons/pincode.svg";
   static const String privateKey = "assets/images/icons/private_key.svg";
   static const String biometry = "assets/images/icons/biometry.svg";
+  static const String checkIcon = "assets/images/icons/check_icon.svg";
   static const String scaffoldBackground =
       "assets/images/scaffold_background.png";
 }
