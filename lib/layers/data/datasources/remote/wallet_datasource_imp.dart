@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:freeflow/layers/data/datasources/wallet_datasource.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/infra/http/http_client.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/assets/constants_wallet.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/util/wallet_util.dart';
 
 class WalletDatasourceImp implements WalletDatasource {
   final HttpClient client;
@@ -17,7 +17,7 @@ class WalletDatasourceImp implements WalletDatasource {
     try {
       // final response = await client.get(url);
       // final transcript = TranscripDto.fromJson(response.data).toEntity();
-      return WalletConstants.transcriptsMocked;
+      return WalletUtil.transcriptsMocked;
     } catch (error) {
       if (error is DioError) {
         throw Exception(error.message);

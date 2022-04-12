@@ -43,34 +43,5 @@ abstract class WalletControllerBase with Store {
     return transcriptList;
   }
 
-  String getInternationalizedFilterName(BuildContext context, String name) {
-    switch (name) {
-      case "gratitude":
-        {
-          return TranslationService.translate(
-            context,
-            'wallet.gratitude',
-          );
-        }
-
-      case "inter_action":
-        {
-          return TranslationService.translate(
-            context,
-            'wallet.interAction',
-          );
-        }
-      case "flower_exchange":
-        {
-          return TranslationService.translate(
-            context,
-            'wallet.flowerExchange',
-          );
-        }
-      default:
-        {
-          return name;
-        }
-    }
-  }
+  
 }

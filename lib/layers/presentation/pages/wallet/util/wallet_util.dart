@@ -3,7 +3,7 @@ import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 
 import '../../../../../core/translation/translation_service.dart';
 
-class WalletConstants {
+class WalletUtil {
   static transcriptFilters(BuildContext context) {
     return [
       TranslationService.translate(
@@ -56,4 +56,38 @@ class WalletConstants {
       userName: 'fulano',
     ),
   ];
+
+  static String getInternationalizedFilterName(
+    BuildContext context,
+    String name,
+  ) {
+    switch (name) {
+      case "gratitude":
+        {
+          return TranslationService.translate(
+            context,
+            'wallet.gratitude',
+          );
+        }
+
+      case "inter_action":
+        {
+          return TranslationService.translate(
+            context,
+            'wallet.interAction',
+          );
+        }
+      case "flower_exchange":
+        {
+          return TranslationService.translate(
+            context,
+            'wallet.flowerExchange',
+          );
+        }
+      default:
+        {
+          return name;
+        }
+    }
+  }
 }

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/assets/constants_wallet.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/util/wallet_util.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/empty_content.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/secondary_filter_menu_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
-
-import '../../../../../core/translation/translation_service.dart';
 
 class TranscriptView extends StatefulWidget {
   final WalletController walletController;
@@ -34,7 +33,7 @@ class _TranscriptViewState extends State<TranscriptView> {
 
   getTranscriptList() async {
     transcriptList = await widget.walletController.getTranscriptList();
-    categoryList = WalletConstants.transcriptFilters(context);
+    categoryList = WalletUtil.transcriptFilters(context);
   }
 
   int selectedFilterIndex = 0;
@@ -103,11 +102,13 @@ class _TranscriptViewState extends State<TranscriptView> {
   }
 
   void separatesMainAndSecondaryFilters() {
-    for (int i = 0; i < categoryList.length; i++) {
-      if (i < 2) {
-        mainFilters.add(categoryList[i]);
-      } else {
-        secondaryFilters.add(categoryList[i]);
+    if (mainFilters.isEmpty) {
+      for (int i = 0; i < categoryList.length; i++) {
+        if (i < 2) {
+          mainFilters.add(categoryList[i]);
+        } else {
+          secondaryFilters.add(categoryList[i]);
+        }
       }
     }
   }
@@ -189,7 +190,7 @@ class _TranscriptViewState extends State<TranscriptView> {
         filteredTranscriptList.add(transcriptList[i]);
       }
       if (categoryList[selectedFilterIndex] ==
-          widget.walletController.getInternationalizedFilterName(
+          WalletUtil.getInternationalizedFilterName(
             context,
             transcriptList[i].category,
           )) {
@@ -206,15 +207,13 @@ class _TranscriptViewState extends State<TranscriptView> {
         tabName: e,
         isSelected: selectedFilterIndex ==
             categoryList.indexOf(
-              widget.walletController
-                  .getInternationalizedFilterName(context, e),
+              WalletUtil.getInternationalizedFilterName(context, e),
             ),
         onTap: () {
           setState(() {
             selectedSecondaryFilter = '';
             selectedFilterIndex = categoryList.indexOf(
-              widget.walletController
-                  .getInternationalizedFilterName(context, e),
+              WalletUtil.getInternationalizedFilterName(context, e),
             );
           });
         },
