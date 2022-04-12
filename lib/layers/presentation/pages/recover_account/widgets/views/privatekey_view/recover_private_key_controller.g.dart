@@ -86,21 +86,25 @@ mixin _$RecoverPrivateKeyController on RecoverPrivateKeyControllerBase, Store {
         .run(() => super.validatePrivateKey(value, username, loadingCallBack));
   }
 
-  final _$RecoverPrivateKeyControllerBaseActionController =
-      ActionController(name: 'RecoverPrivateKeyControllerBase');
+  final _$saveUserOnCacheAsyncAction =
+      AsyncAction('RecoverPrivateKeyControllerBase.saveUserOnCache');
 
   @override
-  void onValidatePrivateKeySuccess(String value) {
-    final _$actionInfo =
-        _$RecoverPrivateKeyControllerBaseActionController.startAction(
-            name:
-                'RecoverPrivateKeyControllerBase.onValidatePrivateKeySuccess');
-    try {
-      return super.onValidatePrivateKeySuccess(value);
-    } finally {
-      _$RecoverPrivateKeyControllerBaseActionController.endAction(_$actionInfo);
-    }
+  Future<void> saveUserOnCache(UserEntity user) {
+    return _$saveUserOnCacheAsyncAction.run(() => super.saveUserOnCache(user));
   }
+
+  final _$onValidatePrivateKeySuccessAsyncAction = AsyncAction(
+      'RecoverPrivateKeyControllerBase.onValidatePrivateKeySuccess');
+
+  @override
+  Future<void> onValidatePrivateKeySuccess(String value, UserEntity user) {
+    return _$onValidatePrivateKeySuccessAsyncAction
+        .run(() => super.onValidatePrivateKeySuccess(value, user));
+  }
+
+  final _$RecoverPrivateKeyControllerBaseActionController =
+      ActionController(name: 'RecoverPrivateKeyControllerBase');
 
   @override
   void onValidatePrivateKeyFailure(DomainError error) {
