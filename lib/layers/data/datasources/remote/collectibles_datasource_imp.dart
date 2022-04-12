@@ -14,14 +14,9 @@ class CollectiblesDataSourceImp implements CollectiblesDataSource {
     required String type
   }) async {
     try {
-      final response = await client.post(
-        'users',
-        body: {
-          //   "displayName": username,
-          //   "file": image,
-        },
-      );
+      final response = await client.get('collectibles',);
       if(response.statusCode == 200){
+        //TOODO RETORNAR LIST FROM JSON
         return [];
       }
       //TODO CONFERIR ERROS
