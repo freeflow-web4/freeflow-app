@@ -11,19 +11,51 @@ class UserLocalAuthDatasourceImp implements UserLocalAuthDatasource {
 
   @override
   Future<UserEntity> getUser() async {
-    final response = await cacheStorage.get('userLocalAuth');
-    final userLocalAuth =
-        UserRecoverLoginDto.fromJson(jsonDecode(response)).toEntity();
-    return userLocalAuth;
+    try {
+      final response = await cacheStorage.get('userLocalAuth');
+      final userLocalAuth =
+          UserRecoverLoginDto.fromJson(jsonDecode(response)).toEntity();
+      return userLocalAuth;
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
   Future<bool> saveUser(UserEntity user) async {
-    final jsonEntity = UserRecoverLoginDto.fromEntity(user).toJson();
-    await cacheStorage.save(
-      key: 'userLocalAuth',
-      value: jsonEncode(jsonEntity),
-    );
-    return true;
+    try {
+      final jsonEntity = UserRecoverLoginDto.fromEntity(user).toJson();
+      await cacheStorage.save(
+        key: 'userLocalAuth',
+        value: jsonEncode(jsonEntity),
+      );
+      return true;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<bool> getUserIsLogged() async {
+    try {
+      final response = await cacheStorage.get('userIsLogged');
+      final result = jsonDecode(response) as bool;
+      return result;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<bool> saveUserIsLogged(bool value) async {
+    try {
+      await cacheStorage.save(
+        key: 'userIsLogged',
+        value: jsonEncode(value),
+      );
+      return true;
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }
