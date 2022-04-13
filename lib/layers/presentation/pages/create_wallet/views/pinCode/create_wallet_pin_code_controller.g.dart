@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'create_wallet_pin_key_controller.dart';
+part of 'create_wallet_pin_code_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,14 +8,14 @@ part of 'create_wallet_pin_key_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$CreateWalletPinKeyController
-    on _CreateWalletPinKeyControllerBase, Store {
+mixin _$CreateWalletPinCodeController
+    on _CreateWalletPinCodeControllerBase, Store {
   Computed<bool>? _$buttonNextActivatedComputed;
 
   @override
   bool get buttonNextActivated => (_$buttonNextActivatedComputed ??=
           Computed<bool>(() => super.buttonNextActivated,
-              name: '_CreateWalletPinKeyControllerBase.buttonNextActivated'))
+              name: '_CreateWalletPinCodeControllerBase.buttonNextActivated'))
       .value;
   Computed<bool>? _$isGradientTextFieldValidComputed;
 
@@ -23,11 +23,11 @@ mixin _$CreateWalletPinKeyController
   bool get isGradientTextFieldValid => (_$isGradientTextFieldValidComputed ??=
           Computed<bool>(() => super.isGradientTextFieldValid,
               name:
-                  '_CreateWalletPinKeyControllerBase.isGradientTextFieldValid'))
+                  '_CreateWalletPinCodeControllerBase.isGradientTextFieldValid'))
       .value;
 
   final _$nameFieldStateAtom =
-      Atom(name: '_CreateWalletPinKeyControllerBase.nameFieldState');
+      Atom(name: '_CreateWalletPinCodeControllerBase.nameFieldState');
 
   @override
   GradientTextFieldState get nameFieldState {
@@ -43,7 +43,7 @@ mixin _$CreateWalletPinKeyController
   }
 
   final _$formValidAtom =
-      Atom(name: '_CreateWalletPinKeyControllerBase.formValid');
+      Atom(name: '_CreateWalletPinCodeControllerBase.formValid');
 
   @override
   bool get formValid {
@@ -59,7 +59,7 @@ mixin _$CreateWalletPinKeyController
   }
 
   final _$isPinObscureAtom =
-      Atom(name: '_CreateWalletPinKeyControllerBase.isPinObscure');
+      Atom(name: '_CreateWalletPinCodeControllerBase.isPinObscure');
 
   @override
   bool get isPinObscure {
@@ -74,17 +74,17 @@ mixin _$CreateWalletPinKeyController
     });
   }
 
-  final _$_CreateWalletPinKeyControllerBaseActionController =
-      ActionController(name: '_CreateWalletPinKeyControllerBase');
+  final _$_CreateWalletPinCodeControllerBaseActionController =
+      ActionController(name: '_CreateWalletPinCodeControllerBase');
 
   @override
   void onNameChanged(String value) {
-    final _$actionInfo = _$_CreateWalletPinKeyControllerBaseActionController
-        .startAction(name: '_CreateWalletPinKeyControllerBase.onNameChanged');
+    final _$actionInfo = _$_CreateWalletPinCodeControllerBaseActionController
+        .startAction(name: '_CreateWalletPinCodeControllerBase.onNameChanged');
     try {
       return super.onNameChanged(value);
     } finally {
-      _$_CreateWalletPinKeyControllerBaseActionController
+      _$_CreateWalletPinCodeControllerBaseActionController
           .endAction(_$actionInfo);
     }
   }
@@ -92,12 +92,12 @@ mixin _$CreateWalletPinKeyController
   @override
   void onNextButtonPressed(void Function() onValid, void Function() onInvalid) {
     final _$actionInfo =
-        _$_CreateWalletPinKeyControllerBaseActionController.startAction(
-            name: '_CreateWalletPinKeyControllerBase.onNextButtonPressed');
+        _$_CreateWalletPinCodeControllerBaseActionController.startAction(
+            name: '_CreateWalletPinCodeControllerBase.onNextButtonPressed');
     try {
       return super.onNextButtonPressed(onValid, onInvalid);
     } finally {
-      _$_CreateWalletPinKeyControllerBaseActionController
+      _$_CreateWalletPinCodeControllerBaseActionController
           .endAction(_$actionInfo);
     }
   }

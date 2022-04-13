@@ -8,14 +8,13 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_controller.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinKey/create_wallet_pin_key_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
-part 'create_wallet_pin_key_animations.dart';
+part 'create_wallet_pin_code_animations.dart';
 
 class CreateWalletPinCodeView extends StatefulWidget {
   final bool isCurrent;
@@ -39,9 +38,9 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  late final animations = CreateWalletPinKeyPageAnimations(animationController);
+  late final animations = CreateWalletPinCodePageAnimations(animationController);
 
-  final pageController = CreateWalletPinKeyController();
+  final pageController = CreateWalletPinCodeController();
 
   @override
   void didUpdateWidget(covariant CreateWalletPinCodeView oldWidget) {

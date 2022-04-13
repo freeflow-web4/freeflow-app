@@ -1,12 +1,12 @@
 import 'package:freeflow/layers/presentation/pages/create_wallet/validators/name_validator.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:mobx/mobx.dart';
-part 'create_wallet_pin_key_controller.g.dart';
+part 'create_wallet_pin_code_controller.g.dart';
 
-class CreateWalletPinKeyController = _CreateWalletPinKeyControllerBase
-    with _$CreateWalletPinKeyController;
+class CreateWalletPinCodeController = _CreateWalletPinCodeControllerBase
+    with _$CreateWalletPinCodeController;
 
-abstract class _CreateWalletPinKeyControllerBase with Store {
+abstract class _CreateWalletPinCodeControllerBase with Store {
   @observable
   GradientTextFieldState nameFieldState = GradientTextFieldState.empty;
 

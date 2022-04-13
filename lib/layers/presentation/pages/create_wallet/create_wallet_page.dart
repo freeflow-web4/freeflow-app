@@ -5,7 +5,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/controller/crea
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_page.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinKey/create_wallet_pin_key_page.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/create_wallet_pin_code_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/create_wallet_private_key_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_page_view.dart';

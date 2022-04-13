@@ -1,12 +1,12 @@
-part of 'create_wallet_pin_key_page.dart';
+part of 'create_wallet_pin_code_page.dart';
 
-class CreateWalletPinKeyPageAnimations {
+class CreateWalletPinCodePageAnimations {
   final Animation<double> title1Opacity;
   final Animation<double> pinFieldAnimationOpacity;
   final Animation<double> keyboardAnimationOpacity;
   final Animation<double> confirmButtonAnimationOpacity;
 
-  CreateWalletPinKeyPageAnimations(AnimationController controller)
+  CreateWalletPinCodePageAnimations(AnimationController controller)
       : title1Opacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
