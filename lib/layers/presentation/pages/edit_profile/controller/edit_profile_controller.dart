@@ -1,14 +1,18 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../helpers/dialog/show_dialog_default.dart';
+
 part 'edit_profile_controller.g.dart';
 
 enum PageState { loading, ready, loadingSendData}
@@ -21,6 +25,7 @@ class EditProfileController = _EditProfileControllerBase with _$EditProfileContr
 abstract class _EditProfileControllerBase with Store {
   final EditProfileUsecase editProfileUsecase;
   final GetProfileUsecase getProfileUsecase;
+  final GetCollectiblesUsecase getCollectiblesUsecase;
 
   @observable
   String? invalidName;
@@ -36,11 +41,17 @@ abstract class _EditProfileControllerBase with Store {
   PhotoSelectedState _photoSelectedState = PhotoSelectedState.all;
   @observable
   GlobalKey navigatorKey = GlobalKey<NavigatorState>();
+  @observable
+  TextEditingController controllerName = TextEditingController();
+  @observable
+  List<CollectiblesEntity> images = [];
 
-  _EditProfileControllerBase({
+
+  _EditProfileControllerBase( {
     required this.editProfileUsecase,
-    required this.getProfileUsecase
-});
+    required this.getProfileUsecase,
+    required this.getCollectiblesUsecase,
+  });
 
 
 
@@ -52,14 +63,33 @@ abstract class _EditProfileControllerBase with Store {
     user = ProfileEntity(displayName: '');
     final result = await getProfileUsecase();
     result.fold(
-      (error) {
+          (error) {
         showDialogError();
       },
-      (success) {
+          (success) {
         user = success;
+        controllerName.text = user?.displayName ?? '';
       },
     );
     _pageState = PageState.ready;
+
+  }
+
+  @action
+  Future<void> getCollectibles() async{
+
+    loadingPhotos = true;
+
+    final result = await getCollectiblesUsecase(page: 0, limit: 30, type: 'all');
+    result.fold(
+          (error) {
+        showDialogError();
+      },
+          (success) {
+        images = success;
+      },
+    );
+    loadingPhotos = false;
 
   }
 

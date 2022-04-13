@@ -22,14 +22,10 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
   final EditProfileController editController = findEditProfileController();
-  TextEditingController controllerName = TextEditingController();
 
 
 
-  List<String> images = [
-    'https://gizmodo.uol.com.br/wp-content/blogs.dir/8/files/2021/02/nyan-cat-1.gif',
-    'https://picsum.photos/250?image=8',
-    'https://picsum.photos/250?image=10' ];
+
 
   @override
   void initState() {
@@ -201,8 +197,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                 enabled: editController.pageState != PageState.loadingSendData,
                                 onChanged: (text) {
                                   setState(() {
-                                    if(controllerName.text.substring(0,1) == ' '){
-                                      controllerName.text = controllerName.text.substring(1);
+                                    if(editController.controllerName.text.substring(0,1) == ' '){
+                                      editController.controllerName.text = editController.controllerName.text.substring(1);
                                     }
                                   });
                                 },
@@ -217,7 +213,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                controller: controllerName,
+                                controller: editController.controllerName,
                                 decoration:  InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(horizontal: 0),
                                   border: InputBorder.none,
@@ -232,10 +228,10 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Poppins',
                                   ),
-                                  suffixIcon: controllerName.text.isNotEmpty ? IconButton(
+                                  suffixIcon: editController.controllerName.text.isNotEmpty ? IconButton(
                                     onPressed: (){
                                       setState(() {
-                                        controllerName.text = '';
+                                        editController.controllerName.text = '';
                                       });
                                     },
                                     icon: const Material(
@@ -345,6 +341,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   void onTapSelectImage() {
+    editController.getCollectibles();
     showModalSelectPhoto();
   }
 
@@ -353,7 +350,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   void onTapSave() {
-    if(editController.validateName(controllerName.text, context)){
+    if(editController.validateName(editController.controllerName.text, context)){
     }
   }
 
@@ -562,7 +559,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
                 if(editController.loadingPhotos)...[
                   gridView(shimmerImages())
-                ]else if(images.isEmpty)...[
+                ]else if(editController.images.isEmpty)...[
                   Text(
                     TranslationService.translate(context, "editProfile.noImage",),
                     style: textH6TextStyle.copyWith(
@@ -629,7 +626,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
   List<Widget> imagesList(){
     List<Widget> list = [];
-    for (int i=0; i<images.length; i++){
+    for (int i=0; i<editController.images.length; i++){
       list.add(imagesItem(i));
     }
     return list;
@@ -644,7 +641,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
         children: [
           shimmerItem(),
           Image.network(
-            images[index],
+            editController.images[index].imageUrl!,
             width: size,
             height: size,
             fit: BoxFit.cover,
@@ -660,7 +657,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
             child: InkWell(
               onTap: (){
                 Future.delayed(const Duration(milliseconds: 80), () async {
-                  editController.onTapToChangePhoto(images[index]);
+                  editController.onTapToChangePhoto(editController.images[index].imageUrl!);
                   Navigator.of(context).pop();
                 });
 

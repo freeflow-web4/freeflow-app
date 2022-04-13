@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:freeflow/layers/domain/entities/nfts_entity.dart';
+import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/repositories/collectibles_repository.dart';
 
 import 'get_collectibles_usecase.dart';
 
-class CollectiblesUsecaseImp implements CollectiblesUsecase {
+class CollectiblesUsecaseImp implements GetCollectiblesUsecase {
   final CollectiblesRepository repository;
 
   CollectiblesUsecaseImp(this.repository);

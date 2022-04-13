@@ -118,12 +118,51 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
     });
   }
 
+  final _$controllerNameAtom =
+      Atom(name: '_EditProfileControllerBase.controllerName');
+
+  @override
+  TextEditingController get controllerName {
+    _$controllerNameAtom.reportRead();
+    return super.controllerName;
+  }
+
+  @override
+  set controllerName(TextEditingController value) {
+    _$controllerNameAtom.reportWrite(value, super.controllerName, () {
+      super.controllerName = value;
+    });
+  }
+
+  final _$imagesAtom = Atom(name: '_EditProfileControllerBase.images');
+
+  @override
+  List<CollectiblesEntity> get images {
+    _$imagesAtom.reportRead();
+    return super.images;
+  }
+
+  @override
+  set images(List<CollectiblesEntity> value) {
+    _$imagesAtom.reportWrite(value, super.images, () {
+      super.images = value;
+    });
+  }
+
   final _$getUserAsyncAction =
       AsyncAction('_EditProfileControllerBase.getUser');
 
   @override
   Future<void> getUser() {
     return _$getUserAsyncAction.run(() => super.getUser());
+  }
+
+  final _$getCollectiblesAsyncAction =
+      AsyncAction('_EditProfileControllerBase.getCollectibles');
+
+  @override
+  Future<void> getCollectibles() {
+    return _$getCollectiblesAsyncAction.run(() => super.getCollectibles());
   }
 
   final _$onTapToChangePhotoAsyncAction =
@@ -156,7 +195,9 @@ invalidName: ${invalidName},
 loadingPhotos: ${loadingPhotos},
 imageBytes: ${imageBytes},
 user: ${user},
-navigatorKey: ${navigatorKey}
+navigatorKey: ${navigatorKey},
+controllerName: ${controllerName},
+images: ${images}
     ''';
   }
 }

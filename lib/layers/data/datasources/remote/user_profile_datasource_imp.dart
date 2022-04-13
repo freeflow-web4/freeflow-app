@@ -35,16 +35,13 @@ class UserProfileDataSourceImp implements UserProfileDataSource {
   @override
   Future<ProfileEntity> getProfile() async {
     try {
-      print('getProfile');
       final response = await client.get(
         'users',
       );
-      print('getProfile1');
 
       final user = UserProfileDto.fromJson(response.data).toEntity();
       return user;
     } catch (error) {
-      print('error getProfile $error');
 
       if (error is DioError) {
         throw Exception(error.message);

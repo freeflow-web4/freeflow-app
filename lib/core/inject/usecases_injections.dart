@@ -6,6 +6,7 @@ import 'package:freeflow/layers/domain/repositories/user_recover_login_repositor
 import 'package:freeflow/layers/domain/repositories/username_exists_repository.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase.dart';
@@ -30,6 +31,9 @@ import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exis
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase_imp.dart';
 import 'package:freeflow/layers/domain/validators/field_validator/field_validator_imp.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../layers/domain/repositories/collectibles_repository.dart';
+import '../../layers/domain/usecases/get_collectibles/get_collectibles_usecase_imp.dart';
 
 registerUsecasesDependencies(GetIt getIt) {
   getIt.registerFactory<UserRecoverLoginUseCase>(
@@ -77,6 +81,9 @@ registerUsecasesDependencies(GetIt getIt) {
 
   getIt.registerFactory<GetProfileUsecase>(
         () => GetProfileUsecaseImp(GetIt.I.get<UserProfileRepository>()),
+  );
+  getIt.registerFactory<GetCollectiblesUsecase>(
+        () => CollectiblesUsecaseImp(GetIt.I.get<CollectiblesRepository>()),
   );
 
 
