@@ -16,13 +16,9 @@ class CollectiblesDataSourceImp implements CollectiblesDataSource {
   }) async {
     try {
       final response = await client.get('collectibles',);
-      if(response.statusCode == 200){
         List<CollectiblesEntity> collectibles = List<CollectiblesEntity>.from(response.data.map((model)=> CollectiblesDto.fromJson(model).toEntity()));
         return collectibles;
-      }
-      throw Exception('ERROR');
     } catch (error) {
-      print('\n\nerrpr $error');
       if (error is DioError) {
         throw Exception(error.message);
       } else {
