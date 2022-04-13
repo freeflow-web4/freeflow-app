@@ -12,12 +12,14 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'edit_profile_controller.g.dart';
 
-enum PageState { loading, ready, loadingSendData}
-enum PhotoSelectedState { all, tickets, badges}
+enum PageState { loading, ready, loadingSendData }
+enum PhotoSelectedState { all, tickets, badges }
 
-EditProfileController findEditProfileController() => GetIt.I.get<EditProfileController>();
+EditProfileController findEditProfileController() =>
+    GetIt.I.get<EditProfileController>();
 
-class EditProfileController = _EditProfileControllerBase with _$EditProfileController;
+class EditProfileController = _EditProfileControllerBase
+    with _$EditProfileController;
 
 abstract class _EditProfileControllerBase with Store {
   final EditProfileUsecase editProfileUsecase;
@@ -43,68 +45,68 @@ abstract class _EditProfileControllerBase with Store {
   @observable
   List<CollectiblesEntity> images = [];
 
-
-  _EditProfileControllerBase( {
+  _EditProfileControllerBase({
     required this.editProfileUsecase,
     required this.getProfileUsecase,
     required this.getCollectiblesUsecase,
   });
 
-
-
   @action
-  Future<void> getUser() async{
-
+  Future<void> getUser() async {
     _pageState = PageState.loading;
 
-    user = ProfileEntity(displayName: '');
+    user = ProfileEntity(displayName: '', username: '');
     final result = await getProfileUsecase();
     result.fold(
-          (error) {
+      (error) {
         showDialogError();
       },
-          (success) {
+      (success) {
         user = success;
         controllerName.text = user?.displayName ?? '';
       },
     );
     _pageState = PageState.ready;
-
   }
 
   @action
-  Future<void> getCollectibles() async{
-
+  Future<void> getCollectibles() async {
     loadingPhotos = true;
 
-    final result = await getCollectiblesUsecase(page: 0, limit: 30, type: 'all');
+    final result =
+        await getCollectiblesUsecase(page: 0, limit: 30, type: 'all');
     result.fold(
-          (error) {
+      (error) {
         showDialogError();
       },
-          (success) {
+      (success) {
         images = success;
       },
     );
     loadingPhotos = false;
-
   }
 
   @action
   Future<void> onTapToChangePhoto(String urlImage) async {
     Uint8List? bytes = await Routes.instance.goToCutImagePageRoute(urlImage);
-    if(bytes != null){
+    if (bytes != null) {
       imageBytes = bytes;
     }
   }
 
   @action
-  bool validateName(text, context){
-    if(text!.length > 60){
-      invalidName = TranslationService.translate(context, "editProfile.maximum60Characters",).replaceFirst('70', '${text.length}');
+  bool validateName(text, context) {
+    if (text!.length > 60) {
+      invalidName = TranslationService.translate(
+        context,
+        "editProfile.maximum60Characters",
+      ).replaceFirst('70', '${text.length}');
       return false;
-    }else if(text.isEmpty){
-      invalidName =  TranslationService.translate(context, "editProfile.pleaseEnterYourName",);
+    } else if (text.isEmpty) {
+      invalidName = TranslationService.translate(
+        context,
+        "editProfile.pleaseEnterYourName",
+      );
       return false;
     }
     invalidName = null;
@@ -127,14 +129,10 @@ abstract class _EditProfileControllerBase with Store {
     showDialogDefault(
       navigatorKey.currentContext!,
       type: DialogType.systemInstability,
-      onTap: (){
+      onTap: () {
         Navigator.of(navigatorKey.currentContext!).pop();
         Routes.instance.pop();
       },
     );
   }
-
 }
-
-
-

@@ -4,21 +4,22 @@ part 'user_profile_dto.g.dart';
 
 @JsonSerializable()
 class UserProfileDto {
-  String? displayName;
+  String displayName;
+  String username;
   String? profileImageUrl;
 
   UserProfileDto({
     required this.displayName,
-    this.profileImageUrl
+    this.profileImageUrl,
+    required this.username,
   });
 
   ProfileEntity toEntity() => ProfileEntity(
-      profileImageUrl: profileImageUrl,
-      displayName: displayName);
-
-
+        profileImageUrl: profileImageUrl,
+        displayName: displayName,
+        username: username,
+      );
 
   factory UserProfileDto.fromJson(Map<String, dynamic> json) =>
       _$UserProfileDtoFromJson(json);
-
 }

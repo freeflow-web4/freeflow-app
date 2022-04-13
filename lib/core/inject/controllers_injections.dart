@@ -74,7 +74,9 @@ registerControllerDependencies(GetIt getIt) {
     ),
   );
   getIt.registerLazySingleton<ProfilePageController>(
-    () => ProfilePageController(),
+    () => ProfilePageController(
+      getProfileUsecase: getIt.get<GetProfileUsecase>(),
+    ),
   );
 
   getIt.registerLazySingleton<EditProfileController>(

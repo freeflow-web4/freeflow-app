@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
@@ -10,9 +11,9 @@ import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_names
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_shared_buttons_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/small_profile_buttons.dart';
 import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
 import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dart';
-import 'package:flutter/services.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -23,6 +24,13 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> with TextThemes {
   final ProfilePageController controller = findProfileController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -35,59 +43,73 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
         ),
       ),
       backgroundColor: StandardColors.lightBackground,
-      body: Stack(
-        children: [
-          Column(
+      body: Observer(
+        builder: (context) {
+          if (controller.pageState == PageState.loading ||
+              controller.user == null) {
+            return const Center(
+              child: LoadingWidget(
+                isLoading: true,
+                color: StandardColors.greyCA,
+                size: 33,
+              ),
+            );
+          }
+          return Stack(
             children: [
-              const SizedBox(height: huge5Spacing),
-              ProfileImageWidget(
-                onTap: () {},
-              ),
-              const SizedBox(height: normalSpacing),
-              const ProfileNamesWidget(
-                fullname: 'Luiz Fernando Thomaz Ribeiro Coelho Junior ',
-                username: 'luis_fernandoribeiro',
-              ),
-              const SizedBox(height: mdSpacing),
-              ProfileSharedButtonsWidget(
-                  onTapShare: () => controller.shareAddress(),
-                  onTapCopy: () {
-                    controller.setContentToClipBoard();
-                    showDialog(
-                      barrierColor: Colors.transparent,
-                      context: context,
-                      builder: (context) => const InformativeDialog(
-                        icon: IconsAsset.checkIcon,
-                        title: 'Public address copied to clipboard',
-                      ),
-                    );
-                  }),
-              const SizedBox(height: mdSpacing),
-              const CustomDividerWidget(horizontalPadding: mdSpacingx2),
-              SmallProfileButtons(screenHeight: screenHeight),
-            ],
-          ),
-          Positioned(
-            bottom: mdSpacingx2,
-            child: Visibility(
-              visible: screenHeight >= 844,
-              child: Column(
+              Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: mdSpacingx2,
-                    ),
-                    child: ProfileButtonWidget(
-                      title: "profile.logout",
-                      icon: IconsAsset.logout,
-                      onTap: () {},
-                    ),
+                  const SizedBox(height: huge5Spacing),
+                  ProfileImageWidget(
+                    onTap: () {},
                   ),
+                  const SizedBox(height: normalSpacing),
+                  ProfileNamesWidget(
+                    fullname: controller.user!.displayName,
+                    username: controller.user!.username,
+                  ),
+                  const SizedBox(height: mdSpacing),
+                  ProfileSharedButtonsWidget(
+                      onTapShare: () => controller.shareAddress(),
+                      onTapCopy: () {
+                        controller.setContentToClipBoard();
+                        showDialog(
+                          barrierColor: Colors.transparent,
+                          context: context,
+                          builder: (context) => const InformativeDialog(
+                            icon: IconsAsset.checkIcon,
+                            title: 'Public address copied to clipboard',
+                          ),
+                        );
+                      }),
+                  const SizedBox(height: mdSpacing),
+                  const CustomDividerWidget(horizontalPadding: mdSpacingx2),
+                  SmallProfileButtons(screenHeight: screenHeight),
                 ],
               ),
-            ),
-          ),
-        ],
+              Positioned(
+                bottom: mdSpacingx2,
+                child: Visibility(
+                  visible: screenHeight >= 844,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: mdSpacingx2,
+                        ),
+                        child: ProfileButtonWidget(
+                          title: "profile.logout",
+                          icon: IconsAsset.logout,
+                          onTap: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
