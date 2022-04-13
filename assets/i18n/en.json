@@ -42,5 +42,33 @@
     "welcome": {
         "welcomeBack": "Welcome Back",
         "toFreeflow": "To your\n FreeFlow Pouch"
+    },
+    "editProfile": {
+        "editProfile": "EDIT PROFILE",
+        "cancel": "Cancel",
+        "save": "Save",
+        "changeProfilePhoto": "Change profile photo",
+        "name": "Name",
+        "pleaseEnterYourName": "Please enter your name",
+        "maximum60Characters": "Your name can have a maximum of 60 characters. You have 70 characters.",
+        "discardChanges": "Discard Changes?",
+        "discardChangesText": "If you go back now,\nyou will lose your changes.",
+        "discardChangesAccept": "DISCARD CHANGES",
+        "keepEdition": "KEEP EDITION",
+        "gallery": "GALLERY FROM COLLECTIBLES",
+        "all": "All",
+        "tickets": "My tickets",
+        "badges": "Badges",
+        "noImage": "NO IMAGE",
+        "noImageText": "YOU DO NOT HAVE COLLECTIBLES TO USE AS A PROFILE IMAGE.",
+        "choose": "Choose"
+    },
+    "noInternet": {
+        "noInternetTitle": "NO INTERNET\nCONNECTION FOUND",
+        "noInternetSubtitle": "CHECK YOUR CONNECTION"
+    },
+    "systemInstability": {
+        "systemInstabilityTitle": "WE HAVE AN INSTABILITY\nIN THE SYSTEM",
+        "systemInstabilitySubtitle": "PLEASE RESTART THE APP"
     }
 }

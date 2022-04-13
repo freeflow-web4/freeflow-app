@@ -56,6 +56,9 @@ dependencies:
   provider:
   flutter_secure_storage: ^5.0.2
   local_auth: ^1.1.11
+  shimmer: ^2.0.0
+  cropperx: ^1.0.0
+
 
 dev_dependencies:
   auto_route_generator: ^3.2.3
@@ -101,6 +104,18 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/poppins/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/poppins/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/poppins/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/poppins/Poppins-Bold.ttf
+          weight: 700
     - family: Akrobat
       fonts:
         - asset: assets/fonts/Akrobat-Regular.ttf

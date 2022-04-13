@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/layers/presentation/helpers/get_plataform.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/icon_menu.dart';
+import 'package:freeflow/routes/routes.dart';
 
 
 class ScaffoldFreeFlow extends StatefulWidget {
@@ -195,6 +196,8 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 iconSize: iconSize,
                 onTap:(){
                   //TODO ADD ACTION
+                  //TODO REMOVE
+                  Routes.instance.goToEditProfilePageRoute();
                 },
               ),
               IconMenu(

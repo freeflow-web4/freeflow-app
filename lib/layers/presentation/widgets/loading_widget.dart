@@ -4,7 +4,9 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 
 class LoadingWidget extends StatefulWidget {
   final bool isLoading;
-  const LoadingWidget({Key? key, required this.isLoading}) : super(key: key);
+  final Color? color;
+  final double? size;
+  const LoadingWidget({Key? key, required this.isLoading, this.color, this.size}) : super(key: key);
 
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
@@ -44,8 +46,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
         turns: Tween(begin: 0.0, end: 1.0).animate(animationController),
         child: SvgPicture.asset(
           IconsAsset.loading,
-          height: 48,
-          width: 48,
+          color: widget.color,
+          height: widget.size ?? 48,
+          width: widget.size ?? 48,
         ),
       ),
     );
