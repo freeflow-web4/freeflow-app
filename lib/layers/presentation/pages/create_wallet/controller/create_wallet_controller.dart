@@ -12,4 +12,14 @@ abstract class _CreateWalletControllerBase with Store {
   void updatePageIndicatorHeight(double height) {
     pageIndicatorHeight = height;
   }
+
+  //TODO: remove
+  int getCurrentPageIndicatorIndex(int pageIndex) {
+    switch (pageIndex) {
+      case 0:
+        return 0;
+      default:
+        throw Exception('Invalid page index');
+    }
+  }
 }

@@ -65,6 +65,9 @@
         "confirmPrivateTextFieldHint": "Phrase words",
         "confirmPrivateTextFieldError": "Please enter valid phrase words",
         "confirmPrivateKeyWarning": "To continue,\nplease confirm\nyour private key.",
+        "pinCodeTitle1": "Now let's configure\nyour PIN code.",
+        "pinCodeTitle2": "Remember me?",
+        "pinCodeTextFieldHint": "Choose your pin code",
         "pinCodeWarning": "To continue,\nplease enter a\nPIN code."
     }
 }

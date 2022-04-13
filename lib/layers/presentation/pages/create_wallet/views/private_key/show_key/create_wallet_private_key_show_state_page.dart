@@ -16,13 +16,11 @@ class CreateWalletPrivateKeyShowView extends StatefulWidget {
   final String privateKey;
   final void Function() onConfirm;
   final bool animateOnStart;
-  final void Function(double height) onHeightChanged;
   const CreateWalletPrivateKeyShowView({
     Key? key,
     required this.privateKey,
     required this.onConfirm,
     required this.animateOnStart,
-    required this.onHeightChanged,
   }) : super(key: key);
 
   @override
@@ -64,89 +62,86 @@ class _CreateWalletPrivateKeyShowViewState
         builder: (context, _) {
           return Column(
             children: [
-              WidgetSize(
-                onChange: widget.onHeightChanged,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: mdSpacingx2,
-                    right: 3 * mdSpacingx2,
-                    top: huge4Spacing,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AnimatedText(
-                        text: TranslationService.translate(
-                          context,
-                          "createWallet.privateKeyTitle1",
-                        ),
-                        animationController: animationController,
-                        style: textH4TextStyle.copyWith(
-                          color: StandardColors.white,
-                        ),
-                        animation: animations.title1Opacity,
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: mdSpacingx2,
+                  right: 3 * mdSpacingx2,
+                  top: huge4Spacing,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedText(
+                      text: TranslationService.translate(
+                        context,
+                        "createWallet.privateKeyTitle1",
                       ),
-                      const SizedBox(
-                        height: mdSpacingx2,
+                      animationController: animationController,
+                      style: textH4TextStyle.copyWith(
+                        color: StandardColors.white,
                       ),
-                      Visibility(
-                        visible: animations.title2Opacity.value > 0,
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(bottom: mdSpacingx2),
-                          child: Opacity(
-                            //TODO: add opacity from animations class
-                            opacity: animations.title2Opacity.value,
-                            child: RichText(
-                              text: TextSpan(
-                                style: subtitleTextStyle,
-                                children: [
-                                  TextSpan(
-                                    text: TranslationService.translate(
-                                      context,
-                                      'createWallet.privateKeyTitle2',
-                                    ),
-                                    style: subtitleTextStyle.copyWith(
-                                      color: StandardColors.white,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                      animation: animations.title1Opacity,
+                    ),
+                    const SizedBox(
+                      height: mdSpacingx2,
+                    ),
+                    Visibility(
+                      visible: animations.title2Opacity.value > 0,
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(bottom: mdSpacingx2),
+                        child: Opacity(
+                          //TODO: add opacity from animations class
+                          opacity: animations.title2Opacity.value,
+                          child: RichText(
+                            text: TextSpan(
+                              style: subtitleTextStyle,
+                              children: [
+                                TextSpan(
+                                  text: TranslationService.translate(
+                                    context,
+                                    'createWallet.privateKeyTitle2',
                                   ),
-                                  TextSpan(
-                                    text: TranslationService.translate(
-                                      context,
-                                      'createWallet.privateKeyTitle3',
-                                    ),
-                                    style: subtitleTextStyle.copyWith(
-                                      color: StandardColors.white,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                  style: subtitleTextStyle.copyWith(
+                                    color: StandardColors.white,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                ],
-                              ),
+                                ),
+                                TextSpan(
+                                  text: TranslationService.translate(
+                                    context,
+                                    'createWallet.privateKeyTitle3',
+                                  ),
+                                  style: subtitleTextStyle.copyWith(
+                                    color: StandardColors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ),
-                      Visibility(
-                        visible: animations.title3Opacity.value > 0,
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(bottom: mdSpacingx2),
-                          child: Opacity(
-                            //TODO: add opacity from animations class
-                            opacity: animations.title3Opacity.value,
-                            child: Text(
-                              widget.privateKey,
-                              style: subtitleTextStyle.copyWith(
-                                color: StandardColors.secondary,
-                                fontWeight: FontWeight.w700,
-                              ),
+                    ),
+                    Visibility(
+                      visible: animations.title3Opacity.value > 0,
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(bottom: mdSpacingx2),
+                        child: Opacity(
+                          //TODO: add opacity from animations class
+                          opacity: animations.title3Opacity.value,
+                          child: Text(
+                            widget.privateKey,
+                            style: subtitleTextStyle.copyWith(
+                              color: StandardColors.secondary,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Expanded(

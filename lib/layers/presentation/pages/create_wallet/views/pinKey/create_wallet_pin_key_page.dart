@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
@@ -8,39 +9,42 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinKey/create_wallet_pin_key_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/widget_size.dart';
-part './create_wallet_animations.dart';
+import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
+part 'create_wallet_pin_key_animations.dart';
 
-class CreateWalletNameView extends StatefulWidget {
+class CreateWalletPinCodeView extends StatefulWidget {
   final bool isCurrent;
   final void Function() onValid;
 
-  const CreateWalletNameView({
+  const CreateWalletPinCodeView({
     Key? key,
     required this.isCurrent,
     required this.onValid,
   }) : super(key: key);
 
   @override
-  State<CreateWalletNameView> createState() => _CreateWalletNameViewState();
+  State<CreateWalletPinCodeView> createState() =>
+      _CreateWalletPinCodeViewState();
 }
 
-class _CreateWalletNameViewState extends State<CreateWalletNameView>
+class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
     with TickerProviderStateMixin, TextThemes {
   static const _totalDuration = Duration(milliseconds: 3600);
 
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  late final animations = CreateWalletPageAnimations(animationController);
+  late final animations = CreateWalletPinKeyPageAnimations(animationController);
 
-  final pageController = CreateWalletNameController();
+  final pageController = CreateWalletPinKeyController();
 
   @override
-  void didUpdateWidget(covariant CreateWalletNameView oldWidget) {
+  void didUpdateWidget(covariant CreateWalletPinCodeView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.isCurrent != widget.isCurrent) {
       if (widget.isCurrent) {
@@ -69,11 +73,11 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                     AnimatedText(
                       text: TranslationService.translate(
                         context,
-                        "createWallet.nameTitle1",
+                        "createWallet.pinCodeTitle1",
                       ),
                       animationController: animationController,
-                      style: textH4TextStyle.copyWith(
-                          color: StandardColors.white),
+                      style:
+                          textH4TextStyle.copyWith(color: StandardColors.white),
                       animation: animations.title1Opacity,
                     ),
                     const SizedBox(
@@ -85,21 +89,53 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                       child: Observer(
                         builder: (context) {
                           return GradientTextFieldWidget(
-                            errorText: pageController.nameFieldState !=
-                                    GradientTextFieldState.invalid
-                                ? null
-                                : TranslationService.translate(
-                                    context,
-                                    'createWallet.nameTextFieldError',
-                                  ),
+                            showObscureButton: true,
+                            fieldReadOnly: true,
                             hintText: TranslationService.translate(
                               context,
-                              'createWallet.nameTextFieldHint',
+                              'createWallet.pinCodeTextFieldHint',
                             ),
                             onChanged: pageController.onNameChanged,
                             isFieldValid:
                                 pageController.isGradientTextFieldValid,
+                            isPinInput: true,
+                            //TODO: add controller here
+                            pinCode: "",
+                            isObscureText: pageController.isPinObscure,
                           );
+                        },
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          TranslationService.translate(
+                            context,
+                            'createWallet.pinCodeTitle2',
+                          ),
+                          style: subtitleTextStyle.copyWith(
+                            color: StandardColors.white,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: mdSpacingx2,
+                        ),
+                        CustomSwitch(
+                          value: false,
+                          onChanged: (value) {
+                            //TODO: call controller here
+                          },
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: mdSpacingx2,
+                    ),
+                    Opacity(
+                      opacity: animationController.value,
+                      child: InAppKeyboardWidget(
+                        onTap: (key) {
+                          //TODO: call controller here
                         },
                       ),
                     ),
@@ -109,8 +145,12 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
               Expanded(
                 child: Container(
                   alignment: Alignment.bottomCenter,
-                  padding: const EdgeInsets.only(
-                    bottom: bigSpacing,
+                  padding: EdgeInsets.only(
+                    top: getProportionalHeightFromValue(
+                      context,
+                      huge3Spacing,
+                    ),
+                    bottom: largeSpacing,
                   ),
                   child: Opacity(
                     opacity: animations.confirmButtonAnimationOpacity.value,
