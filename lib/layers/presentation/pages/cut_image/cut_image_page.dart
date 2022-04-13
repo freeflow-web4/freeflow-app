@@ -34,6 +34,7 @@ class _CutImagePageState extends State<CutImagePage>  with TextThemes{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: cutController.navigatorKey,
       backgroundColor: StandardColors.white,
 
       body: Column(
@@ -52,9 +53,11 @@ class _CutImagePageState extends State<CutImagePage>  with TextThemes{
                     child: Cropper(
                       cropperKey: _cropperKeyA,
                       overlayType: OverlayType.circle,
-                      rotationTurns: 0,
+                      gridLineThickness: 0,
                       zoomScale : 10,
-                      image: Image.memory(cutController.bytes ?? Uint8List(1) ),
+                      image: Image.memory(
+                          cutController.bytes ?? Uint8List(1),
+                      ),
                     ),
                     replacement: const Center(
                       child: LoadingWidget(

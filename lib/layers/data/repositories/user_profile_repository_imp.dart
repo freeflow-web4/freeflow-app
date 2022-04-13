@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:freeflow/layers/data/datasources/user_profile_datasource.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
@@ -19,7 +21,7 @@ class UserProfileRepositoryImp implements UserProfileRepository {
   }
 
   @override
-  Future<Either<DomainError, bool>> editProfile(String username, String? image) async {
+  Future<Either<DomainError, bool>> editProfile(String username,Uint8List? image) async {
     try {
       final result = await _userProfileDataSource.editProfile(
           username: username, image: image,
