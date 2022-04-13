@@ -58,12 +58,21 @@ class GradientTextFieldWidget extends StatefulWidget {
 }
 
 class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
-    with TextThemes, SingleTickerProviderStateMixin {
-  late AnimationController controller;
+    with TextThemes {
   late Animation<Offset> offset;
 
   bool isTyping = false;
   Timer? _debounce;
+
+  @override
+  void didUpdateWidget(covariant GradientTextFieldWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.pinCode != widget.pinCode) {
+      if (widget.pinCode != null) {
+        setState(() {});
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,23 +85,36 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             widget.isObscureText == true
                 ? SizedBox(
                     width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 18,
-                        //TODO: analyze these padding
-                        bottom: 18,
-                      ),
-                      child: Container(
-                        height: 12,
-                        alignment: Alignment.centerLeft,
-                        child: GradientTextFieldPinCode(
-                          pinCode: widget.pinCode ?? '',
-                          color: widget.errorText?.isNotEmpty == true
-                              ? StandardColors.error
-                              : null,
-                        ),
-                      ),
-                    ),
+                    child: (widget.hintText?.trim().isNotEmpty ?? false)
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                              top: 12,
+                              bottom: 12,
+                            ),
+                            child: Text(
+                              widget.hintText!,
+                              style: subtitleTextStyle.copyWith(
+                                color: StandardColors.white,
+                              ),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(
+                              top: 18,
+                              //TODO: analyze these padding
+                              bottom: 18,
+                            ),
+                            child: Container(
+                              height: 12,
+                              alignment: Alignment.centerLeft,
+                              child: GradientTextFieldPinCode(
+                                pinCode: widget.pinCode ?? '',
+                                color: widget.errorText?.isNotEmpty == true
+                                    ? StandardColors.error
+                                    : null,
+                              ),
+                            ),
+                          ),
                   )
                 : TextFormField(
                     key: ValueKey(
