@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
@@ -37,8 +40,22 @@ class Routes {
     _routeService.pushReplacement(const HomeRoute());
   }
 
+  void goToEditProfilePageRoute() {
+    _routeService.push(const EditProfileRoute());
+  }
+
+  Future<Uint8List?> goToCutImagePageRoute(String imageUrl) async {
+    final RouteResponse?  response =  await _routeService.push( CutImageRoute(imageUrl: imageUrl));
+    return response?.body ;
+  }
+
   void pop() {
     _routeService.pop();
+  }
+
+  void backToEditProfile(Uint8List file) {
+    RouteResponse data = RouteResponse(body: file);
+    _routeService.pop(data: data);
   }
 
 //   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(

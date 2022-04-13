@@ -1,8 +1,14 @@
+import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
+import 'package:freeflow/layers/presentation/pages/cut_image/controller/cut_image_controller.dart';
+import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_profile_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
@@ -64,9 +70,22 @@ registerControllerDependencies(GetIt getIt) {
     () => RecoverPrivateKeyController(
       validator: getIt.get<PrivateKeyValidator>(),
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
+      saveUserLocalAuthUsecase: getIt.get<SaveUserLocalAuthUsecase>(),
     ),
   );
   getIt.registerLazySingleton<ProfilePageController>(
     () => ProfilePageController(),
+  );
+
+  getIt.registerLazySingleton<EditProfileController>(
+    () => EditProfileController(
+      editProfileUsecase: getIt.get<EditProfileUsecase>(),
+      getProfileUsecase: getIt.get<GetProfileUsecase>(),
+      getCollectiblesUsecase: getIt.get<GetCollectiblesUsecase>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<CutImageController>(
+    () => CutImageController(),
   );
 }
