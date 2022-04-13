@@ -111,13 +111,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
             margin: const EdgeInsets.only(
               bottom: normalSpacing,
             ),
-            child: textH6(
-              context,
-              textKey: TranslationService.translate(
-                context,
-                'wallet.wallet',
-              ).toUpperCase(),
-            ),
+            child: textH6(context, textKey: 'wallet.wallet', isUpperCase: true),
           ),
           //TODO: awaiting data from backend (ThreeFold)
           CustomActionCard(
@@ -126,14 +120,8 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
             child: const TotalAmountText(totalAmount: '1111'),
             onTapLeftAction: () {},
             onTapRighAction: () {},
-            leftTextAction: TranslationService.translate(
-              context,
-              'wallet.deposit',
-            ),
-            rightTextAction: TranslationService.translate(
-              context,
-              'wallet.exchange',
-            ),
+            leftTextAction: 'wallet.deposit',
+            rightTextAction: 'wallet.exchange',
           ),
           const SizedBox(
             height: normalSpacing,

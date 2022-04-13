@@ -202,18 +202,18 @@ class _TranscriptViewState extends State<TranscriptView> {
   }
 
   List<Widget> listMainFilteredTranScriptWidgets(List<String> mainFilters) {
-    return mainFilters.map((e) {
+    return mainFilters.map((filterName) {
       return CustomFilterBarItem(
-        tabName: e,
+        tabName: filterName,
         isSelected: selectedFilterIndex ==
             categoryList.indexOf(
-              WalletUtil.getInternationalizedFilterName(context, e),
+              WalletUtil.getInternationalizedFilterName(context, filterName),
             ),
         onTap: () {
           setState(() {
             selectedSecondaryFilter = '';
             selectedFilterIndex = categoryList.indexOf(
-              WalletUtil.getInternationalizedFilterName(context, e),
+              WalletUtil.getInternationalizedFilterName(context, filterName),
             );
           });
         },

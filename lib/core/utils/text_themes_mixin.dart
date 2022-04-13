@@ -8,10 +8,13 @@ mixin TextThemes {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
     TextAlign? textAlign,
+    bool isUpperCase = false,
     required String textKey,
   }) {
     return Text(
-      FlutterI18n.translate(context, textKey),
+      isUpperCase
+          ? FlutterI18n.translate(context, textKey).toUpperCase()
+          : FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       textAlign: textAlign,
       style: textH6TextStyle.copyWith(color: color),
@@ -136,10 +139,13 @@ mixin TextThemes {
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
+    bool isUpperCase = false,
     required String textKey,
   }) {
     return Text(
-      FlutterI18n.translate(context, textKey),
+      isUpperCase
+          ? FlutterI18n.translate(context, textKey).toUpperCase()
+          : FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       style: TextStyle(
         color: color,

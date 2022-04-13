@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_radio_tile_button.dart';
 import 'package:freeflow/layers/presentation/widgets/circular_gradient_icon_button.dart';
@@ -27,7 +28,8 @@ class SecondaryFilterMenu extends StatefulWidget {
   State<SecondaryFilterMenu> createState() => _SecondaryFilterMenuState();
 }
 
-class _SecondaryFilterMenuState extends State<SecondaryFilterMenu> {
+class _SecondaryFilterMenuState extends State<SecondaryFilterMenu>
+    with TextThemes {
   String? secondarySelectedFilter = '';
 
   @override
@@ -39,30 +41,37 @@ class _SecondaryFilterMenuState extends State<SecondaryFilterMenu> {
       ),
       isSelected: widget.index > 1,
       onTap: () {
-        showModalBottomSheet(
-          context: context,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(normalSpacing),
-              topRight: Radius.circular(normalSpacing),
-            ),
-          ),
-          barrierColor: StandardColors.darkGrey.withOpacity(0.7),
-          builder: (context) {
-            return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setBottomSheetState) {
-                return CustomBottomSheet(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: listSecondaryFilteredTranscriptWidgets(
-                      categoryList: widget.categoryList,
-                      notifyParent: widget.refresh,
-                      secondaryFilters: widget.secondaryFilters,
-                      setBottomSheetState: setBottomSheetState,
-                    ),
+        showSecondaryMenuFilters();
+      },
+    );
+  }
+
+  void showSecondaryMenuFilters() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(normalSpacing),
+          topRight: Radius.circular(normalSpacing),
+        ),
+      ),
+      barrierColor: StandardColors.darkGrey.withOpacity(0.7),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setBottomSheetState) {
+            return CustomBottomSheet(
+              children: [
+                textSubtitle(context, textKey: 'wallet.otherTranscripts'),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: listSecondaryFilteredTranscriptWidgets(
+                    categoryList: widget.categoryList,
+                    notifyParent: widget.refresh,
+                    secondaryFilters: widget.secondaryFilters,
+                    setBottomSheetState: setBottomSheetState,
                   ),
-                );
-              },
+                ),
+              ],
             );
           },
         );

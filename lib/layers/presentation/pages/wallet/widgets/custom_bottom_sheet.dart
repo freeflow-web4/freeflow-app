@@ -4,18 +4,19 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class CustomBottomSheet extends StatefulWidget {
-  final Widget child;
-  const CustomBottomSheet({Key? key, required this.child}) : super(key: key);
+  final List<Widget> children;
+  const CustomBottomSheet({Key? key, required this.children}) : super(key: key);
 
   @override
   State<CustomBottomSheet> createState() => _CustomBottomSheetState();
 }
 
-class _CustomBottomSheetState extends State<CustomBottomSheet> with TextThemes{
+class _CustomBottomSheetState extends State<CustomBottomSheet> with TextThemes {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: normalSpacing, horizontal: mdSpacing),
+      padding: const EdgeInsets.symmetric(
+          vertical: normalSpacing, horizontal: mdSpacing),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -31,8 +32,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> with TextThemes{
               ),
             ),
           ),
-          textSubtitle(context, textKey: 'OTHER TRANSCRIPTS'),
-          widget.child
+          ...widget.children
         ],
       ),
     );

@@ -58,6 +58,7 @@
         "networkUpdates": "Network Updates",
         "clearSelection": "Clear selection",
         "noActivity": "No Activity",
-        "soonYouWillReceiveNotifications": "Soon you will receive notifications!"
+        "soonYouWillReceiveNotifications": "Soon you will receive notifications!",
+        "otherTranscripts": "OTHER TRANSCRIPTS"
     }
 }

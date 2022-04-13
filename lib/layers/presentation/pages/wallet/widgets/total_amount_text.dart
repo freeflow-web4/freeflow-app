@@ -48,10 +48,7 @@ class TotalAmountText extends StatelessWidget with TextThemes {
   Widget totalAmountLabelWidget(BuildContext context) {
     return textSubtitle2(
       context,
-      textKey: TranslationService.translate(
-        context,
-        'wallet.totalAmount',
-      ),
+      textKey: 'wallet.totalAmount',
       color: StandardColors.textMediumGrey.withOpacity(0.6),
     );
   }

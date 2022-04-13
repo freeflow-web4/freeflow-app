@@ -17,31 +17,35 @@ class EmptyContent extends StatelessWidget with TextThemes {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
+          textWidget(
+            context,
+            textKey: 'wallet.noActivity',
             padding: const EdgeInsets.only(bottom: mdSpacing, top: mdSpacing),
-            child: textH6(
-              context,
-              textKey: TranslationService.translate(
-                context,
-                'wallet.noActivity',
-              ).toUpperCase(),
-              color: StandardColors.borderMediumGrey,
-            ),
           ),
           Image.asset(IconsAsset.logoGrey),
-          Padding(
+          textWidget(
+            context,
+            textKey: 'wallet.soonYouWillReceiveNotifications',
             padding: const EdgeInsets.only(top: mdSpacing),
-            child: textH6(
-              context,
-              textKey: TranslationService.translate(
-                context,
-                'wallet.soonYouWillReceiveNotifications',
-              ).toUpperCase(),
-              color: StandardColors.borderMediumGrey,
-              textAlign: TextAlign.center,
-            ),
-          ),
+          )
         ],
+      ),
+    );
+  }
+
+  Widget textWidget(
+    BuildContext context, {
+    required String textKey,
+    EdgeInsets? padding,
+  }) {
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: textH6(
+        context,
+        textKey: textKey,
+        isUpperCase: true,
+        color: StandardColors.borderMediumGrey,
+        textAlign: TextAlign.center,
       ),
     );
   }
