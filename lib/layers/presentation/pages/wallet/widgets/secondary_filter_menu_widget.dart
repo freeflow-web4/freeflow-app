@@ -3,8 +3,8 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_bottom_sheet.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_radio_tile_button.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_bottom_sheet.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_radio_tile_button.dart';
 import 'package:freeflow/layers/presentation/widgets/circular_gradient_icon_button.dart';
 
 class SecondaryFilterMenu extends StatefulWidget {
@@ -41,12 +41,12 @@ class _SecondaryFilterMenuState extends State<SecondaryFilterMenu>
       ),
       isSelected: widget.index > 1,
       onTap: () {
-        showSecondaryMenuFilters();
+        showSecondaryFiltersMenu();
       },
     );
   }
 
-  void showSecondaryMenuFilters() {
+  void showSecondaryFiltersMenu() {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(

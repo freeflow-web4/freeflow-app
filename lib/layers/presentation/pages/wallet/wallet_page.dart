@@ -4,7 +4,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_action_card.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
 
 import 'package:freeflow/layers/presentation/widgets/custom_tabbar.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/transcript_view.dart';
@@ -37,7 +37,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           backgroundImage(context),
           Column(
             children: [
-              header(),
+              walletInformations(),
               Expanded(
                 child: CustomTabBar(
                   width: double.infinity,
@@ -97,7 +97,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
     );
   }
 
-  Widget header() {
+  Widget walletInformations() {
     return Padding(
       padding: const EdgeInsets.only(
         left: mdSpacingx2,

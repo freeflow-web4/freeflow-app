@@ -67,7 +67,7 @@ class _TranscriptViewState extends State<TranscriptView> {
     );
   }
 
-  void refreshIndexFilter(int indexChild) {
+  void refreshFilterIndex(int indexChild) {
     setState(() {
       selectedFilterIndex = indexChild;
     });
@@ -123,14 +123,14 @@ class _TranscriptViewState extends State<TranscriptView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ...listMainFilteredTranScriptWidgets(mainFilters),
+              ...listMainFilteredTranscriptWidgets(mainFilters),
               SecondaryFilterMenu(
                 index: selectedFilterIndex,
                 secondarySelectedFilter: selectedSecondaryFilter,
                 categoryList: categoryList,
                 context: context,
                 secondaryFilters: secondaryFilters,
-                refresh: refreshIndexFilter,
+                refresh: refreshFilterIndex,
               )
             ],
           ),
@@ -201,7 +201,7 @@ class _TranscriptViewState extends State<TranscriptView> {
     return filteredTranscriptList;
   }
 
-  List<Widget> listMainFilteredTranScriptWidgets(List<String> mainFilters) {
+  List<Widget> listMainFilteredTranscriptWidgets(List<String> mainFilters) {
     return mainFilters.map((filterName) {
       return CustomFilterBarItem(
         tabName: filterName,
