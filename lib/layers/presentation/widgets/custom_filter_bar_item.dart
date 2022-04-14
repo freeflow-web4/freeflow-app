@@ -22,11 +22,50 @@ class CustomFilterBarItem extends StatefulWidget {
 }
 
 class _CustomFilterBarItemState extends State<CustomFilterBarItem>
-    with TextThemes {
+    with TextThemes, SingleTickerProviderStateMixin {
+  late Animation<Offset> animation;
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    initializeAnimationController();
+    animateIndicator();
+    super.initState();
+  }
+
+  void initializeAnimationController() {
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    animation = Tween<Offset>(
+      begin: const Offset(-0.2, 0.0),
+      end: const Offset(0.0, 0.0),
+    ).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.fastLinearToSlowEaseIn,
+      ),
+    );
+  }
+
+  void animateIndicator({bool reset = false}) {
+    if (reset) {
+      animationController.reset();
+    }
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      animationController.forward();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => widget.onTap(),
+      onTap: () {
+        widget.onTap();
+        animateIndicator(reset: true);
+      },
       child: Container(
         height: widget.height ?? 26,
         padding: widget.tabMargin,
@@ -53,14 +92,15 @@ class _CustomFilterBarItemState extends State<CustomFilterBarItem>
   Widget customIndicator({
     required bool isActive,
   }) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.fastOutSlowIn,
-      height: widget.isSelected ? 3 : 0,
-      width: 60,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: StandardColors.purpleBlueGradient(),
+    return SlideTransition(
+      position: animation,
+      child: Container(
+        height: widget.isSelected ? 3 : 0,
+        width: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          gradient: StandardColors.purpleBlueGradient(),
+        ),
       ),
     );
   }
