@@ -93,10 +93,10 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                           context: context,
                           builder: (context) => const InformativeDialog(
                             icon: IconsAsset.checkIcon,
-                            title: 'Public address copied to clipboard',
+                            title: "profile.copiedAddress",
                           ),
                         );
-                      }),
+                      },),
                   const SizedBox(height: mdSpacing),
                   const CustomDividerWidget(horizontalPadding: mdSpacingx2),
                   SmallProfileButtons(screenHeight: screenHeight),

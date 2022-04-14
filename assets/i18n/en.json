@@ -51,7 +51,8 @@
         "changePinCode": "Change pincode",
         "gesturesInstruction": "Gestures instruction",
         "commitment": "Commitment",
-        "logout": "Logout account from device"
+        "logout": "Logout account from device",
+        "copiedAddress": "Public address copied to clipboard"
     },
     "editProfile": {
         "editProfile": "EDIT PROFILE",
