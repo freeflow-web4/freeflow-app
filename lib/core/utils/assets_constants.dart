@@ -1,6 +1,6 @@
 class IconsAsset {
-  static const String MUSIC = "images/icons/music_vector.svg";
-  static const String PHOTOS = "images/icons/photos_vector.svg";
+  static const String music = "images/icons/music_vector.svg";
+  static const String photos = "images/icons/photos_vector.svg";
   static const String arrowIcon = "assets/images/icons/arrow_icon.svg";
   static const String arrowLeftIcon = "assets/images/icons/arrow_left.svg";
   static const String closeBackIcon = "assets/images/icons/close_back_icon.svg";

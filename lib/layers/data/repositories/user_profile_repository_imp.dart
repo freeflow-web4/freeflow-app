@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/domain/entities/edit_profile_entity.dart';
 import 'package:freeflow/layers/data/datasources/user_profile_datasource.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
@@ -19,11 +20,9 @@ class UserProfileRepositoryImp implements UserProfileRepository {
   }
 
   @override
-  Future<Either<DomainError, bool>> editProfile(String username, String? image) async {
+  Future<Either<DomainError, bool>> editProfile({required EditProfileEntity editProfileEntity}) async {
     try {
-      final result = await _userProfileDataSource.editProfile(
-          username: username, image: image,
-      );
+      final result = await _userProfileDataSource.editProfile(editProfileEntity: editProfileEntity,);
       return Right(result);
     } on Exception catch (error) {
       return Left(convertToDomainError(error.toString()));

@@ -60,7 +60,7 @@
         "changeProfilePhoto": "Change profile photo",
         "name": "Name",
         "pleaseEnterYourName": "Please enter your name",
-        "maximum60Characters": "Your name can have a maximum of 60 characters. You have 70 characters.",
+        "maximum60Characters": "Your name can have a maximum of 60 characters.",
         "discardChanges": "Discard Changes?",
         "discardChangesText": "If you go back now,\nyou will lose your changes.",
         "discardChangesAccept": "DISCARD CHANGES",

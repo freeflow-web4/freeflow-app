@@ -13,7 +13,7 @@ CollectiblesDto _$CollectiblesDtoFromJson(Map<String, dynamic> json) =>
       authorName: json['authorName'] as String?,
       qrCodeImageUrl: json['qrCodeImageUrl'] as String?,
       contractAddress: json['contractAddress'] as String?,
-      tokenId: json['tokenId'] as String?,
+      tokenId: json['tokenId'] as int?,
       imageUrl: json['imageUrl'] as String?,
       eventTitle: json['eventTitle'] as String?,
       eventDate: json['eventDate'] as String?,
