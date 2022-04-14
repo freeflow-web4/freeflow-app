@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:freeflow/layers/data/datasources/collectibles_datasource.dart';
 import 'package:freeflow/layers/data/dtos/collectibles/collectibles_dto.dart';
 import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
 import 'package:freeflow/layers/infra/http/http_client.dart';
-
-import '../collectibles_datasource.dart';
 
 class CollectiblesDataSourceImp implements CollectiblesDataSource {
   final HttpClient client;
