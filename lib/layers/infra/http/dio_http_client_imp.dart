@@ -6,8 +6,8 @@ class DioHttpClientImp implements HttpClient {
   DioHttpClientImp(this._dio);
 
   @override
-  Future<Response> get(String url) async {
-    final Response response = await _dio.get(url);
+  Future<Response> get(String url, {Map<String, dynamic>? query}) async {
+    final Response response = await _dio.get(url, queryParameters: query);
     return response;
   }
 

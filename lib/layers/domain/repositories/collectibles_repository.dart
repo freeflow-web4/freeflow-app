@@ -7,6 +7,6 @@ abstract class CollectiblesRepository {
       {
         required int page,
         required int limit,
-        required String type
+        String? type
       });
 }
