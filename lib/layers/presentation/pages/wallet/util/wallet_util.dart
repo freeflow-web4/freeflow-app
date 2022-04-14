@@ -55,6 +55,27 @@ class WalletUtil {
       gratitudeType: 'NFT',
       userName: 'fulano',
     ),
+    TranscriptEntity(
+      amount: '102',
+      category: 'inter_action',
+      createdAt: '6 ds 21h',
+      gratitudeType: 'NFT',
+      userName: 'fulano',
+    ),
+    TranscriptEntity(
+      amount: '102',
+      category: 'inter_action',
+      createdAt: '6 ds 21h',
+      gratitudeType: 'NFT',
+      userName: 'fulano',
+    ),
+    TranscriptEntity(
+      amount: '102',
+      category: 'inter_action',
+      createdAt: '6 ds 21h',
+      gratitudeType: 'NFT',
+      userName: 'fulano',
+    ),
   ];
 
   static String getInternationalizedFilterName(
