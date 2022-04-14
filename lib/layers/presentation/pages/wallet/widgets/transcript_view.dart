@@ -53,11 +53,19 @@ class _TranscriptViewState extends State<TranscriptView> {
           if (widget.walletController.trasncriptViewState ==
               ViewState.loading) {
             //TODO: must return a custom loading (FREEF-69)
-            return const Center(
-              child: LoadingWidget(
-                isLoading: true,
-                color: StandardColors.greyCA,
-                size: 33,
+            return const CustomRoundedCard(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(normalSpacing),
+                topRight: Radius.circular(normalSpacing),
+              ),
+              padding: EdgeInsets.only(top: mdSpacing),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: LoadingWidget(
+                  isLoading: true,
+                  color: StandardColors.greyCA,
+                  size: 33,
+                ),
               ),
             );
           } else if (transcriptList.isEmpty) {

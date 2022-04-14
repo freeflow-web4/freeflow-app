@@ -17,7 +17,10 @@ class WalletDatasourceImp implements WalletDatasource {
     try {
       // final response = await client.get(url);
       // final transcript = TranscripDto.fromJson(response.data).toEntity();
-      return WalletUtil.transcriptsMocked;
+      final response = await Future.delayed(const Duration(seconds: 1), () {
+        return WalletUtil.transcriptsMocked;
+      });
+      return response;
     } catch (error) {
       if (error is DioError) {
         throw Exception(error.message);
