@@ -39,35 +39,18 @@ mixin _$ProfilePageController on ProfilePageControllerBase, Store {
     });
   }
 
-  final _$navigatorKeyAtom =
-      Atom(name: 'ProfilePageControllerBase.navigatorKey');
-
-  @override
-  GlobalKey<State<StatefulWidget>> get navigatorKey {
-    _$navigatorKeyAtom.reportRead();
-    return super.navigatorKey;
-  }
-
-  @override
-  set navigatorKey(GlobalKey<State<StatefulWidget>> value) {
-    _$navigatorKeyAtom.reportWrite(value, super.navigatorKey, () {
-      super.navigatorKey = value;
-    });
-  }
-
   final _$getUserAsyncAction = AsyncAction('ProfilePageControllerBase.getUser');
 
   @override
-  Future<void> getUser() {
-    return _$getUserAsyncAction.run(() => super.getUser());
+  Future<void> getUser({required Function onError}) {
+    return _$getUserAsyncAction.run(() => super.getUser(onError: onError));
   }
 
   @override
   String toString() {
     return '''
 user: ${user},
-pageState: ${pageState},
-navigatorKey: ${navigatorKey}
+pageState: ${pageState}
     ''';
   }
 }

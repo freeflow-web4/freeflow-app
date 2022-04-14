@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
-import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_button_widget.dart';

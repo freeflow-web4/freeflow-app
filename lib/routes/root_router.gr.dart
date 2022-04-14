@@ -88,9 +88,9 @@ class RootRouter extends _i12.RootStackRouter {
         _i12.RouteConfig(CutImageRoute.name, path: '/cut-image-page'),
         _i12.RouteConfig(EditProfileRoute.name, path: '/edit-profile-page'),
         _i12.RouteConfig(WelcomeRoute.name, path: '/welcome-page'),
-        _i12.RouteConfig(ProfileRoute.name, path: '/'),
+        _i12.RouteConfig(ProfileRoute.name, path: '/profile-page'),
         _i12.RouteConfig(LoginRoute.name, path: '/login-page'),
-        _i12.RouteConfig(SplashRoute.name, path: '/splash-page'),
+        _i12.RouteConfig(SplashRoute.name, path: '/'),
         _i12.RouteConfig(FreeflowLogoLoadingRoute.name,
             path: '/freeflow-logo-loading-page'),
         _i12.RouteConfig(RecoverAccountRoute.name,
@@ -145,7 +145,7 @@ class WelcomeRoute extends _i12.PageRouteInfo<void> {
 /// generated route for
 /// [_i4.ProfilePage]
 class ProfileRoute extends _i12.PageRouteInfo<void> {
-  const ProfileRoute() : super(ProfileRoute.name, path: '/');
+  const ProfileRoute() : super(ProfileRoute.name, path: '/profile-page');
 
   static const String name = 'ProfileRoute';
 }
@@ -161,7 +161,7 @@ class LoginRoute extends _i12.PageRouteInfo<void> {
 /// generated route for
 /// [_i6.SplashPage]
 class SplashRoute extends _i12.PageRouteInfo<void> {
-  const SplashRoute() : super(SplashRoute.name, path: '/splash-page');
+  const SplashRoute() : super(SplashRoute.name, path: '/');
 
   static const String name = 'SplashRoute';
 }

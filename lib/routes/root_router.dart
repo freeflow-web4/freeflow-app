@@ -14,13 +14,12 @@ import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    // AutoRoute(page: HomePage, initial: true),
     AutoRoute(page: CutImagePage),
     AutoRoute(page: EditProfilePage),
     AutoRoute(page: WelcomePage),
-    AutoRoute(page: ProfilePage, initial: true),
+    AutoRoute(page: ProfilePage),
     AutoRoute(page: LoginPage),
-    AutoRoute(page: SplashPage),
+    AutoRoute(page: SplashPage, initial: true),
     AutoRoute(page: FreeflowLogoLoadingPage),
     AutoRoute(page: RecoverAccountPage),
     AutoRoute(page: AuthPage),

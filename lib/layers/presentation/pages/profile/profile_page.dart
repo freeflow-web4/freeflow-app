@@ -4,6 +4,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_button_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_image_widget.dart';
@@ -14,6 +15,7 @@ import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
 import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dart';
+import 'package:freeflow/routes/routes.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -28,7 +30,20 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
   @override
   void initState() {
     super.initState();
-    controller.getUser();
+    controller.getUser(
+      onError : ()=> showDialogError(),
+    );
+  }
+
+    void showDialogError() {
+    showDialogDefault(
+      context,
+      type: DialogType.systemInstability,
+      onTap: () {
+        Navigator.of(context).pop();
+        Routes.instance.pop();
+      },
+    );
   }
 
   @override

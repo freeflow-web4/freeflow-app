@@ -55,7 +55,7 @@ abstract class _EditProfileControllerBase with Store {
   Future<void> getUser() async {
     _pageState = PageState.loading;
 
-    user = ProfileEntity(displayName: '', username: '');
+    user = ProfileEntity(displayName: '', username: '', contractAddress: '');
     final result = await getProfileUsecase();
     result.fold(
       (error) {

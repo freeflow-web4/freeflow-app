@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
-import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
-import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:share_plus/share_plus.dart';
@@ -26,16 +23,14 @@ abstract class ProfilePageControllerBase with Store {
   ProfileEntity? user;
   @observable
   PageState pageState = PageState.loading;
-  @observable
-  GlobalKey navigatorKey = GlobalKey<NavigatorState>();
 
   @action
-  Future<void> getUser() async {
+  Future<void> getUser({required Function onError}) async {
     pageState = PageState.loading;
     final result = await getProfileUsecase();
     result.fold(
       (error) {
-        showDialogError();
+        onError();
       },
       (success) {
         user = success;
@@ -45,18 +40,9 @@ abstract class ProfilePageControllerBase with Store {
   }
 
   void setContentToClipBoard() =>
-      Clipboard.setData(const ClipboardData(text: 'https://www.google.com'));
+      Clipboard.setData( ClipboardData(text: user!.contractAddress));
 
-  void shareAddress() => Share.share('https://www.google.com');
+  void shareAddress() => Share.share(user!.contractAddress ?? '');
 
-  void showDialogError() {
-    showDialogDefault(
-      navigatorKey.currentContext!,
-      type: DialogType.systemInstability,
-      onTap: () {
-        Navigator.of(navigatorKey.currentContext!).pop();
-        Routes.instance.pop();
-      },
-    );
-  }
+
 }

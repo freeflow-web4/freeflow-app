@@ -11,6 +11,7 @@ UserProfileDto _$UserProfileDtoFromJson(Map<String, dynamic> json) =>
       displayName: json['displayName'] as String,
       profileImageUrl: json['profileImageUrl'] as String?,
       username: json['username'] as String,
+      contractAddress: json['contractAddress'] as String?,
     );
 
 Map<String, dynamic> _$UserProfileDtoToJson(UserProfileDto instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$UserProfileDtoToJson(UserProfileDto instance) =>
       'displayName': instance.displayName,
       'username': instance.username,
       'profileImageUrl': instance.profileImageUrl,
+      'contractAddress': instance.contractAddress,
     };
