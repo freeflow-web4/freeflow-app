@@ -50,32 +50,17 @@ class _CutImagePageState extends State<CutImagePage>  with TextThemes{
                   color: Colors.white,
                   child: Visibility(
                     visible: cutController.bytes != null,
-                    child: Stack(
-                      children: [
-                        Container(
-                          color: Colors.red,
-                          height: MediaQuery.of(context).size.height - 72,
-                          width: MediaQuery.of(context).size.width,
-                          child: Image.memory(
-                            cutController.bytes ?? Uint8List(1),
-                            height: MediaQuery.of(context).size.height - 72,
-                            width: MediaQuery.of(context).size.width,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Cropper(
-                          height: MediaQuery.of(context).size.height - 72,
-                          width: MediaQuery.of(context).size.width,
-                          cropperKey: _cropperKeyA,
-                          overlayType: OverlayType.circle,
-                          gridLineThickness: 0,
-                          zoomScale : 10,
-                          image: Image.memory(
-                              cutController.bytes ?? Uint8List(1),
+                    child: Cropper(
+                      height: MediaQuery.of(context).size.height - 72,
+                      width: MediaQuery.of(context).size.width,
+                      cropperKey: _cropperKeyA,
+                      overlayType: OverlayType.circle,
+                      gridLineThickness: 0,
+                      zoomScale : 10,
+                      image: Image.memory(
+                          cutController.bytes ?? Uint8List(1),
 
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                     replacement: const Center(
                       child: LoadingWidget(

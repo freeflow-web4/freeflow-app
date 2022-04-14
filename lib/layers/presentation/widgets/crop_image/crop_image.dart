@@ -117,18 +117,6 @@ class _CropperState extends State<Cropper> {
                       constrained: false,
                       child: Builder(
                         builder: (context) {
-                          // final imageStream = widget.image.image.resolve(
-                          //   _imageConfiguration,
-                          // );
-                          // if (_hasImageUpdated && _shouldSetInitialScale) {
-                          //   imageStream.removeListener(_imageStreamListener);
-                          //   _setInitialScale(context, constraint.biggest);
-                          // }
-                          //
-                          // if (_hasImageUpdated && !_shouldSetInitialScale) {
-                          //   imageStream.addListener(_imageStreamListener);
-                          // }
-
                           return widget.image;
                         },
                       ),
