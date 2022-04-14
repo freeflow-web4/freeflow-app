@@ -48,7 +48,7 @@ abstract class _EditProfileControllerBase with Store {
   @observable
   List<CollectiblesEntity> images = [];
   int page = 0;
-  int limit = 6;
+  int limit = 30;
 
 
   _EditProfileControllerBase( {
@@ -96,7 +96,8 @@ abstract class _EditProfileControllerBase with Store {
   @action
   Future<void> getCollectibles() async{
     loadingPhotos = true;
-    page = 0 ;
+    page = 0;
+    images = [];
     final result = await getCollectiblesUsecase(page: page, limit: limit, type: collectibleSelected());
     result.fold(
           (l) => showDialogError(),
@@ -104,7 +105,6 @@ abstract class _EditProfileControllerBase with Store {
     );
 
     hasMorePhotos = images.length >= limit;
-    print('truemore $hasMorePhotos');
     loadingPhotos = false;
   }
 

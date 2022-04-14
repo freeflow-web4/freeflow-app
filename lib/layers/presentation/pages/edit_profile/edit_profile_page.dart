@@ -357,9 +357,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   void onTapCancel() {
-    if(editController.user?.displayName != editController.controllerName.text ||
-        editController.imageBytes != null
-    ){
+    if(hasModifications()){
       showModalCancel();
     }else{
       Routes.instance.pop();
@@ -774,6 +772,11 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
         && !editController.loadingPhotos
         && !editController.loadingMorePhotos
         && editController.hasMorePhotos);
+  }
+
+  bool hasModifications() {
+    return editController.user?.displayName != editController.controllerName.text ||
+        editController.imageBytes != null;
   }
 
 
