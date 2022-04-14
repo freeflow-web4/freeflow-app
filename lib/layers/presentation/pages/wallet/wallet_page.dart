@@ -115,7 +115,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           ),
           //TODO: awaiting data from backend (ThreeFold)
           CustomActionCard(
-            cardHeight: 162,
+            cardHeight: 172,
             cardWidth: double.infinity,
             child: const TotalAmountText(totalAmount: '1111'),
             onTapLeftAction: () {},
