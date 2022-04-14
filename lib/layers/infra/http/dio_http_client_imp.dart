@@ -13,8 +13,14 @@ class DioHttpClientImp implements HttpClient {
 
   @override
   Future<Response> post(String url,
-      {required Map<String, dynamic> body}) async {
+      {required Map<String, dynamic> body,}) async {
     final Response response = await _dio.post(url, data: body);
+    return response;
+  }
+
+  @override
+  Future<Response> put(String url, { body}) async {
+    final Response response = await _dio.put(url, data: body);
     return response;
   }
 }

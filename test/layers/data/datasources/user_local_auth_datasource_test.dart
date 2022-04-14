@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:freeflow/data/models/user.dart';
 import 'package:freeflow/layers/data/datasources/cache/user_local_auth_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/user_local_auth_datasource.dart';
 import 'package:freeflow/layers/data/dtos/user_recover_login/user_recover_login_dto.dart';
