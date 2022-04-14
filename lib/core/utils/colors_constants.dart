@@ -9,12 +9,18 @@ class StandardColors {
   static const Color feedbackError = Color(0xffFF4747);
   static const Color grey = Color(0xffEFEFEF);
   static const Color white = Color(0xFFFCFCFC);
+  static const Color whiteCD = Color(0xFFCDCDCD);
   static const Color darkGrey = Color(0xff4f4f4f);
+  static const Color greyCA = Color(0xffCACACA);
+  static const Color grey69 = Color(0xff696969);
+  static const Color grey79 = Color(0xff797D83);
   static const Color error = Color(0xFFFF4747);
   static const Color offWhite = Color(0xFFFCFCFC);
   static const Color borderGrey = Color(0xFFE0E2E2);
   static const Color borderMediumGrey = Color(0xFFCACACA);
   static const Color textMediumGrey = Color(0xFF696969);
+  static const Color baseShimmer = Color(0xFFD0D0D0);
+  static const Color highlightShimmer = Color(0xFFF2f2f2);
 
   static Gradient greenGradient() => const LinearGradient(
         colors: [

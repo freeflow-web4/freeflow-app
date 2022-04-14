@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/wallet_page.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
 
@@ -17,4 +16,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(child: WalletPage()),
     );
   }
+
+
+
 }

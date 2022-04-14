@@ -1,11 +1,12 @@
-import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/layers/presentation/helpers/get_plataform.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/icon_menu.dart';
+import 'package:freeflow/routes/routes.dart';
+
 
 class ScaffoldFreeFlow extends StatefulWidget {
   final Widget body;
@@ -66,7 +67,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
         },
 
         child: SafeArea(
-          top: Platform.isAndroid,
+          top: isAndroidOrWeb(),
           bottom: position != height,
           child: SizedBox(
             height: height,
@@ -120,7 +121,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
         children: [
           Container(
             alignment: Alignment.bottomCenter,
-            height: Platform.isAndroid ? 50 : 72,
+            height: isAndroidOrWeb() ? 50 : 72,
             width: 64,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -187,7 +188,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               SizedBox(
-                height: Platform.isAndroid ? 12 : 40,
+                height: isAndroidOrWeb() ? 12 : 40,
               ),
               IconMenu(
                 urlIcon : IconsAsset.user,
@@ -195,6 +196,8 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 iconSize: iconSize,
                 onTap:(){
                   //TODO ADD ACTION
+                  //TODO REMOVE
+                  Routes.instance.goToEditProfilePageRoute();
                 },
               ),
               IconMenu(
@@ -296,7 +299,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
   void checkSizeOfPage(){
     height = MediaQuery.of(context).size.height;
     if(height < 666 && !startedPage){
-      double pageSize = height - ((Platform.isAndroid ? 50 : 72) + 74);
+      double pageSize = height - ((isAndroidOrWeb() ? 50 : 72) + 74);
       iconSize = (pageSize/10)* 0.6;
       iconPadding = iconSize * 0.4;
       startedPage = true;
