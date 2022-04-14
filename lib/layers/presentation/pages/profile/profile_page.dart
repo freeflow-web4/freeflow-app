@@ -76,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                 children: [
                   const SizedBox(height: huge5Spacing),
                   ProfileImageWidget(
-                    onTap: () {},
+                    onTap: () => controller.goToEditProfile(),
                   ),
                   const SizedBox(height: normalSpacing),
                   ProfileNamesWidget(

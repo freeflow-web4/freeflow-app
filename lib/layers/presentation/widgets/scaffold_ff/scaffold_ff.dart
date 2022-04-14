@@ -204,7 +204,7 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 onTap: () {
                   //TODO ADD ACTION
                   //TODO REMOVE
-                  Routes.instance.goToEditProfilePageRoute();
+                  Routes.instance.goToProfilePageRoute();
                 },
               ),
               IconMenu(

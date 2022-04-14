@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:share_plus/share_plus.dart';
@@ -43,6 +44,8 @@ abstract class ProfilePageControllerBase with Store {
       Clipboard.setData( ClipboardData(text: user!.contractAddress));
 
   void shareAddress() => Share.share(user!.contractAddress ?? '');
+
+  void goToEditProfile () => Routes.instance.goToEditProfilePageRoute();
 
 
 }
