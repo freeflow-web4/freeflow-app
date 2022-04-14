@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dartz/dartz.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/repositories/user_profile_repository.dart';
@@ -9,7 +11,7 @@ class EditProfileUsecaseImp implements EditProfileUsecase {
   EditProfileUsecaseImp(this.repository);
 
   @override
-  Future<Either<DomainError, bool>> call(String username, String image) async {
+  Future<Either<DomainError, bool>> call({required String username, Uint8List? image}) async {
     return await repository.editProfile(username, image);
   }
 

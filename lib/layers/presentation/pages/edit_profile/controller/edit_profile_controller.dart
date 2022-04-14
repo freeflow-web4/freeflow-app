@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
@@ -10,6 +11,7 @@ import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+
 part 'edit_profile_controller.g.dart';
 
 enum PageState { loading, ready, loadingSendData}
@@ -51,6 +53,21 @@ abstract class _EditProfileControllerBase with Store {
   });
 
 
+  @action
+  saveProfile() async {
+    _pageState = PageState.loadingSendData;
+    final result = await editProfileUsecase(username: controllerName.text, image: imageBytes);
+    result.fold(
+          (l) => showDialogError(),
+          (r) {
+            Navigator.of(navigatorKey.currentContext!).pop();
+            Routes.instance.pop();
+          },
+    );
+    _pageState = PageState.ready;
+
+  }
+
 
   @action
   Future<void> getUser() async{
@@ -74,20 +91,14 @@ abstract class _EditProfileControllerBase with Store {
 
   @action
   Future<void> getCollectibles() async{
-
+    _photoSelectedState = PhotoSelectedState.all;
     loadingPhotos = true;
-
     final result = await getCollectiblesUsecase(page: 0, limit: 30, type: 'all');
     result.fold(
-          (error) {
-        showDialogError();
-      },
-          (success) {
-        images = success;
-      },
+          (l) => showDialogError(),
+          (r) => images = r,
     );
     loadingPhotos = false;
-
   }
 
   @action
@@ -101,7 +112,7 @@ abstract class _EditProfileControllerBase with Store {
   @action
   bool validateName(text, context){
     if(text!.length > 60){
-      invalidName = TranslationService.translate(context, "editProfile.maximum60Characters",).replaceFirst('70', '${text.length}');
+      invalidName = TranslationService.translate(context, "editProfile.maximum60Characters",);
       return false;
     }else if(text.isEmpty){
       invalidName =  TranslationService.translate(context, "editProfile.pleaseEnterYourName",);

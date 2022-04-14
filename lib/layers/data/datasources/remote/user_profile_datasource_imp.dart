@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:freeflow/layers/data/datasources/user_profile_datasource.dart';
 import 'package:freeflow/layers/data/dtos/user_profile/user_profile_dto.dart';
@@ -9,7 +11,7 @@ class UserProfileDataSourceImp implements UserProfileDataSource {
   UserProfileDataSourceImp(this.client);
 
   @override
-  Future<bool> editProfile({required String username, String? image}) async {
+  Future<bool> editProfile({required String username, Uint8List? image}) async {
     try {
       final response = await client.post(
         'users',
@@ -22,7 +24,6 @@ class UserProfileDataSourceImp implements UserProfileDataSource {
         return true;
       }
       return false;
-
     } catch (error) {
       if (error is DioError) {
         throw Exception(error.message);
