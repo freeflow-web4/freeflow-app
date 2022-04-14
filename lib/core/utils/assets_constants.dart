@@ -23,6 +23,6 @@ class IconsAsset {
   static const String menu = "assets/images/icons/menu/hamburg.svg";
   static const String backgroundHoroscope = "assets/images/background_horoscope.png";
   static const String flowerLogo = "assets/images/flower_logo.svg";
-  static const String withoutProfilePhoto = "assets/images/icons/img.svg";
+  static const String withoutProfilePhoto = "assets/images/icons/without_profile_photo.svg";
 
 }
