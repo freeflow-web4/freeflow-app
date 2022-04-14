@@ -33,6 +33,12 @@ class _CustomFilterBarItemState extends State<CustomFilterBarItem>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   void initializeAnimationController() {
     animationController = AnimationController(
       vsync: this,
