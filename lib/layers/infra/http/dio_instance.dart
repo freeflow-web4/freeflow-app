@@ -62,7 +62,7 @@ class AuthInterceptors extends InterceptorsWrapper {
 
     final Map<String, String> headers = {'Authorization': 'Bearer ' + token};
 
-    print('token: $token');
+    print('\ntoken: $token');
     if (contentType == null) {
       headers['Content-Type'] = 'application/json; charset=UTF-8';
     }

@@ -58,12 +58,11 @@ abstract class _EditProfileControllerBase with Store {
     _pageState = PageState.loadingSendData;
     final result = await editProfileUsecase(username: controllerName.text, image: imageBytes);
     result.fold(
-          (error) {
-        showDialogError();
-      },
-          (success) {
-        print('status: $success');
-      },
+          (l) => showDialogError(),
+          (r) {
+            Navigator.of(navigatorKey.currentContext!).pop();
+            Routes.instance.pop();
+          },
     );
     _pageState = PageState.ready;
 
