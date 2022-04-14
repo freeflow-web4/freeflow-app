@@ -95,22 +95,9 @@ abstract class _EditProfileControllerBase with Store {
     _photoSelectedState = PhotoSelectedState.all;
     loadingPhotos = true;
     final result = await getCollectiblesUsecase(page: 0, limit: 30, type: 'all');
-    result.fold((error) {
-      showDialogError();
-    }, (success) {
-      images = success;
-
-      //TODO REMOVER
-      images.add(images[0]);
-      images.add(images[0]);
-      images.add(images[0]);
-      images[0].imageUrl = 'https://m.media-amazon.com/images/I/418zt12MCrL.jpg';
-      images[1].imageUrl = 'https://picsum.photos/250?image=9';
-      images[2].imageUrl = 'https://m.media-amazon.com/images/I/418zt12MCrL.jpg';
-      //images[3].imageUrl = 'https://picsum.photos/250?image=9';
-
-
-    },
+    result.fold(
+          (l) => showDialogError(),
+          (r) => images = r,
     );
     loadingPhotos = false;
   }

@@ -93,8 +93,8 @@ class _CropperState extends State<Cropper> {
   void setSize(){
     _transformationController.value = Matrix4.identity()..translate(
       -widget.width/2.0,
-      -widget.height/2.0,
-    )..scale(3.0);
+      -(widget.height-widget.width)/2.0,
+    )..scale(3.5);
   }
 
   @override
