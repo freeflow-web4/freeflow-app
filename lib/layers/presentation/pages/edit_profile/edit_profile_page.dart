@@ -217,8 +217,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                 textInputAction: TextInputAction.go,
                                 style: TextStyle(
                                   color: keyboardIsVisible ?
-                                  StandardColors.backgroundDark :
-                                  StandardColors.grey69,
+                                  StandardColors.grey69:
+                                  StandardColors.backgroundDark,
                                   fontFamily: 'Akrobat',
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
