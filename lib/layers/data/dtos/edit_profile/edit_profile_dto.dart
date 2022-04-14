@@ -16,7 +16,7 @@ class EditProfileDto {
 
     if(image != null){
       File file = await uint8ListToFile(image!);
-      map['file'] = getMultipartFile(file);
+      map['file'] = await getMultipartFile(file);
     }
 
     return FormData.fromMap(map);

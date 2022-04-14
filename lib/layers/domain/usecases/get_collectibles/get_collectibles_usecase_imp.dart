@@ -14,7 +14,7 @@ class CollectiblesUsecaseImp implements GetCollectiblesUsecase {
   Future<Either<DomainError, List<CollectiblesEntity>>> call({
     required int page,
     required int limit,
-    required String type,}) async {
+    String? type,}) async {
     return await repository.getCollectibles(page: page, limit:limit, type:type);
   }
 

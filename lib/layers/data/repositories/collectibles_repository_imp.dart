@@ -10,7 +10,7 @@ class CollectiblesRepositoryImp implements CollectiblesRepository {
 
   @override
   Future<Either<DomainError, List<CollectiblesEntity>>> getCollectibles(
-      {required int page,required int limit, required String type,}) async {
+      {required int page,required int limit, String? type,}) async {
     try {
       final result = await _collectiblesDataSource.getCollectibles(
           page: page,
