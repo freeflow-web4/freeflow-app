@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
+import 'package:freeflow/layers/domain/entities/edit_profile_entity.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
@@ -56,11 +57,10 @@ abstract class _EditProfileControllerBase with Store {
   @action
   saveProfile() async {
     _pageState = PageState.loadingSendData;
-    final result = await editProfileUsecase(username: controllerName.text, image: imageBytes);
+    final result = await editProfileUsecase(editProfileEntity: EditProfileEntity(username: controllerName.text, image: imageBytes));
     result.fold(
           (l) => showDialogError(),
           (r) {
-            Navigator.of(navigatorKey.currentContext!).pop();
             Routes.instance.pop();
           },
     );
@@ -98,6 +98,7 @@ abstract class _EditProfileControllerBase with Store {
           (l) => showDialogError(),
           (r) => images = r,
     );
+    images[0].imageUrl = 'https://picsum.photos/250?image=9';
     loadingPhotos = false;
   }
 

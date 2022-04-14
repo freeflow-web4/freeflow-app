@@ -149,6 +149,14 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
     });
   }
 
+  final _$saveProfileAsyncAction =
+      AsyncAction('_EditProfileControllerBase.saveProfile');
+
+  @override
+  Future saveProfile() {
+    return _$saveProfileAsyncAction.run(() => super.saveProfile());
+  }
+
   final _$getUserAsyncAction =
       AsyncAction('_EditProfileControllerBase.getUser');
 

@@ -4,7 +4,7 @@ class CollectiblesEntity {
   String? authorName;
   String? qrCodeImageUrl;
   String? contractAddress;
-  String? tokenId;
+  int? tokenId;
   String? imageUrl;
   String? eventTitle;
   String? eventDate;
