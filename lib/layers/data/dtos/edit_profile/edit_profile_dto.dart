@@ -19,9 +19,7 @@ class EditProfileDto {
       map['file'] = getMultipartFile(file);
     }
 
-    FormData formData = FormData.fromMap(map);
-
-    return formData;
+    return FormData.fromMap(map);
   }
 
 

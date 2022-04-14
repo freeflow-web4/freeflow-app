@@ -98,7 +98,6 @@ abstract class _EditProfileControllerBase with Store {
           (l) => showDialogError(),
           (r) => images = r,
     );
-    images[0].imageUrl = 'https://picsum.photos/250?image=9';
     loadingPhotos = false;
   }
 
