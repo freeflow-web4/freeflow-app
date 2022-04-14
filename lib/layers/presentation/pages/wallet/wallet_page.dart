@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_painter_tabbar.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
 
 import 'package:freeflow/layers/presentation/widgets/custom_tabbar.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/transcript_view.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
-
-import '../../../../core/translation/translation_service.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({Key? key}) : super(key: key);
@@ -24,8 +25,8 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
 
   @override
   void initState() {
-    walletController.getTranscriptList();
     super.initState();
+    walletController.getTranscriptList();
   }
 
   @override
@@ -47,6 +48,10 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                     const SizedBox.shrink(),
                     const SizedBox.shrink(),
                   ],
+                  indicatorDecoration: const CustomTabIndicator(
+                    color: StandardColors.darkGrey,
+                    indicatorHeight: 3,
+                  ),
                 ),
               ),
             ],

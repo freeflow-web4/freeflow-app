@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
@@ -9,6 +10,7 @@ import 'package:freeflow/layers/presentation/pages/wallet/widgets/empty_content.
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/secondary_filter_menu_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 
 class TranscriptView extends StatefulWidget {
   final WalletController walletController;
@@ -50,7 +52,14 @@ class _TranscriptViewState extends State<TranscriptView> {
         builder: (context) {
           if (widget.walletController.trasncriptViewState ==
               ViewState.loading) {
-            return loadingWidget();
+            //TODO: must return a custom loading (FREEF-69)
+            return const Center(
+              child: LoadingWidget(
+                isLoading: true,
+                color: StandardColors.greyCA,
+                size: 33,
+              ),
+            );
           } else if (transcriptList.isEmpty) {
             return const CustomRoundedCard(
               borderRadius: BorderRadius.only(
@@ -136,16 +145,6 @@ class _TranscriptViewState extends State<TranscriptView> {
           ),
         );
       },
-    );
-  }
-
-  Widget loadingWidget() {
-    //TODO: must return a custom loading (FREEF-69)
-    return const Center(
-      child: SizedBox(
-        height: bigSpacing,
-        child: CircularProgressIndicator(),
-      ),
     );
   }
 

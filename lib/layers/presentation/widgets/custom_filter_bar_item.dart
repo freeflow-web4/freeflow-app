@@ -28,9 +28,10 @@ class _CustomFilterBarItemState extends State<CustomFilterBarItem>
 
   @override
   void initState() {
+    super.initState();
+
     initializeAnimationController();
     animateIndicator();
-    super.initState();
   }
 
   @override

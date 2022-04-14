@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-
-import '../../../../../core/translation/translation_service.dart';
 
 class TotalAmountText extends StatelessWidget with TextThemes {
   final String totalAmount;

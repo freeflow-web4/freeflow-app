@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 
-import '../../../../../core/translation/translation_service.dart';
 
 class WalletUtil {
   static transcriptFilters(BuildContext context) {
