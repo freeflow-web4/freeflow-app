@@ -339,9 +339,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
       );
     }
     else{
-      return Image.asset(
-        IconsAsset.backgroundHoroscope,
-        fit: BoxFit.cover,
+      return SvgPicture.asset(
+        IconsAsset.withoutProfilePhoto,
       );
     }
   }
