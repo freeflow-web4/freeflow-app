@@ -204,13 +204,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  crop_your_image:
+  cropperx:
     dependency: "direct main"
     description:
-      name: crop_your_image
+      name: cropperx
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.2"
+    version: "1.0.0"
   crypto:
     dependency: transitive
     description:
