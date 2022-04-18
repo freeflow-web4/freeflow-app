@@ -40,6 +40,10 @@ class Routes {
     _routeService.pushReplacement(const HomeRoute());
   }
 
+  void goToProfilePageRoute() {
+    _routeService.push(const ProfileRoute());
+  }
+
   void goToWalletPageRoute() {
     _routeService.pushReplacement(const WalletRoute());
   }
