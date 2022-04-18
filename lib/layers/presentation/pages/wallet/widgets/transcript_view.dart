@@ -25,17 +25,25 @@ class TranscriptView extends StatefulWidget {
 
 class _TranscriptViewState extends State<TranscriptView> {
   List<TranscriptEntity>? transcriptList;
-  late List<String> categoryList;
+  List<String> categoryList = [];
 
   @override
   void initState() {
     super.initState();
+    getCategoryList();
     getTranscriptList();
   }
 
-  getTranscriptList() async {
+  Future<void> getTranscriptList() async {
     transcriptList = await widget.walletController.getTranscriptList();
-    categoryList = WalletUtil.transcriptFilters(context);
+  }
+
+  void getCategoryList() {
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        categoryList = WalletUtil.transcriptFilters(context);
+      });
+    });
   }
 
   int selectedFilterIndex = 0;
@@ -54,21 +62,7 @@ class _TranscriptViewState extends State<TranscriptView> {
                   ViewState.loading ||
               transcriptList == null) {
             //TODO: must return a custom loading (FREEF-69)
-            return const CustomRoundedCard(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(normalSpacing),
-                topRight: Radius.circular(normalSpacing),
-              ),
-              padding: EdgeInsets.only(top: mdSpacing),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: LoadingWidget(
-                  isLoading: true,
-                  color: StandardColors.greyCA,
-                  size: 33,
-                ),
-              ),
-            );
+            return content(isLoading: true);
           } else if ((transcriptList ?? []).isEmpty) {
             return const CustomRoundedCard(
               borderRadius: BorderRadius.only(
@@ -91,7 +85,7 @@ class _TranscriptViewState extends State<TranscriptView> {
     });
   }
 
-  Widget content() {
+  Widget content({bool isLoading = false}) {
     return Column(
       children: [
         getWidgetBar(),
@@ -109,8 +103,16 @@ class _TranscriptViewState extends State<TranscriptView> {
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(
-                children:
-                    listFilteredTranscriptWidgets(listFilteredTranscript()),
+                children: isLoading
+                    ? [
+                        LoadingWidget(
+                          isLoading: isLoading,
+                          color: StandardColors.greyCA,
+                          size: 33,
+                          padding: const EdgeInsets.only(top: mdSpacing),
+                        )
+                      ]
+                    : listFilteredTranscriptWidgets(listFilteredTranscript()),
               ),
             ),
           ),
