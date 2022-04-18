@@ -9,6 +9,14 @@ part of 'profile_page_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProfilePageController on ProfilePageControllerBase, Store {
+  Computed<bool>? _$loadingIsNotCompletedComputed;
+
+  @override
+  bool get loadingIsNotCompleted => (_$loadingIsNotCompletedComputed ??=
+          Computed<bool>(() => super.loadingIsNotCompleted,
+              name: 'ProfilePageControllerBase.loadingIsNotCompleted'))
+      .value;
+
   final _$userAtom = Atom(name: 'ProfilePageControllerBase.user');
 
   @override
@@ -50,7 +58,8 @@ mixin _$ProfilePageController on ProfilePageControllerBase, Store {
   String toString() {
     return '''
 user: ${user},
-pageState: ${pageState}
+pageState: ${pageState},
+loadingIsNotCompleted: ${loadingIsNotCompleted}
     ''';
   }
 }

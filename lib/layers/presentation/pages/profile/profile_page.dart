@@ -31,11 +31,11 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
   void initState() {
     super.initState();
     controller.getUser(
-      onError : ()=> showDialogError(),
+      onError: () => showDialogError(),
     );
   }
 
-    void showDialogError() {
+  void showDialogError() {
     showDialogDefault(
       context,
       type: DialogType.systemInstability,
@@ -60,8 +60,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
       backgroundColor: StandardColors.lightBackground,
       body: Observer(
         builder: (context) {
-          if (controller.pageState == PageState.loading ||
-              controller.user == null) {
+          if (controller.loadingIsNotCompleted) {
             return const Center(
               child: LoadingWidget(
                 isLoading: true,
@@ -85,18 +84,19 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                   ),
                   const SizedBox(height: mdSpacing),
                   ProfileSharedButtonsWidget(
-                      onTapShare: () => controller.shareAddress(),
-                      onTapCopy: () {
-                        controller.setContentToClipBoard();
-                        showDialog(
-                          barrierColor: Colors.transparent,
-                          context: context,
-                          builder: (context) => const InformativeDialog(
-                            icon: IconsAsset.checkIcon,
-                            title: "profile.copiedAddress",
-                          ),
-                        );
-                      },),
+                    onTapShare: () => controller.shareAddress(),
+                    onTapCopy: () {
+                      controller.setContentToClipBoard();
+                      showDialog(
+                        barrierColor: Colors.transparent,
+                        context: context,
+                        builder: (context) => const InformativeDialog(
+                          icon: IconsAsset.checkIcon,
+                          title: "profile.copiedAddress",
+                        ),
+                      );
+                    },
+                  ),
                   const SizedBox(height: mdSpacing),
                   const CustomDividerWidget(horizontalPadding: mdSpacingx2),
                   SmallProfileButtons(screenHeight: screenHeight),

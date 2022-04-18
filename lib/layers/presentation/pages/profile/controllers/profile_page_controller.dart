@@ -24,6 +24,9 @@ abstract class ProfilePageControllerBase with Store {
   ProfileEntity? user;
   @observable
   PageState pageState = PageState.loading;
+  @computed
+  bool get loadingIsNotCompleted =>
+      pageState == PageState.loading || user == null;
 
   @action
   Future<void> getUser({required Function onError}) async {
@@ -41,11 +44,9 @@ abstract class ProfilePageControllerBase with Store {
   }
 
   void setContentToClipBoard() =>
-      Clipboard.setData( ClipboardData(text: user!.contractAddress));
+      Clipboard.setData(ClipboardData(text: user!.contractAddress));
 
   void shareAddress() => Share.share(user!.contractAddress ?? '');
 
-  void goToEditProfile () => Routes.instance.goToEditProfilePageRoute();
-
-
+  void goToEditProfile() => Routes.instance.goToEditProfilePageRoute();
 }
