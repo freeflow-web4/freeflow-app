@@ -13,10 +13,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return const ScaffoldFreeFlow(
-      body: SafeArea(child: WalletPage()),
+      body: SafeArea(bottom: false, child: WalletPage()),
     );
   }
-
-
-
 }
