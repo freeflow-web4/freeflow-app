@@ -10,16 +10,13 @@ class UserProfileDataSourceImp implements UserProfileDataSource {
   UserProfileDataSourceImp(this.client);
 
   @override
-  Future<bool> editProfile({required EditProfileEntity editProfileEntity}) async {
+  Future<ProfileEntity?> editProfile({required EditProfileEntity editProfileEntity}) async {
     try {
       final response = await client.put(
         'users',
         body: await editProfileEntity.toDto().toFormData(),
       );
-      if(response.statusCode == 200){
-        return true;
-      }
-      return false;
+      return UserProfileDto.fromJson(response.data).toEntity();
     } catch (error) {
       if (error is DioError) {
         throw Exception(error.message);

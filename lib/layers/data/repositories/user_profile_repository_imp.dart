@@ -20,7 +20,7 @@ class UserProfileRepositoryImp implements UserProfileRepository {
   }
 
   @override
-  Future<Either<DomainError, bool>> editProfile({required EditProfileEntity editProfileEntity}) async {
+  Future<Either<DomainError, ProfileEntity?>> editProfile({required EditProfileEntity editProfileEntity}) async {
     try {
       final result = await _userProfileDataSource.editProfile(editProfileEntity: editProfileEntity,);
       return Right(result);

@@ -88,21 +88,6 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
     });
   }
 
-  final _$userAtom = Atom(name: '_EditProfileControllerBase.user');
-
-  @override
-  ProfileEntity? get user {
-    _$userAtom.reportRead();
-    return super.user;
-  }
-
-  @override
-  set user(ProfileEntity? value) {
-    _$userAtom.reportWrite(value, super.user, () {
-      super.user = value;
-    });
-  }
-
   final _$_pageStateAtom = Atom(name: '_EditProfileControllerBase._pageState');
 
   @override
@@ -185,16 +170,8 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
       AsyncAction('_EditProfileControllerBase.saveProfile');
 
   @override
-  Future saveProfile() {
-    return _$saveProfileAsyncAction.run(() => super.saveProfile());
-  }
-
-  final _$getUserAsyncAction =
-      AsyncAction('_EditProfileControllerBase.getUser');
-
-  @override
-  Future<void> getUser() {
-    return _$getUserAsyncAction.run(() => super.getUser());
+  Future saveProfile(ProfileEntity profileEntity) {
+    return _$saveProfileAsyncAction.run(() => super.saveProfile(profileEntity));
   }
 
   final _$getCollectiblesAsyncAction =
@@ -256,7 +233,6 @@ loadingPhotos: ${loadingPhotos},
 hasMorePhotos: ${hasMorePhotos},
 loadingMorePhotos: ${loadingMorePhotos},
 imageBytes: ${imageBytes},
-user: ${user},
 navigatorKey: ${navigatorKey},
 controllerName: ${controllerName},
 images: ${images}
