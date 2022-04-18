@@ -24,7 +24,7 @@ class TranscriptView extends StatefulWidget {
 }
 
 class _TranscriptViewState extends State<TranscriptView> {
-  late List<TranscriptEntity> transcriptList;
+  List<TranscriptEntity>? transcriptList;
   late List<String> categoryList;
 
   @override
@@ -51,7 +51,8 @@ class _TranscriptViewState extends State<TranscriptView> {
       child: Observer(
         builder: (context) {
           if (widget.walletController.trasncriptViewState ==
-              ViewState.loading) {
+                  ViewState.loading ||
+              transcriptList == null) {
             //TODO: must return a custom loading (FREEF-69)
             return const CustomRoundedCard(
               borderRadius: BorderRadius.only(
@@ -68,7 +69,7 @@ class _TranscriptViewState extends State<TranscriptView> {
                 ),
               ),
             );
-          } else if (transcriptList.isEmpty) {
+          } else if ((transcriptList ?? []).isEmpty) {
             return const CustomRoundedCard(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(normalSpacing),
@@ -189,19 +190,19 @@ class _TranscriptViewState extends State<TranscriptView> {
   List<TranscriptEntity> listFilteredTranscript() {
     filteredTranscriptList.clear();
 
-    for (int i = 0; i < transcriptList.length; i++) {
+    for (int i = 0; i < transcriptList!.length; i++) {
       if (valueHasMatchWithFilterName(
         categoryList[selectedFilterIndex],
         'all',
       )) {
-        filteredTranscriptList.add(transcriptList[i]);
+        filteredTranscriptList.add(transcriptList![i]);
       }
       if (categoryList[selectedFilterIndex] ==
           WalletUtil.getInternationalizedFilterName(
             context,
-            transcriptList[i].category,
+            transcriptList![i].category,
           )) {
-        filteredTranscriptList.add(transcriptList[i]);
+        filteredTranscriptList.add(transcriptList![i]);
       }
     }
 
