@@ -12,11 +12,17 @@ class CollectiblesDataSourceImp implements CollectiblesDataSource {
   Future<List<CollectiblesEntity>> getCollectibles({
     required int page,
     required int limit,
-    required String type
+    String? type
   }) async {
     try {
-      final response = await client.get('collectibles',);
-      List<CollectiblesEntity> collectibles = List<CollectiblesEntity>.from(response.data.map((model)=> CollectiblesDto.fromJson(model).toEntity()));
+
+      final response = await client.get('collectibles',
+      query: {
+        'limit' : limit,
+        'offset' : page,
+        'collectibleType' : type,
+      },);
+      List<CollectiblesEntity> collectibles =  List<CollectiblesEntity>.from(response.data.map((model)=> CollectiblesDto.fromJson(model).toEntity()));
       return collectibles;
     } catch (error) {
       if (error is DioError) {

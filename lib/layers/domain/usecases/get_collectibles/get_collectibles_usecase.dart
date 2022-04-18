@@ -6,6 +6,6 @@ abstract class GetCollectiblesUsecase {
   Future<Either<DomainError, List<CollectiblesEntity>>> call({
     required int page,
     required int limit,
-    required String type,
+    String? type,
   });
 }

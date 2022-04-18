@@ -9,10 +9,13 @@ mixin TextThemes {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
     TextAlign? textAlign,
+    bool isUpperCase = false,
     required String textKey,
   }) {
     return Text(
-      FlutterI18n.translate(context, textKey),
+      isUpperCase
+          ? FlutterI18n.translate(context, textKey).toUpperCase()
+          : FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
       textAlign: textAlign,
       style: textH6TextStyle.copyWith(color: color),
@@ -38,6 +41,13 @@ mixin TextThemes {
         fontSize: 38,
         fontWeight: FontWeight.w500,
         fontFamily: 'Akrobat',
+      );
+
+  TextStyle textH4TextStyleCustom(Color color) => TextStyle(
+        fontSize: 38,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+        color: color,
       );
 
   TextStyle get textH6TextStyle => const TextStyle(
@@ -158,6 +168,27 @@ mixin TextThemes {
       style: TextStyle(
         color: color,
         fontSize: 12,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  Text textSubtitle2(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    bool isUpperCase = false,
+    required String textKey,
+  }) {
+    return Text(
+      isUpperCase
+          ? FlutterI18n.translate(context, textKey).toUpperCase()
+          : FlutterI18n.translate(context, textKey),
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 14,
         fontFamily: 'Poppins',
         fontWeight: FontWeight.w400,
       ),
@@ -286,6 +317,40 @@ mixin TextThemes {
         color: color,
         fontSize: 24,
         fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textButton5(
+    BuildContext context, {
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+      ),
+    );
+  }
+
+  Text textButton2(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    required String text,
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
         fontFamily: 'Akrobat',
       ),
     );

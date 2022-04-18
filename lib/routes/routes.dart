@@ -44,13 +44,18 @@ class Routes {
     _routeService.push(const ProfileRoute());
   }
 
+  void goToWalletPageRoute() {
+    _routeService.pushReplacement(const WalletRoute());
+  }
+
   void goToEditProfilePageRoute() {
     _routeService.push(const EditProfileRoute());
   }
 
   Future<Uint8List?> goToCutImagePageRoute(String imageUrl) async {
-    final RouteResponse?  response =  await _routeService.push( CutImageRoute(imageUrl: imageUrl));
-    return response?.body ;
+    final RouteResponse? response =
+        await _routeService.push(CutImageRoute(imageUrl: imageUrl));
+    return response?.body;
   }
 
   void pop() {

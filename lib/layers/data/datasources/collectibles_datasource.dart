@@ -5,5 +5,5 @@ abstract class CollectiblesDataSource {
   Future<List<CollectiblesEntity>> getCollectibles(
       {required int page,
         required int limit,
-        required String type,});
+        String? type,});
 }

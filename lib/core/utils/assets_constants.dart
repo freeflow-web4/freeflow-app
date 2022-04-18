@@ -39,4 +39,11 @@ class IconsAsset {
   static const String backgroundHoroscope =
       "assets/images/background_horoscope.png";
   static const String flowerLogo = "assets/images/flower_logo.svg";
+  static const String logoGrey = "assets/images/icons/logo_grey.png";
+  static const String withoutProfilePhoto =
+      "assets/images/icons/without_profile_photo.svg";
+}
+
+class ImagesAsset {
+  static const String background = "assets/images/background.png";
 }

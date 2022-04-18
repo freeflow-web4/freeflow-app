@@ -24,6 +24,7 @@ import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biom
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
 import 'package:get_it/get_it.dart';
 
 registerControllerDependencies(GetIt getIt) {
@@ -79,6 +80,9 @@ registerControllerDependencies(GetIt getIt) {
     ),
   );
 
+  getIt.registerFactory<WalletController>(
+    () => WalletController(),
+  );
   getIt.registerLazySingleton<EditProfileController>(
     () => EditProfileController(
       editProfileUsecase: getIt.get<EditProfileUsecase>(),

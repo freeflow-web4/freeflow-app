@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
@@ -12,7 +11,6 @@ import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-
 part 'edit_profile_controller.g.dart';
 
 enum PageState { loading, ready, loadingSendData }
@@ -34,6 +32,10 @@ abstract class _EditProfileControllerBase with Store {
   @observable
   bool loadingPhotos = false;
   @observable
+  bool hasMorePhotos = true;
+  @observable
+  bool loadingMorePhotos = false;
+  @observable
   Uint8List? imageBytes;
   @observable
   ProfileEntity? user;
@@ -47,6 +49,8 @@ abstract class _EditProfileControllerBase with Store {
   TextEditingController controllerName = TextEditingController();
   @observable
   List<CollectiblesEntity> images = [];
+  int page = 0;
+  int limit = 30;
 
   _EditProfileControllerBase({
     required this.editProfileUsecase,
@@ -54,21 +58,20 @@ abstract class _EditProfileControllerBase with Store {
     required this.getCollectiblesUsecase,
   });
 
-
   @action
   saveProfile() async {
     _pageState = PageState.loadingSendData;
-    final result = await editProfileUsecase(editProfileEntity: EditProfileEntity(username: controllerName.text, image: imageBytes));
+    final result = await editProfileUsecase(
+        editProfileEntity: EditProfileEntity(
+            username: controllerName.text, image: imageBytes));
     result.fold(
-          (l) => showDialogError(),
-          (r) {
-            Routes.instance.pop();
-          },
+      (l) => showDialogError(),
+      (r) {
+        Routes.instance.pop();
+      },
     );
     _pageState = PageState.ready;
-
   }
-
 
   @action
   Future<void> getUser() async {
@@ -89,15 +92,35 @@ abstract class _EditProfileControllerBase with Store {
   }
 
   @action
-  Future<void> getCollectibles() async{
-    _photoSelectedState = PhotoSelectedState.all;
+  Future<void> getCollectibles() async {
     loadingPhotos = true;
-    final result = await getCollectiblesUsecase(page: 0, limit: 30, type: 'all');
+    page = 0;
+    images = [];
+    final result = await getCollectiblesUsecase(
+        page: page, limit: limit, type: collectibleSelected());
     result.fold(
-          (l) => showDialogError(),
-          (r) => images = r,
+      (l) => showDialogError(),
+      (r) => images = r,
     );
+
+    hasMorePhotos = images.length >= limit;
     loadingPhotos = false;
+  }
+
+  @action
+  Future<void> getMoreCollectibles() async {
+    loadingMorePhotos = true;
+    page++;
+    final result = await getCollectiblesUsecase(
+        page: page, limit: limit, type: collectibleSelected());
+    result.fold(
+      (l) => showDialogError(),
+      (r) {
+        images.addAll(r);
+        hasMorePhotos = r.length >= limit;
+      },
+    );
+    loadingMorePhotos = false;
   }
 
   @action
@@ -109,9 +132,12 @@ abstract class _EditProfileControllerBase with Store {
   }
 
   @action
-  bool validateName(text, context){
-    if(text!.length > 60){
-      invalidName = TranslationService.translate(context, "editProfile.maximum60Characters",);
+  bool validateName(text, context) {
+    if (text!.length > 60) {
+      invalidName = TranslationService.translate(
+        context,
+        "editProfile.maximum60Characters",
+      );
       return false;
     } else if (text.isEmpty) {
       invalidName = TranslationService.translate(
@@ -122,6 +148,20 @@ abstract class _EditProfileControllerBase with Store {
     }
     invalidName = null;
     return true;
+  }
+
+  @action
+  dispose() {
+    invalidName = null;
+    loadingPhotos = false;
+    hasMorePhotos = true;
+    loadingMorePhotos = false;
+    imageBytes = null;
+    user = null;
+    _pageState = PageState.loading;
+    _photoSelectedState = PhotoSelectedState.all;
+    controllerName.text = '';
+    images = [];
   }
 
   PageState get pageState => _pageState;
@@ -145,5 +185,16 @@ abstract class _EditProfileControllerBase with Store {
         Routes.instance.pop();
       },
     );
+  }
+
+  String? collectibleSelected() {
+    switch (_photoSelectedState) {
+      case PhotoSelectedState.all:
+        return null;
+      case PhotoSelectedState.tickets:
+        return 'ticket';
+      case PhotoSelectedState.badges:
+        return 'badge';
+    }
   }
 }

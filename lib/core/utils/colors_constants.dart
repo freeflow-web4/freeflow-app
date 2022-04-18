@@ -19,6 +19,10 @@ class StandardColors {
   static const Color greyCA = Color(0xffCACACA);
   static const Color grey69 = Color(0xff696969);
   static const Color grey79 = Color(0xff797D83);
+  static const Color offWhite = Color(0xFFFCFCFC);
+  static const Color borderGrey = Color(0xFFE0E2E2);
+  static const Color borderMediumGrey = Color(0xFFCACACA);
+  static const Color textMediumGrey = Color(0xFF696969);
   static const Color baseShimmer = Color(0xFFD0D0D0);
   static const Color highlightShimmer = Color(0xFFF2f2f2);
 
@@ -65,5 +69,14 @@ class StandardColors {
         colors: [Color(0xff4f4f4f)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
+      );
+
+  static Gradient purpleBlueGradient() => LinearGradient(
+        colors: [
+          const Color(0xffDE83E0).withOpacity(0.6),
+          const Color(0xff32B4FF).withOpacity(0.6),
+        ],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
       );
 }

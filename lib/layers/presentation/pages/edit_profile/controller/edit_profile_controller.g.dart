@@ -41,6 +41,38 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
     });
   }
 
+  final _$hasMorePhotosAtom =
+      Atom(name: '_EditProfileControllerBase.hasMorePhotos');
+
+  @override
+  bool get hasMorePhotos {
+    _$hasMorePhotosAtom.reportRead();
+    return super.hasMorePhotos;
+  }
+
+  @override
+  set hasMorePhotos(bool value) {
+    _$hasMorePhotosAtom.reportWrite(value, super.hasMorePhotos, () {
+      super.hasMorePhotos = value;
+    });
+  }
+
+  final _$loadingMorePhotosAtom =
+      Atom(name: '_EditProfileControllerBase.loadingMorePhotos');
+
+  @override
+  bool get loadingMorePhotos {
+    _$loadingMorePhotosAtom.reportRead();
+    return super.loadingMorePhotos;
+  }
+
+  @override
+  set loadingMorePhotos(bool value) {
+    _$loadingMorePhotosAtom.reportWrite(value, super.loadingMorePhotos, () {
+      super.loadingMorePhotos = value;
+    });
+  }
+
   final _$imageBytesAtom = Atom(name: '_EditProfileControllerBase.imageBytes');
 
   @override
@@ -173,6 +205,15 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
     return _$getCollectiblesAsyncAction.run(() => super.getCollectibles());
   }
 
+  final _$getMoreCollectiblesAsyncAction =
+      AsyncAction('_EditProfileControllerBase.getMoreCollectibles');
+
+  @override
+  Future<void> getMoreCollectibles() {
+    return _$getMoreCollectiblesAsyncAction
+        .run(() => super.getMoreCollectibles());
+  }
+
   final _$onTapToChangePhotoAsyncAction =
       AsyncAction('_EditProfileControllerBase.onTapToChangePhoto');
 
@@ -197,10 +238,23 @@ mixin _$EditProfileController on _EditProfileControllerBase, Store {
   }
 
   @override
+  dynamic dispose() {
+    final _$actionInfo = _$_EditProfileControllerBaseActionController
+        .startAction(name: '_EditProfileControllerBase.dispose');
+    try {
+      return super.dispose();
+    } finally {
+      _$_EditProfileControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 invalidName: ${invalidName},
 loadingPhotos: ${loadingPhotos},
+hasMorePhotos: ${hasMorePhotos},
+loadingMorePhotos: ${loadingMorePhotos},
 imageBytes: ${imageBytes},
 user: ${user},
 navigatorKey: ${navigatorKey},
