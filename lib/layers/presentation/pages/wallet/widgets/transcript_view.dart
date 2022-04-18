@@ -29,8 +29,8 @@ class _TranscriptViewState extends State<TranscriptView> {
 
   @override
   void initState() {
-    getTranscriptList();
     super.initState();
+    getTranscriptList();
   }
 
   getTranscriptList() async {
