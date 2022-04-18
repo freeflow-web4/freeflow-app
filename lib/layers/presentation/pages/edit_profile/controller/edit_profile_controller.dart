@@ -37,8 +37,6 @@ abstract class _EditProfileControllerBase with Store {
   bool loadingMorePhotos = false;
   @observable
   Uint8List? imageBytes;
-  // @observable
-  // ProfileEntity? user;
   @observable
   PageState _pageState = PageState.loading;
   @observable
@@ -72,24 +70,6 @@ abstract class _EditProfileControllerBase with Store {
     );
     _pageState = PageState.ready;
   }
-
-  // @action
-  // Future<void> getUser() async {
-  //   _pageState = PageState.loading;
-  //
-  //   user = ProfileEntity(displayName: '', username: '', contractAddress: '');
-  //   final result = await getProfileUsecase();
-  //   result.fold(
-  //     (error) {
-  //       showDialogError();
-  //     },
-  //     (success) {
-  //       user = success;
-  //       controllerName.text = user?.displayName ?? '';
-  //     },
-  //   );
-  //   _pageState = PageState.ready;
-  // }
 
   @action
   Future<void> getCollectibles() async {
@@ -157,7 +137,6 @@ abstract class _EditProfileControllerBase with Store {
     hasMorePhotos = true;
     loadingMorePhotos = false;
     imageBytes = null;
-    //user = null;
     _pageState = PageState.loading;
     _photoSelectedState = PhotoSelectedState.all;
     controllerName.text = '';
