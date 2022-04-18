@@ -30,15 +30,15 @@ class _TranscriptViewState extends State<TranscriptView> {
   @override
   void initState() {
     super.initState();
-    getCategoryList();
-    getTranscriptList();
+    setCategoryList();
+    setTranscriptList();
   }
 
-  Future<void> getTranscriptList() async {
+  Future<void> setTranscriptList() async {
     transcriptList = await widget.walletController.getTranscriptList();
   }
 
-  void getCategoryList() {
+  void setCategoryList() {
     Future.delayed(Duration.zero, () {
       setState(() {
         categoryList = WalletUtil.transcriptFilters(context);
@@ -61,7 +61,6 @@ class _TranscriptViewState extends State<TranscriptView> {
           if (widget.walletController.trasncriptViewState ==
                   ViewState.loading ||
               transcriptList == null) {
-            //TODO: must return a custom loading (FREEF-69)
             return content(isLoading: true);
           } else if ((transcriptList ?? []).isEmpty) {
             return const CustomRoundedCard(
@@ -165,9 +164,7 @@ class _TranscriptViewState extends State<TranscriptView> {
     List<Widget> filteredTranscriptsWidgetList;
     filteredTranscriptsWidgetList = transcriptList
         .map(
-          (transcript) =>
-              //TODO: must return an operation card (FREEF-85)
-              Container(
+          (transcript) => Container(
             height: 100,
             width: double.infinity,
             margin: const EdgeInsets.all(smSpacing),
