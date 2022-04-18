@@ -11,10 +11,14 @@ class StandardColors {
   static const Color white = Color(0xFFFCFCFC);
   static const Color whiteCD = Color(0xFFCDCDCD);
   static const Color darkGrey = Color(0xff4f4f4f);
+  static const Color lightGrey = Color(0xFF797D83);
+  static const Color lightGrey2 = Color(0xFFCACACA);
+  static const Color error = Color(0xFFFF4747);
+  static const Color black = Color(0xFF222222);
+  static const Color lightBackground = Color(0xFFF4F4F4);
   static const Color greyCA = Color(0xffCACACA);
   static const Color grey69 = Color(0xff696969);
   static const Color grey79 = Color(0xff797D83);
-  static const Color error = Color(0xFFFF4747);
   static const Color offWhite = Color(0xFFFCFCFC);
   static const Color borderGrey = Color(0xFFE0E2E2);
   static const Color borderMediumGrey = Color(0xFFCACACA);

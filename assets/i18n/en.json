@@ -43,6 +43,17 @@
         "welcomeBack": "Welcome Back",
         "toFreeflow": "To your\n FreeFlow Pouch"
     },
+    "profile": {
+        "copyAddress": "Copy Address",
+        "shareAddress": "Share Address",
+        "showPhrase": "Show Phrase",
+        "rememberMe": "Remember me",
+        "changePinCode": "Change pincode",
+        "gesturesInstruction": "Gestures instruction",
+        "commitment": "Commitment",
+        "logout": "Logout account from device",
+        "copiedAddress": "Public address copied to clipboard"
+    },
     "wallet": {
         "wallet": "Wallet",
         "totalAmount": "Total amount",

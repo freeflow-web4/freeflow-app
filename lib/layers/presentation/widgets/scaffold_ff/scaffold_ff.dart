@@ -7,11 +7,17 @@ import 'package:freeflow/layers/presentation/helpers/get_plataform.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/icon_menu.dart';
 import 'package:freeflow/routes/routes.dart';
 
-
 class ScaffoldFreeFlow extends StatefulWidget {
   final Widget body;
+  final Color? backgroundColor;
+  final Decoration? decoration;
 
-  const ScaffoldFreeFlow({Key? key, required this.body}) : super(key: key);
+  const ScaffoldFreeFlow({
+    Key? key,
+    required this.body,
+    this.backgroundColor,
+    this.decoration,
+  }) : super(key: key);
 
   @override
   _ScaffoldFreeFlowState createState() => _ScaffoldFreeFlowState();
@@ -19,7 +25,7 @@ class ScaffoldFreeFlow extends StatefulWidget {
 
 class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
   bool startedPage = false;
-  double position  = 0;
+  double position = 0;
   bool wasOpenMenu = true;
   double iconSize = 34;
   double iconPadding = 12;
@@ -29,28 +35,28 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
   Widget build(BuildContext context) {
     checkSizeOfPage();
     return Scaffold(
+      backgroundColor: widget.backgroundColor,
       body: GestureDetector(
-        onVerticalDragUpdate: (details){
+        onVerticalDragUpdate: (details) {
           setState(() {
-            if(details.delta.dy > 0){
+            if (details.delta.dy > 0) {
               position = position + 30;
-              if(position > height){
+              if (position > height) {
                 position = height;
               }
               wasOpenMenu = true;
-            }else{
+            } else {
               position = position - 30;
-              if(position < 0 ){
+              if (position < 0) {
                 position = 0;
               }
               wasOpenMenu = false;
             }
           });
         },
-
-        onVerticalDragEnd: (details){
+        onVerticalDragEnd: (details) {
           setState(() {
-            if(position != 0) {
+            if (position != 0) {
               if (details.velocity.pixelsPerSecond.dy < 0 || !wasOpenMenu) {
                 closeMenu();
               } else {
@@ -58,55 +64,56 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
               }
             }
           });
-
         },
-        onTap: (){
-          if(position != 0) {
+        onTap: () {
+          if (position != 0) {
             closeMenu();
           }
         },
-
-        child: SafeArea(
-          top: isAndroidOrWeb(),
-          bottom: position != height,
-          child: SizedBox(
-            height: height,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-              children: [
-
-
-                Container(
-                  child: widget.body,
-                ),
-
-                appBar(),
-
-                if(position != 0)...[
-                  Positioned.fill(
-                    child: AnimatedOpacity(
-                      opacity: (position/height),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                position < 0.8 * height ?
-                                StandardColors.white.withOpacity(0.8) :
-                                StandardColors.white.withOpacity(0.8),
-                                position < 0.8 * height ?
-                                StandardColors.white.withOpacity(0.2) :
-                                StandardColors.white.withOpacity(0.8)],),),
-                          child: appBarOpened(),
-                        ),
-                      ),
-                      duration: const Duration(milliseconds: 100),),
+        child: Container(
+          decoration: widget.decoration,
+          child: SafeArea(
+            top: isAndroidOrWeb(),
+            bottom: position != height,
+            child: SizedBox(
+              height: height,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                children: [
+                  Container(
+                    child: widget.body,
                   ),
-                ]
-              ],
+                  appBar(),
+                  if (position != 0) ...[
+                    Positioned.fill(
+                      child: AnimatedOpacity(
+                        opacity: (position / height),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  position < 0.8 * height
+                                      ? StandardColors.white.withOpacity(0.8)
+                                      : StandardColors.white.withOpacity(0.8),
+                                  position < 0.8 * height
+                                      ? StandardColors.white.withOpacity(0.2)
+                                      : StandardColors.white.withOpacity(0.8)
+                                ],
+                              ),
+                            ),
+                            child: appBarOpened(),
+                          ),
+                        ),
+                        duration: const Duration(milliseconds: 100),
+                      ),
+                    ),
+                  ]
+                ],
+              ),
             ),
           ),
         ),
@@ -114,8 +121,8 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
     );
   }
 
-  Widget appBar(){
-    return  SizedBox(
+  Widget appBar() {
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
@@ -191,92 +198,91 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 height: isAndroidOrWeb() ? 12 : 40,
               ),
               IconMenu(
-                urlIcon : IconsAsset.user,
+                urlIcon: IconsAsset.user,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                   //TODO REMOVE
-                  Routes.instance.goToEditProfilePageRoute();
+                  Routes.instance.goToProfilePageRoute();
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.money,
+                urlIcon: IconsAsset.money,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.chat,
+                urlIcon: IconsAsset.chat,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.star,
+                urlIcon: IconsAsset.star,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.cloud,
+                urlIcon: IconsAsset.cloud,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.home,
+                urlIcon: IconsAsset.home,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.tools,
+                urlIcon: IconsAsset.tools,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.shoppingCar,
+                urlIcon: IconsAsset.shoppingCar,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.example,
+                urlIcon: IconsAsset.example,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
               IconMenu(
-                urlIcon : IconsAsset.example,
+                urlIcon: IconsAsset.example,
                 iconPadding: iconPadding,
                 hasBottomDivisor: false,
                 iconSize: iconSize,
-                onTap:(){
+                onTap: () {
                   //TODO ADD ACTION
                 },
               ),
             ],
           ),
         ),
-
         Container(
           margin: const EdgeInsets.only(top: 8),
           alignment: Alignment.bottomCenter,
@@ -284,7 +290,6 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
           width: 64,
           color: const Color(0XFF6DAD5F),
         ),
-
         Container(
           margin: const EdgeInsets.only(top: 4),
           alignment: Alignment.bottomCenter,
@@ -296,31 +301,30 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
     );
   }
 
-  void checkSizeOfPage(){
+  void checkSizeOfPage() {
     height = MediaQuery.of(context).size.height;
-    if(height < 666 && !startedPage){
+    if (height < 666 && !startedPage) {
       double pageSize = height - ((isAndroidOrWeb() ? 50 : 72) + 74);
-      iconSize = (pageSize/10)* 0.6;
+      iconSize = (pageSize / 10) * 0.6;
       iconPadding = iconSize * 0.4;
       startedPage = true;
     }
-
   }
 
   void closeMenu() {
     double aux = position;
-    int auxIncrement = 0 ;
-    while(aux > 0){
+    int auxIncrement = 0;
+    while (aux > 0) {
       auxIncrement = auxIncrement + 100;
       aux = aux - 200.0;
-      Future.delayed(Duration(milliseconds: auxIncrement), (){
+      Future.delayed(Duration(milliseconds: auxIncrement), () {
         setState(() {
           position = position - 200;
-          if(position < 0){
+          if (position < 0) {
             position = 0;
           }
         });
-      } );
+      });
     }
   }
 }

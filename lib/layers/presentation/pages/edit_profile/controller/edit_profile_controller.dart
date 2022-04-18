@@ -13,12 +13,14 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'edit_profile_controller.g.dart';
 
-enum PageState { loading, ready, loadingSendData}
-enum PhotoSelectedState { all, tickets, badges}
+enum PageState { loading, ready, loadingSendData }
+enum PhotoSelectedState { all, tickets, badges }
 
-EditProfileController findEditProfileController() => GetIt.I.get<EditProfileController>();
+EditProfileController findEditProfileController() =>
+    GetIt.I.get<EditProfileController>();
 
-class EditProfileController = _EditProfileControllerBase with _$EditProfileController;
+class EditProfileController = _EditProfileControllerBase
+    with _$EditProfileController;
 
 abstract class _EditProfileControllerBase with Store {
   final EditProfileUsecase editProfileUsecase;
@@ -50,58 +52,55 @@ abstract class _EditProfileControllerBase with Store {
   int page = 0;
   int limit = 30;
 
-
-  _EditProfileControllerBase( {
+  _EditProfileControllerBase({
     required this.editProfileUsecase,
     required this.getProfileUsecase,
     required this.getCollectiblesUsecase,
   });
 
-
   @action
   saveProfile() async {
     _pageState = PageState.loadingSendData;
-    final result = await editProfileUsecase(editProfileEntity: EditProfileEntity(username: controllerName.text, image: imageBytes));
+    final result = await editProfileUsecase(
+        editProfileEntity: EditProfileEntity(
+            username: controllerName.text, image: imageBytes));
     result.fold(
-          (l) => showDialogError(),
-          (r) {
-            Routes.instance.pop();
-          },
+      (l) => showDialogError(),
+      (r) {
+        Routes.instance.pop();
+      },
     );
     _pageState = PageState.ready;
-
   }
 
-
   @action
-  Future<void> getUser() async{
-
+  Future<void> getUser() async {
     _pageState = PageState.loading;
 
-    user = ProfileEntity(displayName: '');
+    user = ProfileEntity(displayName: '', username: '', contractAddress: '');
     final result = await getProfileUsecase();
     result.fold(
-          (error) {
+      (error) {
         showDialogError();
       },
-          (success) {
+      (success) {
         user = success;
         controllerName.text = user?.displayName ?? '';
       },
     );
     _pageState = PageState.ready;
-
   }
 
   @action
-  Future<void> getCollectibles() async{
+  Future<void> getCollectibles() async {
     loadingPhotos = true;
     page = 0;
     images = [];
-    final result = await getCollectiblesUsecase(page: page, limit: limit, type: collectibleSelected());
+    final result = await getCollectiblesUsecase(
+        page: page, limit: limit, type: collectibleSelected());
     result.fold(
-          (l) => showDialogError(),
-          (r) => images = r,
+      (l) => showDialogError(),
+      (r) => images = r,
     );
 
     hasMorePhotos = images.length >= limit;
@@ -109,16 +108,17 @@ abstract class _EditProfileControllerBase with Store {
   }
 
   @action
-  Future<void> getMoreCollectibles() async{
+  Future<void> getMoreCollectibles() async {
     loadingMorePhotos = true;
     page++;
-    final result = await getCollectiblesUsecase(page: page, limit: limit, type: collectibleSelected());
+    final result = await getCollectiblesUsecase(
+        page: page, limit: limit, type: collectibleSelected());
     result.fold(
-          (l) => showDialogError(),
-          (r) {
-            images.addAll(r);
-            hasMorePhotos = r.length >= limit;
-          },
+      (l) => showDialogError(),
+      (r) {
+        images.addAll(r);
+        hasMorePhotos = r.length >= limit;
+      },
     );
     loadingMorePhotos = false;
   }
@@ -126,18 +126,24 @@ abstract class _EditProfileControllerBase with Store {
   @action
   Future<void> onTapToChangePhoto(String urlImage) async {
     Uint8List? bytes = await Routes.instance.goToCutImagePageRoute(urlImage);
-    if(bytes != null){
+    if (bytes != null) {
       imageBytes = bytes;
     }
   }
 
   @action
-  bool validateName(text, context){
-    if(text!.length > 60){
-      invalidName = TranslationService.translate(context, "editProfile.maximum60Characters",);
+  bool validateName(text, context) {
+    if (text!.length > 60) {
+      invalidName = TranslationService.translate(
+        context,
+        "editProfile.maximum60Characters",
+      );
       return false;
-    }else if(text.isEmpty){
-      invalidName =  TranslationService.translate(context, "editProfile.pleaseEnterYourName",);
+    } else if (text.isEmpty) {
+      invalidName = TranslationService.translate(
+        context,
+        "editProfile.pleaseEnterYourName",
+      );
       return false;
     }
     invalidName = null;
@@ -145,7 +151,7 @@ abstract class _EditProfileControllerBase with Store {
   }
 
   @action
-  dispose(){
+  dispose() {
     invalidName = null;
     loadingPhotos = false;
     hasMorePhotos = true;
@@ -174,15 +180,15 @@ abstract class _EditProfileControllerBase with Store {
     showDialogDefault(
       navigatorKey.currentContext!,
       type: DialogType.systemInstability,
-      onTap: (){
+      onTap: () {
         Navigator.of(navigatorKey.currentContext!).pop();
         Routes.instance.pop();
       },
     );
   }
 
-  String? collectibleSelected(){
-    switch(_photoSelectedState) {
+  String? collectibleSelected() {
+    switch (_photoSelectedState) {
       case PhotoSelectedState.all:
         return null;
       case PhotoSelectedState.tickets:
@@ -191,8 +197,4 @@ abstract class _EditProfileControllerBase with Store {
         return 'badge';
     }
   }
-
 }
-
-
-
