@@ -7,6 +7,7 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
@@ -777,78 +778,5 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
     return editController.user?.displayName != editController.controllerName.text ||
         editController.imageBytes != null;
   }
-
-
-
-
-
-
-}
-
-
-class CustomFilterBarItem extends StatelessWidget {
-  final EdgeInsets? tabMargin;
-  final String tabName;
-  final Function onTap;
-  final bool isSelected;
-  final double? height;
-  const CustomFilterBarItem({
-    Key? key,
-    required this.tabName,
-    required this.isSelected,
-    required this.onTap,
-    this.tabMargin,
-    this.height,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTap(),
-      child: Container(
-        height: height ?? 25,
-        padding: tabMargin ?? const EdgeInsets.symmetric(horizontal: 36),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              tabName,
-              style: const TextStyle(
-                fontSize: 15,
-                fontFamily: 'Akrobat',
-                fontWeight: FontWeight.w600,
-                color: StandardColors.grey69,),
-            ),
-            customIndicator(isActive: isSelected)
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget customIndicator({
-    required bool isActive,
-    List<Color>? colors,
-  }) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.fastOutSlowIn,
-      height: isSelected ? 3 : 0,
-      width: 60,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: LinearGradient(
-          colors: colors ??
-              [
-                const Color(0xffDE83E0).withOpacity(0.6),
-                const Color(0xff32B4FF).withOpacity(0.6),
-              ],
-        ),
-      ),
-    );
-  }
-
-
 
 }
