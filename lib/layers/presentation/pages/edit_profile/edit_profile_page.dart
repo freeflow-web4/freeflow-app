@@ -487,8 +487,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   void showModalSelectPhoto(){
     showModalBottomSheet(
       isScrollControlled:true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
       ),
       context: context,
       builder: (context) {
