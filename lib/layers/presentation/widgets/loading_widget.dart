@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
+import 'package:freeflow/layers/presentation/widgets/general_page_animations.dart';
 
 class LoadingWidget extends StatefulWidget {
   final bool isLoading;
   final Color? color;
   final double? size;
   final EdgeInsets? padding;
-  const LoadingWidget(
-      {Key? key, required this.isLoading, this.color, this.size, this.padding})
-      : super(key: key);
+  const LoadingWidget({
+    Key? key,
+    required this.isLoading,
+    this.color,
+    this.size,
+    this.padding,
+  }) : super(key: key);
 
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
@@ -48,7 +53,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
       child: Padding(
         padding: widget.padding ?? EdgeInsets.zero,
         child: RotationTransition(
-          turns: Tween(begin: 0.0, end: 1.0).animate(animationController),
+          turns: GeneralPageAnimation(animationController).loadingAnimation,
           child: SvgPicture.asset(
             IconsAsset.loading,
             color: widget.color,
