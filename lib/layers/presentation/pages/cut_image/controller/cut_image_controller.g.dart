@@ -24,10 +24,26 @@ mixin _$CutImageController on _CutImageControllerBase, Store {
     });
   }
 
+  final _$navigatorKeyAtom = Atom(name: '_CutImageControllerBase.navigatorKey');
+
+  @override
+  GlobalKey<State<StatefulWidget>> get navigatorKey {
+    _$navigatorKeyAtom.reportRead();
+    return super.navigatorKey;
+  }
+
+  @override
+  set navigatorKey(GlobalKey<State<StatefulWidget>> value) {
+    _$navigatorKeyAtom.reportWrite(value, super.navigatorKey, () {
+      super.navigatorKey = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
-bytes: ${bytes}
+bytes: ${bytes},
+navigatorKey: ${navigatorKey}
     ''';
   }
 }

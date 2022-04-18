@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
+import 'package:freeflow/layers/domain/entities/edit_profile_entity.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
@@ -29,6 +30,10 @@ abstract class _EditProfileControllerBase with Store {
   @observable
   bool loadingPhotos = false;
   @observable
+  bool hasMorePhotos = true;
+  @observable
+  bool loadingMorePhotos = false;
+  @observable
   Uint8List? imageBytes;
   @observable
   ProfileEntity? user;
@@ -42,6 +47,8 @@ abstract class _EditProfileControllerBase with Store {
   TextEditingController controllerName = TextEditingController();
   @observable
   List<CollectiblesEntity> images = [];
+  int page = 0;
+  int limit = 30;
 
 
   _EditProfileControllerBase( {
@@ -50,6 +57,20 @@ abstract class _EditProfileControllerBase with Store {
     required this.getCollectiblesUsecase,
   });
 
+
+  @action
+  saveProfile() async {
+    _pageState = PageState.loadingSendData;
+    final result = await editProfileUsecase(editProfileEntity: EditProfileEntity(username: controllerName.text, image: imageBytes));
+    result.fold(
+          (l) => showDialogError(),
+          (r) {
+            Routes.instance.pop();
+          },
+    );
+    _pageState = PageState.ready;
+
+  }
 
 
   @action
@@ -74,20 +95,32 @@ abstract class _EditProfileControllerBase with Store {
 
   @action
   Future<void> getCollectibles() async{
-
     loadingPhotos = true;
-
-    final result = await getCollectiblesUsecase(page: 0, limit: 30, type: 'all');
+    page = 0;
+    images = [];
+    final result = await getCollectiblesUsecase(page: page, limit: limit, type: collectibleSelected());
     result.fold(
-          (error) {
-        showDialogError();
-      },
-          (success) {
-        images = success;
-      },
+          (l) => showDialogError(),
+          (r) => images = r,
     );
-    loadingPhotos = false;
 
+    hasMorePhotos = images.length >= limit;
+    loadingPhotos = false;
+  }
+
+  @action
+  Future<void> getMoreCollectibles() async{
+    loadingMorePhotos = true;
+    page++;
+    final result = await getCollectiblesUsecase(page: page, limit: limit, type: collectibleSelected());
+    result.fold(
+          (l) => showDialogError(),
+          (r) {
+            images.addAll(r);
+            hasMorePhotos = r.length >= limit;
+          },
+    );
+    loadingMorePhotos = false;
   }
 
   @action
@@ -101,7 +134,7 @@ abstract class _EditProfileControllerBase with Store {
   @action
   bool validateName(text, context){
     if(text!.length > 60){
-      invalidName = TranslationService.translate(context, "editProfile.maximum60Characters",).replaceFirst('70', '${text.length}');
+      invalidName = TranslationService.translate(context, "editProfile.maximum60Characters",);
       return false;
     }else if(text.isEmpty){
       invalidName =  TranslationService.translate(context, "editProfile.pleaseEnterYourName",);
@@ -109,6 +142,20 @@ abstract class _EditProfileControllerBase with Store {
     }
     invalidName = null;
     return true;
+  }
+
+  @action
+  dispose(){
+    invalidName = null;
+    loadingPhotos = false;
+    hasMorePhotos = true;
+    loadingMorePhotos = false;
+    imageBytes = null;
+    user = null;
+    _pageState = PageState.loading;
+    _photoSelectedState = PhotoSelectedState.all;
+    controllerName.text = '';
+    images = [];
   }
 
   PageState get pageState => _pageState;
@@ -132,6 +179,17 @@ abstract class _EditProfileControllerBase with Store {
         Routes.instance.pop();
       },
     );
+  }
+
+  String? collectibleSelected(){
+    switch(_photoSelectedState) {
+      case PhotoSelectedState.all:
+        return null;
+      case PhotoSelectedState.tickets:
+        return 'ticket';
+      case PhotoSelectedState.badges:
+        return 'badge';
+    }
   }
 
 }

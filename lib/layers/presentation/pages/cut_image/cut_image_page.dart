@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
-import 'package:cropperx/cropperx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/widgets/crop_image/crop_image.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 
 import 'controller/cut_image_controller.dart';
@@ -34,6 +34,7 @@ class _CutImagePageState extends State<CutImagePage>  with TextThemes{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: cutController.navigatorKey,
       backgroundColor: StandardColors.white,
 
       body: Column(
@@ -50,11 +51,16 @@ class _CutImagePageState extends State<CutImagePage>  with TextThemes{
                   child: Visibility(
                     visible: cutController.bytes != null,
                     child: Cropper(
+                      height: MediaQuery.of(context).size.height - 72,
+                      width: MediaQuery.of(context).size.width,
                       cropperKey: _cropperKeyA,
                       overlayType: OverlayType.circle,
-                      rotationTurns: 0,
+                      gridLineThickness: 0,
                       zoomScale : 10,
-                      image: Image.memory(cutController.bytes ?? Uint8List(1) ),
+                      image: Image.memory(
+                          cutController.bytes ?? Uint8List(1),
+
+                      ),
                     ),
                     replacement: const Center(
                       child: LoadingWidget(

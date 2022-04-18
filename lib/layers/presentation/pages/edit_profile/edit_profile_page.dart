@@ -6,6 +6,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,15 +23,24 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
   final EditProfileController editController = findEditProfileController();
-
-
-
-
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     editController.getUser();
+    _scrollController.addListener(() async {
+      if(canGetMoreCollectibles()){
+        await editController.getMoreCollectibles();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    editController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -207,8 +217,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                 textInputAction: TextInputAction.go,
                                 style: TextStyle(
                                   color: keyboardIsVisible ?
-                                  StandardColors.backgroundDark :
-                                  StandardColors.grey69,
+                                  StandardColors.grey69:
+                                  StandardColors.backgroundDark,
                                   fontFamily: 'Akrobat',
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -329,9 +339,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
       );
     }
     else{
-      return Image.asset(
-        IconsAsset.backgroundHoroscope,
-        fit: BoxFit.cover,
+      return SvgPicture.asset(
+        IconsAsset.withoutProfilePhoto,
       );
     }
   }
@@ -341,16 +350,22 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   void onTapSelectImage() {
+    editController.photoSelectedState = PhotoSelectedState.all;
     editController.getCollectibles();
     showModalSelectPhoto();
   }
 
   void onTapCancel() {
-    showModalCancel();
+    if(hasModifications()){
+      showModalCancel();
+    }else{
+      Routes.instance.pop();
+    }
   }
 
   void onTapSave() {
     if(editController.validateName(editController.controllerName.text, context)){
+      editController.saveProfile();
     }
   }
 
@@ -475,127 +490,138 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
-
       context: context,
       builder: (context) {
         return SizedBox(
           height: MediaQuery.of(context).size.height*0.8,
           child: StatefulBuilder(builder: (BuildContext context, StateSetter mystate){
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  height: 4,
-                  width: 52,
-                  margin: const EdgeInsets.symmetric(vertical: 17),
-                  decoration: const BoxDecoration(
-                    color: StandardColors.backgroundDark,
-                    borderRadius: BorderRadius.all(Radius.circular(2)),
-                  ),
-                ),
-
-                Text(
-                  TranslationService.translate(context, "editProfile.gallery",),
-                  style: textH6TextStyle,
-                ),
-
-                const SizedBox(
-                  height: 12,
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomFilterBarItem(
-                        tabName: TranslationService.translate(context, "editProfile.all",),
-                        tabMargin: EdgeInsets.zero,
-                        isSelected: editController.photoSelectedState == PhotoSelectedState.all,
-                        onTap: () {
-                          mystate(() {
-                            editController.photoSelectedState = PhotoSelectedState.all;
-                          });
-                        },
+            return Observer(
+              builder: (_) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      height: 4,
+                      width: 52,
+                      margin: const EdgeInsets.symmetric(vertical: 17),
+                      decoration: const BoxDecoration(
+                        color: StandardColors.backgroundDark,
+                        borderRadius: BorderRadius.all(Radius.circular(2)),
                       ),
-                      CustomFilterBarItem(
-                        tabName: TranslationService.translate(context, "editProfile.tickets",),
-                        tabMargin: EdgeInsets.zero,
-                        isSelected: editController.photoSelectedState == PhotoSelectedState.tickets,
-                        onTap: () {
-                          mystate(() {
-                            editController.photoSelectedState = PhotoSelectedState.tickets;
-                          });
-                        },
+                    ),
+
+                    Text(
+                      TranslationService.translate(context, "editProfile.gallery",),
+                      style: textH6TextStyle,
+                    ),
+
+                    const SizedBox(
+                      height: 12,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomFilterBarItem(
+                            tabName: TranslationService.translate(context, "editProfile.all",),
+                            tabMargin: EdgeInsets.zero,
+                            isSelected: editController.photoSelectedState == PhotoSelectedState.all,
+                            onTap: () {
+                              mystate(() {
+                                editController.photoSelectedState = PhotoSelectedState.all;
+                                _scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.ease);
+                              });
+                              editController.getCollectibles();
+
+                            },
+                          ),
+                          CustomFilterBarItem(
+                            tabName: TranslationService.translate(context, "editProfile.tickets",),
+                            tabMargin: EdgeInsets.zero,
+                            isSelected: editController.photoSelectedState == PhotoSelectedState.tickets,
+                            onTap: () {
+                              mystate(() {
+                                editController.photoSelectedState = PhotoSelectedState.tickets;
+                                _scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.ease);
+                              });
+                              editController.getCollectibles();
+
+                            },
+                          ),
+                          CustomFilterBarItem(
+                            tabName: TranslationService.translate(context, "editProfile.badges",),
+                            tabMargin: EdgeInsets.zero,
+                            isSelected: editController.photoSelectedState == PhotoSelectedState.badges,
+                            onTap: () {
+                              mystate(() {
+                                editController.photoSelectedState = PhotoSelectedState.badges;
+                                _scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.ease);
+
+                              });
+                              editController.getCollectibles();
+                            },
+                          ),
+                        ],
                       ),
-                      CustomFilterBarItem(
-                        tabName: TranslationService.translate(context, "editProfile.badges",),
-                        tabMargin: EdgeInsets.zero,
-                        isSelected: editController.photoSelectedState == PhotoSelectedState.badges,
-                        onTap: () {
-                          mystate(() {
-                            editController.photoSelectedState = PhotoSelectedState.badges;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
 
-                const SizedBox(
-                  height: 12,
-                ),
+                    const SizedBox(
+                      height: 12,
+                    ),
 
-                const Divider(
-                  color: StandardColors.greyCA,
-                  thickness: 1.5,
-                  indent: 32,
-                  endIndent: 32,
-                ),
-
-                const SizedBox(
-                  height: 12,
-                ),
-
-                if(editController.loadingPhotos)...[
-                  gridView(shimmerImages())
-                ]else if(editController.images.isEmpty)...[
-                  Text(
-                    TranslationService.translate(context, "editProfile.noImage",),
-                    style: textH6TextStyle.copyWith(
+                    const Divider(
                       color: StandardColors.greyCA,
+                      thickness: 1.5,
+                      indent: 32,
+                      endIndent: 32,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
 
-                  SvgPicture.asset(
-                    IconsAsset.flowerLogo,
-                    height: 107,
-                    width: 107,
-                  ),
+                    const SizedBox(
+                      height: 12,
+                    ),
 
-                  const SizedBox(
-                    height: 24,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 56),
-                    child: Text(
-                      TranslationService.translate(context, "editProfile.noImageText",),
-                      textAlign: TextAlign.center,
-                      style: textH6TextStyle.copyWith(
-                        color: StandardColors.greyCA,
+                    if(editController.loadingPhotos)...[
+                      gridView(shimmerImages())
+                    ]else if(editController.images.isEmpty)...[
+                      Text(
+                        TranslationService.translate(context, "editProfile.noImage",),
+                        style: textH6TextStyle.copyWith(
+                          color: StandardColors.greyCA,
+                        ),
                       ),
-                    ),
-                  ),
-                ]else...[
-                  gridView(imagesList()),
-                ]
-              ],
-            );
-          },
+                      const SizedBox(
+                        height: 24,
+                      ),
+
+                      SvgPicture.asset(
+                        IconsAsset.flowerLogo,
+                        height: 107,
+                        width: 107,
+                      ),
+
+                      const SizedBox(
+                        height: 24,
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 56),
+                        child: Text(
+                          TranslationService.translate(context, "editProfile.noImageText",),
+                          textAlign: TextAlign.center,
+                          style: textH6TextStyle.copyWith(
+                            color: StandardColors.greyCA,
+                          ),
+                        ),
+                      ),
+                    ]else...[
+                      gridView(imagesList(editController.images)),
+                    ]
+                  ],
+                );
+              },
+            );},
           ),
         );
       },
@@ -606,6 +632,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
     return SizedBox(
       height: MediaQuery.of(context).size.height*0.8 - 150,
       child: GridView.count(
+        controller: _scrollController,
         primary: false,
         padding: const EdgeInsets.all(1),
         crossAxisSpacing: 1,
@@ -624,15 +651,53 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
     return list;
   }
 
-  List<Widget> imagesList(){
-    List<Widget> list = [];
-    for (int i=0; i<editController.images.length; i++){
-      list.add(imagesItem(i));
+  List<Widget> imagesList(List<CollectiblesEntity> images){
+    List<Widget> listWidgets = [];
+    images.forEach((element) {
+      listWidgets.add(imagesItem(element.imageUrl ?? ''));
+    });
+
+
+
+    if(editController.loadingMorePhotos) {
+      //SHOW LOADING
+      if (listWidgets.length % 3 == 0) {
+        listWidgets.add(const Center());
+        listWidgets.add(const Center(
+          child: LoadingWidget(isLoading: true,
+            color: StandardColors.greyCA,
+            size: 33,
+          ),
+        ),);
+      }
+      else if (listWidgets.length % 3 == 1) {
+        listWidgets.add(const Center());
+        listWidgets.add(const Center());
+        listWidgets.add(const Center());
+        listWidgets.add(const Center(
+          child: LoadingWidget(isLoading: true,
+            color: StandardColors.greyCA,
+            size: 33,
+          ),
+        ),);
+      }
+      else if (listWidgets.length % 3 == 2) {
+        listWidgets.add(const Center());
+        listWidgets.add(const Center());
+        listWidgets.add(const Center(
+          child: LoadingWidget(
+            isLoading: true,
+            color: StandardColors.greyCA,
+            size: 33,
+          ),),
+        );
+      }
     }
-    return list;
+
+    return listWidgets;
   }
 
-  Widget imagesItem(index){
+  Widget imagesItem(String imageUrl){
     double size = MediaQuery.of(context).size.width/3;
     return SizedBox(
       width: size,
@@ -641,7 +706,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
         children: [
           shimmerItem(),
           Image.network(
-            editController.images[index].imageUrl!,
+            imageUrl,
             width: size,
             height: size,
             fit: BoxFit.cover,
@@ -657,7 +722,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
             child: InkWell(
               onTap: (){
                 Future.delayed(const Duration(milliseconds: 80), () async {
-                  editController.onTapToChangePhoto(editController.images[index].imageUrl!);
+                  editController.onTapToChangePhoto(imageUrl);
                   Navigator.of(context).pop();
                 });
 
@@ -699,6 +764,18 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
       ];
     }
 
+  }
+
+  bool canGetMoreCollectibles() {
+    return ((_scrollController.offset > _scrollController.position.maxScrollExtent * 0.7)
+        && !editController.loadingPhotos
+        && !editController.loadingMorePhotos
+        && editController.hasMorePhotos);
+  }
+
+  bool hasModifications() {
+    return editController.user?.displayName != editController.controllerName.text ||
+        editController.imageBytes != null;
   }
 
 
