@@ -208,7 +208,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                 enabled: editController.pageState != PageState.loadingSendData,
                                 onChanged: (text) {
                                   setState(() {
-                                    if(editController.controllerName.text.substring(0,1) == ' '){
+                                    if(editController.controllerName.text.isNotEmpty && editController.controllerName.text.substring(0,1) == ' '){
                                       editController.controllerName.text = editController.controllerName.text.substring(1);
                                     }
                                   });
@@ -239,7 +239,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Poppins',
                                   ),
-                                  suffixIcon: editController.controllerName.text.isNotEmpty ? IconButton(
+                                  suffixIcon: editController.controllerName.text != '' ? IconButton(
                                     onPressed: (){
                                       setState(() {
                                         editController.controllerName.text = '';
