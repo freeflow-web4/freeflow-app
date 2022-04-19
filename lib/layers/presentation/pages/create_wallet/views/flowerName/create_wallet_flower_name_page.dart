@@ -144,7 +144,10 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
     );
     widget.onValid();
-    animationController.reset();
+    animationController.animateTo(
+      1,
+      duration: Duration.zero,
+    );
   }
 
   void onInvalid() {

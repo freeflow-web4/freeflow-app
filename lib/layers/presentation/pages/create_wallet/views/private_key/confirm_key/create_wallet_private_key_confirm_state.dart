@@ -9,6 +9,7 @@ import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/confirm_key/create_wallet_private_key_confirm_animations.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/confirm_key/create_wallet_private_key_confirm_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
@@ -66,6 +67,7 @@ class _CreateWalletPrivateKeyConfirmViewState
                 Padding(
                   padding: const EdgeInsets.only(
                     left: mdSpacingx2,
+                    right: mdSpacingx2,
                     top: huge4Spacing,
                   ),
                   child: Column(
@@ -127,6 +129,16 @@ class _CreateWalletPrivateKeyConfirmViewState
                       ),
                     ],
                   ),
+                ),
+                const SizedBox(
+                  height: xxlargeSpacing,
+                ),
+                CreateWalletPageIndicator(
+                  currentIndex: 4,
+                  onAnimationEnd: () {
+                    animationController.forward();
+                  },
+                  animatedOnStart: widget.animateOnStart,
                 ),
                 Expanded(
                   child: Container(

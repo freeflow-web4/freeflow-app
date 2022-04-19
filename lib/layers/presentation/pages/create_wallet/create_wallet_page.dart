@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/confirm/create_wallet_confirm_pin_code_page.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/create_wallet_private_key_view.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/confirm_key/create_wallet_private_key_confirm_state.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_page.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_page_view.dart';
-import 'package:get_it/get_it.dart';
 
 class CreateWalletPage extends StatefulWidget {
   const CreateWalletPage({Key? key}) : super(key: key);
@@ -63,21 +62,27 @@ class _CreateWalletPageState extends State<CreateWalletPage>
               onValid: onFlowerNamePageValid,
               key: const ValueKey('CreateWalletControllerFlowerNameKey'),
             ),
-            CreateWalletPrivateKeyView(
-              animatedOnStart: currentIndex == 3 && shouldAnimateStart,
-              onValid: onPrivateKeyPageValid,
-              //TODO: pass from controller
+            CreateWalletPrivateKeyShowView(
               privateKey:
                   'love spirit earth play share abundance life geometry sacred ancient egypt rio',
-              key: const ValueKey('CreateWalletControllerPrivateKeyKey'),
+              onValid: onShowPrivateKeyPageValid,
+              animateOnStart: currentIndex == 3 && shouldAnimateStart,
+              key: const ValueKey('CreateWalletControllerViewPrivateKeyKey'),
+            ),
+            CreateWalletPrivateKeyConfirmView(
+              privateKey:
+                  'love spirit earth play share abundance life geometry sacred ancient egypt rio',
+              onValid: onConfirmPrivateKeyPageValid,
+              animateOnStart: currentIndex == 4 && shouldAnimateStart,
+              key: const ValueKey('CreateWalletControllerConfirmPrivateKeyKey'),
             ),
             CreateWalletPinCodeView(
-              animatedOnStart: currentIndex == 4 && shouldAnimateStart,
+              animatedOnStart: currentIndex == 5 && shouldAnimateStart,
               onValid: onPincodePageValid,
               key: const ValueKey('CreateWalletControllerPinCodeKey'),
             ),
             CreateWalletConfirmPinCodeView(
-              animatedOnStart: currentIndex == 5 && shouldAnimateStart,
+              animatedOnStart: currentIndex == 6 && shouldAnimateStart,
               onValid: onConfirmPincodePageValid,
               key: const ValueKey('CreateWalletControllerConfirmPinCodeKey'),
             ),
@@ -138,17 +143,24 @@ class _CreateWalletPageState extends State<CreateWalletPage>
     });
   }
 
-  void onPrivateKeyPageValid() {
+  void onShowPrivateKeyPageValid() {
     setState(() {
       currentIndex = 4;
       lastIndex = 3;
     });
   }
 
-  void onPincodePageValid() {
+  void onConfirmPrivateKeyPageValid() {
     setState(() {
       currentIndex = 5;
       lastIndex = 4;
+    });
+  }
+
+  void onPincodePageValid() {
+    setState(() {
+      currentIndex = 6;
+      lastIndex = 5;
     });
   }
 

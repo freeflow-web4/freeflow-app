@@ -8,18 +8,19 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_animations.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
-import 'package:freeflow/layers/presentation/widgets/widget_size.dart';
 
 class CreateWalletPrivateKeyShowView extends StatefulWidget {
   final String privateKey;
-  final void Function() onConfirm;
+  final void Function() onValid;
   final bool animateOnStart;
+
   const CreateWalletPrivateKeyShowView({
     Key? key,
     required this.privateKey,
-    required this.onConfirm,
+    required this.onValid,
     required this.animateOnStart,
   }) : super(key: key);
 
@@ -85,64 +86,68 @@ class _CreateWalletPrivateKeyShowViewState
                     const SizedBox(
                       height: mdSpacingx2,
                     ),
-                    Visibility(
-                      visible: animations.title2Opacity.value > 0,
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(bottom: mdSpacingx2),
-                        child: Opacity(
-                          //TODO: add opacity from animations class
-                          opacity: animations.title2Opacity.value,
-                          child: RichText(
-                            text: TextSpan(
-                              style: subtitleTextStyle,
-                              children: [
-                                TextSpan(
-                                  text: TranslationService.translate(
-                                    context,
-                                    'createWallet.privateKeyTitle2',
-                                  ),
-                                  style: subtitleTextStyle.copyWith(
-                                    color: StandardColors.white,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(bottom: mdSpacingx2),
+                      child: Opacity(
+                        //TODO: add opacity from animations class
+                        opacity: animations.title2Opacity.value,
+                        child: RichText(
+                          text: TextSpan(
+                            style: subtitleTextStyle,
+                            children: [
+                              TextSpan(
+                                text: TranslationService.translate(
+                                  context,
+                                  'createWallet.privateKeyTitle2',
                                 ),
-                                TextSpan(
-                                  text: TranslationService.translate(
-                                    context,
-                                    'createWallet.privateKeyTitle3',
-                                  ),
-                                  style: subtitleTextStyle.copyWith(
-                                    color: StandardColors.white,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                style: subtitleTextStyle.copyWith(
+                                  color: StandardColors.white,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              ],
-                            ),
+                              ),
+                              TextSpan(
+                                text: TranslationService.translate(
+                                  context,
+                                  'createWallet.privateKeyTitle3',
+                                ),
+                                style: subtitleTextStyle.copyWith(
+                                  color: StandardColors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                    Visibility(
-                      visible: animations.title3Opacity.value > 0,
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(bottom: mdSpacingx2),
-                        child: Opacity(
-                          //TODO: add opacity from animations class
-                          opacity: animations.title3Opacity.value,
-                          child: Text(
-                            widget.privateKey,
-                            style: subtitleTextStyle.copyWith(
-                              color: StandardColors.secondary,
-                              fontWeight: FontWeight.w700,
-                            ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(bottom: mdSpacingx2),
+                      child: Opacity(
+                        //TODO: add opacity from animations class
+                        opacity: animations.title3Opacity.value,
+                        child: Text(
+                          widget.privateKey,
+                          style: subtitleTextStyle.copyWith(
+                            color: StandardColors.secondary,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(
+                height: xxlargeSpacing,
+              ),
+              CreateWalletPageIndicator(
+                currentIndex: 3,
+                onAnimationEnd: () {
+                  animationController.forward();
+                },
+                animatedOnStart: widget.animateOnStart,
               ),
               Expanded(
                 child: Container(
@@ -158,7 +163,7 @@ class _CreateWalletPrivateKeyShowViewState
                           isActive: pageController.buttonNextActivated,
                           onTap: (activate) {
                             if (activate) {
-                              widget.onConfirm();
+                              widget.onValid();
                             }
                           },
                           icon: IconsAsset.arrowIcon,

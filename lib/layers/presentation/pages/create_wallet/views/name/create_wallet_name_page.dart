@@ -83,7 +83,6 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                       child: Observer(
                         builder: (context) {
                           return GradientTextFieldWidget(
-                            value: pageController.currentName,
                             errorText: pageController.nameFieldState !=
                                     GradientTextFieldState.invalid
                                 ? null
