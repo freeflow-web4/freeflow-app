@@ -16,7 +16,7 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 
 class CreateWalletFlowerNameView extends StatefulWidget {
   final bool animatedOnStart;
-  final void Function() onValid;
+  final void Function(FlowerNameFormModel) onValid;
   const CreateWalletFlowerNameView({
     Key? key,
     required this.animatedOnStart,
@@ -144,7 +144,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
       0,
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
     );
-    widget.onValid();
+    widget.onValid(flowerNameFormModel);
     animationController.animateTo(
       1,
       duration: Duration.zero,

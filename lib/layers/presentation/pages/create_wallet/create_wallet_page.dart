@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/flower_name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_page.dart';
@@ -141,7 +142,8 @@ class _CreateWalletPageState extends State<CreateWalletPage>
     });
   }
 
-  void onFlowerNamePageValid() {
+  void onFlowerNamePageValid(FlowerNameFormModel flowerNameFormModel) {
+    //TODO: add logic here
     setState(() {
       currentIndex = 3;
       lastIndex = 2;
@@ -149,6 +151,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
   }
 
   void onShowPrivateKeyPageValid() {
+    //TODO: add logic here
     setState(() {
       currentIndex = 4;
       lastIndex = 3;
@@ -156,6 +159,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
   }
 
   void onConfirmPrivateKeyPageValid() {
+    //TODO: add logic here
     setState(() {
       currentIndex = 5;
       lastIndex = 4;
