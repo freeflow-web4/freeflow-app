@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
+import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_button_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_image_widget.dart';
@@ -100,7 +101,10 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                   ),
                   const SizedBox(height: mdSpacing),
                   const CustomDividerWidget(horizontalPadding: mdSpacingx2),
-                  SmallProfileButtons(screenHeight: screenHeight),
+                  SmallProfileButtons(
+                    screenHeight: screenHeight,
+                    onTapCommitment: () => showCommitmentBottomSheet(),
+                  ),
                 ],
               ),
               Positioned(
@@ -126,6 +130,23 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
             ],
           );
         },
+      ),
+    );
+  }
+
+  showCommitmentBottomSheet() {
+    return showFlexBottomSheet(
+      context,
+      textH6(
+        context,
+        textKey: 'profile.commitment',
+        textAlign: TextAlign.center,
+      ),
+      Center(
+        child: textSubtitle(
+          context,
+          textKey: 'profile.commitmentContent',
+        ),
       ),
     );
   }
