@@ -58,9 +58,8 @@ class _TranscriptViewState extends State<TranscriptView> {
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
         builder: (context) {
-          if (widget.walletController.trasncriptViewState ==
-                  ViewState.loading ||
-              transcriptList == null) {
+          if (widget.walletController
+              .walletOrTranscripIsLoadingOrNull(transcriptList)) {
             return content(isLoading: true);
           } else if ((transcriptList ?? []).isEmpty) {
             return const CustomRoundedCard(
