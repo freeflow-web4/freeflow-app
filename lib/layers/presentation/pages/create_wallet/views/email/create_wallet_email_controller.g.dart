@@ -57,6 +57,22 @@ mixin _$CreateWalletEmailController on _CreateWalletEmailControllerBase, Store {
     });
   }
 
+  final _$currentEmailAtom =
+      Atom(name: '_CreateWalletEmailControllerBase.currentEmail');
+
+  @override
+  String get currentEmail {
+    _$currentEmailAtom.reportRead();
+    return super.currentEmail;
+  }
+
+  @override
+  set currentEmail(String value) {
+    _$currentEmailAtom.reportWrite(value, super.currentEmail, () {
+      super.currentEmail = value;
+    });
+  }
+
   final _$_CreateWalletEmailControllerBaseActionController =
       ActionController(name: '_CreateWalletEmailControllerBase');
 
@@ -73,7 +89,8 @@ mixin _$CreateWalletEmailController on _CreateWalletEmailControllerBase, Store {
   }
 
   @override
-  void onNextButtonPressed(void Function() onValid, void Function() onInvalid) {
+  void onNextButtonPressed(
+      void Function(EmailFormModel) onValid, void Function() onInvalid) {
     final _$actionInfo =
         _$_CreateWalletEmailControllerBaseActionController.startAction(
             name: '_CreateWalletEmailControllerBase.onNextButtonPressed');
@@ -90,6 +107,7 @@ mixin _$CreateWalletEmailController on _CreateWalletEmailControllerBase, Store {
     return '''
 privateKeyFieldState: ${privateKeyFieldState},
 formValid: ${formValid},
+currentEmail: ${currentEmail},
 buttonNextActivated: ${buttonNextActivated},
 isEmailValid: ${isEmailValid}
     ''';

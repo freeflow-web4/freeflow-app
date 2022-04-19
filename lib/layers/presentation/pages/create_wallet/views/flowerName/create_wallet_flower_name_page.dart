@@ -6,8 +6,9 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_animations.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/flower_name_form_model.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_animations.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
@@ -34,9 +35,9 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  final pageController = CreateWalletEmailController();
+  final pageController = CreateWalletFlowerNameController();
 
-  late final animations = CreateWalletEmailAnimations(animationController);
+  late final animations = CreateWalletFlowerNameAnimations(animationController);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                     child: Observer(
                       builder: (context) {
                         return GradientTextFieldWidget(
-                          errorText: pageController.privateKeyFieldState !=
+                          errorText: pageController.gradientTextFieldState !=
                                   GradientTextFieldState.invalid
                               ? null
                               : TranslationService.translate(
@@ -83,8 +84,8 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                             context,
                             'createWallet.flowerNameTextFieldHint',
                           ),
-                          onChanged: pageController.onNameChanged,
-                          isFieldValid: pageController.isEmailValid,
+                          onChanged: pageController.onFlowerNameChanged,
+                          isFieldValid: pageController.isGradientTextFieldValid,
                           sufixWidget: (color) => textSubtitle3(
                             context,
                             textKey: '.flw',
@@ -138,7 +139,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
     );
   }
 
-  void onValid() async {
+  void onValid(FlowerNameFormModel flowerNameFormModel) async {
     await animationController.animateTo(
       0,
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),

@@ -59,6 +59,22 @@ mixin _$CreateWalletFlowerNameController
     });
   }
 
+  final _$currentFlowerNameAtom =
+      Atom(name: '_CreateWalletEmailControllerBase.currentFlowerName');
+
+  @override
+  String get currentFlowerName {
+    _$currentFlowerNameAtom.reportRead();
+    return super.currentFlowerName;
+  }
+
+  @override
+  set currentFlowerName(String value) {
+    _$currentFlowerNameAtom.reportWrite(value, super.currentFlowerName, () {
+      super.currentFlowerName = value;
+    });
+  }
+
   final _$_CreateWalletEmailControllerBaseActionController =
       ActionController(name: '_CreateWalletEmailControllerBase');
 
@@ -76,7 +92,8 @@ mixin _$CreateWalletFlowerNameController
   }
 
   @override
-  void onNextButtonPressed(void Function() onValid, void Function() onInvalid) {
+  void onNextButtonPressed(
+      void Function(FlowerNameFormModel) onValid, void Function() onInvalid) {
     final _$actionInfo =
         _$_CreateWalletEmailControllerBaseActionController.startAction(
             name: '_CreateWalletEmailControllerBase.onNextButtonPressed');
@@ -93,6 +110,7 @@ mixin _$CreateWalletFlowerNameController
     return '''
 gradientTextFieldState: ${gradientTextFieldState},
 formValid: ${formValid},
+currentFlowerName: ${currentFlowerName},
 buttonNextActivated: ${buttonNextActivated},
 isGradientTextFieldValid: ${isGradientTextFieldValid}
     ''';

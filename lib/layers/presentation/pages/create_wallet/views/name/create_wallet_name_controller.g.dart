@@ -86,7 +86,8 @@ mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
   }
 
   @override
-  void onNextButtonPressed(void Function() onValid, void Function() onInvalid) {
+  void onNextButtonPressed(
+      void Function(NameFormModel) onValid, void Function() onInvalid) {
     final _$actionInfo = _$_CreateWalletControllerBaseActionController
         .startAction(name: '_CreateWalletControllerBase.onNextButtonPressed');
     try {

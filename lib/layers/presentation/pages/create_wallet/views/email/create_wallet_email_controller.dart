@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/validators/email_validator.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:mobx/mobx.dart';
@@ -21,6 +22,9 @@ abstract class _CreateWalletEmailControllerBase with Store {
   @observable
   bool formValid = false;
 
+  @observable
+  String currentEmail = '';
+
   @action
   void onNameChanged(String value) {
     if (value.trim().isEmpty) {
@@ -31,18 +35,25 @@ abstract class _CreateWalletEmailControllerBase with Store {
     } else {
       privateKeyFieldState = GradientTextFieldState.invalid;
       formValid = false;
+      currentEmail = value;
     }
   }
 
   @action
   void onNextButtonPressed(
-    void Function() onValid,
+    void Function(EmailFormModel email) onValid,
     void Function() onInvalid,
   ) {
     if (formValid) {
-      onValid();
+      onValid(getEmailFormModel());
     } else {
       onInvalid();
     }
+  }
+
+  EmailFormModel getEmailFormModel() {
+    return EmailFormModel(
+      email: currentEmail,
+    );
   }
 }

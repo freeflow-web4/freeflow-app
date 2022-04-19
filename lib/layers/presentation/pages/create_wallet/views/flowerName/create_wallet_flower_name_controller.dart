@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/flower_name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/validators/name_validator.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:mobx/mobx.dart';
@@ -21,6 +22,9 @@ abstract class _CreateWalletEmailControllerBase with Store {
   @observable
   bool formValid = false;
 
+  @observable
+  String currentFlowerName = '';
+
   @action
   void onFlowerNameChanged(String value) {
     if (value.trim().isEmpty) {
@@ -36,13 +40,19 @@ abstract class _CreateWalletEmailControllerBase with Store {
 
   @action
   void onNextButtonPressed(
-    void Function() onValid,
+    void Function(FlowerNameFormModel flowerNameForm) onValid,
     void Function() onInvalid,
   ) {
     if (formValid) {
-      onValid();
+      onValid(getFlowerNameFormModel());
     } else {
       onInvalid();
     }
+  }
+
+  FlowerNameFormModel getFlowerNameFormModel() {
+    return FlowerNameFormModel(
+      flowerName: currentFlowerName,
+    );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_page.dart';
@@ -122,14 +124,17 @@ class _CreateWalletPageState extends State<CreateWalletPage>
     );
   }
 
-  void onNamePageValid() {
+  void onNamePageValid(NameFormModel nameFormModel) {
+    //TODO: add logic here
+
     setState(() {
       currentIndex = 1;
       lastIndex = 0;
     });
   }
 
-  void onEmailPageValid() {
+  void onEmailPageValid(EmailFormModel emailFormModel) {
+    //TODO: add logic here
     setState(() {
       currentIndex = 2;
       lastIndex = 1;

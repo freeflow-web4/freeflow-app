@@ -7,6 +7,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
@@ -16,7 +17,7 @@ part './create_wallet_animations.dart';
 
 class CreateWalletNameView extends StatefulWidget {
   final bool animatedOnStart;
-  final void Function() onValid;
+  final void Function(NameFormModel nameFormModel) onValid;
 
   const CreateWalletNameView({
     Key? key,
@@ -146,12 +147,12 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
     );
   }
 
-  void onValid() async {
+  void onValid(NameFormModel nameFormModel) async {
     await animationController.animateTo(
       0,
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
     );
-    widget.onValid();
+    widget.onValid(nameFormModel);
     animationController.animateTo(
       1,
       duration: Duration.zero,
