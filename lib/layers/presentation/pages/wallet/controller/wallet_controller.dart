@@ -5,7 +5,6 @@ import 'package:freeflow/layers/domain/usecases/transcript_get_list/get_transcri
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-
 part 'wallet_controller.g.dart';
 
 enum ViewContentType { transcript, flwr, collectibles }
@@ -14,19 +13,34 @@ enum ViewState { start, loading, done, error }
 class WalletController = WalletControllerBase with _$WalletController;
 
 abstract class WalletControllerBase with Store {
+  GetTranscripListUsecase getTranscripListUsecase =
+      GetIt.I.get<GetTranscripListUsecase>();
+
   @observable
   int index = 0;
 
   @observable
   ViewState trasncriptViewState = ViewState.start;
 
-  String? selectedFilterOption;
+  @observable
+  ViewState walletViewState = ViewState.start;
 
   @observable
   ViewContentType viewContentType = ViewContentType.transcript;
 
-  GetTranscripListUsecase getTranscripListUsecase =
-      GetIt.I.get<GetTranscripListUsecase>();
+  @computed
+  bool get walletIsLoading => walletViewState == ViewState.loading;
+  @computed
+  bool get transcriptIsLoading => walletViewState == ViewState.loading;
+  @computed
+  bool get isTranscriptError => trasncriptViewState == ViewState.error;
+  @computed
+  bool walletOrTranscripIsLoadingOrNull(
+    List<TranscriptEntity>? transcriptList,
+  ) =>
+      trasncriptViewState == ViewState.loading ||
+      transcriptList == null ||
+      walletViewState == ViewState.loading;
 
   @action
   Future<List<TranscriptEntity>> getTranscriptList() async {
@@ -43,5 +57,14 @@ abstract class WalletControllerBase with Store {
     return transcriptList;
   }
 
-  
+  @action
+  Future<void> refreshData() async {
+    try {
+      walletViewState = ViewState.loading;
+      await getTranscriptList();
+      walletViewState = ViewState.done;
+    } catch (e) {
+      walletViewState = ViewState.error;
+    }
+  }
 }
