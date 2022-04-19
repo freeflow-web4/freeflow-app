@@ -55,6 +55,22 @@ mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
     });
   }
 
+  final _$currentNameAtom =
+      Atom(name: '_CreateWalletControllerBase.currentName');
+
+  @override
+  String get currentName {
+    _$currentNameAtom.reportRead();
+    return super.currentName;
+  }
+
+  @override
+  set currentName(String value) {
+    _$currentNameAtom.reportWrite(value, super.currentName, () {
+      super.currentName = value;
+    });
+  }
+
   final _$_CreateWalletControllerBaseActionController =
       ActionController(name: '_CreateWalletControllerBase');
 
@@ -85,6 +101,7 @@ mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
     return '''
 nameFieldState: ${nameFieldState},
 formValid: ${formValid},
+currentName: ${currentName},
 buttonNextActivated: ${buttonNextActivated},
 isGradientTextFieldValid: ${isGradientTextFieldValid}
     ''';

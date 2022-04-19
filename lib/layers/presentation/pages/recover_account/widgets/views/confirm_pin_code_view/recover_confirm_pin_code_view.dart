@@ -115,7 +115,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                               )
                             : null,
                         textController: widget.textEditingController,
-                        pinCode: viewController.currentConfirmPinCode,
+                        value: viewController.currentConfirmPinCode,
                       );
                     },
                   ),

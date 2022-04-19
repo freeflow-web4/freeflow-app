@@ -1,49 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_controller.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
-part './create_wallet_animations.dart';
+import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
+import 'package:get_it/get_it.dart';
+part 'create_wallet_pin_code_animations.dart';
 
-class CreateWalletNameView extends StatefulWidget {
+class CreateWalletPinCodeView extends StatefulWidget {
   final bool animatedOnStart;
   final void Function() onValid;
 
-  const CreateWalletNameView({
+  const CreateWalletPinCodeView({
     Key? key,
     required this.animatedOnStart,
     required this.onValid,
   }) : super(key: key);
 
   @override
-  State<CreateWalletNameView> createState() => _CreateWalletNameViewState();
+  State<CreateWalletPinCodeView> createState() =>
+      _CreateWalletPinCodeViewState();
 }
 
-class _CreateWalletNameViewState extends State<CreateWalletNameView>
+class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
     with TickerProviderStateMixin, TextThemes {
   static const _totalDuration = Duration(milliseconds: 3600);
 
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  late final animations = CreateWalletPageAnimations(animationController);
+  late final animations =
+      CreateWalletPinCodePageAnimations(animationController);
 
-  final pageController = CreateWalletNameController();
+  final pageController = GetIt.I.get<CreateWalletPinCodeController>();
 
   @override
-  void initState() {
-    super.initState();
-    if (!widget.animatedOnStart) {
-      animationController.animateTo(1, duration: Duration.zero);
+  void didUpdateWidget(covariant CreateWalletPinCodeView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.animatedOnStart != widget.animatedOnStart) {
+      if (widget.animatedOnStart) {
+        animationController.forward();
+      }
     }
   }
 
@@ -67,7 +74,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                     AnimatedText(
                       text: TranslationService.translate(
                         context,
-                        "createWallet.nameTitle1",
+                        "createWallet.pinCodeTitle1",
                       ),
                       animationController: animationController,
                       style:
@@ -83,50 +90,76 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                       child: Observer(
                         builder: (context) {
                           return GradientTextFieldWidget(
-                            value: pageController.currentName,
-                            errorText: pageController.nameFieldState !=
-                                    GradientTextFieldState.invalid
-                                ? null
-                                : TranslationService.translate(
-                                    context,
-                                    'createWallet.nameTextFieldError',
-                                  ),
+                            showObscureButton: true,
+                            fieldReadOnly: true,
                             hintText: TranslationService.translate(
                               context,
-                              'createWallet.nameTextFieldHint',
+                              'createWallet.pinCodeTextFieldHint',
                             ),
-                            onChanged: pageController.onNameChanged,
+                            onChanged: pageController.onPinChanged,
                             isFieldValid:
                                 pageController.isGradientTextFieldValid,
+                            isPinInput: true,
+                            value: pageController.currentPinCode,
+                            isObscureText: pageController.isPinObscure,
+                            onObscureButtonPressed:
+                                pageController.onPinObscureTextFieldTap,
                           );
                         },
                       ),
                     ),
-                    const SizedBox(
-                      height: xxlargeSpacing,
+                    Row(
+                      children: [
+                        Text(
+                          TranslationService.translate(
+                            context,
+                            'createWallet.pinCodeTitle2',
+                          ),
+                          style: subtitleTextStyle.copyWith(
+                            color: StandardColors.white,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: mdSpacingx2,
+                        ),
+                        Observer(
+                          builder: (context) {
+                            return CustomSwitch(
+                              value: pageController.rememberMe,
+                              onChanged: pageController.onRememberMeChanged,
+                            );
+                          },
+                        )
+                      ],
                     ),
-                    CreateWalletPageIndicator(
-                      currentIndex: 0,
-                      onAnimationEnd: () {
-                        animationController.forward();
-                      },
-                      animatedOnStart: widget.animatedOnStart,
-                    )
+                    const SizedBox(
+                      height: mdSpacingx2,
+                    ),
+                    Opacity(
+                      opacity: animationController.value,
+                      child: InAppKeyboardWidget(
+                        onTap: pageController.onKeyboardTap,
+                      ),
+                    ),
                   ],
                 ),
               ),
               Expanded(
                 child: Container(
                   alignment: Alignment.bottomCenter,
-                  padding: const EdgeInsets.only(
-                    bottom: bigSpacing,
+                  padding: EdgeInsets.only(
+                    top: getProportionalHeightFromValue(
+                      context,
+                      huge3Spacing,
+                    ),
+                    bottom: largeSpacing,
                   ),
                   child: Opacity(
                     opacity: animations.confirmButtonAnimationOpacity.value,
                     child: Observer(
                       builder: (context) {
                         return AnimatedFloatButtonWidget(
-                          isActive: pageController.buttonNextActivated,
+                          isActive: pageController.formValid,
                           onTap: (activate) {
                             pageController.onNextButtonPressed(
                               onValid,

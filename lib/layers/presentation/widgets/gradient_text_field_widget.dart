@@ -24,7 +24,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final bool fieldReadOnly;
   final bool isPinInput;
   final bool isFieldValid;
-  final String? pinCode;
+  final String? value;
   final Color? obscureButtonColor;
   final Widget Function(Color)? sufixWidget;
   final void Function(String text)? onEditingComplete;
@@ -45,7 +45,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.onObscureButtonPressed,
     this.fieldReadOnly = false,
     this.isPinInput = false,
-    this.pinCode,
+    this.value,
     this.obscureButtonColor,
     this.sufixWidget,
     this.onEditingComplete,
@@ -67,8 +67,8 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
   @override
   void didUpdateWidget(covariant GradientTextFieldWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.pinCode != widget.pinCode) {
-      if (widget.pinCode != null) {
+    if (oldWidget.value != widget.value) {
+      if (widget.value != null) {
         setState(() {});
       }
     }
@@ -85,10 +85,11 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             widget.isObscureText == true
                 ? SizedBox(
                     width: double.infinity,
-                    child: (widget.hintText?.trim().isNotEmpty ?? false)
+                    child: (widget.hintText?.trim().isNotEmpty ?? false) &&
+                            (widget.value ?? '').isEmpty
                         ? Padding(
                             padding: const EdgeInsets.only(
-                              top: 12,
+                              top: 11,
                               bottom: 12,
                             ),
                             child: Text(
@@ -108,7 +109,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                               height: 12,
                               alignment: Alignment.centerLeft,
                               child: GradientTextFieldPinCode(
-                                pinCode: widget.pinCode ?? '',
+                                pinCode: widget.value ?? '',
                                 color: widget.errorText?.isNotEmpty == true
                                     ? StandardColors.error
                                     : null,
@@ -118,9 +119,9 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                   )
                 : TextFormField(
                     key: ValueKey(
-                      'key_for_text_field${widget.pinCode}',
+                      'key_for_text_field${widget.value}',
                     ),
-                    initialValue: widget.pinCode,
+                    initialValue: widget.value,
                     onChanged: (text) {
                       _onInputChanged(text);
                       widget.onChanged?.call(text);

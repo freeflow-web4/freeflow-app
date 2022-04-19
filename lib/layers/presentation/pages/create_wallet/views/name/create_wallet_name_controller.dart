@@ -21,6 +21,9 @@ abstract class _CreateWalletControllerBase with Store {
   @observable
   bool formValid = false;
 
+  @observable
+  String currentName = "";
+
   @action
   void onNameChanged(String value) {
     if (value.trim().isEmpty) {
@@ -28,6 +31,7 @@ abstract class _CreateWalletControllerBase with Store {
     } else if (CreateWalletNameValidator.isValid(value)) {
       nameFieldState = GradientTextFieldState.valid;
       formValid = true;
+      currentName = value;
     } else {
       nameFieldState = GradientTextFieldState.invalid;
       formValid = false;

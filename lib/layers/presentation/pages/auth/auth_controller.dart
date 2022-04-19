@@ -24,6 +24,7 @@ abstract class AuthControllerBase with Store, Login {
   @observable
   bool isPinObscure = true;
 
+  @action
   void updateCurrentPinCode(String value) {
     currentPinCode = value;
   }

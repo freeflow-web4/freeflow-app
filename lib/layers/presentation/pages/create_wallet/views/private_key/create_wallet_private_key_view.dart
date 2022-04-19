@@ -3,12 +3,12 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_k
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_page.dart';
 
 class CreateWalletPrivateKeyView extends StatefulWidget {
-  final bool isCurrent;
+  final bool animatedOnStart;
   final void Function() onValid;
   final String privateKey;
   const CreateWalletPrivateKeyView({
     Key? key,
-    required this.isCurrent,
+    required this.animatedOnStart,
     required this.onValid,
     required this.privateKey,
   }) : super(key: key);

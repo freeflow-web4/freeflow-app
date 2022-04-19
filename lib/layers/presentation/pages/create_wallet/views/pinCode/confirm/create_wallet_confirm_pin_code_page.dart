@@ -8,45 +8,47 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/create_wallet_pin_code_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
-part 'create_wallet_pin_code_animations.dart';
+import 'package:get_it/get_it.dart';
+part 'create_wallet_confirm_pin_code_animations.dart';
 
-class CreateWalletPinCodeView extends StatefulWidget {
-  final bool isCurrent;
+class CreateWalletConfirmPinCodeView extends StatefulWidget {
+  final bool animatedOnStart;
   final void Function() onValid;
 
-  const CreateWalletPinCodeView({
+  const CreateWalletConfirmPinCodeView({
     Key? key,
-    required this.isCurrent,
+    required this.animatedOnStart,
     required this.onValid,
   }) : super(key: key);
 
   @override
-  State<CreateWalletPinCodeView> createState() =>
-      _CreateWalletPinCodeViewState();
+  State<CreateWalletConfirmPinCodeView> createState() =>
+      _CreateWalletConfirmPinCodeViewState();
 }
 
-class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
+class _CreateWalletConfirmPinCodeViewState extends State<CreateWalletConfirmPinCodeView>
     with TickerProviderStateMixin, TextThemes {
   static const _totalDuration = Duration(milliseconds: 3600);
 
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  late final animations = CreateWalletPinCodePageAnimations(animationController);
+  late final animations =
+      CreateWalletConfirmPinCodePageAnimations(animationController);
 
-  final pageController = CreateWalletPinCodeController();
+  final pageController = GetIt.I.get<CreateWalletPinCodeController>();
 
   @override
-  void didUpdateWidget(covariant CreateWalletPinCodeView oldWidget) {
+  void didUpdateWidget(covariant CreateWalletConfirmPinCodeView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.isCurrent != widget.isCurrent) {
-      if (widget.isCurrent) {
+    if (oldWidget.animatedOnStart != widget.animatedOnStart) {
+      if (widget.animatedOnStart) {
         animationController.forward();
       }
     }
@@ -94,13 +96,14 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                               context,
                               'createWallet.pinCodeTextFieldHint',
                             ),
-                            onChanged: pageController.onNameChanged,
+                            onChanged: pageController.onPinChanged,
                             isFieldValid:
                                 pageController.isGradientTextFieldValid,
                             isPinInput: true,
-                            //TODO: add controller here
-                            pinCode: "",
+                            value: pageController.currentPinCode,
                             isObscureText: pageController.isPinObscure,
+                            onObscureButtonPressed:
+                                pageController.onPinObscureTextFieldTap,
                           );
                         },
                       ),
@@ -119,10 +122,12 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                         const SizedBox(
                           width: mdSpacingx2,
                         ),
-                        CustomSwitch(
-                          value: false,
-                          onChanged: (value) {
-                            //TODO: call controller here
+                        Observer(
+                          builder: (context) {
+                            return CustomSwitch(
+                              value: pageController.rememberMe,
+                              onChanged: pageController.onRememberMeChanged,
+                            );
                           },
                         )
                       ],
@@ -133,9 +138,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                     Opacity(
                       opacity: animationController.value,
                       child: InAppKeyboardWidget(
-                        onTap: (key) {
-                          //TODO: call controller here
-                        },
+                        onTap: pageController.onKeyboardTap,
                       ),
                     ),
                   ],
@@ -156,7 +159,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                     child: Observer(
                       builder: (context) {
                         return AnimatedFloatButtonWidget(
-                          isActive: pageController.buttonNextActivated,
+                          isActive: pageController.formValid,
                           onTap: (activate) {
                             pageController.onNextButtonPressed(
                               onValid,

@@ -9,16 +9,18 @@ import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_animations.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:get_it/get_it.dart';
 
 class CreateWalletEmailView extends StatefulWidget {
-  final bool isCurrent;
+  final bool animatedOnStart;
   final void Function() onValid;
   const CreateWalletEmailView({
     Key? key,
-    required this.isCurrent,
+    required this.animatedOnStart,
     required this.onValid,
   }) : super(key: key);
 
@@ -33,17 +35,15 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  final pageController = CreateWalletEmailController();
-
   late final animations = CreateWalletEmailAnimations(animationController);
 
+  final pageController = GetIt.I.get<CreateWalletEmailController>();
+
   @override
-  void didUpdateWidget(covariant CreateWalletEmailView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.isCurrent != widget.isCurrent) {
-      if (widget.isCurrent) {
-        animationController.forward();
-      }
+  void initState() {
+    super.initState();
+    if (!widget.animatedOnStart) {
+      animationController.animateTo(1, duration: Duration.zero);
     }
   }
 
@@ -97,6 +97,16 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                         );
                       },
                     ),
+                  ),
+                  const SizedBox(
+                    height: xxlargeSpacing,
+                  ),
+                  CreateWalletPageIndicator(
+                    currentIndex: 1,
+                    onAnimationEnd: () {
+                      animationController.forward();
+                    },
+                    animatedOnStart: widget.animatedOnStart,
                   ),
                   Expanded(
                     child: Container(

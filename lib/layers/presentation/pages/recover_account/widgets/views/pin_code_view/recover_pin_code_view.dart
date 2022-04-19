@@ -122,7 +122,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                               )
                             : null,
                         textController: widget.textEditingController,
-                        pinCode: viewController.currentPinCode,
+                        value: viewController.currentPinCode,
                       );
                     },
                   ),

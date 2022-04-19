@@ -40,6 +40,21 @@ class _CustomSwitchState extends State<CustomSwitch>
             end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
         .animate(CurvedAnimation(
             parent: _animationController, curve: Curves.linear));
+    if (widget.value) {
+      _animationController.forward();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomSwitch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      if (widget.value) {
+        _animationController.forward();
+      } else {
+        _animationController.reverse();
+      }
+    }
   }
 
   @override
@@ -49,11 +64,11 @@ class _CustomSwitchState extends State<CustomSwitch>
       builder: (context, child) {
         return GestureDetector(
           onTap: () {
-            if (_animationController.isCompleted) {
-              _animationController.reverse();
-            } else {
-              _animationController.forward();
-            }
+            // if (_animationController.isCompleted) {
+            //   _animationController.reverse();
+            // } else {
+            //   _animationController.forward();
+            // }
             widget.value == false
                 ? widget.onChanged(true)
                 : widget.onChanged(false);

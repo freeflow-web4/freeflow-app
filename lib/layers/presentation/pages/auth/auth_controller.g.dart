@@ -66,6 +66,17 @@ mixin _$AuthController on AuthControllerBase, Store {
       ActionController(name: 'AuthControllerBase');
 
   @override
+  void updateCurrentPinCode(String value) {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.updateCurrentPinCode');
+    try {
+      return super.updateCurrentPinCode(value);
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void onPinChanged(String value) {
     final _$actionInfo = _$AuthControllerBaseActionController.startAction(
         name: 'AuthControllerBase.onPinChanged');

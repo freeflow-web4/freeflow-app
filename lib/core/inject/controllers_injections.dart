@@ -2,6 +2,9 @@ import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.da
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/confirm/create_wallet_confirm_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/confirm_pin_code_view/recover_confirm_pin_code_view_controller.dart';
@@ -61,6 +64,24 @@ registerControllerDependencies(GetIt getIt) {
     () => RecoverPrivateKeyController(
       validator: getIt.get<PrivateKeyValidator>(),
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
+    ),
+  );
+
+  getIt.registerFactory<CreateWalletEmailController>(
+    () => CreateWalletEmailController(),
+  );
+
+  getIt.registerFactory<CreateWalletPinCodeController>(
+    () => CreateWalletPinCodeController(
+      biometricDriver: getIt.get<BiometricAuthDriver>(),
+      pinValidator: getIt.get<PinValidator>(),
+    ),
+  );
+
+  getIt.registerFactory<CreateWalletConfirmPinCodeController>(
+    () => CreateWalletConfirmPinCodeController(
+      biometricDriver: getIt.get<BiometricAuthDriver>(),
+      pinValidator: getIt.get<PinValidator>(),
     ),
   );
 }

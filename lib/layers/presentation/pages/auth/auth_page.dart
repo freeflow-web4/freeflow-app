@@ -91,7 +91,7 @@ class _AuthPageState extends State<AuthPage>
                     child: Observer(
                       builder: (context) {
                         return GradientTextFieldWidget(
-                          pinCode: authController.currentPinCode,
+                          value: authController.currentPinCode,
                           onChanged: (_) {},
                           isFieldValid: authController.pinFieldState !=
                               GradientTextFieldState.invalid,
