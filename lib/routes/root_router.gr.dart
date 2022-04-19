@@ -13,6 +13,7 @@
 import 'package:auto_route/auto_route.dart' as _i13;
 import 'package:flutter/material.dart' as _i14;
 
+import '../layers/domain/entities/profile_entity.dart' as _i15;
 import '../layers/presentation/pages/auth/auth_page.dart' as _i10;
 import '../layers/presentation/pages/cut_image/cut_image_page.dart' as _i2;
 import '../layers/presentation/pages/edit_profile/edit_profile_page.dart'
@@ -47,8 +48,10 @@ class RootRouter extends _i13.RootStackRouter {
           child: _i2.CutImagePage(key: args.key, imageUrl: args.imageUrl));
     },
     EditProfileRoute.name: (routeData) {
+      final args = routeData.argsAs<EditProfileRouteArgs>();
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.EditProfilePage());
+          routeData: routeData,
+          child: _i3.EditProfilePage(key: args.key, user: args.user));
     },
     WelcomeRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
@@ -141,11 +144,26 @@ class CutImageRouteArgs {
 
 /// generated route for
 /// [_i3.EditProfilePage]
-class EditProfileRoute extends _i13.PageRouteInfo<void> {
-  const EditProfileRoute()
-      : super(EditProfileRoute.name, path: '/edit-profile-page');
+class EditProfileRoute extends _i13.PageRouteInfo<EditProfileRouteArgs> {
+  EditProfileRoute({_i14.Key? key, required _i15.ProfileEntity user})
+      : super(EditProfileRoute.name,
+            path: '/edit-profile-page',
+            args: EditProfileRouteArgs(key: key, user: user));
 
   static const String name = 'EditProfileRoute';
+}
+
+class EditProfileRouteArgs {
+  const EditProfileRouteArgs({this.key, required this.user});
+
+  final _i14.Key? key;
+
+  final _i15.ProfileEntity user;
+
+  @override
+  String toString() {
+    return 'EditProfileRouteArgs{key: $key, user: $user}';
+  }
 }
 
 /// generated route for

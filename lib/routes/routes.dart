@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
@@ -48,8 +49,9 @@ class Routes {
     _routeService.pushReplacement(const WalletRoute());
   }
 
-  void goToEditProfilePageRoute() {
-    _routeService.push(const EditProfileRoute());
+  Future<ProfileEntity?> goToEditProfilePageRoute(ProfileEntity profileEntity) async {
+    final RouteResponse? response = await _routeService.push( EditProfileRoute(user: profileEntity));
+    return response?.body;
   }
 
   Future<Uint8List?> goToCutImagePageRoute(String imageUrl) async {
@@ -64,6 +66,11 @@ class Routes {
 
   void backToEditProfile(Uint8List file) {
     RouteResponse data = RouteResponse(body: file);
+    _routeService.pop(data: data);
+  }
+
+  void backToProfile(ProfileEntity? profileEntity) {
+    RouteResponse data = RouteResponse(body: profileEntity);
     _routeService.pop(data: data);
   }
 

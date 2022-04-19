@@ -7,6 +7,7 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/collectibles_entity.dart';
+import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/routes/routes.dart';
@@ -15,7 +16,8 @@ import 'package:shimmer/shimmer.dart';
 import 'controller/edit_profile_controller.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+  final ProfileEntity user;
+  const EditProfilePage({Key? key, required this. user}) : super(key: key);
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -29,7 +31,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   @override
   void initState() {
     super.initState();
-    editController.getUser();
+    editController.controllerName.text = widget.user.displayName;
     _scrollController.addListener(() async {
       if(canGetMoreCollectibles()){
         await editController.getMoreCollectibles();
@@ -208,7 +210,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                 enabled: editController.pageState != PageState.loadingSendData,
                                 onChanged: (text) {
                                   setState(() {
-                                    if(editController.controllerName.text.substring(0,1) == ' '){
+                                    if(editController.controllerName.text.isNotEmpty && editController.controllerName.text.substring(0,1) == ' '){
                                       editController.controllerName.text = editController.controllerName.text.substring(1);
                                     }
                                   });
@@ -239,7 +241,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Poppins',
                                   ),
-                                  suffixIcon: editController.controllerName.text.isNotEmpty ? IconButton(
+                                  suffixIcon: editController.controllerName.text != '' ? IconButton(
                                     onPressed: (){
                                       setState(() {
                                         editController.controllerName.text = '';
@@ -321,9 +323,9 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   Widget imageUser() {
-    if(editController.user?.profileImageUrl != null && editController.imageBytes == null){
+    if(widget.user.profileImageUrl != null && editController.imageBytes == null){
       return Image.network(
-        editController.user!.profileImageUrl!,
+        widget.user.profileImageUrl!,
         fit: BoxFit.cover,
         errorBuilder: (context, url, error) =>  Container(
           color: StandardColors.grey79,
@@ -366,7 +368,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
 
   void onTapSave() {
     if(editController.validateName(editController.controllerName.text, context)){
-      editController.saveProfile();
+      editController.saveProfile(widget.user);
     }
   }
 
@@ -775,7 +777,7 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
   }
 
   bool hasModifications() {
-    return editController.user?.displayName != editController.controllerName.text ||
+    return widget.user.displayName != editController.controllerName.text ||
         editController.imageBytes != null;
   }
 

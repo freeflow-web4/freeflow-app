@@ -48,5 +48,10 @@ abstract class ProfilePageControllerBase with Store {
 
   void shareAddress() => Share.share(user!.contractAddress ?? '');
 
-  void goToEditProfile() => Routes.instance.goToEditProfilePageRoute();
+  Future<void> goToEditProfile() async {
+    ProfileEntity? profile = await Routes.instance.goToEditProfilePageRoute(user!);
+    if(profile != null){
+      user = profile;
+    }
+  }
 }

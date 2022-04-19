@@ -38,8 +38,6 @@ abstract class _EditProfileControllerBase with Store {
   @observable
   Uint8List? imageBytes;
   @observable
-  ProfileEntity? user;
-  @observable
   PageState _pageState = PageState.loading;
   @observable
   PhotoSelectedState _photoSelectedState = PhotoSelectedState.all;
@@ -59,7 +57,7 @@ abstract class _EditProfileControllerBase with Store {
   });
 
   @action
-  saveProfile() async {
+  saveProfile(ProfileEntity profileEntity) async {
     _pageState = PageState.loadingSendData;
     final result = await editProfileUsecase(
         editProfileEntity: EditProfileEntity(
@@ -67,25 +65,7 @@ abstract class _EditProfileControllerBase with Store {
     result.fold(
       (l) => showDialogError(),
       (r) {
-        Routes.instance.pop();
-      },
-    );
-    _pageState = PageState.ready;
-  }
-
-  @action
-  Future<void> getUser() async {
-    _pageState = PageState.loading;
-
-    user = ProfileEntity(displayName: '', username: '', contractAddress: '');
-    final result = await getProfileUsecase();
-    result.fold(
-      (error) {
-        showDialogError();
-      },
-      (success) {
-        user = success;
-        controllerName.text = user?.displayName ?? '';
+        Routes.instance.backToProfile(r);
       },
     );
     _pageState = PageState.ready;
@@ -157,7 +137,6 @@ abstract class _EditProfileControllerBase with Store {
     hasMorePhotos = true;
     loadingMorePhotos = false;
     imageBytes = null;
-    user = null;
     _pageState = PageState.loading;
     _photoSelectedState = PhotoSelectedState.all;
     controllerName.text = '';
