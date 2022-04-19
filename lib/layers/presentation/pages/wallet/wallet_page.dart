@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
@@ -12,6 +13,7 @@ import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_tabbar.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/transcript_view.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({Key? key}) : super(key: key);
@@ -111,27 +113,50 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
       ),
       child: Column(
         children: [
-          Container(
-            alignment: Alignment.bottomLeft,
-            margin: const EdgeInsets.only(
-              bottom: normalSpacing,
+          GestureDetector(
+            onTap: () {
+              walletController.refreshData();
+            },
+            child: Container(
+              alignment: Alignment.bottomLeft,
+              margin: const EdgeInsets.only(
+                bottom: normalSpacing,
+              ),
+              child:
+                  textH6(context, textKey: 'wallet.wallet', isUpperCase: true),
             ),
-            child: textH6(context, textKey: 'wallet.wallet', isUpperCase: true),
           ),
           //TODO: awaiting data from backend (ThreeFold)
-          CustomActionCard(
-            cardHeight: 172,
-            cardWidth: double.infinity,
-            child: const TotalAmountText(totalAmount: '1111'),
-            onTapLeftAction: () {},
-            onTapRighAction: () {},
-            leftTextAction: 'wallet.deposit',
-            rightTextAction: 'wallet.exchange',
-          ),
+          Observer(builder: (context) {
+            return CustomActionCard(
+              cardHeight: 172,
+              cardWidth: double.infinity,
+              child: walletController.walletViewState == ViewState.loading
+                  ? customLoading()
+                  : const TotalAmountText(totalAmount: '1111'),
+              onTapLeftAction: () {},
+              onTapRighAction: () {},
+              leftTextAction: 'wallet.deposit',
+              rightTextAction: 'wallet.exchange',
+            );
+          }),
           const SizedBox(
             height: normalSpacing,
           )
         ],
+      ),
+    );
+  }
+
+  Widget customLoading() {
+    return const Expanded(
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: LoadingWidget(
+          isLoading: true,
+          size: 30,
+          padding: EdgeInsets.only(left: normalSpacing),
+        ),
       ),
     );
   }

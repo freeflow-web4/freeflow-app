@@ -5,7 +5,6 @@ import 'package:freeflow/layers/domain/usecases/transcript_get_list/get_transcri
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-
 part 'wallet_controller.g.dart';
 
 enum ViewContentType { transcript, flwr, collectibles }
@@ -19,6 +18,9 @@ abstract class WalletControllerBase with Store {
 
   @observable
   ViewState trasncriptViewState = ViewState.start;
+
+  @observable
+  ViewState walletViewState = ViewState.start;
 
   String? selectedFilterOption;
 
@@ -43,5 +45,14 @@ abstract class WalletControllerBase with Store {
     return transcriptList;
   }
 
-  
+  @action
+  Future<void> refreshData() async {
+    try {
+      walletViewState = ViewState.loading;
+      await getTranscriptList();
+      walletViewState = ViewState.done;
+    } catch (e) {
+      walletViewState = ViewState.error;
+    }
+  }
 }

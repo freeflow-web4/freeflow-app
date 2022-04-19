@@ -40,6 +40,22 @@ mixin _$WalletController on WalletControllerBase, Store {
     });
   }
 
+  final _$walletViewStateAtom =
+      Atom(name: 'WalletControllerBase.walletViewState');
+
+  @override
+  ViewState get walletViewState {
+    _$walletViewStateAtom.reportRead();
+    return super.walletViewState;
+  }
+
+  @override
+  set walletViewState(ViewState value) {
+    _$walletViewStateAtom.reportWrite(value, super.walletViewState, () {
+      super.walletViewState = value;
+    });
+  }
+
   final _$viewContentTypeAtom =
       Atom(name: 'WalletControllerBase.viewContentType');
 
@@ -64,11 +80,20 @@ mixin _$WalletController on WalletControllerBase, Store {
     return _$getTranscriptListAsyncAction.run(() => super.getTranscriptList());
   }
 
+  final _$refreshDataAsyncAction =
+      AsyncAction('WalletControllerBase.refreshData');
+
+  @override
+  Future<void> refreshData() {
+    return _$refreshDataAsyncAction.run(() => super.refreshData());
+  }
+
   @override
   String toString() {
     return '''
 index: ${index},
 trasncriptViewState: ${trasncriptViewState},
+walletViewState: ${walletViewState},
 viewContentType: ${viewContentType}
     ''';
   }

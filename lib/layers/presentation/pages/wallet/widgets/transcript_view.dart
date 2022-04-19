@@ -58,9 +58,9 @@ class _TranscriptViewState extends State<TranscriptView> {
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
         builder: (context) {
-          if (widget.walletController.trasncriptViewState ==
-                  ViewState.loading ||
-              transcriptList == null) {
+          if (walletOrTranscripIsLoadingOrNull(
+              controller: widget.walletController,
+              transcriptList: transcriptList)) {
             return content(isLoading: true);
           } else if ((transcriptList ?? []).isEmpty) {
             return const CustomRoundedCard(
@@ -77,6 +77,14 @@ class _TranscriptViewState extends State<TranscriptView> {
       ),
     );
   }
+
+  bool walletOrTranscripIsLoadingOrNull({
+    required WalletController controller,
+    required List<TranscriptEntity>? transcriptList,
+  }) =>
+      (controller.trasncriptViewState == ViewState.loading ||
+          transcriptList == null ||
+          controller.walletViewState == ViewState.loading);
 
   void refreshFilterIndex(int indexChild) {
     setState(() {
