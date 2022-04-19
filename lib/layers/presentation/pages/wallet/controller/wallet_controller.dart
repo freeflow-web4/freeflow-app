@@ -13,6 +13,9 @@ enum ViewState { start, loading, done, error }
 class WalletController = WalletControllerBase with _$WalletController;
 
 abstract class WalletControllerBase with Store {
+  GetTranscripListUsecase getTranscripListUsecase =
+      GetIt.I.get<GetTranscripListUsecase>();
+
   @observable
   int index = 0;
 
@@ -22,13 +25,22 @@ abstract class WalletControllerBase with Store {
   @observable
   ViewState walletViewState = ViewState.start;
 
-  String? selectedFilterOption;
-
   @observable
   ViewContentType viewContentType = ViewContentType.transcript;
 
-  GetTranscripListUsecase getTranscripListUsecase =
-      GetIt.I.get<GetTranscripListUsecase>();
+  @computed
+  bool get walletIsLoading => walletViewState == ViewState.loading;
+  @computed
+  bool get transcriptIsLoading => walletViewState == ViewState.loading;
+  @computed
+  bool get isTranscriptError => trasncriptViewState == ViewState.error;
+  @computed
+  bool walletOrTranscripIsLoadingOrNull(
+    List<TranscriptEntity>? transcriptList,
+  ) =>
+      trasncriptViewState == ViewState.loading ||
+      transcriptList == null ||
+      walletViewState == ViewState.loading;
 
   @action
   Future<List<TranscriptEntity>> getTranscriptList() async {

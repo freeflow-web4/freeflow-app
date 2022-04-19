@@ -127,19 +127,21 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
             ),
           ),
           //TODO: awaiting data from backend (ThreeFold)
-          Observer(builder: (context) {
-            return CustomActionCard(
-              cardHeight: 172,
-              cardWidth: double.infinity,
-              child: walletController.walletViewState == ViewState.loading
-                  ? customLoading()
-                  : const TotalAmountText(totalAmount: '1111'),
-              onTapLeftAction: () {},
-              onTapRighAction: () {},
-              leftTextAction: 'wallet.deposit',
-              rightTextAction: 'wallet.exchange',
-            );
-          }),
+          Observer(
+            builder: (context) {
+              return CustomActionCard(
+                cardHeight: 172,
+                cardWidth: double.infinity,
+                child: walletController.walletIsLoading
+                    ? customLoading()
+                    : const TotalAmountText(totalAmount: '1111'),
+                onTapLeftAction: () {},
+                onTapRighAction: () {},
+                leftTextAction: 'wallet.deposit',
+                rightTextAction: 'wallet.exchange',
+              );
+            },
+          ),
           const SizedBox(
             height: normalSpacing,
           )
