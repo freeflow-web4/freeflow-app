@@ -76,6 +76,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                   const SizedBox(height: huge5Spacing),
                   ProfileImageWidget(
                     onTap: () => controller.goToEditProfile(),
+                    imageUrl: controller.user!.profileImageUrl,
                   ),
                   const SizedBox(height: normalSpacing),
                   ProfileNamesWidget(
