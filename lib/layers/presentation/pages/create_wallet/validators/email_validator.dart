@@ -1,6 +1,7 @@
 class CreateWalletEmailValidator {
   static bool isValid(String value) {
-    //TODO: check email validation
-    return value.length >= 3;
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(value);
   }
 }
