@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/controller/flower_exchange_controller.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FlowerExchangeWidget extends StatelessWidget with TextThemes {
@@ -12,6 +13,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
   final TranscriptEntity transcriptEntity;
   final List<String> transferActions = ['send', 'received'];
   FlowerExchangeWidget({Key? key, required this.onTapToOpen, required this.transcriptEntity}) : super(key: key);
+  FlowerExchangeController controller = findFlowerExchangeController();
 
   @override
   Widget build(BuildContext context) {
@@ -278,4 +280,6 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
       );
     }
   }
+
+
 }
