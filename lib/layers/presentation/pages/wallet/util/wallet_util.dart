@@ -44,7 +44,7 @@ class WalletUtil {
       gratitudeType: 'received',
       userName: 'fulano',
       exchangeUsername: 'ciclano A',
-      photoUrl: 'https://picsum.photos/250?image=9'
+      photoUrl: 'https://picsum.photos/250?image=9',
     ),
     TranscriptEntity(
       id: '',
@@ -93,10 +93,17 @@ class WalletUtil {
     TranscriptEntity(
       id: '',
       viewed: false,
-      amount: '102',
-      category: 'inter_action',
+      amount: '666',
+      category: 'interactions',
       createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
+      userName: 'fulano',
+    ),
+    TranscriptEntity(
+      id: '',
+      viewed: true,
+      amount: '999',
+      category: 'interactions',
+      createdAt: '6 ds 21h',
       userName: 'fulano',
     ),
   ];

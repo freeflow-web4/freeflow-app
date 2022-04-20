@@ -89,7 +89,7 @@ class GratitudeWidget extends StatelessWidget with TextThemes{
                                       alignment: Alignment.center,
                                       margin: const EdgeInsets.symmetric(
                                         vertical: 4,
-                                        horizontal: 16,
+                                        horizontal: 8,
                                       ),
                                       child:  Text(
                                         TranslationService.translate(context, "transcript.view",),
@@ -148,68 +148,62 @@ class GratitudeWidget extends StatelessWidget with TextThemes{
   }
 
   Widget getRichText(context) {
-    //NFE
-    if(transcriptEntity.transferAction == gratitudeTypeS[0]){
+    //NFT
+    if(transcriptEntity.gratitudeType == gratitudeTypeS[0]){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
         text:  TextSpan(
           children: <TextSpan>[
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.you",),
+              text: TranslationService.translate(context, "transcript.freeflow",),
               style: transcriptBold,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.received",),
+              text: TranslationService.translate(context, "transcript.gratitude.rewardedYouWith",),
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.gratitude.aNewCollectible",),
               style: transcriptBold,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.from",),
+              text: TranslationService.translate(context, "transcript.gratitude.completedQuest",),
               style: transcriptMedium,
-            ),
-            TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', transcriptEntity.userName ?? ''),
-              style: transcriptBold,
             ),
           ],
         ),
       );
-
-      //welcome
-    }if(transcriptEntity.transferAction == gratitudeTypeS[1]){
+    }
+    //welcome
+    else if(transcriptEntity.gratitudeType == gratitudeTypeS[1]){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
         text:  TextSpan(
           children: <TextSpan>[
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.you",),
+              text: TranslationService.translate(context, "transcript.freeflow",),
               style: transcriptBold,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.received",),
+              text: TranslationService.translate(context, "transcript.gratitude.rewardedYou",),
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
               style: transcriptBold,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.from",),
+              text: TranslationService.translate(context, "transcript.gratitude.welcome",),
               style: transcriptMedium,
-            ),
-            TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', transcriptEntity.userName ?? ''),
-              style: transcriptBold,
             ),
           ],
         ),
       );
-    }else{
+    }
+    //quest
+    else{
       //quest
       return RichText(
         maxLines: 3,
@@ -217,24 +211,20 @@ class GratitudeWidget extends StatelessWidget with TextThemes{
         text:  TextSpan(
           children: <TextSpan>[
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.you",),
+              text: TranslationService.translate(context, "transcript.freeflow",),
               style: transcriptBold,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.haveSend",),
+              text: TranslationService.translate(context, "transcript.gratitude.rewardedYou",),
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
               style: transcriptBold,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.to",),
+              text: TranslationService.translate(context, "transcript.gratitude.completedQuest",),
               style: transcriptMedium,
-            ),
-            TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', transcriptEntity.exchangeUsername ?? ''),
-              style: transcriptBold,
             ),
           ],
         ),

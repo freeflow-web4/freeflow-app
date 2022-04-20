@@ -216,7 +216,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
               style: transcriptBold,
             ),
             TextSpan(
@@ -246,7 +246,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
               style: transcriptBold,
             ),
             TextSpan(

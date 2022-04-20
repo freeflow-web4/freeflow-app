@@ -12,7 +12,8 @@ import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/flower_exchange_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/gratidude_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/gratitude_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/interactions/interactions_widget.dart';
 
 class TranscriptView extends StatefulWidget {
   final WalletController walletController;
@@ -223,13 +224,14 @@ class _TranscriptViewState extends State<TranscriptView> {
   }
 
   Widget getKindOfTranscript(TranscriptEntity transcript) {
-    print('transcript ${transcript.category}');
     switch(transcript.category){
       case 'flower_exchange':
         return  FlowerExchangeWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
       case 'interactions':
-        return  FlowerExchangeWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
+        return  InteractionsWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
       case 'network_updates':
+      //TODO
+      ///WILL BE DONE ON ANOTHER DEMAND
         return Container();
       case 'gratitude':
         return  GratitudeWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
