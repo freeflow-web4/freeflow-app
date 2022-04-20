@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FlowerExchangeWidget extends StatelessWidget with TextThemes {
   final void Function() onTapToOpen;
@@ -76,6 +77,21 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                             width: 40,
                             child: Stack(
                               children: [
+                                Shimmer.fromColors(
+                                  direction: ShimmerDirection.ltr,
+                                  baseColor: StandardColors.baseShimmer,
+                                  highlightColor: StandardColors.highlightShimmer,
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration:  const BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.all(Radius.circular(40)),
+
+                                    ),
+
+                                  ),
+                                ),
                                 Container(
                                   decoration:  BoxDecoration(
                                     borderRadius: const BorderRadius.all(Radius.circular(40)),
@@ -98,7 +114,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
 
                             ),
