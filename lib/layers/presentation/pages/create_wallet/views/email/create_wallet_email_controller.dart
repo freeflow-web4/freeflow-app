@@ -26,22 +26,22 @@ abstract class _CreateWalletEmailControllerBase with Store {
   String currentEmail = '';
 
   @action
-  void onNameChanged(String value) {
+  void onEmailChanged(String value) {
     if (value.trim().isEmpty) {
       privateKeyFieldState = GradientTextFieldState.empty;
     } else if (CreateWalletEmailValidator.isValid(value)) {
       privateKeyFieldState = GradientTextFieldState.valid;
       formValid = true;
+      currentEmail = value;
     } else {
       privateKeyFieldState = GradientTextFieldState.invalid;
       formValid = false;
-      currentEmail = value;
     }
   }
 
   @action
   void onNextButtonPressed(
-    void Function(EmailFormModel email) onValid,
+    void Function(EmailFormEntity email) onValid,
     void Function() onInvalid,
   ) {
     if (formValid) {
@@ -51,8 +51,8 @@ abstract class _CreateWalletEmailControllerBase with Store {
     }
   }
 
-  EmailFormModel getEmailFormModel() {
-    return EmailFormModel(
+  EmailFormEntity getEmailFormModel() {
+    return EmailFormEntity(
       email: currentEmail,
     );
   }

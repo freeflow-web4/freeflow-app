@@ -18,7 +18,7 @@ import 'package:get_it/get_it.dart';
 
 class CreateWalletEmailView extends StatefulWidget {
   final bool animatedOnStart;
-  final void Function(EmailFormModel email) onValid;
+  final void Function(EmailFormEntity email) onValid;
   const CreateWalletEmailView({
     Key? key,
     required this.animatedOnStart,
@@ -77,8 +77,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                     height: mdSpacingx2,
                   ),
                   Opacity(
-                    //TODO: add opacity from animations class
-                    opacity: animationController.value,
+                    opacity: animations.field1Opacity.value,
                     child: Observer(
                       builder: (context) {
                         return GradientTextFieldWidget(
@@ -93,7 +92,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                             context,
                             'createWallet.emailTextFieldHint',
                           ),
-                          onChanged: pageController.onNameChanged,
+                          onChanged: pageController.onEmailChanged,
                           isFieldValid: pageController.isEmailValid,
                         );
                       },
@@ -116,7 +115,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                         bottom: bigSpacing,
                       ),
                       child: Opacity(
-                        opacity: animations.confirmButtonAnimationOpacity.value,
+                        opacity: animations.buttonOpacity.value,
                         child: Observer(
                           builder: (context) {
                             return AnimatedFloatButtonWidget(
@@ -143,7 +142,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
     );
   }
 
-  void onValid(EmailFormModel email) async {
+  void onValid(EmailFormEntity email) async {
     await animationController.animateTo(
       0,
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),

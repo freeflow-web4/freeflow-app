@@ -41,18 +41,18 @@ abstract class _CreateWalletControllerBase with Store {
 
   @action
   void onNextButtonPressed(
-    void Function(NameFormModel nameFormModel) onValid,
+    void Function(NameFormEntity nameFormModel) onValid,
     void Function() onInvalid,
   ) {
     if (formValid) {
-      onValid(getEmailFormModel());
+      onValid(getNameFormModel());
     } else {
       onInvalid();
     }
   }
 
-  NameFormModel getEmailFormModel() {
-    return NameFormModel(
+  NameFormEntity getNameFormModel() {
+    return NameFormEntity(
       name: currentName,
     );
   }

@@ -16,7 +16,7 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 
 class CreateWalletFlowerNameView extends StatefulWidget {
   final bool animatedOnStart;
-  final void Function(FlowerNameFormModel) onValid;
+  final void Function(FlowerNameFormEntity) onValid;
   const CreateWalletFlowerNameView({
     Key? key,
     required this.animatedOnStart,
@@ -38,6 +38,14 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
   final pageController = CreateWalletFlowerNameController();
 
   late final animations = CreateWalletFlowerNameAnimations(animationController);
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.animatedOnStart) {
+      animationController.animateTo(1, duration: Duration.zero);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +147,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
     );
   }
 
-  void onValid(FlowerNameFormModel flowerNameFormModel) async {
+  void onValid(FlowerNameFormEntity flowerNameFormModel) async {
     await animationController.animateTo(
       0,
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),

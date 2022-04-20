@@ -17,7 +17,7 @@ part './create_wallet_animations.dart';
 
 class CreateWalletNameView extends StatefulWidget {
   final bool animatedOnStart;
-  final void Function(NameFormModel nameFormModel) onValid;
+  final void Function(NameFormEntity nameFormModel) onValid;
 
   const CreateWalletNameView({
     Key? key,
@@ -79,8 +79,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                       height: mdSpacingx2,
                     ),
                     Opacity(
-                      //TODO: add opacity from class
-                      opacity: animationController.value,
+                      opacity: animations.field1Opacity.value,
                       child: Observer(
                         builder: (context) {
                           return GradientTextFieldWidget(
@@ -122,7 +121,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                     bottom: bigSpacing,
                   ),
                   child: Opacity(
-                    opacity: animations.confirmButtonAnimationOpacity.value,
+                    opacity: animations.buttonOpacity.value,
                     child: Observer(
                       builder: (context) {
                         return AnimatedFloatButtonWidget(
@@ -147,7 +146,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
     );
   }
 
-  void onValid(NameFormModel nameFormModel) async {
+  void onValid(NameFormEntity nameFormModel) async {
     await animationController.animateTo(
       0,
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),

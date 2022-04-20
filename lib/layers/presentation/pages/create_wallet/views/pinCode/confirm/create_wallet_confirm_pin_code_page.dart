@@ -8,7 +8,9 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/pin_code_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/confirm/create_wallet_confirm_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
@@ -42,7 +44,7 @@ class _CreateWalletConfirmPinCodeViewState extends State<CreateWalletConfirmPinC
   late final animations =
       CreateWalletConfirmPinCodePageAnimations(animationController);
 
-  final pageController = GetIt.I.get<CreateWalletPinCodeController>();
+  final pageController = GetIt.I.get<CreateWalletConfirmPinCodeController>();
 
   @override
   void didUpdateWidget(covariant CreateWalletConfirmPinCodeView oldWidget) {

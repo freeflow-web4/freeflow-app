@@ -32,6 +32,7 @@ abstract class _CreateWalletEmailControllerBase with Store {
     } else if (CreateWalletNameValidator.isValid(value)) {
       gradientTextFieldState = GradientTextFieldState.valid;
       formValid = true;
+      currentFlowerName = value;
     } else {
       gradientTextFieldState = GradientTextFieldState.invalid;
       formValid = false;
@@ -40,7 +41,7 @@ abstract class _CreateWalletEmailControllerBase with Store {
 
   @action
   void onNextButtonPressed(
-    void Function(FlowerNameFormModel flowerNameForm) onValid,
+    void Function(FlowerNameFormEntity flowerNameForm) onValid,
     void Function() onInvalid,
   ) {
     if (formValid) {
@@ -50,8 +51,8 @@ abstract class _CreateWalletEmailControllerBase with Store {
     }
   }
 
-  FlowerNameFormModel getFlowerNameFormModel() {
-    return FlowerNameFormModel(
+  FlowerNameFormEntity getFlowerNameFormModel() {
+    return FlowerNameFormEntity(
       flowerName: currentFlowerName,
     );
   }

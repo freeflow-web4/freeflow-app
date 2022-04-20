@@ -13,13 +13,11 @@ import 'package:freeflow/layers/presentation/widgets/animated_float_button_widge
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 
 class CreateWalletPrivateKeyShowView extends StatefulWidget {
-  final String privateKey;
-  final void Function() onValid;
+  final void Function(String) onValid;
   final bool animateOnStart;
 
   const CreateWalletPrivateKeyShowView({
     Key? key,
-    required this.privateKey,
     required this.onValid,
     required this.animateOnStart,
   }) : super(key: key);
@@ -42,6 +40,9 @@ class _CreateWalletPrivateKeyShowViewState
   late final animations =
       CreateWalletPrivateKeyShowStateAnimations(animationController);
 
+  String privateKey =
+      'love spirit earth play share abundance life geometry sacred ancient egypt rio';
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +51,7 @@ class _CreateWalletPrivateKeyShowViewState
     } else {
       animationController.value = 1.0;
     }
+    //TODO: get private key
     Future.delayed(const Duration(milliseconds: 1000)).then(
       (value) => pageController.setButtonEnabled(),
     );
@@ -128,7 +130,7 @@ class _CreateWalletPrivateKeyShowViewState
                         //TODO: add opacity from animations class
                         opacity: animations.title3Opacity.value,
                         child: Text(
-                          widget.privateKey,
+                          privateKey,
                           style: subtitleTextStyle.copyWith(
                             color: StandardColors.secondary,
                             fontWeight: FontWeight.w700,
@@ -163,7 +165,7 @@ class _CreateWalletPrivateKeyShowViewState
                           isActive: pageController.buttonNextActivated,
                           onTap: (activate) {
                             if (activate) {
-                              widget.onValid();
+                              onValid();
                             }
                           },
                           icon: IconsAsset.arrowIcon,
@@ -177,6 +179,18 @@ class _CreateWalletPrivateKeyShowViewState
           );
         },
       ),
+    );
+  }
+
+  void onValid() async {
+    await animationController.animateTo(
+      0,
+      duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
+    );
+    widget.onValid(privateKey);
+    animationController.animateTo(
+      1,
+      duration: Duration.zero,
     );
   }
 }

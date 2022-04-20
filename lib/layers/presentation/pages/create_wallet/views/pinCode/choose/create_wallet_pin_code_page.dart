@@ -8,6 +8,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/pin_code_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
@@ -19,7 +20,7 @@ part 'create_wallet_pin_code_animations.dart';
 
 class CreateWalletPinCodeView extends StatefulWidget {
   final bool animatedOnStart;
-  final void Function() onValid;
+  final void Function(PinCodeFormModel pinCodeFormModel) onValid;
 
   const CreateWalletPinCodeView({
     Key? key,
@@ -45,12 +46,12 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
   final pageController = GetIt.I.get<CreateWalletPinCodeController>();
 
   @override
-  void didUpdateWidget(covariant CreateWalletPinCodeView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.animatedOnStart != widget.animatedOnStart) {
-      if (widget.animatedOnStart) {
-        animationController.forward();
-      }
+  void initState() {
+    super.initState();
+    if (!widget.animatedOnStart) {
+      animationController.animateTo(1, duration: Duration.zero);
+    } else {
+      animationController.forward();
     }
   }
 
@@ -108,29 +109,33 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                         },
                       ),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          TranslationService.translate(
-                            context,
-                            'createWallet.pinCodeTitle2',
+                    Opacity(
+                      //TODO: add opacity from class
+                      opacity: animationController.value,
+                      child: Row(
+                        children: [
+                          Text(
+                            TranslationService.translate(
+                              context,
+                              'createWallet.pinCodeTitle2',
+                            ),
+                            style: subtitleTextStyle.copyWith(
+                              color: StandardColors.white,
+                            ),
                           ),
-                          style: subtitleTextStyle.copyWith(
-                            color: StandardColors.white,
+                          const SizedBox(
+                            width: mdSpacingx2,
                           ),
-                        ),
-                        const SizedBox(
-                          width: mdSpacingx2,
-                        ),
-                        Observer(
-                          builder: (context) {
-                            return CustomSwitch(
-                              value: pageController.rememberMe,
-                              onChanged: pageController.onRememberMeChanged,
-                            );
-                          },
-                        )
-                      ],
+                          Observer(
+                            builder: (context) {
+                              return CustomSwitch(
+                                value: pageController.rememberMe,
+                                onChanged: pageController.onRememberMeChanged,
+                              );
+                            },
+                          )
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: mdSpacingx2,
@@ -180,12 +185,12 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
     );
   }
 
-  void onValid() async {
+  void onValid(PinCodeFormModel pinCodeFormModel) async {
     await animationController.animateTo(
       0,
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
     );
-    widget.onValid();
+    widget.onValid(pinCodeFormModel);
     animationController.animateTo(
       1,
       duration: Duration.zero,

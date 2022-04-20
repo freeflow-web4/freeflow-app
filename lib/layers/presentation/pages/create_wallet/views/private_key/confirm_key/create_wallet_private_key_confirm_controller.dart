@@ -21,11 +21,15 @@ abstract class _CreateWalletEmailControllerBase with Store {
   @observable
   bool formValid = false;
 
+  String correctPrivateKey;
+
+  _CreateWalletEmailControllerBase(this.correctPrivateKey);
+
   @action
-  void onTextChanged(String value) {
+  void onPrivateKeyChanged(String value) {
     if (value.trim().isEmpty) {
       gradientTextFieldState = GradientTextFieldState.empty;
-    } else if (CreateWalletNameValidator.isValid(value)) {
+    } else if (isPrivateKeyValid(value)) {
       gradientTextFieldState = GradientTextFieldState.valid;
       formValid = true;
     } else {
@@ -44,5 +48,14 @@ abstract class _CreateWalletEmailControllerBase with Store {
     } else {
       onInvalid();
     }
+  }
+
+  bool isPrivateKeyValid(
+    String privateKey,
+  ) {
+    final words = privateKey.split(' ');
+    if (words.length != 3) return false;
+    final correctPrivateKeyWords = correctPrivateKey.split(' ');
+    return words.every((word) => correctPrivateKeyWords.contains(word));
   }
 }

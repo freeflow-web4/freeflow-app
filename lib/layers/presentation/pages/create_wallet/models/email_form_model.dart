@@ -1,7 +1,7 @@
-class EmailFormModel {
+class EmailFormEntity {
   final String email;
 
-  EmailFormModel({
+  EmailFormEntity({
     required this.email,
   });
 }

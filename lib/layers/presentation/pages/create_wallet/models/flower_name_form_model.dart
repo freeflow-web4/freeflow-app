@@ -1,6 +1,6 @@
-class FlowerNameFormModel {
+class FlowerNameFormEntity {
   final String flowerName;
-  FlowerNameFormModel({
+  FlowerNameFormEntity({
     required this.flowerName,
   });
 }

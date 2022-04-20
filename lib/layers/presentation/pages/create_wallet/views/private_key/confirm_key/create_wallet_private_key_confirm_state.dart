@@ -16,13 +16,13 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 
 class CreateWalletPrivateKeyConfirmView extends StatefulWidget {
   final void Function() onValid;
-  final String privateKey;
+  final String correctPrivateKey;
   final bool animateOnStart;
 
   const CreateWalletPrivateKeyConfirmView({
     Key? key,
     required this.onValid,
-    required this.privateKey,
+    required this.correctPrivateKey,
     this.animateOnStart = true,
   }) : super(key: key);
 
@@ -39,7 +39,8 @@ class _CreateWalletPrivateKeyConfirmViewState
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  final pageController = CreateWalletPrivateKeyConfirmController();
+  late final pageController =
+      CreateWalletPrivateKeyConfirmController(widget.correctPrivateKey);
 
   late final animations =
       CreateWalletPrivateKeyConfirmAnimations(animationController);
@@ -120,7 +121,7 @@ class _CreateWalletPrivateKeyConfirmViewState
                                 context,
                                 'createWallet.confirmPrivateTextFieldHint',
                               ),
-                              onChanged: pageController.onTextChanged,
+                              onChanged: pageController.onPrivateKeyChanged,
                               isFieldValid:
                                   pageController.isGradientTextFieldValid,
                             );
@@ -134,7 +135,7 @@ class _CreateWalletPrivateKeyConfirmViewState
                   height: xxlargeSpacing,
                 ),
                 CreateWalletPageIndicator(
-                  currentIndex: 4,
+                  currentIndex: 3,
                   onAnimationEnd: () {
                     animationController.forward();
                   },
@@ -179,7 +180,10 @@ class _CreateWalletPrivateKeyConfirmViewState
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
     );
     widget.onValid();
-    animationController.reset();
+    animationController.animateTo(
+      1,
+      duration: Duration.zero,
+    );
   }
 
   void onInvalid() {

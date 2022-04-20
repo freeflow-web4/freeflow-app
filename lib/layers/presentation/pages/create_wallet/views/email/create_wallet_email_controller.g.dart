@@ -77,11 +77,11 @@ mixin _$CreateWalletEmailController on _CreateWalletEmailControllerBase, Store {
       ActionController(name: '_CreateWalletEmailControllerBase');
 
   @override
-  void onNameChanged(String value) {
+  void onEmailChanged(String value) {
     final _$actionInfo = _$_CreateWalletEmailControllerBaseActionController
-        .startAction(name: '_CreateWalletEmailControllerBase.onNameChanged');
+        .startAction(name: '_CreateWalletEmailControllerBase.onEmailChanged');
     try {
-      return super.onNameChanged(value);
+      return super.onEmailChanged(value);
     } finally {
       _$_CreateWalletEmailControllerBaseActionController
           .endAction(_$actionInfo);
@@ -90,7 +90,7 @@ mixin _$CreateWalletEmailController on _CreateWalletEmailControllerBase, Store {
 
   @override
   void onNextButtonPressed(
-      void Function(EmailFormModel) onValid, void Function() onInvalid) {
+      void Function(EmailFormEntity) onValid, void Function() onInvalid) {
     final _$actionInfo =
         _$_CreateWalletEmailControllerBaseActionController.startAction(
             name: '_CreateWalletEmailControllerBase.onNextButtonPressed');

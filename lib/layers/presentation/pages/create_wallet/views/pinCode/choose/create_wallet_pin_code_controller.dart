@@ -1,5 +1,6 @@
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/pin_code_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/validators/name_validator.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:mobx/mobx.dart';
@@ -69,11 +70,11 @@ abstract class _CreateWalletPinCodeControllerBase with Store {
 
   @action
   void onNextButtonPressed(
-    void Function() onValid,
+    void Function(PinCodeFormModel pinCodeFormModel) onValid,
     void Function() onInvalid,
   ) {
     if (formValid) {
-      onValid();
+      onValid(getPinCodeFormModel());
     } else {
       onInvalid();
     }
@@ -118,5 +119,12 @@ abstract class _CreateWalletPinCodeControllerBase with Store {
     _onPinChanged(nextCurrentText);
 
     _updateCurrentPinCode(nextCurrentText);
+  }
+
+  PinCodeFormModel getPinCodeFormModel() {
+    return PinCodeFormModel(
+      pinCode: currentPinCode,
+      saveBiometrics: rememberMe,
+    );
   }
 }

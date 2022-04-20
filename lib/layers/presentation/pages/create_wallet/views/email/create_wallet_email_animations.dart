@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 
 class CreateWalletEmailAnimations {
   final Animation<double> title1Opacity;
-  final Animation<double> pinFieldAnimationOpacity;
-  final Animation<double> keyboardAnimationOpacity;
-  final Animation<double> confirmButtonAnimationOpacity;
+  final Animation<double> field1Opacity;
+  final Animation<double> buttonOpacity;
 
   CreateWalletEmailAnimations(AnimationController controller)
       : title1Opacity = Tween<double>(begin: 0, end: 1).animate(
@@ -13,36 +11,26 @@ class CreateWalletEmailAnimations {
             parent: controller,
             curve: const Interval(
               0.2,
-              0.4,
+              0.467,
               curve: Curves.ease,
             ),
           ),
         ),
-        pinFieldAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
+        field1Opacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.4,
-              0.6,
+              0.467,
+              0.734,
               curve: Curves.ease,
             ),
           ),
         ),
-        keyboardAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
+        buttonOpacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
-              0.6,
-              0.8,
-              curve: Curves.ease,
-            ),
-          ),
-        ),
-        confirmButtonAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: const Interval(
-              0.8,
+              0.734,
               1,
               curve: Curves.ease,
             ),

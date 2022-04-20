@@ -4,6 +4,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/controller/crea
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/flower_name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/name_form_model.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/pin_code_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_page.dart';
@@ -66,14 +67,12 @@ class _CreateWalletPageState extends State<CreateWalletPage>
               key: const ValueKey('CreateWalletControllerFlowerNameKey'),
             ),
             CreateWalletPrivateKeyShowView(
-              privateKey:
-                  'love spirit earth play share abundance life geometry sacred ancient egypt rio',
               onValid: onShowPrivateKeyPageValid,
               animateOnStart: currentIndex == 3 && shouldAnimateStart,
               key: const ValueKey('CreateWalletControllerViewPrivateKeyKey'),
             ),
             CreateWalletPrivateKeyConfirmView(
-              privateKey:
+              correctPrivateKey:
                   'love spirit earth play share abundance life geometry sacred ancient egypt rio',
               onValid: onConfirmPrivateKeyPageValid,
               animateOnStart: currentIndex == 4 && shouldAnimateStart,
@@ -93,65 +92,36 @@ class _CreateWalletPageState extends State<CreateWalletPage>
           initialIndex: currentIndex,
           onPageSwiped: onSwiped,
         ),
-        //TODO: remove bellow
-        // Positioned.fill(
-        //   child: Observer(
-        //     builder: (context) {
-        //       return AnimatedContainer(
-        //         duration: const Duration(milliseconds: 300),
-        //         curve: Curves.ease,
-        //         alignment: Alignment.topCenter,
-        //         padding: EdgeInsets.only(top: indicatorPadding),
-        //         child:
-        //             // Text((pageController.pageIndicatorHeight ~/1).toString())
-        //             AnimatedDotIndicatorWidget(
-        //           key: const ValueKey('createWalletIndicatorKey'),
-        //           currentIndex: currentIndex,
-        //           length: 5,
-        //           totalAnimationStartUpDuration: const Duration(
-        //             seconds: 4,
-        //           ),
-        //           onAnimationEnd: () {
-        //             setState(() {
-        //               isIndicatorAnimationDone = true;
-        //             });
-        //           },
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // )
       ],
     );
   }
 
-  void onNamePageValid(NameFormModel nameFormModel) {
-    //TODO: add logic here
-
+  void onNamePageValid(NameFormEntity nameFormModel) {
+    pageController.setName(nameFormModel);
     setState(() {
       currentIndex = 1;
       lastIndex = 0;
     });
   }
 
-  void onEmailPageValid(EmailFormModel emailFormModel) {
-    //TODO: add logic here
+  void onEmailPageValid(EmailFormEntity emailFormModel) {
+    pageController.setEmail(emailFormModel);
     setState(() {
       currentIndex = 2;
       lastIndex = 1;
     });
   }
 
-  void onFlowerNamePageValid(FlowerNameFormModel flowerNameFormModel) {
-    //TODO: add logic here
+  void onFlowerNamePageValid(FlowerNameFormEntity flowerNameFormModel) {
+    pageController.setFlowerName(flowerNameFormModel);
     setState(() {
       currentIndex = 3;
       lastIndex = 2;
     });
   }
 
-  void onShowPrivateKeyPageValid() {
-    //TODO: add logic here
+  void onShowPrivateKeyPageValid(String privateKey) {
+    pageController.setPrivateKey(privateKey);
     setState(() {
       currentIndex = 4;
       lastIndex = 3;
@@ -159,14 +129,14 @@ class _CreateWalletPageState extends State<CreateWalletPage>
   }
 
   void onConfirmPrivateKeyPageValid() {
-    //TODO: add logic here
     setState(() {
       currentIndex = 5;
       lastIndex = 4;
     });
   }
 
-  void onPincodePageValid() {
+  void onPincodePageValid(PinCodeFormModel pinCodeFormModel) {
+    pageController.setPinCode(pinCodeFormModel);
     setState(() {
       currentIndex = 6;
       lastIndex = 5;

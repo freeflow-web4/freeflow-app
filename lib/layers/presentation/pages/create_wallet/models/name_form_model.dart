@@ -1,6 +1,6 @@
-class NameFormModel {
+class NameFormEntity {
   final String name;
-  NameFormModel({
+  NameFormEntity({
     required this.name,
   });
 }

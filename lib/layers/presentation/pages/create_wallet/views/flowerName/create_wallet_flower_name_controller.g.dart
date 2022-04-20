@@ -93,7 +93,7 @@ mixin _$CreateWalletFlowerNameController
 
   @override
   void onNextButtonPressed(
-      void Function(FlowerNameFormModel) onValid, void Function() onInvalid) {
+      void Function(FlowerNameFormEntity) onValid, void Function() onInvalid) {
     final _$actionInfo =
         _$_CreateWalletEmailControllerBaseActionController.startAction(
             name: '_CreateWalletEmailControllerBase.onNextButtonPressed');

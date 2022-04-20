@@ -153,7 +153,8 @@ mixin _$CreateWalletPinCodeController
   }
 
   @override
-  void onNextButtonPressed(void Function() onValid, void Function() onInvalid) {
+  void onNextButtonPressed(
+      void Function(PinCodeFormModel) onValid, void Function() onInvalid) {
     final _$actionInfo =
         _$_CreateWalletPinCodeControllerBaseActionController.startAction(
             name: '_CreateWalletPinCodeControllerBase.onNextButtonPressed');
