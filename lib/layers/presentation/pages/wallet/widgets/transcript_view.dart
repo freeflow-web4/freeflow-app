@@ -11,6 +11,8 @@ import 'package:freeflow/layers/presentation/pages/wallet/widgets/secondary_filt
 import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/flower_exchange_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/gratidude_widget.dart';
 
 class TranscriptView extends StatefulWidget {
   final WalletController walletController;
@@ -103,13 +105,13 @@ class _TranscriptViewState extends State<TranscriptView> {
               child: Column(
                 children: isLoading
                     ? [
-                        LoadingWidget(
-                          isLoading: isLoading,
-                          color: StandardColors.greyCA,
-                          size: 33,
-                          padding: const EdgeInsets.only(top: mdSpacing),
-                        )
-                      ]
+                  LoadingWidget(
+                    isLoading: isLoading,
+                    color: StandardColors.greyCA,
+                    size: 33,
+                    padding: const EdgeInsets.only(top: mdSpacing),
+                  )
+                ]
                     : listFilteredTranscriptWidgets(listFilteredTranscript()),
               ),
             ),
@@ -158,19 +160,12 @@ class _TranscriptViewState extends State<TranscriptView> {
   }
 
   List<Widget> listFilteredTranscriptWidgets(
-    List<TranscriptEntity> transcriptList,
-  ) {
+      List<TranscriptEntity> transcriptList,
+      ) {
     List<Widget> filteredTranscriptsWidgetList;
     filteredTranscriptsWidgetList = transcriptList
-        .map(
-          (transcript) => Container(
-            height: 100,
-            width: double.infinity,
-            margin: const EdgeInsets.all(smSpacing),
-            color: const Color.fromARGB(255, 236, 236, 236),
-            child: Text('${transcript.category} - (FREEF-85)'),
-          ),
-        )
+        .map((transcript) => getKindOfTranscript(transcript),
+    )
         .toList();
 
     return filteredTranscriptsWidgetList.isNotEmpty
@@ -180,10 +175,10 @@ class _TranscriptViewState extends State<TranscriptView> {
 
   bool valueHasMatchWithFilterName(value, filterNamekey) =>
       value ==
-      TranslationService.translate(
-        context,
-        'wallet.$filterNamekey',
-      );
+          TranslationService.translate(
+            context,
+            'wallet.$filterNamekey',
+          );
 
   List<TranscriptEntity> listFilteredTranscript() {
     filteredTranscriptList.clear();
@@ -225,5 +220,20 @@ class _TranscriptViewState extends State<TranscriptView> {
         },
       );
     }).toList();
+  }
+
+  Widget getKindOfTranscript(TranscriptEntity transcript) {
+    print('transcript ${transcript.category}');
+    switch(transcript.category){
+      case 'flower_exchange':
+        return  FlowerExchangeWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
+      case 'interactions':
+        return  FlowerExchangeWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
+      case 'network_updates':
+        return Container();
+      case 'gratitude':
+        return  GratitudeWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
+    }
+    return Container();
   }
 }

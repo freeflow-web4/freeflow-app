@@ -99,5 +99,19 @@
     "systemInstability": {
         "systemInstabilityTitle": "WE HAVE AN INSTABILITY\nIN THE SYSTEM",
         "systemInstabilitySubtitle": "PLEASE RESTART THE APP"
+    },
+    "transcript": {
+        "FreeFlow": "FreeFlow",
+        "view": "View",
+        "coin": "FLWRs",
+        "flowerExchange":  {
+            "you": "You ",
+            "received": "received ",
+            "coinAmount": "XX FLWRs ",
+            "from": " from ",
+            "theName": "the NAME",
+            "haveSend": "have send ",
+            "to": " to "
+        }
     }
 }

@@ -9,12 +9,9 @@ class WalletRepositoryImp implements WalletRepository {
   WalletRepositoryImp(this.datasource);
 
   @override
-  Future<Either<DomainError,List <TranscriptEntity>>> getTranscripList({
-    required int offset,
-    String? category,
-  }) async {
+  Future<Either<DomainError,List <TranscriptEntity>>> getTranscripts({required int offset, String? category,}) async {
     try {
-      final result = await datasource.getTranscriptList(
+      final result = await datasource.getTranscripts(
         offset: offset,
         category: category,
       );

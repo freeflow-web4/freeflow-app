@@ -13,8 +13,8 @@ enum ViewState { start, loading, done, error }
 class WalletController = WalletControllerBase with _$WalletController;
 
 abstract class WalletControllerBase with Store {
-  GetTranscripListUsecase getTranscripListUsecase =
-      GetIt.I.get<GetTranscripListUsecase>();
+  GetTranscripsUsecase getTranscripListUsecase =
+      GetIt.I.get<GetTranscripsUsecase>();
 
   @observable
   int index = 0;

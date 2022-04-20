@@ -68,8 +68,8 @@ registerUsecasesDependencies(GetIt getIt) {
   getIt.registerFactory<SaveUserLocalAuthUsecase>(
     () => SaveUserLocalAuthUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
   );
-  getIt.registerFactory<GetTranscripListUsecase>(
-    () => GetTranscripListImp(GetIt.I.get<WalletRepository>()),
+  getIt.registerFactory<GetTranscripsUsecase>(
+    () => GetTranscriptsImp(GetIt.I.get<WalletRepository>()),
   );
   getIt.registerFactory<SaveUserIsLoggedUsecase>(
     () => SaveUserIsLoggedUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),

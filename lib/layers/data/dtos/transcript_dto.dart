@@ -6,33 +6,40 @@ part 'transcript_dto.g.dart';
 @JsonSerializable()
 class TranscripDto {
   final String category;
-  final String amount;
-  final String gratitudeType;
+  final String? amount;
+  final String? gratitudeType;
   final String createdAt;
-  final String userName;
+  final String? transferAction;
+  final String id;
+  bool viewed;
+  final String? userName;
+  final String? exchangeUsername;
+  final String? photoUrl;
 
   TranscripDto({
+    this.transferAction,
+    required this.id,
+    required this.viewed,
+    this.exchangeUsername,
+    this.photoUrl,
     required this.category,
-    required this.amount,
-    required this.gratitudeType,
+    this.amount,
+    this.gratitudeType,
     required this.createdAt,
     required this.userName,
   });
 
   TranscriptEntity toEntity() => TranscriptEntity(
-        amount: amount,
-        category: category,
-        createdAt: createdAt,
-        gratitudeType: gratitudeType,
-        userName: userName,
-      );
-
-  factory TranscripDto.fromEntity(TranscriptEntity entity) => TranscripDto(
-        amount: entity.amount,
-        category: entity.category,
-        createdAt: entity.createdAt,
-        gratitudeType: entity.gratitudeType,
-        userName: entity.userName,
+    transferAction: transferAction,
+    id: id,
+    viewed: viewed,
+    amount: amount,
+    exchangeUsername: exchangeUsername,
+    photoUrl: photoUrl,
+    category: category,
+    gratitudeType: gratitudeType,
+    userName: userName,
+    createdAt: createdAt,
       );
 
   factory TranscripDto.fromJson(Map<String, dynamic> json) =>
