@@ -90,14 +90,6 @@ mixin _$CreateWalletConfirmPinCodeController
     });
   }
 
-  final _$biometricAuthAsyncAction =
-      AsyncAction('_CreateWalletConfirmPinCodeControllerBase.biometricAuth');
-
-  @override
-  Future<void> biometricAuth(bool value) {
-    return _$biometricAuthAsyncAction.run(() => super.biometricAuth(value));
-  }
-
   final _$_CreateWalletConfirmPinCodeControllerBaseActionController =
       ActionController(name: '_CreateWalletConfirmPinCodeControllerBase');
 
@@ -122,19 +114,6 @@ mixin _$CreateWalletConfirmPinCodeController
             name: '_CreateWalletConfirmPinCodeControllerBase.onPinChanged');
     try {
       return super.onPinChanged(value);
-    } finally {
-      _$_CreateWalletConfirmPinCodeControllerBaseActionController
-          .endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void _onPinChanged(String value) {
-    final _$actionInfo =
-        _$_CreateWalletConfirmPinCodeControllerBaseActionController.startAction(
-            name: '_CreateWalletConfirmPinCodeControllerBase._onPinChanged');
-    try {
-      return super._onPinChanged(value);
     } finally {
       _$_CreateWalletConfirmPinCodeControllerBaseActionController
           .endAction(_$actionInfo);
@@ -176,20 +155,6 @@ mixin _$CreateWalletConfirmPinCodeController
             name: '_CreateWalletConfirmPinCodeControllerBase.setRememberMe');
     try {
       return super.setRememberMe(value);
-    } finally {
-      _$_CreateWalletConfirmPinCodeControllerBaseActionController
-          .endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void onRememberMeChanged(bool value) {
-    final _$actionInfo =
-        _$_CreateWalletConfirmPinCodeControllerBaseActionController.startAction(
-            name:
-                '_CreateWalletConfirmPinCodeControllerBase.onRememberMeChanged');
-    try {
-      return super.onRememberMeChanged(value);
     } finally {
       _$_CreateWalletConfirmPinCodeControllerBaseActionController
           .endAction(_$actionInfo);

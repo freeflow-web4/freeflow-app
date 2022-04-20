@@ -1,6 +1,3 @@
-import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
-import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/validators/name_validator.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:mobx/mobx.dart';
 part 'create_wallet_confirm_pin_code_controller.g.dart';
@@ -9,14 +6,6 @@ class CreateWalletConfirmPinCodeController = _CreateWalletConfirmPinCodeControll
     with _$CreateWalletConfirmPinCodeController;
 
 abstract class _CreateWalletConfirmPinCodeControllerBase with Store {
-  final BiometricAuthDriver biometricDriver;
-  final PinValidator pinValidator;
-
-  _CreateWalletConfirmPinCodeControllerBase({
-    required this.biometricDriver,
-    required this.pinValidator,
-  });
-
   @observable
   GradientTextFieldState pinFieldState = GradientTextFieldState.empty;
 
@@ -25,7 +14,7 @@ abstract class _CreateWalletConfirmPinCodeControllerBase with Store {
 
   @computed
   bool get isGradientTextFieldValid =>
-      GradientTextFieldState.invalid != pinFieldState;
+      GradientTextFieldState.valid == pinFieldState;
 
   @observable
   bool isPinObscure = true;
@@ -36,6 +25,10 @@ abstract class _CreateWalletConfirmPinCodeControllerBase with Store {
   @observable
   String currentPinCode = "";
 
+  String correctPinCode;
+
+  _CreateWalletConfirmPinCodeControllerBase(this.correctPinCode);
+
   @action
   void onPinObscureTextFieldTap() {
     isPinObscure = !isPinObscure;
@@ -45,17 +38,7 @@ abstract class _CreateWalletConfirmPinCodeControllerBase with Store {
   void onPinChanged(String value) {
     if (value.trim().isEmpty) {
       pinFieldState = GradientTextFieldState.empty;
-    } else if (CreateWalletNameValidator.isValid(value)) {
-      pinFieldState = GradientTextFieldState.valid;
-    } else {
-      pinFieldState = GradientTextFieldState.invalid;
-    }
-  }
-
-  @action
-  void _onPinChanged(String value) {
-    final isPinValid = pinValidator(value);
-    if (isPinValid) {
+    } else if (isPinCodeValid(value)) {
       pinFieldState = GradientTextFieldState.valid;
     } else {
       pinFieldState = GradientTextFieldState.invalid;
@@ -80,26 +63,8 @@ abstract class _CreateWalletConfirmPinCodeControllerBase with Store {
   }
 
   @action
-  Future<void> biometricAuth(bool value) async {
-    if (value) {
-      final biometricResult = await biometricDriver.authenticateUser();
-      biometricResult.fold(
-        (l) => setRememberMe(false),
-        (r) => setRememberMe(r),
-      );
-    } else {
-      setRememberMe(false);
-    }
-  }
-
-  @action
   void setRememberMe(bool value) {
     rememberMe = value;
-  }
-
-  @action
-  void onRememberMeChanged(bool value) {
-    biometricAuth(value);
   }
 
   void onKeyboardTap(String digit) {
@@ -115,8 +80,12 @@ abstract class _CreateWalletConfirmPinCodeControllerBase with Store {
       }
       nextCurrentText = currentPinCode + digit;
     }
-    _onPinChanged(nextCurrentText);
+    onPinChanged(nextCurrentText);
 
     _updateCurrentPinCode(nextCurrentText);
+  }
+
+  bool isPinCodeValid(String pinCode) {
+    return pinCode == correctPinCode;
   }
 }

@@ -86,8 +86,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                       height: mdSpacingx2,
                     ),
                     Opacity(
-                      //TODO: add opacity from class
-                      opacity: animationController.value,
+                      opacity: animations.field1Opacity.value,
                       child: Observer(
                         builder: (context) {
                           return GradientTextFieldWidget(
@@ -110,8 +109,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                       ),
                     ),
                     Opacity(
-                      //TODO: add opacity from class
-                      opacity: animationController.value,
+                      opacity: animations.rememberOpacity.value,
                       child: Row(
                         children: [
                           Text(
@@ -141,7 +139,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                       height: mdSpacingx2,
                     ),
                     Opacity(
-                      opacity: animationController.value,
+                      opacity: animations.keyboardAnimationOpacity.value,
                       child: InAppKeyboardWidget(
                         onTap: pageController.onKeyboardTap,
                       ),

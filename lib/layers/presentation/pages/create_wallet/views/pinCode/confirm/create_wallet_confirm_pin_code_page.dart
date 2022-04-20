@@ -22,11 +22,13 @@ part 'create_wallet_confirm_pin_code_animations.dart';
 class CreateWalletConfirmPinCodeView extends StatefulWidget {
   final bool animatedOnStart;
   final void Function() onValid;
+  final String correctPinCode;
 
   const CreateWalletConfirmPinCodeView({
     Key? key,
     required this.animatedOnStart,
     required this.onValid,
+    required this.correctPinCode,
   }) : super(key: key);
 
   @override
@@ -34,7 +36,8 @@ class CreateWalletConfirmPinCodeView extends StatefulWidget {
       _CreateWalletConfirmPinCodeViewState();
 }
 
-class _CreateWalletConfirmPinCodeViewState extends State<CreateWalletConfirmPinCodeView>
+class _CreateWalletConfirmPinCodeViewState
+    extends State<CreateWalletConfirmPinCodeView>
     with TickerProviderStateMixin, TextThemes {
   static const _totalDuration = Duration(milliseconds: 3600);
 
@@ -44,15 +47,15 @@ class _CreateWalletConfirmPinCodeViewState extends State<CreateWalletConfirmPinC
   late final animations =
       CreateWalletConfirmPinCodePageAnimations(animationController);
 
-  final pageController = GetIt.I.get<CreateWalletConfirmPinCodeController>();
+  late final pageController = CreateWalletConfirmPinCodeController(widget.correctPinCode);
 
   @override
-  void didUpdateWidget(covariant CreateWalletConfirmPinCodeView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.animatedOnStart != widget.animatedOnStart) {
-      if (widget.animatedOnStart) {
-        animationController.forward();
-      }
+  void initState() {
+    super.initState();
+    if (!widget.animatedOnStart) {
+      animationController.animateTo(1, duration: Duration.zero);
+    } else {
+      animationController.forward();
     }
   }
 
@@ -87,16 +90,22 @@ class _CreateWalletConfirmPinCodeViewState extends State<CreateWalletConfirmPinC
                       height: mdSpacingx2,
                     ),
                     Opacity(
-                      //TODO: add opacity from class
-                      opacity: animationController.value,
+                      opacity: animations.pinFieldAnimationOpacity.value,
                       child: Observer(
                         builder: (context) {
                           return GradientTextFieldWidget(
                             showObscureButton: true,
                             fieldReadOnly: true,
+                            errorText: pageController.pinFieldState !=
+                                          GradientTextFieldState.invalid
+                                      ? null
+                                      : TranslationService.translate(
+                                          context,
+                                          'createWallet.pinCodeConfirmTextFieldError',
+                                        ),
                             hintText: TranslationService.translate(
                               context,
-                              'createWallet.pinCodeTextFieldHint',
+                              'createWallet.pinCodeConfirmTextFieldHint',
                             ),
                             onChanged: pageController.onPinChanged,
                             isFieldValid:
@@ -110,35 +119,11 @@ class _CreateWalletConfirmPinCodeViewState extends State<CreateWalletConfirmPinC
                         },
                       ),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          TranslationService.translate(
-                            context,
-                            'createWallet.pinCodeTitle2',
-                          ),
-                          style: subtitleTextStyle.copyWith(
-                            color: StandardColors.white,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: mdSpacingx2,
-                        ),
-                        Observer(
-                          builder: (context) {
-                            return CustomSwitch(
-                              value: pageController.rememberMe,
-                              onChanged: pageController.onRememberMeChanged,
-                            );
-                          },
-                        )
-                      ],
-                    ),
                     const SizedBox(
                       height: mdSpacingx2,
                     ),
                     Opacity(
-                      opacity: animationController.value,
+                      opacity: animations.keyboardAnimationOpacity.value,
                       child: InAppKeyboardWidget(
                         onTap: pageController.onKeyboardTap,
                       ),
@@ -194,7 +179,5 @@ class _CreateWalletConfirmPinCodeViewState extends State<CreateWalletConfirmPinC
     );
   }
 
-  void onInvalid() {
-    showCustomDialog(context, textKey: 'createWallet.nameWarning');
-  }
+  void onInvalid() {}
 }

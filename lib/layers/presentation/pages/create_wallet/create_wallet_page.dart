@@ -13,6 +13,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/c
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/confirm_key/create_wallet_private_key_confirm_state.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_page.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_page_view.dart';
+import 'package:freeflow/routes/routes.dart';
 
 class CreateWalletPage extends StatefulWidget {
   const CreateWalletPage({Key? key}) : super(key: key);
@@ -72,8 +73,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
               key: const ValueKey('CreateWalletControllerViewPrivateKeyKey'),
             ),
             CreateWalletPrivateKeyConfirmView(
-              correctPrivateKey:
-                  'love spirit earth play share abundance life geometry sacred ancient egypt rio',
+              correctPrivateKey: pageController.getPrivateKey(),
               onValid: onConfirmPrivateKeyPageValid,
               animateOnStart: currentIndex == 4 && shouldAnimateStart,
               key: const ValueKey('CreateWalletControllerConfirmPrivateKeyKey'),
@@ -86,6 +86,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
             CreateWalletConfirmPinCodeView(
               animatedOnStart: currentIndex == 6 && shouldAnimateStart,
               onValid: onConfirmPincodePageValid,
+              correctPinCode: pageController.getPinCode()?.pinCode ?? '',
               key: const ValueKey('CreateWalletControllerConfirmPinCodeKey'),
             ),
           ],
@@ -145,6 +146,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
 
   void onConfirmPincodePageValid() {
     //TODO: navigate to home
+    Routes.instance.goToHomePageRoute();
   }
 
   void onSwiped(int index) {

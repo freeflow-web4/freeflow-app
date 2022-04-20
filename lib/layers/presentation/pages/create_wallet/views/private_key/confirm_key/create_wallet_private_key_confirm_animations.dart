@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 
 class CreateWalletPrivateKeyConfirmAnimations {
-  final Animation<double> title1Opacity;
-  final Animation<double> pinFieldAnimationOpacity;
-  final Animation<double> keyboardAnimationOpacity;
-  final Animation<double> confirmButtonAnimationOpacity;
+ final Animation<double> title1Opacity;
+  final Animation<double> title2Opacity;
+  final Animation<double> field1Opacity;
+  final Animation<double> buttonOpacity;
 
   CreateWalletPrivateKeyConfirmAnimations(AnimationController controller)
       : title1Opacity = Tween<double>(begin: 0, end: 1).animate(
@@ -18,7 +18,7 @@ class CreateWalletPrivateKeyConfirmAnimations {
             ),
           ),
         ),
-        pinFieldAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
+        title2Opacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
@@ -28,7 +28,7 @@ class CreateWalletPrivateKeyConfirmAnimations {
             ),
           ),
         ),
-        keyboardAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
+        field1Opacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(
@@ -38,7 +38,7 @@ class CreateWalletPrivateKeyConfirmAnimations {
             ),
           ),
         ),
-        confirmButtonAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
+        buttonOpacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(

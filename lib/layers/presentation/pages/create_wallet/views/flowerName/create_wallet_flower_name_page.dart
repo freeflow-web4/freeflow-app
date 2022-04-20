@@ -76,8 +76,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                     height: mdSpacingx2,
                   ),
                   Opacity(
-                    //TODO: add opacity from animations class
-                    opacity: animationController.value,
+                    opacity: animations.field1Opacity.value,
                     child: Observer(
                       builder: (context) {
                         return GradientTextFieldWidget(
@@ -120,7 +119,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                         bottom: bigSpacing,
                       ),
                       child: Opacity(
-                        opacity: animations.confirmButtonAnimationOpacity.value,
+                        opacity: animations.buttonOpacity.value,
                         child: Observer(
                           builder: (context) {
                             return AnimatedFloatButtonWidget(

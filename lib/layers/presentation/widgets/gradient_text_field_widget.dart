@@ -171,7 +171,12 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                           ? IconsAsset.closedEye
                           : IconsAsset.openEye,
                       width: 20,
-                      color: widget.obscureButtonColor,
+                      color: widget.obscureButtonColor ??
+                          (widget.errorText == null
+                              ? widget.isFieldValid
+                                  ? StandardColors.blueLight
+                                  : Colors.white
+                              : StandardColors.feedbackError),
                     ),
                   ),
                 ),

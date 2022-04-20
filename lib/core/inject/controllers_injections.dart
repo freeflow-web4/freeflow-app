@@ -77,11 +77,4 @@ registerControllerDependencies(GetIt getIt) {
       pinValidator: getIt.get<PinValidator>(),
     ),
   );
-
-  getIt.registerFactory<CreateWalletConfirmPinCodeController>(
-    () => CreateWalletConfirmPinCodeController(
-      biometricDriver: getIt.get<BiometricAuthDriver>(),
-      pinValidator: getIt.get<PinValidator>(),
-    ),
-  );
 }

@@ -44,20 +44,10 @@ abstract class _CreateWalletPinCodeControllerBase with Store {
 
   @action
   void onPinChanged(String value) {
-    if (value.trim().isEmpty) {
-      pinFieldState = GradientTextFieldState.empty;
-    } else if (CreateWalletNameValidator.isValid(value)) {
-      pinFieldState = GradientTextFieldState.valid;
-    } else {
-      pinFieldState = GradientTextFieldState.invalid;
-    }
-  }
-
-  @action
-  void _onPinChanged(String value) {
     final isPinValid = pinValidator(value);
     if (isPinValid) {
       pinFieldState = GradientTextFieldState.valid;
+      currentPinCode = value;
     } else {
       pinFieldState = GradientTextFieldState.invalid;
     }
@@ -116,7 +106,7 @@ abstract class _CreateWalletPinCodeControllerBase with Store {
       }
       nextCurrentText = currentPinCode + digit;
     }
-    _onPinChanged(nextCurrentText);
+    onPinChanged(nextCurrentText);
 
     _updateCurrentPinCode(nextCurrentText);
   }

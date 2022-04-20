@@ -128,18 +128,6 @@ mixin _$CreateWalletPinCodeController
   }
 
   @override
-  void _onPinChanged(String value) {
-    final _$actionInfo = _$_CreateWalletPinCodeControllerBaseActionController
-        .startAction(name: '_CreateWalletPinCodeControllerBase._onPinChanged');
-    try {
-      return super._onPinChanged(value);
-    } finally {
-      _$_CreateWalletPinCodeControllerBaseActionController
-          .endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void _updateCurrentPinCode(String value) {
     final _$actionInfo =
         _$_CreateWalletPinCodeControllerBaseActionController.startAction(

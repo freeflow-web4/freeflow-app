@@ -5,7 +5,7 @@ class CreateWalletPrivateKeyShowStateAnimations {
   final Animation<double> title1Opacity;
   final Animation<double> title2Opacity;
   final Animation<double> title3Opacity;
-  final Animation<double> confirmButtonAnimationOpacity;
+  final Animation<double> buttonOpacity;
 
   CreateWalletPrivateKeyShowStateAnimations(AnimationController controller)
       : title1Opacity = Tween<double>(begin: 0, end: 1).animate(
@@ -38,7 +38,7 @@ class CreateWalletPrivateKeyShowStateAnimations {
             ),
           ),
         ),
-        confirmButtonAnimationOpacity = Tween<double>(begin: 0, end: 1).animate(
+        buttonOpacity = Tween<double>(begin: 0, end: 1).animate(
           CurvedAnimation(
             parent: controller,
             curve: const Interval(

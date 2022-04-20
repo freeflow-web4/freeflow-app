@@ -92,7 +92,6 @@ class _CreateWalletPrivateKeyShowViewState
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(bottom: mdSpacingx2),
                       child: Opacity(
-                        //TODO: add opacity from animations class
                         opacity: animations.title2Opacity.value,
                         child: RichText(
                           text: TextSpan(
@@ -158,7 +157,7 @@ class _CreateWalletPrivateKeyShowViewState
                     bottom: bigSpacing,
                   ),
                   child: Opacity(
-                    opacity: animations.confirmButtonAnimationOpacity.value,
+                    opacity: animations.buttonOpacity.value,
                     child: Observer(
                       builder: (context) {
                         return AnimatedFloatButtonWidget(

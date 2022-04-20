@@ -98,14 +98,13 @@ class _CreateWalletPrivateKeyConfirmViewState
                           color: StandardColors.white,
                           fontWeight: FontWeight.w500,
                         ),
-                        animation: animations.title1Opacity,
+                        animation: animations.title2Opacity,
                       ),
                       const SizedBox(
                         height: mdSpacingx2,
                       ),
                       Opacity(
-                        //TODO: add opacity from class
-                        opacity: animationController.value,
+                        opacity: animations.field1Opacity.value,
                         child: Observer(
                           builder: (context) {
                             return GradientTextFieldWidget(
@@ -148,7 +147,7 @@ class _CreateWalletPrivateKeyConfirmViewState
                       bottom: bigSpacing,
                     ),
                     child: Opacity(
-                      opacity: animations.confirmButtonAnimationOpacity.value,
+                      opacity: animations.buttonOpacity.value,
                       child: Observer(
                         builder: (context) {
                           return AnimatedFloatButtonWidget(
