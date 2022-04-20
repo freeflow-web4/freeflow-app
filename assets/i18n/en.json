@@ -43,6 +43,64 @@
         "welcomeBack": "Welcome Back",
         "toFreeflow": "To your\n FreeFlow Pouch"
     },
+    "profile": {
+        "copyAddress": "Copy Address",
+        "shareAddress": "Share Address",
+        "showPhrase": "Show Phrase",
+        "rememberMe": "Remember me",
+        "changePinCode": "Change pincode",
+        "gesturesInstruction": "Gestures instruction",
+        "commitment": "Commitment",
+        "commitmentContent": "FreeFlow community was created to distribute knowledge and wealth so we, the people, can collaborate and co-create a more harmonious and communal world.",
+        "logout": "Logout account from device",
+        "copiedAddress": "Public address copied to clipboard"
+    },
+    "wallet": {
+        "wallet": "Wallet",
+        "totalAmount": "Total amount",
+        "deposit": "Deposit",
+        "exchange": "Exchange",
+        "transcript": "Transcript",
+        "flwr": "flwr",
+        "collectibles": "Collectibles",
+        "all": "All",
+        "gratitude": "Gratitude",
+        "flowerExchange": "Flower Exchange",
+        "interAction": "Inter Action",
+        "networkUpdates": "Network Updates",
+        "clearSelection": "Clear selection",
+        "noActivity": "No Activity",
+        "soonYouWillReceiveNotifications": "Soon you will receive notifications!",
+        "otherTranscripts": "OTHER TRANSCRIPTS"
+    },
+    "editProfile": {
+        "editProfile": "EDIT PROFILE",
+        "cancel": "Cancel",
+        "save": "Save",
+        "changeProfilePhoto": "Change profile photo",
+        "name": "Name",
+        "pleaseEnterYourName": "Please enter your name",
+        "maximum60Characters": "Your name can have a maximum of 60 characters.",
+        "discardChanges": "Discard Changes?",
+        "discardChangesText": "If you go back now,\nyou will lose your changes.",
+        "discardChangesAccept": "DISCARD CHANGES",
+        "keepEdition": "KEEP EDITION",
+        "gallery": "GALLERY FROM COLLECTIBLES",
+        "all": "All",
+        "tickets": "My tickets",
+        "badges": "Badges",
+        "noImage": "NO IMAGE",
+        "noImageText": "YOU DO NOT HAVE COLLECTIBLES TO USE AS A PROFILE IMAGE.",
+        "choose": "Choose"
+    },
+    "noInternet": {
+        "noInternetTitle": "NO INTERNET\nCONNECTION FOUND",
+        "noInternetSubtitle": "CHECK YOUR CONNECTION"
+    },
+    "systemInstability": {
+        "systemInstabilityTitle": "WE HAVE AN INSTABILITY\nIN THE SYSTEM",
+        "systemInstabilitySubtitle": "PLEASE RESTART THE APP"
+    },
     "createWallet": {
         "nameTitle1": "Let's gather\nsome info\nto setup your\nFreeFlow Pouch.",
         "nameTextFieldHint": "How you wanna be called ?",

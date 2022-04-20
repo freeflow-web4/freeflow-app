@@ -1,3 +1,7 @@
+import 'dart:typed_data';
+
+import 'package:freeflow/layers/domain/entities/profile_entity.dart';
+import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
@@ -29,8 +33,8 @@ class Routes {
     _routeService.pushReplacement(const LoginRoute());
   }
 
-  void goToAuthPageRoute() {
-    _routeService.pushReplacement(const AuthRoute());
+  Future<void> goToAuthPageRoute() {
+    return _routeService.push(const AuthRoute());
   }
 
   void goToHomePageRoute() {
@@ -39,10 +43,37 @@ class Routes {
 
   void goToWalletPageRoute() {
     _routeService.pushReplacement(const CreateWalletRoute());
+  void goToProfilePageRoute() {
+    _routeService.push(const ProfileRoute());
+  }
+
+  void goToWalletPageRoute() {
+    _routeService.pushReplacement(const WalletRoute());
+  }
+
+  Future<ProfileEntity?> goToEditProfilePageRoute(ProfileEntity profileEntity) async {
+    final RouteResponse? response = await _routeService.push( EditProfileRoute(user: profileEntity));
+    return response?.body;
+  }
+
+  Future<Uint8List?> goToCutImagePageRoute(String imageUrl) async {
+    final RouteResponse? response =
+        await _routeService.push(CutImageRoute(imageUrl: imageUrl));
+    return response?.body;
   }
 
   void pop() {
     _routeService.pop();
+  }
+
+  void backToEditProfile(Uint8List file) {
+    RouteResponse data = RouteResponse(body: file);
+    _routeService.pop(data: data);
+  }
+
+  void backToProfile(ProfileEntity? profileEntity) {
+    RouteResponse data = RouteResponse(body: profileEntity);
+    _routeService.pop(data: data);
   }
 
 //   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(

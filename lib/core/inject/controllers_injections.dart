@@ -1,4 +1,9 @@
 import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
@@ -6,8 +11,10 @@ import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/confirm/create_wallet_confirm_pin_code_controller.dart';
+import 'package:freeflow/layers/presentation/pages/cut_image/controller/cut_image_controller.dart';
+import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_profile_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
+import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/confirm_pin_code_view/recover_confirm_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
@@ -59,13 +66,15 @@ registerControllerDependencies(GetIt getIt) {
   );
   getIt.registerLazySingleton<RecoverConfirmPinCodeViewController>(
     () => RecoverConfirmPinCodeViewController(
-      getIt.get<UserSetPincodeUsecase>(),
+      userSetPincodeUsecase: getIt.get<UserSetPincodeUsecase>(),
+      saveUserIsLoggedUsecase: getIt.get<SaveUserIsLoggedUsecase>(),
     ),
   );
   getIt.registerLazySingleton<RecoverPrivateKeyController>(
     () => RecoverPrivateKeyController(
       validator: getIt.get<PrivateKeyValidator>(),
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
+      saveUserLocalAuthUsecase: getIt.get<SaveUserLocalAuthUsecase>(),
     ),
   );
 
@@ -85,5 +94,22 @@ registerControllerDependencies(GetIt getIt) {
       userCreateWalletUseCase: GetIt.I.get<UserCreateWalletUseCase>(),
       userSetBiometricsUsecase: GetIt.I.get<UserSetBiometricsUsecase>(),
     ),
+  );
+  getIt.registerLazySingleton<ProfilePageController>(
+    () => ProfilePageController(
+      getProfileUsecase: getIt.get<GetProfileUsecase>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<EditProfileController>(
+    () => EditProfileController(
+      editProfileUsecase: getIt.get<EditProfileUsecase>(),
+      getProfileUsecase: getIt.get<GetProfileUsecase>(),
+      getCollectiblesUsecase: getIt.get<GetCollectiblesUsecase>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<CutImageController>(
+    () => CutImageController(),
   );
 }

@@ -1,4 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_is_logged_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/infra/cache/cache_storage.dart';
 import 'package:freeflow/layers/infra/cache/cache_storage_imp.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
@@ -19,5 +21,11 @@ registerInfraDependencies(GetIt getIt) {
 
   getIt.registerFactory<BiometricAuthDriver>(
     () => BiometricAuthDriverImp(LocalAuthentication()),
+  );
+  getIt.registerLazySingleton<AuthInterceptors>(
+    () => AuthInterceptors(
+      userIsLoggedUsecase: getIt.get<GetUserIsLoggedUsecase>(),
+      userLocalAuthUsecase: getIt.get<GetUserLocalAuthUsecase>(),
+    ),
   );
 }

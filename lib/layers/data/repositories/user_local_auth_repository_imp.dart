@@ -27,4 +27,24 @@ class UserLocalAuthRepositoryImp implements UserLocalAuthRepository {
       return const Left(DomainError.cacheError);
     }
   }
+
+  @override
+  Future<Either<DomainError, bool>> getUserIsLogged() async {
+    try {
+      final result = await datasource.getUserIsLogged();
+      return Right(result);
+    } on Exception catch (_) {
+      return const Left(DomainError.cacheError);
+    }
+  }
+
+  @override
+  Future<Either<DomainError, bool>> saveUserIsLogged(bool value) async {
+    try {
+      final result = await datasource.saveUserIsLogged(value);
+      return Right(result);
+    } on Exception catch (_) {
+      return const Left(DomainError.cacheError);
+    }
+  }
 }
