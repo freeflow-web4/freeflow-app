@@ -7,6 +7,7 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/private_key_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/confirm_key/create_wallet_private_key_confirm_animations.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/confirm_key/create_wallet_private_key_confirm_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
@@ -16,7 +17,7 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 
 class CreateWalletPrivateKeyConfirmView extends StatefulWidget {
   final void Function() onValid;
-  final String correctPrivateKey;
+  final PrivateKeyFormModel? correctPrivateKey;
   final bool animateOnStart;
 
   const CreateWalletPrivateKeyConfirmView({
@@ -39,8 +40,9 @@ class _CreateWalletPrivateKeyConfirmViewState
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  late final pageController =
-      CreateWalletPrivateKeyConfirmController(widget.correctPrivateKey);
+  late final pageController = CreateWalletPrivateKeyConfirmController(
+    widget.correctPrivateKey?.privateKey ?? '',
+  );
 
   late final animations =
       CreateWalletPrivateKeyConfirmAnimations(animationController);

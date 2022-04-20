@@ -6,6 +6,7 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/private_key_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_animations.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
@@ -13,13 +14,15 @@ import 'package:freeflow/layers/presentation/widgets/animated_float_button_widge
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 
 class CreateWalletPrivateKeyShowView extends StatefulWidget {
-  final void Function(String) onValid;
+  final void Function(PrivateKeyFormModel) onValid;
   final bool animateOnStart;
+  final String privateKey;
 
   const CreateWalletPrivateKeyShowView({
     Key? key,
     required this.onValid,
     required this.animateOnStart,
+    required this.privateKey,
   }) : super(key: key);
 
   @override
@@ -39,9 +42,6 @@ class _CreateWalletPrivateKeyShowViewState
 
   late final animations =
       CreateWalletPrivateKeyShowStateAnimations(animationController);
-
-  String privateKey =
-      'love spirit earth play share abundance life geometry sacred ancient egypt rio';
 
   @override
   void initState() {
@@ -129,7 +129,7 @@ class _CreateWalletPrivateKeyShowViewState
                         //TODO: add opacity from animations class
                         opacity: animations.title3Opacity.value,
                         child: Text(
-                          privateKey,
+                          widget.privateKey,
                           style: subtitleTextStyle.copyWith(
                             color: StandardColors.secondary,
                             fontWeight: FontWeight.w700,
@@ -186,7 +186,11 @@ class _CreateWalletPrivateKeyShowViewState
       0,
       duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
     );
-    widget.onValid(privateKey);
+    widget.onValid(
+      PrivateKeyFormModel(
+        privateKey: widget.privateKey,
+      ),
+    );
     animationController.animateTo(
       1,
       duration: Duration.zero,

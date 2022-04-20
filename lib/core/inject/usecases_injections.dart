@@ -1,10 +1,13 @@
 import 'package:freeflow/layers/domain/repositories/user_biometrics_repository.dart';
+import 'package:freeflow/layers/domain/repositories/user_create_wallet_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_local_auth_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_pincode_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_recover_login_repository.dart';
 import 'package:freeflow/layers/domain/repositories/username_exists_repository.dart';
 import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase_impl.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
@@ -49,5 +52,11 @@ registerUsecasesDependencies(GetIt getIt) {
   );
   getIt.registerFactory<SaveUserLocalAuthUsecase>(
     () => SaveUserLocalAuthUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),
+  );
+
+  getIt.registerFactory<UserCreateWalletUseCase>(
+    () => UserCreateWalletUseCaseImpl(
+      GetIt.I.get<UserCreateWalletRepository>(),
+    ),
   );
 }

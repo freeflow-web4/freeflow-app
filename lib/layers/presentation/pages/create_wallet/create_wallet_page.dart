@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/create_random_24_words.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
+import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/flower_name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/pin_code_form_model.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/private_key_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_page.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_page.dart';
@@ -14,6 +18,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_k
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_page.dart';
 import 'package:freeflow/layers/presentation/widgets/swipe_page_view.dart';
 import 'package:freeflow/routes/routes.dart';
+import 'package:get_it/get_it.dart';
 
 class CreateWalletPage extends StatefulWidget {
   const CreateWalletPage({Key? key}) : super(key: key);
@@ -24,12 +29,7 @@ class CreateWalletPage extends StatefulWidget {
 
 class _CreateWalletPageState extends State<CreateWalletPage>
     with TickerProviderStateMixin, TextThemes {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  final pageController = CreateWalletController();
+  final pageController = GetIt.I.get<CreateWalletController>();
 
   int currentIndex = 0;
 
@@ -45,6 +45,8 @@ class _CreateWalletPageState extends State<CreateWalletPage>
         ? pageController.pageIndicatorHeight
         : halfHeight;
   }
+
+  String privateKey = get24RandomWordsForSeedPhrase();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
             CreateWalletPrivateKeyShowView(
               onValid: onShowPrivateKeyPageValid,
               animateOnStart: currentIndex == 3 && shouldAnimateStart,
+              privateKey: privateKey,
               key: const ValueKey('CreateWalletControllerViewPrivateKeyKey'),
             ),
             CreateWalletPrivateKeyConfirmView(
@@ -121,7 +124,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
     });
   }
 
-  void onShowPrivateKeyPageValid(String privateKey) {
+  void onShowPrivateKeyPageValid(PrivateKeyFormModel  privateKey) {
     pageController.setPrivateKey(privateKey);
     setState(() {
       currentIndex = 4;
@@ -145,8 +148,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
   }
 
   void onConfirmPincodePageValid() {
-    //TODO: navigate to home
-    Routes.instance.goToHomePageRoute();
+    pageController.onCreationFinisehd();
   }
 
   void onSwiped(int index) {

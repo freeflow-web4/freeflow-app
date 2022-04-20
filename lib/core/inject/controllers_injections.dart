@@ -1,7 +1,9 @@
+import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/confirm/create_wallet_confirm_pin_code_controller.dart';
@@ -75,6 +77,13 @@ registerControllerDependencies(GetIt getIt) {
     () => CreateWalletPinCodeController(
       biometricDriver: getIt.get<BiometricAuthDriver>(),
       pinValidator: getIt.get<PinValidator>(),
+    ),
+  );
+
+  getIt.registerFactory<CreateWalletController>(
+    () => CreateWalletController(
+      userCreateWalletUseCase: GetIt.I.get<UserCreateWalletUseCase>(),
+      userSetBiometricsUsecase: GetIt.I.get<UserSetBiometricsUsecase>(),
     ),
   );
 }

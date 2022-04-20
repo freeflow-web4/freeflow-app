@@ -1,8 +1,12 @@
+import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/create_wallet_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/flower_name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/name_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/pin_code_form_model.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/models/private_key_form_model.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:mobx/mobx.dart';
 part 'create_wallet_controller.g.dart';
 
@@ -15,7 +19,15 @@ abstract class _CreateWalletControllerBase with Store {
 
   final CreateWalletFormModel formModel = CreateWalletFormModel();
 
-  String privateKey = '';
+  PinCodeFormModel? pinCode;
+
+  final UserSetBiometricsUsecase userSetBiometricsUsecase;
+  final UserCreateWalletUseCase userCreateWalletUseCase;
+
+  _CreateWalletControllerBase({
+    required this.userSetBiometricsUsecase,
+    required this.userCreateWalletUseCase,
+  });
 
   @action
   void updatePageIndicatorHeight(double height) {
@@ -44,19 +56,33 @@ abstract class _CreateWalletControllerBase with Store {
     formModel.flowerName = flowerName;
   }
 
-  void setPrivateKey(String privateKey) {
-    this.privateKey = privateKey;
+  void setPrivateKey(PrivateKeyFormModel privateKey) {
+    formModel.privateKeyFormModel = privateKey;
   }
 
-  String getPrivateKey() {
-    return privateKey;
+  PrivateKeyFormModel? getPrivateKey() {
+    return formModel.privateKeyFormModel;
   }
 
   void setPinCode(PinCodeFormModel pinCode) {
-    formModel.pinCode = pinCode;
+    this.pinCode = pinCode;
   }
 
   PinCodeFormModel? getPinCode() {
-    return formModel.pinCode;
+    return pinCode;
+  }
+
+  void onCreationFinisehd() async {
+    if (pinCode?.saveBiometrics == true) {
+      userSetBiometricsUsecase(true);
+    }
+    final result = await userCreateWalletUseCase(formModel.toEntity());
+    result.fold(
+      (l) {
+        //TODO: erro pages here
+        print(l.toString());
+      },
+      (r) => Routes.instance.goToHomePageRoute(),
+    );
   }
 }
