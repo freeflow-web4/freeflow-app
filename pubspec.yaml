@@ -59,6 +59,7 @@ dependencies:
   share_plus: ^4.0.4
   shimmer: ^2.0.0
   cropperx: ^1.0.0
+  bottom_sheet: ^2.1.0
 
 
 dev_dependencies:
