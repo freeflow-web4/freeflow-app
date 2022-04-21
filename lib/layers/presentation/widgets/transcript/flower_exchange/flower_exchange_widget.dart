@@ -9,10 +9,9 @@ import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/
 import 'package:shimmer/shimmer.dart';
 
 class FlowerExchangeWidget extends StatelessWidget with TextThemes {
-  final void Function() onTapToOpen;
   final TranscriptEntity transcriptEntity;
   final List<String> transferActions = ['send', 'received'];
-  FlowerExchangeWidget({Key? key, required this.onTapToOpen, required this.transcriptEntity}) : super(key: key);
+  FlowerExchangeWidget({Key? key, required this.transcriptEntity}) : super(key: key);
   FlowerExchangeController controller = findFlowerExchangeController();
 
   @override
@@ -23,7 +22,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          onTap: onTapToOpen,
+          onTap: controller.onTapFlowerExchange(transcriptEntity),
           splashColor: StandardColors.greyCA,
           child: Container(
             height: 98,
@@ -151,7 +150,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                                     child: InkWell(
                                       borderRadius: const BorderRadius.all(Radius.circular(4)),
                                       splashColor: StandardColors.flowerExchange,
-                                      onTap: onTapToOpen,
+                                      onTap: controller.onTapFlowerExchange(transcriptEntity),
                                       child:  Container(
                                         height: 15,
                                         width: 50,

@@ -1,10 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:freeflow/layers/data/repositories/user_biometrics_repository_imp.dart';
 import 'package:freeflow/layers/data/repositories/username_exists_repository_imp.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
-import 'package:freeflow/layers/domain/repositories/user_biometrics_repository.dart';
 import 'package:freeflow/layers/domain/repositories/username_exists_repository.dart';
 
 import '../mocks/username_exists_datasource_mock.dart';

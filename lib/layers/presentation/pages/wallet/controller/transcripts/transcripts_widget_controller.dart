@@ -22,11 +22,8 @@ abstract class TranscriptsWidgetControllerBase with Store {
   List<TranscriptEntity> transcripts = [];
 
 
-
-
   @action
   Future<void> getTranscripts() async {
-    transcriptViewState = ViewState.loading;
     page = 0;
     final response = await getTranscriptsUsecase.call(offset: 0);
 
@@ -41,13 +38,7 @@ abstract class TranscriptsWidgetControllerBase with Store {
 
   @action
   Future<void> refreshData() async {
-    try {
-      transcriptViewState = ViewState.loading;
-      await getTranscripts();
-      transcriptViewState = ViewState.done;
-    } catch (e) {
-      transcriptViewState = ViewState.error;
-    }
+    await getTranscripts();
   }
 
 

@@ -12,9 +12,10 @@ class FlowerExchangeController = _FlowerExchangeControllerBase
 
 abstract class _FlowerExchangeControllerBase with Store {
 
+
   @action
   onTapFlowerExchange(TranscriptEntity transcriptEntity){
-
+    print('id: ${transcriptEntity.id}');
   }
 
 
