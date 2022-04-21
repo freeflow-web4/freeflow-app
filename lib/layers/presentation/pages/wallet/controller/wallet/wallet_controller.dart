@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
-import 'package:freeflow/layers/domain/usecases/transcript_get_list/get_transcript_list_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_transcripts/get_transcripts_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
@@ -13,14 +11,14 @@ enum ViewState { start, loading, done, error }
 class WalletController = WalletControllerBase with _$WalletController;
 
 abstract class WalletControllerBase with Store {
-  GetTranscripsUsecase getTranscripListUsecase =
-      GetIt.I.get<GetTranscripsUsecase>();
+  GetTranscriptsUsecase getTranscriptsUsecase =
+  GetIt.I.get<GetTranscriptsUsecase>();
 
   @observable
   int index = 0;
 
   @observable
-  ViewState trasncriptViewState = ViewState.start;
+  ViewState transcriptViewState = ViewState.start;
 
   @observable
   ViewState walletViewState = ViewState.start;
@@ -33,24 +31,24 @@ abstract class WalletControllerBase with Store {
   @computed
   bool get transcriptIsLoading => walletViewState == ViewState.loading;
   @computed
-  bool get isTranscriptError => trasncriptViewState == ViewState.error;
-  @computed
-  bool walletOrTranscripIsLoadingOrNull(
+  bool get isTranscriptError => transcriptViewState == ViewState.error;
+
+  bool walletOrTranscriptsLoadingOrNull(
     List<TranscriptEntity>? transcriptList,
   ) =>
-      trasncriptViewState == ViewState.loading ||
+      transcriptViewState == ViewState.loading ||
       transcriptList == null ||
       walletViewState == ViewState.loading;
 
   @action
   Future<List<TranscriptEntity>> getTranscriptList() async {
     late List<TranscriptEntity> transcriptList;
-    trasncriptViewState = ViewState.loading;
-    final response = await getTranscripListUsecase.call(offset: 5);
-    trasncriptViewState = ViewState.done;
+    transcriptViewState = ViewState.loading;
+    final response = await getTranscriptsUsecase.call(offset: 0);
+    transcriptViewState = ViewState.done;
 
     response.fold(
-      (l) => trasncriptViewState = ViewState.error,
+      (l) => transcriptViewState = ViewState.error,
       (r) => transcriptList = r,
     );
 

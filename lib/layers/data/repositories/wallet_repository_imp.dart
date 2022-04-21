@@ -20,4 +20,18 @@ class WalletRepositoryImp implements WalletRepository {
       return Left(convertToDomainError(error.toString()));
     }
   }
+
+  @override
+  Future<Either<DomainError,TranscriptEntity>> getTranscript({required String id,required String status}) async {
+    try {
+      final result = await datasource.getTranscript(
+        id: id,
+        status: status,
+      );
+      return Right(result);
+    } on Exception catch (error) {
+      return Left(convertToDomainError(error.toString()));
+    }
+  }
 }
+

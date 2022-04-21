@@ -9,6 +9,28 @@ part of 'wallet_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$WalletController on WalletControllerBase, Store {
+  Computed<bool>? _$walletIsLoadingComputed;
+
+  @override
+  bool get walletIsLoading =>
+      (_$walletIsLoadingComputed ??= Computed<bool>(() => super.walletIsLoading,
+              name: 'WalletControllerBase.walletIsLoading'))
+          .value;
+  Computed<bool>? _$transcriptIsLoadingComputed;
+
+  @override
+  bool get transcriptIsLoading => (_$transcriptIsLoadingComputed ??=
+          Computed<bool>(() => super.transcriptIsLoading,
+              name: 'WalletControllerBase.transcriptIsLoading'))
+      .value;
+  Computed<bool>? _$isTranscriptErrorComputed;
+
+  @override
+  bool get isTranscriptError => (_$isTranscriptErrorComputed ??= Computed<bool>(
+          () => super.isTranscriptError,
+          name: 'WalletControllerBase.isTranscriptError'))
+      .value;
+
   final _$indexAtom = Atom(name: 'WalletControllerBase.index');
 
   @override
@@ -24,19 +46,19 @@ mixin _$WalletController on WalletControllerBase, Store {
     });
   }
 
-  final _$trasncriptViewStateAtom =
-      Atom(name: 'WalletControllerBase.trasncriptViewState');
+  final _$transcriptViewStateAtom =
+      Atom(name: 'WalletControllerBase.transcriptViewState');
 
   @override
-  ViewState get trasncriptViewState {
-    _$trasncriptViewStateAtom.reportRead();
-    return super.trasncriptViewState;
+  ViewState get transcriptViewState {
+    _$transcriptViewStateAtom.reportRead();
+    return super.transcriptViewState;
   }
 
   @override
-  set trasncriptViewState(ViewState value) {
-    _$trasncriptViewStateAtom.reportWrite(value, super.trasncriptViewState, () {
-      super.trasncriptViewState = value;
+  set transcriptViewState(ViewState value) {
+    _$transcriptViewStateAtom.reportWrite(value, super.transcriptViewState, () {
+      super.transcriptViewState = value;
     });
   }
 
@@ -92,9 +114,12 @@ mixin _$WalletController on WalletControllerBase, Store {
   String toString() {
     return '''
 index: ${index},
-trasncriptViewState: ${trasncriptViewState},
+transcriptViewState: ${transcriptViewState},
 walletViewState: ${walletViewState},
-viewContentType: ${viewContentType}
+viewContentType: ${viewContentType},
+walletIsLoading: ${walletIsLoading},
+transcriptIsLoading: ${transcriptIsLoading},
+isTranscriptError: ${isTranscriptError}
     ''';
   }
 }

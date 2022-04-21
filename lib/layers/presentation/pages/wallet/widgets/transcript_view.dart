@@ -4,7 +4,7 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/controller/transcripts/transcripts_widget_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/util/wallet_util.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/empty_content.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/secondary_filter_menu_widget.dart';
@@ -16,29 +16,28 @@ import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/gratit
 import 'package:freeflow/layers/presentation/widgets/transcript/interactions/interactions_widget.dart';
 
 class TranscriptView extends StatefulWidget {
-  final WalletController walletController;
-  const TranscriptView({
-    Key? key,
-    required this.walletController,
-  }) : super(key: key);
+
+  const TranscriptView({Key? key,}) : super(key: key);
 
   @override
   State<TranscriptView> createState() => _TranscriptViewState();
 }
 
 class _TranscriptViewState extends State<TranscriptView> {
-  List<TranscriptEntity>? transcriptList;
+  TranscriptsWidgetController controller = TranscriptsWidgetController();
+
   List<String> categoryList = [];
+  int selectedFilterIndex = 0;
+  List<TranscriptEntity> filteredTranscriptList = [];
+  String? selectedSecondaryFilter;
+  List<String> mainFilters = [];
+  List<String> secondaryFilters = [];
 
   @override
   void initState() {
     super.initState();
     setCategoryList();
-    setTranscriptList();
-  }
-
-  Future<void> setTranscriptList() async {
-    transcriptList = await widget.walletController.getTranscriptList();
+    controller.getTranscripts();
   }
 
   void setCategoryList() {
@@ -49,22 +48,15 @@ class _TranscriptViewState extends State<TranscriptView> {
     });
   }
 
-  int selectedFilterIndex = 0;
-  List<TranscriptEntity> filteredTranscriptList = [];
-  String? selectedSecondaryFilter;
-  List<String> mainFilters = [];
-  List<String> secondaryFilters = [];
 
   @override
   Widget build(BuildContext context) {
+    print('selectedFilterIndex $selectedFilterIndex');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
         builder: (context) {
-          if (widget.walletController
-              .walletOrTranscripIsLoadingOrNull(transcriptList)) {
-            return content(isLoading: true);
-          } else if ((transcriptList ?? []).isEmpty) {
+          if ( controller.transcripts.isEmpty) {
             return const CustomRoundedCard(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(normalSpacing),
@@ -86,7 +78,7 @@ class _TranscriptViewState extends State<TranscriptView> {
     });
   }
 
-  Widget content({bool isLoading = false}) {
+  Widget content() {
     return Column(
       children: [
         getWidgetBar(),
@@ -104,16 +96,18 @@ class _TranscriptViewState extends State<TranscriptView> {
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(
-                children: isLoading
-                    ? [
-                  LoadingWidget(
-                    isLoading: isLoading,
-                    color: StandardColors.greyCA,
-                    size: 33,
-                    padding: const EdgeInsets.only(top: mdSpacing),
-                  )
-                ]
-                    : listFilteredTranscriptWidgets(listFilteredTranscript()),
+                  children:[
+                    if(controller.transcriptViewState == ViewState.loading)...[
+                      const LoadingWidget(
+                        isLoading: true,
+                        color: StandardColors.greyCA,
+                        size: 33,
+                        padding: EdgeInsets.only(top: mdSpacing),
+                      )
+                    ]else...[
+                      ...listFilteredTranscriptWidgets(listFilteredTranscript()),
+                    ]
+                  ],
               ),
             ),
           ),
@@ -160,9 +154,7 @@ class _TranscriptViewState extends State<TranscriptView> {
     );
   }
 
-  List<Widget> listFilteredTranscriptWidgets(
-      List<TranscriptEntity> transcriptList,
-      ) {
+  List<Widget> listFilteredTranscriptWidgets(List<TranscriptEntity> transcriptList,) {
     List<Widget> filteredTranscriptsWidgetList;
     filteredTranscriptsWidgetList = transcriptList
         .map((transcript) => getKindOfTranscript(transcript),
@@ -174,29 +166,30 @@ class _TranscriptViewState extends State<TranscriptView> {
         : const [EmptyContent()];
   }
 
-  bool valueHasMatchWithFilterName(value, filterNamekey) =>
-      value ==
-          TranslationService.translate(
-            context,
-            'wallet.$filterNamekey',
-          );
+  bool valueHasMatchWithFilterName(value, filterNamekey){
+    return value == TranslationService.translate(
+      context,
+      'wallet.$filterNamekey',
+    );
+  }
+
 
   List<TranscriptEntity> listFilteredTranscript() {
     filteredTranscriptList.clear();
 
-    for (int i = 0; i < transcriptList!.length; i++) {
+    for (int i = 0; i <  controller.transcripts.length; i++) {
       if (valueHasMatchWithFilterName(
         categoryList[selectedFilterIndex],
         'all',
       )) {
-        filteredTranscriptList.add(transcriptList![i]);
+        filteredTranscriptList.add(controller.transcripts[i]);
       }
       if (categoryList[selectedFilterIndex] ==
           WalletUtil.getInternationalizedFilterName(
             context,
-            transcriptList![i].category,
+            controller.transcripts[i].category,
           )) {
-        filteredTranscriptList.add(transcriptList![i]);
+        filteredTranscriptList.add(controller.transcripts[i]);
       }
     }
 
