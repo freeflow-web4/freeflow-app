@@ -57,7 +57,7 @@ class _TranscriptViewState extends State<TranscriptView> {
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
         builder: (context) {
-          if ( controller.transcripts.isEmpty) {
+          if ( controller.transcripts.isEmpty && controller.transcriptViewState != ViewState.loading) {
             return const CustomRoundedCard(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(normalSpacing),

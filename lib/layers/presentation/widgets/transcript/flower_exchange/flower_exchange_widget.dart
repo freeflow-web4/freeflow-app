@@ -3,9 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
+import 'package:freeflow/layers/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/controller/flower_exchange_controller.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FlowerExchangeWidget extends StatelessWidget with TextThemes {
@@ -22,7 +26,9 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          onTap: controller.onTapFlowerExchange(transcriptEntity),
+          onTap: (){
+            onTapToOpenTranscript(context);
+          },
           splashColor: StandardColors.greyCA,
           child: Container(
             height: 98,
@@ -150,7 +156,9 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                                     child: InkWell(
                                       borderRadius: const BorderRadius.all(Radius.circular(4)),
                                       splashColor: StandardColors.flowerExchange,
-                                      onTap: controller.onTapFlowerExchange(transcriptEntity),
+                                      onTap: (){
+                                        onTapToOpenTranscript(context);
+                                      },
                                       child:  Container(
                                         height: 15,
                                         width: 50,
@@ -278,6 +286,64 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
         ),
       );
     }
+  }
+
+  void onTapToOpenTranscript(context) async {
+    bool status = await controller.onTapFlowerExchange(transcriptEntity);
+    if (status){
+      if(transcriptEntity.transferAction == transferActions[0]){
+        //TODO
+        ///SHOW DIALOG SENDED FLWS
+      }else{
+        //TODO
+        ///SHOW DIALOG RECEIVED FLWS
+      }
+    }else{
+      showDialogError(context);
+    }
+
+  }
+
+  void showSecondaryFiltersMenu(context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(normalSpacing),
+          topRight: Radius.circular(normalSpacing),
+        ),
+      ),
+      barrierColor: StandardColors.darkGrey.withOpacity(0.7),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setBottomSheetState) {
+            return CustomBottomSheet(
+              children: [
+                textSubtitle(context, textKey: 'wallet.otherTranscripts'),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      TranslationService.translate(context, "editProfile.discardChanges",),
+                    )
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void showDialogError(context) {
+    showDialogDefault(
+      context,
+      type: DialogType.systemInstability,
+      onTap: () {
+        Routes.instance.pop();
+      },
+    );
   }
 
 
