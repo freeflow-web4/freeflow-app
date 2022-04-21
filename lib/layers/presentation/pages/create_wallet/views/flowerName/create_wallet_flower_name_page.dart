@@ -12,6 +12,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerNam
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 
 class CreateWalletFlowerNameView extends StatefulWidget {
@@ -55,13 +56,13 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
           padding: const EdgeInsets.only(
             left: mdSpacingx2,
             right: mdSpacingx2,
-            top: huge4Spacing,
           ),
           child: AnimatedBuilder(
             animation: animationController,
             builder: (context, _) {
               return Column(
                 children: [
+                  const FlexibleVerticalSpacer(height: huge4Spacing,),
                   AnimatedText(
                     text: TranslationService.translate(
                       context,
@@ -72,7 +73,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                         textH4TextStyle.copyWith(color: StandardColors.white),
                     animation: animations.title1Opacity,
                   ),
-                  const SizedBox(
+                  const FlexibleVerticalSpacer(
                     height: mdSpacingx2,
                   ),
                   Opacity(
@@ -102,7 +103,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                       },
                     ),
                   ),
-                  const SizedBox(
+                  const FlexibleVerticalSpacer(
                     height: xxlargeSpacing,
                   ),
                   CreateWalletPageIndicator(
@@ -112,12 +113,10 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                     },
                     animatedOnStart: widget.animatedOnStart,
                   ),
-                  Expanded(
+                  Flexible(
+                    flex: 299,
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      padding: const EdgeInsets.only(
-                        bottom: bigSpacing,
-                      ),
                       child: Opacity(
                         opacity: animations.buttonOpacity.value,
                         child: Observer(
@@ -136,7 +135,8 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  const FlexibleVerticalSpacer(height: bigSpacing)
                 ],
               );
             },

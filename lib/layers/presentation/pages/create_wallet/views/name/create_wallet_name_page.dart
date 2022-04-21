@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
@@ -12,6 +13,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/crea
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 part './create_wallet_animations.dart';
 
@@ -51,97 +53,91 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
   @override
   Widget build(BuildContext context) {
     return BlackScaffold(
-      child: AnimatedBuilder(
-        animation: animationController,
-        builder: (context, _) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: mdSpacingx2,
-                  right: mdSpacingx2,
-                  top: huge4Spacing,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedText(
-                      text: TranslationService.translate(
-                        context,
-                        "createWallet.nameTitle1",
-                      ),
-                      animationController: animationController,
-                      style:
-                          textH4TextStyle.copyWith(color: StandardColors.white),
-                      animation: animations.title1Opacity,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: mdSpacingx2,
+            right: mdSpacingx2,
+          ),
+          child: AnimatedBuilder(
+            animation: animationController,
+            builder: (context, _) {
+              return Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const SizedBox(height: mdSpacingx2),
+                  AnimatedText(
+                    text: TranslationService.translate(
+                      context,
+                      "createWallet.nameTitle1",
                     ),
-                    const SizedBox(
-                      height: mdSpacingx2,
-                    ),
-                    Opacity(
-                      opacity: animations.field1Opacity.value,
-                      child: Observer(
-                        builder: (context) {
-                          return GradientTextFieldWidget(
-                            errorText: pageController.nameFieldState !=
-                                    GradientTextFieldState.invalid
-                                ? null
-                                : TranslationService.translate(
-                                    context,
-                                    'createWallet.nameTextFieldError',
-                                  ),
-                            hintText: TranslationService.translate(
-                              context,
-                              'createWallet.nameTextFieldHint',
-                            ),
-                            onChanged: pageController.onNameChanged,
-                            isFieldValid:
-                                pageController.isGradientTextFieldValid,
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: xxlargeSpacing,
-                    ),
-                    CreateWalletPageIndicator(
-                      currentIndex: 0,
-                      onAnimationEnd: () {
-                        animationController.forward();
-                      },
-                      animatedOnStart: widget.animatedOnStart,
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  padding: const EdgeInsets.only(
-                    bottom: bigSpacing,
+                    animationController: animationController,
+                    style:
+                        textH4TextStyle.copyWith(color: StandardColors.white),
+                    animation: animations.title1Opacity,
                   ),
-                  child: Opacity(
-                    opacity: animations.buttonOpacity.value,
+                  const FlexibleVerticalSpacer(height: mdSpacingx2),
+                  Opacity(
+                    opacity: animations.field1Opacity.value,
                     child: Observer(
                       builder: (context) {
-                        return AnimatedFloatButtonWidget(
-                          isActive: pageController.buttonNextActivated,
-                          onTap: (activate) {
-                            pageController.onNextButtonPressed(
-                              onValid,
-                              onInvalid,
-                            );
-                          },
-                          icon: IconsAsset.arrowIcon,
+                        return GradientTextFieldWidget(
+                          errorText: pageController.nameFieldState !=
+                                  GradientTextFieldState.invalid
+                              ? null
+                              : TranslationService.translate(
+                                  context,
+                                  'createWallet.nameTextFieldError',
+                                ),
+                          hintText: TranslationService.translate(
+                            context,
+                            'createWallet.nameTextFieldHint',
+                          ),
+                          onChanged: pageController.onNameChanged,
+                          isFieldValid:
+                              pageController.isGradientTextFieldValid,
                         );
                       },
                     ),
                   ),
-                ),
-              )
-            ],
-          );
-        },
+                  const FlexibleVerticalSpacer(height: largeSpacing),
+                  CreateWalletPageIndicator(
+                    currentIndex: 0,
+                    onAnimationEnd: () {
+                      animationController.forward();
+                    },
+                    animatedOnStart: widget.animatedOnStart,
+                  ),
+                  const FlexibleVerticalSpacer(height: bigSpacing),
+                  Flexible(
+                    flex: 299,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Opacity(
+                        opacity: animations.buttonOpacity.value,
+                        child: Observer(
+                          builder: (context) {
+                            return AnimatedFloatButtonWidget(
+                              isActive: pageController.buttonNextActivated,
+                              onTap: (activate) {
+                                pageController.onNextButtonPressed(
+                                  onValid,
+                                  onInvalid,
+                                );
+                              },
+                              icon: IconsAsset.arrowIcon,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  const FlexibleVerticalSpacer(height: bigSpacing)
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }

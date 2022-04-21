@@ -3,6 +3,7 @@ import 'package:freeflow/core/utils/create_random_24_words.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/flower_name_form_model.dart';
@@ -46,7 +47,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
         : halfHeight;
   }
 
-  String privateKey = get24RandomWordsForSeedPhrase();
+  String privateKey = getRandomWordsForSeedPhrase();
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +125,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
     });
   }
 
-  void onShowPrivateKeyPageValid(PrivateKeyFormModel  privateKey) {
+  void onShowPrivateKeyPageValid(PrivateKeyFormModel privateKey) {
     pageController.setPrivateKey(privateKey);
     setState(() {
       currentIndex = 4;
@@ -148,7 +149,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
   }
 
   void onConfirmPincodePageValid() {
-    pageController.onCreationFinisehd();
+    pageController.onCreationFinisehd(onError);
   }
 
   void onSwiped(int index) {
@@ -156,5 +157,13 @@ class _CreateWalletPageState extends State<CreateWalletPage>
       lastIndex = index + 1;
       currentIndex = index;
     });
+  }
+
+  void onError(DialogType type) {
+    showDialogDefault(
+      context,
+      type: type,
+      onTap: Routes.instance.pop,
+    );
   }
 }

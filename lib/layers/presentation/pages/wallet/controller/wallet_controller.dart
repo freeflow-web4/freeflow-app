@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/domain/usecases/transcript_get_list/get_transcript_list_usecase.dart';
 import 'package:get_it/get_it.dart';
@@ -34,7 +32,8 @@ abstract class WalletControllerBase with Store {
   bool get transcriptIsLoading => walletViewState == ViewState.loading;
   @computed
   bool get isTranscriptError => trasncriptViewState == ViewState.error;
-  @computed
+
+  @action
   bool walletOrTranscripIsLoadingOrNull(
     List<TranscriptEntity>? transcriptList,
   ) =>

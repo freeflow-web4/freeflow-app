@@ -1,5 +1,7 @@
+import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/create_wallet_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/flower_name_form_model.dart';
@@ -72,15 +74,20 @@ abstract class _CreateWalletControllerBase with Store {
     return pinCode;
   }
 
-  void onCreationFinisehd() async {
+  void onCreationFinisehd(void Function(DialogType) onError) async {
     if (pinCode?.saveBiometrics == true) {
       userSetBiometricsUsecase(true);
     }
     final result = await userCreateWalletUseCase(formModel.toEntity());
     result.fold(
-      (l) {
-        //TODO: erro pages here
-        print(l.toString());
+      (error) {
+        switch (error) {
+          case DomainError.noInternet:
+            onError(DialogType.noInternetConnection);
+            break;
+          default:
+            onError(DialogType.systemInstability);
+        }
       },
       (r) => Routes.instance.goToHomePageRoute(),
     );

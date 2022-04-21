@@ -141,7 +141,7 @@ class _CreateWalletPrivateKeyShowViewState
                 ),
               ),
               const SizedBox(
-                height: xxlargeSpacing,
+                height: mdSpacingx2,
               ),
               CreateWalletPageIndicator(
                 currentIndex: 3,

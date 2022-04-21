@@ -9,6 +9,8 @@ class LoginController = _LoginControllerBase with _$LoginController;
 
 abstract class _LoginControllerBase with Store {
   Future<void> onSwipe() {
-    return Routes.instance.goToAuthPageRoute();
+    return Routes.instance.goToFreeflowLogoLoadingRoute(
+      () => Routes.instance.goToAuthPageRoute(),
+    );
   }
 }

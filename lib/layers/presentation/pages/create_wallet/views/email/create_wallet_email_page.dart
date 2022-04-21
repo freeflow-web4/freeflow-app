@@ -13,6 +13,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/cre
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:get_it/get_it.dart';
 
@@ -73,7 +74,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                         textH4TextStyle.copyWith(color: StandardColors.white),
                     animation: animations.title1Opacity,
                   ),
-                  const SizedBox(
+                  const FlexibleVerticalSpacer(
                     height: mdSpacingx2,
                   ),
                   Opacity(
@@ -98,7 +99,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                       },
                     ),
                   ),
-                  const SizedBox(
+                  const FlexibleVerticalSpacer(
                     height: xxlargeSpacing,
                   ),
                   CreateWalletPageIndicator(
@@ -108,12 +109,10 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                     },
                     animatedOnStart: widget.animatedOnStart,
                   ),
-                  Expanded(
+                  Flexible(
+                    flex: 299,
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      padding: const EdgeInsets.only(
-                        bottom: bigSpacing,
-                      ),
                       child: Opacity(
                         opacity: animations.buttonOpacity.value,
                         child: Observer(
@@ -132,7 +131,8 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  const FlexibleVerticalSpacer(height: bigSpacing)
                 ],
               );
             },
