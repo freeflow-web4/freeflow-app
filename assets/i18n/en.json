@@ -111,7 +111,16 @@
             "from": " from ",
             "theName": "the NAME",
             "haveSend": "have send ",
-            "to": " to "
+            "to": " to ",
+            "transactionDetails": "TRANSACTION DETAILS",
+            "hashId": "Hash ID:",
+            "timestamp": "Timestamp:",
+            "from2dots": "From:",
+            "to2dots": "To:",
+            "amount": "Amount:",
+            "fee": "Fee:",
+            "dotFlw": ".flw",
+            "textCopied": "Public address\ncopied to clipboard"
         },
         "gratitude":  {
             "rewardedYou": "rewarded you ",

@@ -26,7 +26,7 @@ class TranscriptDetailsDto {
 
   TranscriptDetailsEntity toEntity() => TranscriptDetailsEntity(
     amount: amount,
-    date: date,
+    date: DateTime.parse(date!),
     fee: fee,
     senderEmail: senderEmail,
     senderPhotoUrl: senderPhotoUrl,
