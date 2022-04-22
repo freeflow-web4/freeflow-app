@@ -9,19 +9,20 @@ part of 'flower_exchange_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FlowerExchangeController on _FlowerExchangeControllerBase, Store {
-  final _$transcriptEntityAtom =
-      Atom(name: '_FlowerExchangeControllerBase.transcriptEntity');
+  final _$transcriptDetailsEntityAtom =
+      Atom(name: '_FlowerExchangeControllerBase.transcriptDetailsEntity');
 
   @override
-  TranscriptEntity get transcriptEntity {
-    _$transcriptEntityAtom.reportRead();
-    return super.transcriptEntity;
+  TranscriptDetailsEntity? get transcriptDetailsEntity {
+    _$transcriptDetailsEntityAtom.reportRead();
+    return super.transcriptDetailsEntity;
   }
 
   @override
-  set transcriptEntity(TranscriptEntity value) {
-    _$transcriptEntityAtom.reportWrite(value, super.transcriptEntity, () {
-      super.transcriptEntity = value;
+  set transcriptDetailsEntity(TranscriptDetailsEntity? value) {
+    _$transcriptDetailsEntityAtom
+        .reportWrite(value, super.transcriptDetailsEntity, () {
+      super.transcriptDetailsEntity = value;
     });
   }
 
@@ -37,7 +38,7 @@ mixin _$FlowerExchangeController on _FlowerExchangeControllerBase, Store {
   @override
   String toString() {
     return '''
-transcriptEntity: ${transcriptEntity}
+transcriptDetailsEntity: ${transcriptDetailsEntity}
     ''';
   }
 }

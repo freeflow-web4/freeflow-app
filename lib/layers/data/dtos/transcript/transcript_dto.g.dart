@@ -6,7 +6,8 @@ part of 'transcript_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TranscripDto _$TranscripDtoFromJson(Map<String, dynamic> json) => TranscripDto(
+TranscriptDto _$TranscriptDtoFromJson(Map<String, dynamic> json) =>
+    TranscriptDto(
       transferAction: json['transferAction'] as String?,
       id: json['id'] as String,
       viewed: json['viewed'] as bool,
@@ -19,7 +20,7 @@ TranscripDto _$TranscripDtoFromJson(Map<String, dynamic> json) => TranscripDto(
       userName: json['userName'] as String?,
     );
 
-Map<String, dynamic> _$TranscripDtoToJson(TranscripDto instance) =>
+Map<String, dynamic> _$TranscriptDtoToJson(TranscriptDto instance) =>
     <String, dynamic>{
       'category': instance.category,
       'amount': instance.amount,

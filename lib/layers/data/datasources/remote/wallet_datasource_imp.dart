@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:freeflow/layers/data/datasources/wallet_datasource.dart';
-import 'package:freeflow/layers/data/dtos/transcript_dto.dart';
+import 'package:freeflow/layers/data/dtos/transcript/transcript_dto.dart';
+import 'package:freeflow/layers/data/dtos/transcript_details/transcript_details_dto.dart';
+import 'package:freeflow/layers/domain/entities/transcript_details_entity.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/infra/http/http_client.dart';
 
@@ -9,10 +11,7 @@ class WalletDatasourceImp implements WalletDatasource {
   WalletDatasourceImp(this.client);
 
   @override
-  Future<List<TranscriptEntity>> getTranscripts({
-    required int offset,
-    String? category,
-  }) async {
+  Future<List<TranscriptEntity>> getTranscripts({required int offset, String? category,}) async {
     Map<String, dynamic> query = {
       'offset': offset,
       'category': category,
@@ -25,7 +24,7 @@ class WalletDatasourceImp implements WalletDatasource {
       final response = await client.get(
           'users-transcript/get-users-transcript',
           query: query,);
-      List<TranscriptEntity> transcripts =  List<TranscriptEntity>.from(response.data.map((model)=> TranscripDto.fromJson(model).toEntity()));
+      List<TranscriptEntity> transcripts =  List<TranscriptEntity>.from(response.data.map((model)=> TranscriptDto.fromJson(model).toEntity()));
 
       return transcripts;
 
@@ -42,15 +41,21 @@ class WalletDatasourceImp implements WalletDatasource {
   }
 
   @override
-  Future<TranscriptEntity> getTranscript({required String id, required String status,}) async {
+  Future<TranscriptDetailsEntity> getTranscriptDetails({required String id, required String status,}) async {
     try {
       final response = await client.get('users-transcript/$id',
         query: {
           "changeViewed" : status
         },
       );
-      return TranscripDto.fromJson(response.data).toEntity();
+
+      //TODO REMOVER
+      print('response ${response.statusCode}');
+      print('response ${response.data}');
+
+      return TranscriptDetailsDto.fromJson(response.data).toEntity();
     } catch (error) {
+      print('error $error');
       if (error is DioError) {
         throw Exception(error.message);
       } else {

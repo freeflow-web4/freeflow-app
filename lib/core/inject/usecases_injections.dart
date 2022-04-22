@@ -10,6 +10,8 @@ import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecas
 import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/get_transcript_details/get_transcript_details_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_transcript_details/get_transcript_details_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/get_transcripts/get_transcripts_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_transcripts/get_transcripts_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase.dart';
@@ -70,6 +72,9 @@ registerUsecasesDependencies(GetIt getIt) {
   );
   getIt.registerFactory<GetTranscriptsUsecase>(
     () => GetTranscriptsImp(GetIt.I.get<WalletRepository>()),
+  );
+  getIt.registerFactory<GetTranscriptDetailsUsecase>(
+        () => GetTranscriptDetailsImp(GetIt.I.get<WalletRepository>()),
   );
   getIt.registerFactory<SaveUserIsLoggedUsecase>(
     () => SaveUserIsLoggedUsecaseImp(GetIt.I.get<UserLocalAuthRepository>()),

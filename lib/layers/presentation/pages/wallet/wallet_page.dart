@@ -40,10 +40,10 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                 child: CustomTabBar(
                   width: double.infinity,
                   tabList: tabList(),
-                  tabBarViewList: [
+                  tabBarViewList: const [
                     TranscriptView(),
-                    const SizedBox.shrink(),
-                    const SizedBox.shrink(),
+                    SizedBox.shrink(),
+                    SizedBox.shrink(),
                   ],
                   indicatorDecoration: const CustomTabIndicator(
                     color: StandardColors.darkGrey,

@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'transcript_dto.g.dart';
 
 @JsonSerializable()
-class TranscripDto {
+class TranscriptDto {
   final String category;
   final String? amount;
   final String? gratitudeType;
@@ -16,7 +16,7 @@ class TranscripDto {
   final String? exchangeUsername;
   final String? photoUrl;
 
-  TranscripDto({
+  TranscriptDto({
     this.transferAction,
     required this.id,
     required this.viewed,
@@ -42,7 +42,6 @@ class TranscripDto {
     createdAt: createdAt,
       );
 
-  factory TranscripDto.fromJson(Map<String, dynamic> json) =>
-      _$TranscripDtoFromJson(json);
-  Map<String, dynamic> toJson() => _$TranscripDtoToJson(this);
+  factory TranscriptDto.fromJson(Map<String, dynamic> json) =>
+      _$TranscriptDtoFromJson(json);
 }

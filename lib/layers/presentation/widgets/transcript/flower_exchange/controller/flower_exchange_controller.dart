@@ -1,5 +1,6 @@
+import 'package:freeflow/layers/domain/entities/transcript_details_entity.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
-import 'package:freeflow/layers/domain/usecases/get_transcript/get_transcript_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/get_transcript_details/get_transcript_details_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'flower_exchange_controller.g.dart';
@@ -11,19 +12,19 @@ class FlowerExchangeController = _FlowerExchangeControllerBase
     with _$FlowerExchangeController;
 
 abstract class _FlowerExchangeControllerBase with Store {
-  GetTranscriptUsecase getTranscriptUsecase = GetIt.I.get<GetTranscriptUsecase>();
+  GetTranscriptDetailsUsecase getTranscriptDetails = GetIt.I.get<GetTranscriptDetailsUsecase>();
 
   @observable
-  late TranscriptEntity transcriptEntity;
+  TranscriptDetailsEntity? transcriptDetailsEntity;
 
 
   @action
   Future<bool> onTapFlowerExchange(TranscriptEntity transcriptEntity) async {
-    final response = await getTranscriptUsecase.call(id: transcriptEntity.id, status: '1');
+    final response = await getTranscriptDetails.call(id: transcriptEntity.id, status: '1');
     bool status = true;
     response.fold(
           (l) => status =  false,
-          (r) => transcriptEntity = r,
+          (r) => transcriptDetailsEntity = r,
     );
     return status;
 

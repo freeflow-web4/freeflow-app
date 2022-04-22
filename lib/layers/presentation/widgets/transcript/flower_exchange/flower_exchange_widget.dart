@@ -290,10 +290,11 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
 
   void onTapToOpenTranscript(context) async {
     bool status = await controller.onTapFlowerExchange(transcriptEntity);
+    print(status);
+    print(transcriptEntity.transferAction);
     if (status){
       if(transcriptEntity.transferAction == transferActions[0]){
-        //TODO
-        ///SHOW DIALOG SENDED FLWS
+        showSecondaryFiltersMenu(context);
       }else{
         //TODO
         ///SHOW DIALOG RECEIVED FLWS

@@ -32,7 +32,6 @@ abstract class WalletControllerBase with Store {
   bool get transcriptIsLoading => walletViewState == ViewState.loading;
   @computed
   bool get isTranscriptError => transcriptViewState == ViewState.error;
-
   bool walletOrTranscriptsLoadingOrNull(
     List<TranscriptEntity>? transcriptList,
   ) =>
