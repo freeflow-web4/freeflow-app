@@ -3,6 +3,7 @@ import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectible
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/set_user_private_key_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
@@ -72,6 +73,7 @@ registerControllerDependencies(GetIt getIt) {
       validator: getIt.get<PrivateKeyValidator>(),
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
       saveUserLocalAuthUsecase: getIt.get<SaveUserLocalAuthUsecase>(),
+      setUserPrivateKeyUsecase: getIt.get<SetUserPrivateKeyUsecase>(),
     ),
   );
   getIt.registerLazySingleton<ProfilePageController>(

@@ -96,6 +96,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                     key: ValueKey(
                       'key_for_text_field${widget.pinCode}',
                     ),
+                    controller: widget.textController,
                     initialValue: widget.pinCode,
                     onChanged: (text) {
                       _onInputChanged(text);

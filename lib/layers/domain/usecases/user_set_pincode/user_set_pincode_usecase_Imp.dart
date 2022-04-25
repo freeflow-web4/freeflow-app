@@ -1,5 +1,5 @@
-import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:dartz/dartz.dart';
+import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/repositories/user_pincode_repository.dart';
 
 import 'user_set_pincode_usecase.dart';
