@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
@@ -10,13 +11,22 @@ import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.
 import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/controller/flower_exchange_controller.dart';
 import 'package:freeflow/routes/routes.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
-class FlowerExchangeWidget extends StatelessWidget with TextThemes {
-  final TranscriptEntity transcriptEntity;
-  final List<String> transferActions = ['send', 'received'];
+class FlowerExchangeWidget extends StatefulWidget {
+  TranscriptEntity transcriptEntity;
+
   FlowerExchangeWidget({Key? key, required this.transcriptEntity}) : super(key: key);
-  FlowerExchangeController controller = findFlowerExchangeController();
+
+  @override
+  State<FlowerExchangeWidget> createState() => _FlowerExchangeWidgetState();
+}
+
+class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextThemes {
+  final List<String> transferActions = ['send', 'received'];
+  final NumberFormat numberFormat = NumberFormat("#,##0.00", "pt_BR");
+  final FlowerExchangeController controller = findFlowerExchangeController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +69,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                       width: 40,
                       margin: const EdgeInsets.only(top: 12, left: 12),
                       child: Visibility(
-                        visible: transcriptEntity.photoUrl == null,
+                        visible: widget.transcriptEntity.photoUrl == null,
                         child: Container(
                           decoration:  BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(40)),
@@ -111,7 +121,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                                 child: ClipRRect(
                                   borderRadius: const BorderRadius.all(Radius.circular(40)),
                                   child: Image.network(
-                                    transcriptEntity.photoUrl ?? '',
+                                    widget.transcriptEntity.photoUrl ?? '',
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, url, error) =>  Container(
                                       color: StandardColors.grey79,
@@ -184,7 +194,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                               Container(
                                 margin: const EdgeInsets.only(right: 2),
                                 child: Text(
-                                  transcriptEntity.createdAt,
+                                  widget.transcriptEntity.createdAt,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
@@ -202,18 +212,17 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                     ),
 
                     Visibility(
-                        visible: transcriptEntity.viewed == false,
+                        visible: widget.transcriptEntity.viewed == false,
                         child: Container(
                           height: 8,
                           width: 8,
                           margin: const EdgeInsets.only(top: 8, right: 8),
                           decoration: const BoxDecoration(
                               color: StandardColors.feedbackError,
-                              shape: BoxShape.circle
+                              shape: BoxShape.circle,
                           ),
-                        )
-                    )
-
+                        ),
+                    ),
                   ],
                 );
               },
@@ -226,7 +235,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
 
   Widget getRichText(context) {
     //SEND
-    if(transcriptEntity.transferAction == transferActions[0]){
+    if(widget.transcriptEntity.transferAction == transferActions[0]){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -241,7 +250,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount ?? ''),
               style: transcriptBold,
             ),
             TextSpan(
@@ -249,7 +258,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', transcriptEntity.userName ?? ''),
+              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', widget.transcriptEntity.userName ?? ''),
               style: transcriptBold,
             ),
           ],
@@ -271,7 +280,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount ?? ''),
               style: transcriptBold,
             ),
             TextSpan(
@@ -279,7 +288,7 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', transcriptEntity.exchangeUsername ?? ''),
+              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', widget.transcriptEntity.exchangeUsername ?? ''),
               style: transcriptBold,
             ),
           ],
@@ -289,25 +298,21 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
   }
 
   void onTapToOpenTranscript(context) async {
-
-    bool status = await controller.onTapFlowerExchange(transcriptEntity);
+    showDetailsFlowerExchange(context);
+    bool status = await controller.onTapFlowerExchange(widget.transcriptEntity);
 
     if (status){
-      showSecondaryFiltersMenu(context);
-      if(transcriptEntity.transferAction == transferActions[0]){
-        //TODO
-        ///SHOW DIALOG SENDED FLWS
-      }else{
-        //TODO
-        ///SHOW DIALOG RECEIVED FLWS
-      }
+      setState(() {
+        widget.transcriptEntity.viewed = true;
+      });
     }else{
-      // showDialogError(context);
+      Navigator.of(context).pop();
+      showDialogError(context);
     }
 
   }
 
-  void showSecondaryFiltersMenu(context) {
+  void showDetailsFlowerExchange(context) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -323,86 +328,143 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
           height: MediaQuery.of(context).size.height*0.85,
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setBottomSheetState) {
-              return Column(
-                children: [
+              return Observer(
+                builder: (_) {
+                  return Column(
+                    children: [
 
-                  Container(
-                    height: 4,
-                    width: 52,
-                    margin: const EdgeInsets.symmetric(vertical: 17),
-                    decoration: const BoxDecoration(
-                      color: StandardColors.backgroundDark,
-                      borderRadius: BorderRadius.all(Radius.circular(2)),
-                    ),
-                  ),
+                      Container(
+                        height: 4,
+                        width: 52,
+                        margin: const EdgeInsets.symmetric(vertical: 17),
+                        decoration: const BoxDecoration(
+                          color: StandardColors.backgroundDark,
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                        ),
+                      ),
 
-                  Text(
-                    TranslationService.translate(context, "transcript.flowerExchange.transactionDetails",),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Akrobat',
-                      color: StandardColors.black,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 80,
-                  ),
-                  SvgPicture.asset(
-                    IconsAsset.flowerLogo,
-                    color: StandardColors.black,
-                    height: 107,
-                    width: 107,
-                  ),
-                  const SizedBox(
-                    height: 80,
-                  ),
+                      Text(
+                        TranslationService.translate(context, "transcript.flowerExchange.transactionDetails",),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Akrobat',
+                          color: StandardColors.black,
+                        ),
+                      ),
 
-                  transactionItem(
-                    title: TranslationService.translate(
-                      context, "transcript.flowerExchange.hashId",),
-                    text: transcriptEntity.id,
-                    canCopied: true,
-                    context: context,
-                  ),
+                      const SizedBox(
+                        height: 80,
+                      ),
 
-                  transactionItem(
-                    title: TranslationService.translate(
-                      context, "transcript.flowerExchange.timestamp",),
-                    text: controller.transcriptDetailsEntity!.dateToString(),
-                    canCopied: true,
-                    context: context,
-                  ),
+                      SvgPicture.asset(
+                        IconsAsset.flowerLogo,
+                        color: StandardColors.black,
+                        height: 107,
+                        width: 107,
+                      ),
 
-                  const Divider(
-                    color: StandardColors.greyCA,
-                  ),
+                      const SizedBox(
+                        height: 80,
+                      ),
 
-                  transactionItem(
-                    title: TranslationService.translate(
-                      context, "transcript.flowerExchange.timestamp",),
-                    text: transcriptEntity.id,
-                    canCopied: false,
-                    context: context,
-                  ),
+                      transactionItem(
+                        title: TranslationService.translate(
+                          context, "transcript.flowerExchange.hashId",),
+                        text: widget.transcriptEntity.id,
+                        canCopied: true,
+                        context: context,
+                      ),
 
-                  transactionItem(
-                    title: TranslationService.translate(
-                      context, "transcript.flowerExchange.timestamp",),
-                    text: controller.transcriptDetailsEntity!.dateToString(),
-                    canCopied: true,
-                    context: context,
-                  ),
+                      const SizedBox(
+                        height: 4,
+                      ),
 
+                      transactionItem(
+                        title: TranslationService.translate(context, "transcript.flowerExchange.timestamp",),
+                        text: controller.transcriptDetailsEntity?.dateToString() ?? '',
+                        canCopied: false,
+                        context: context,
+                      ),
 
+                      const SizedBox(
+                        height: 18,
+                      ),
 
+                      const Divider(
+                        color: StandardColors.greyCA,
+                        thickness: 1.2,
+                        indent: 32,
+                        endIndent: 32,
+                      ),
 
-                  const SizedBox(
-                    height: 80,
-                  ),
+                      const SizedBox(
+                        height: 18,
+                      ),
 
-                ],
+                      transactionItem(
+                        title: TranslationService.translate(context, "transcript.flowerExchange.from2dots",),
+                        //TODO POR O NOME
+                        text: getName(controller.transcriptDetailsEntity?.senderEmail),
+                        canCopied: true,
+                        context: context,
+                      ),
+
+                      const SizedBox(
+                        height: 4,
+                      ),
+
+                      transactionItem(
+                        title: TranslationService.translate(context, "transcript.flowerExchange.to2dots",),
+                        //TODO POR O NOME
+                        text: getName(controller.transcriptDetailsEntity?.reciverEmail),
+                        canCopied: true,
+                        context: context,
+                      ),
+
+                      const SizedBox(
+                        height: 18,
+                      ),
+
+                      const Divider(
+                        color: StandardColors.greyCA,
+                        thickness: 1.2,
+                        indent: 32,
+                        endIndent: 32,
+                      ),
+
+                      const SizedBox(
+                        height: 18,
+                      ),
+
+                      transactionItem(
+                        title: TranslationService.translate(context, "transcript.flowerExchange.amount",),
+                        //TODO ALTERAR VALOR
+                        text: "\$ ${numberFormat.format(10.5)} ${TranslationService.translate(context, "transcript.coin",)}" ,
+                        canCopied: false,
+                        context: context,
+                      ),
+
+                      const SizedBox(
+                        height: 4,
+                      ),
+
+                      transactionItem(
+                        title: TranslationService.translate(context, "transcript.flowerExchange.fee",),
+                        //TODO ALTERAR VALOR
+                        text: "\$ ${numberFormat.format(10.5)} ${TranslationService.translate(context, "transcript.coin",)}" ,
+                        canCopied: false,
+                        context: context,
+                      ),
+
+                      const SizedBox(
+                        height: 80,
+                      ),
+
+                    ],
+                  );
+                },
               );
             },
           ),
@@ -434,57 +496,54 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
                   fontSize: 14,
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w400,
-                  color: StandardColors.grey79
+                  color: StandardColors.grey79,
               ),
             ),
           ),
-          SizedBox(
-              width: MediaQuery.of(context).size.width - (32*2 + 99 + (canCopied ? 48 : 0)),
-              child: Text(text,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 14,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                    color: StandardColors.black
-                ),
-              )
-          ),
-          Visibility(
-            visible: canCopied,
-            child: Material(
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              child: SizedBox(
-                height: 20,
-                width: 20,
-                child: InkWell(
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  splashColor: Colors.red,
-                  onTap: (){
-                    controller.copyText(text);
-                    showDialog(
-                      barrierColor: Colors.transparent,
-                      context: context,
-                      builder: (context) => const InformativeDialog(
-                        icon: IconsAsset.checkIcon,
-                        title: "profile.copiedAddress",
-                      ),
-                    );
-                  },
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    child: SvgPicture.asset(
-                      IconsAsset.copyText,
-                      width: 12,
-                      height: 12,
-                      fit: BoxFit.cover,
-                    ),
+          if(controller.loading)...[
+            Shimmer.fromColors(
+              direction: ShimmerDirection.ltr,
+              baseColor: StandardColors.baseShimmer,
+              highlightColor: StandardColors.highlightShimmer,
+              child: Container(
+                width: MediaQuery.of(context).size.width - (32*2 + 74 + (canCopied ? 48 : 25)),
+                height: 17,
+                color: Colors.black,
+              ),
+            ),
+          ]else...[
+            SizedBox(
+                width: MediaQuery.of(context).size.width - (32*2 + 74 + (canCopied ? 48 : 25)),
+                child: Text(text,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                      color: StandardColors.black,
                   ),
-
-
-
                 ),
+            ),
+          ],
+          Visibility(
+            visible: canCopied && !controller.loading,
+            child: GestureDetector(
+              onTap: (){
+                controller.copyText(text);
+                showDialog(
+                  barrierColor: Colors.transparent,
+                  context: context,
+                  builder: (context) => const InformativeDialog(
+                    icon: IconsAsset.checkIcon,
+                    title: "profile.copiedAddress",
+                  ),
+                );
+              },
+              child: SvgPicture.asset(
+                IconsAsset.copyText,
+                width: 21,
+                height: 21,
+                fit: BoxFit.cover,
               ),
             ),)
         ],
@@ -492,5 +551,10 @@ class FlowerExchangeWidget extends StatelessWidget with TextThemes {
     );
   }
 
-
+  String getName(String? name) {
+    if(name != null){
+      return '$name.flw';
+    }
+    return '';
+  }
 }

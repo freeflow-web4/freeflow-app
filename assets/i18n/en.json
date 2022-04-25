@@ -104,7 +104,8 @@
         "freeflow": "FreeFlow ",
         "coinAmount": "XX FLWRs ",
         "view": "View",
-        "coin": "FLWRs",
+        "coins": "FLWRs",
+        "coin": "FLWR",
         "flowerExchange":  {
             "you": "You ",
             "received": "received ",

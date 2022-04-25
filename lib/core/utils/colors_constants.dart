@@ -23,7 +23,7 @@ class StandardColors {
   static const Color borderGrey = Color(0xFFE0E2E2);
   static const Color borderMediumGrey = Color(0xFFCACACA);
   static const Color textMediumGrey = Color(0xFF696969);
-  static const Color baseShimmer = Color(0xFFD0D0D0);
+  static const Color baseShimmer = Color(0xFFEBEBEB);
   static const Color highlightShimmer = Color(0xFFF2f2f2);
   static const Color flowerExchange = Color(0xFFC1DEAE);
   static const Color interactions = Color(0xFFE8E8A6);

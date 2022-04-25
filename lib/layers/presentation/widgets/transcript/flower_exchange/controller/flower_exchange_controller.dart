@@ -17,16 +17,19 @@ abstract class _FlowerExchangeControllerBase with Store {
 
   @observable
   TranscriptDetailsEntity? transcriptDetailsEntity;
-
+  @observable
+  bool loading = false;
 
   @action
   Future<bool> onTapFlowerExchange(TranscriptEntity transcriptEntity) async {
+    loading = true;
     final response = await getTranscriptDetails.call(id: transcriptEntity.id, status: '1');
     bool status = true;
     response.fold(
           (l) => status =  false,
           (r) => transcriptDetailsEntity = r,
     );
+    loading = false;
     return status;
 
   }
