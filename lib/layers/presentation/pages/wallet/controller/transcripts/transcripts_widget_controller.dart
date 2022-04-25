@@ -20,20 +20,40 @@ abstract class TranscriptsWidgetControllerBase with Store {
   ViewState transcriptViewState = ViewState.loading;
   @observable
   List<TranscriptEntity> transcripts = [];
+  @observable
+  bool loadingMoreTranscripts = false;
+  @observable
+  bool hasMoreTranscripts = false;
 
 
   @action
   Future<void> getTranscripts() async {
     page = 0;
-    final response = await getTranscriptsUsecase.call(offset: 0);
-
+    final response = await getTranscriptsUsecase.call(offset: page);
     response.fold(
           (l) => transcriptViewState = ViewState.error,
           (r) {
         transcripts = r;
         transcriptViewState = ViewState.done;
+        hasMoreTranscripts = r.isNotEmpty;
       },
     );
+  }
+
+  @action
+  Future<void> getMoreTranscripts() async {
+    loadingMoreTranscripts = true;
+    page++;
+    final response = await getTranscriptsUsecase.call(offset: page);
+
+    response.fold(
+          (l) => transcriptViewState = ViewState.error,
+          (r) {
+        transcripts = r;
+        hasMoreTranscripts = r.isNotEmpty;
+      },
+    );
+    loadingMoreTranscripts = false;
   }
 
   @action

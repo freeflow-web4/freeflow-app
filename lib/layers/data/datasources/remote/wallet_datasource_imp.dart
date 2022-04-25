@@ -28,9 +28,6 @@ class WalletDatasourceImp implements WalletDatasource {
 
       return transcripts;
 
-      // return await Future.delayed(const Duration(seconds: 1), () {
-      //   return WalletUtil.transcriptsMocked;
-      // });
     } catch (error) {
       if (error is DioError) {
         throw Exception(error.message);
@@ -49,13 +46,8 @@ class WalletDatasourceImp implements WalletDatasource {
         },
       );
 
-      //TODO REMOVER
-      print('response ${response.statusCode}');
-      print('response ${response.data}');
-
       return TranscriptDetailsDto.fromJson(response.data).toEntity();
     } catch (error) {
-      print('error $error');
       if (error is DioError) {
         throw Exception(error.message);
       } else {

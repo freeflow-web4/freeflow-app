@@ -33,12 +33,27 @@ class _TranscriptViewState extends State<TranscriptView> {
   String? selectedSecondaryFilter;
   List<String> mainFilters = [];
   List<String> secondaryFilters = [];
+  final ScrollController _scrollController = ScrollController();
+
 
   @override
   void initState() {
     super.initState();
     setCategoryList();
     controller.getTranscripts();
+    _scrollController.addListener(() async {
+      if(canGetMoreTranscript()){
+        print('get more');
+        await controller.getMoreTranscripts();
+      }
+    });
+  }
+
+  bool canGetMoreTranscript(){
+    return ((_scrollController.offset > _scrollController.position.maxScrollExtent * 0.7)
+        && controller.transcriptViewState == ViewState.done
+        && !controller.loadingMoreTranscripts
+        && controller.hasMoreTranscripts);
   }
 
   void setCategoryList() {
@@ -97,6 +112,7 @@ class _TranscriptViewState extends State<TranscriptView> {
             child: RefreshLoading(
               onRefresh: controller.refreshData,
               child: SingleChildScrollView(
+                controller: _scrollController,
                 child: Column(
                     children:[
                       if(controller.transcriptViewState == ViewState.loading)...[

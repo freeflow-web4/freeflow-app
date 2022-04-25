@@ -18,9 +18,6 @@ abstract class WalletControllerBase with Store {
   int index = 0;
 
   @observable
-  ViewState transcriptViewState = ViewState.start;
-
-  @observable
   ViewState walletViewState = ViewState.start;
 
   @observable
@@ -30,35 +27,20 @@ abstract class WalletControllerBase with Store {
   bool get walletIsLoading => walletViewState == ViewState.loading;
   @computed
   bool get transcriptIsLoading => walletViewState == ViewState.loading;
-  @computed
-  bool get isTranscriptError => transcriptViewState == ViewState.error;
+
   bool walletOrTranscriptsLoadingOrNull(
     List<TranscriptEntity>? transcriptList,
   ) =>
-      transcriptViewState == ViewState.loading ||
       transcriptList == null ||
       walletViewState == ViewState.loading;
 
-  @action
-  Future<List<TranscriptEntity>> getTranscriptList() async {
-    late List<TranscriptEntity> transcriptList;
-    transcriptViewState = ViewState.loading;
-    final response = await getTranscriptsUsecase.call(offset: 0);
-    transcriptViewState = ViewState.done;
 
-    response.fold(
-      (l) => transcriptViewState = ViewState.error,
-      (r) => transcriptList = r,
-    );
 
-    return transcriptList;
-  }
 
   @action
   Future<void> refreshData() async {
     try {
       walletViewState = ViewState.loading;
-      await getTranscriptList();
       walletViewState = ViewState.done;
     } catch (e) {
       walletViewState = ViewState.error;

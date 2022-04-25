@@ -41,12 +41,54 @@ mixin _$TranscriptsWidgetController on TranscriptsWidgetControllerBase, Store {
     });
   }
 
+  final _$loadingMoreTranscriptsAtom =
+      Atom(name: 'TranscriptsWidgetControllerBase.loadingMoreTranscripts');
+
+  @override
+  bool get loadingMoreTranscripts {
+    _$loadingMoreTranscriptsAtom.reportRead();
+    return super.loadingMoreTranscripts;
+  }
+
+  @override
+  set loadingMoreTranscripts(bool value) {
+    _$loadingMoreTranscriptsAtom
+        .reportWrite(value, super.loadingMoreTranscripts, () {
+      super.loadingMoreTranscripts = value;
+    });
+  }
+
+  final _$hasMoreTranscriptsAtom =
+      Atom(name: 'TranscriptsWidgetControllerBase.hasMoreTranscripts');
+
+  @override
+  bool get hasMoreTranscripts {
+    _$hasMoreTranscriptsAtom.reportRead();
+    return super.hasMoreTranscripts;
+  }
+
+  @override
+  set hasMoreTranscripts(bool value) {
+    _$hasMoreTranscriptsAtom.reportWrite(value, super.hasMoreTranscripts, () {
+      super.hasMoreTranscripts = value;
+    });
+  }
+
   final _$getTranscriptsAsyncAction =
       AsyncAction('TranscriptsWidgetControllerBase.getTranscripts');
 
   @override
   Future<void> getTranscripts() {
     return _$getTranscriptsAsyncAction.run(() => super.getTranscripts());
+  }
+
+  final _$getMoreTranscriptsAsyncAction =
+      AsyncAction('TranscriptsWidgetControllerBase.getMoreTranscripts');
+
+  @override
+  Future<void> getMoreTranscripts() {
+    return _$getMoreTranscriptsAsyncAction
+        .run(() => super.getMoreTranscripts());
   }
 
   final _$refreshDataAsyncAction =
@@ -61,7 +103,9 @@ mixin _$TranscriptsWidgetController on TranscriptsWidgetControllerBase, Store {
   String toString() {
     return '''
 transcriptViewState: ${transcriptViewState},
-transcripts: ${transcripts}
+transcripts: ${transcripts},
+loadingMoreTranscripts: ${loadingMoreTranscripts},
+hasMoreTranscripts: ${hasMoreTranscripts}
     ''';
   }
 }

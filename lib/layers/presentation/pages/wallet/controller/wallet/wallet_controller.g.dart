@@ -23,13 +23,6 @@ mixin _$WalletController on WalletControllerBase, Store {
           Computed<bool>(() => super.transcriptIsLoading,
               name: 'WalletControllerBase.transcriptIsLoading'))
       .value;
-  Computed<bool>? _$isTranscriptErrorComputed;
-
-  @override
-  bool get isTranscriptError => (_$isTranscriptErrorComputed ??= Computed<bool>(
-          () => super.isTranscriptError,
-          name: 'WalletControllerBase.isTranscriptError'))
-      .value;
 
   final _$indexAtom = Atom(name: 'WalletControllerBase.index');
 
@@ -43,22 +36,6 @@ mixin _$WalletController on WalletControllerBase, Store {
   set index(int value) {
     _$indexAtom.reportWrite(value, super.index, () {
       super.index = value;
-    });
-  }
-
-  final _$transcriptViewStateAtom =
-      Atom(name: 'WalletControllerBase.transcriptViewState');
-
-  @override
-  ViewState get transcriptViewState {
-    _$transcriptViewStateAtom.reportRead();
-    return super.transcriptViewState;
-  }
-
-  @override
-  set transcriptViewState(ViewState value) {
-    _$transcriptViewStateAtom.reportWrite(value, super.transcriptViewState, () {
-      super.transcriptViewState = value;
     });
   }
 
@@ -94,14 +71,6 @@ mixin _$WalletController on WalletControllerBase, Store {
     });
   }
 
-  final _$getTranscriptListAsyncAction =
-      AsyncAction('WalletControllerBase.getTranscriptList');
-
-  @override
-  Future<List<TranscriptEntity>> getTranscriptList() {
-    return _$getTranscriptListAsyncAction.run(() => super.getTranscriptList());
-  }
-
   final _$refreshDataAsyncAction =
       AsyncAction('WalletControllerBase.refreshData');
 
@@ -114,12 +83,10 @@ mixin _$WalletController on WalletControllerBase, Store {
   String toString() {
     return '''
 index: ${index},
-transcriptViewState: ${transcriptViewState},
 walletViewState: ${walletViewState},
 viewContentType: ${viewContentType},
 walletIsLoading: ${walletIsLoading},
-transcriptIsLoading: ${transcriptIsLoading},
-isTranscriptError: ${isTranscriptError}
+transcriptIsLoading: ${transcriptIsLoading}
     ''';
   }
 }
