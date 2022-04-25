@@ -40,10 +40,10 @@ class _TranscriptViewState extends State<TranscriptView> {
   void initState() {
     super.initState();
     setCategoryList();
-    controller.getTranscripts();
+    controller.configureTranscripts();
     _scrollController.addListener(() async {
       if(canGetMoreTranscript()){
-        await controller.getMoreTranscripts();
+        await controller.configureMoreTranscripts();
       }
     });
   }

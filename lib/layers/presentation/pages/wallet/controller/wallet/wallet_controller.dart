@@ -41,6 +41,7 @@ abstract class WalletControllerBase with Store {
   Future<void> refreshData() async {
     try {
       walletViewState = ViewState.loading;
+      //TODO REFRESH TOTAL AMOUNT
       walletViewState = ViewState.done;
     } catch (e) {
       walletViewState = ViewState.error;

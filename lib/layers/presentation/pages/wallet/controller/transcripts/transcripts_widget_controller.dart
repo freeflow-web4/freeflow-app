@@ -27,7 +27,7 @@ abstract class TranscriptsWidgetControllerBase with Store {
 
 
   @action
-  Future<void> getTranscripts() async {
+  Future<void> configureTranscripts() async {
     page = 0;
     final response = await getTranscriptsUsecase.call(offset: page);
     response.fold(
@@ -41,7 +41,7 @@ abstract class TranscriptsWidgetControllerBase with Store {
   }
 
   @action
-  Future<void> getMoreTranscripts() async {
+  Future<void> configureMoreTranscripts() async {
     loadingMoreTranscripts = true;
     page++;
     final response = await getTranscriptsUsecase.call(offset: page);
@@ -58,7 +58,7 @@ abstract class TranscriptsWidgetControllerBase with Store {
 
   @action
   Future<void> refreshData() async {
-    await getTranscripts();
+    await configureTranscripts();
   }
 
 

@@ -74,21 +74,22 @@ mixin _$TranscriptsWidgetController on TranscriptsWidgetControllerBase, Store {
     });
   }
 
-  final _$getTranscriptsAsyncAction =
-      AsyncAction('TranscriptsWidgetControllerBase.getTranscripts');
+  final _$configureTranscriptsAsyncAction =
+      AsyncAction('TranscriptsWidgetControllerBase.configureTranscripts');
 
   @override
-  Future<void> getTranscripts() {
-    return _$getTranscriptsAsyncAction.run(() => super.getTranscripts());
+  Future<void> configureTranscripts() {
+    return _$configureTranscriptsAsyncAction
+        .run(() => super.configureTranscripts());
   }
 
-  final _$getMoreTranscriptsAsyncAction =
-      AsyncAction('TranscriptsWidgetControllerBase.getMoreTranscripts');
+  final _$configureMoreTranscriptsAsyncAction =
+      AsyncAction('TranscriptsWidgetControllerBase.configureMoreTranscripts');
 
   @override
-  Future<void> getMoreTranscripts() {
-    return _$getMoreTranscriptsAsyncAction
-        .run(() => super.getMoreTranscripts());
+  Future<void> configureMoreTranscripts() {
+    return _$configureMoreTranscriptsAsyncAction
+        .run(() => super.configureMoreTranscripts());
   }
 
   final _$refreshDataAsyncAction =
