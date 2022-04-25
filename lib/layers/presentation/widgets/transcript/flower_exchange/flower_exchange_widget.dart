@@ -37,7 +37,9 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           onTap: (){
-            onTapToOpenTranscript(context);
+            Future.delayed(const Duration(milliseconds: 80), (){
+              onTapToOpenTranscript(context);
+            });
           },
           splashColor: StandardColors.greyCA,
           child: Container(
@@ -167,7 +169,9 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
                                     borderRadius: const BorderRadius.all(Radius.circular(4)),
                                     splashColor: StandardColors.flowerExchange,
                                     onTap: (){
-                                      onTapToOpenTranscript(context);
+                                      Future.delayed(const Duration(milliseconds: 80), (){
+                                        onTapToOpenTranscript(context);
+                                      });
                                     },
                                     child:  Container(
                                       height: 15,
@@ -212,16 +216,16 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
                     ),
 
                     Visibility(
-                        visible: widget.transcriptEntity.viewed == false,
-                        child: Container(
-                          height: 8,
-                          width: 8,
-                          margin: const EdgeInsets.only(top: 8, right: 8),
-                          decoration: const BoxDecoration(
-                              color: StandardColors.feedbackError,
-                              shape: BoxShape.circle,
-                          ),
+                      visible: widget.transcriptEntity.viewed == false,
+                      child: Container(
+                        height: 8,
+                        width: 8,
+                        margin: const EdgeInsets.only(top: 8, right: 8),
+                        decoration: const BoxDecoration(
+                          color: StandardColors.feedbackError,
+                          shape: BoxShape.circle,
                         ),
+                      ),
                     ),
                   ],
                 );
@@ -493,10 +497,10 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
             child: Text(title,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                  fontSize: 14,
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.w400,
-                  color: StandardColors.grey79,
+                fontSize: 14,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
+                color: StandardColors.grey79,
               ),
             ),
           ),
@@ -513,16 +517,16 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
             ),
           ]else...[
             SizedBox(
-                width: MediaQuery.of(context).size.width - (32*2 + 74 + (canCopied ? 48 : 25)),
-                child: Text(text,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w400,
-                      color: StandardColors.black,
-                  ),
+              width: MediaQuery.of(context).size.width - (32*2 + 74 + (canCopied ? 48 : 25)),
+              child: Text(text,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w400,
+                  color: StandardColors.black,
                 ),
+              ),
             ),
           ],
           Visibility(

@@ -5,11 +5,21 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/interactions/controller/interaction_controller.dart';
+import 'package:freeflow/routes/routes.dart';
 
-class InteractionsWidget extends StatelessWidget  with TextThemes{
-  final void Function() onTapToOpen;
-  final TranscriptEntity transcriptEntity;
-  InteractionsWidget({Key? key, required this.onTapToOpen, required this.transcriptEntity}) : super(key: key);
+class InteractionsWidget extends StatefulWidget{
+  TranscriptEntity transcriptEntity;
+  InteractionsWidget({Key? key, required this.transcriptEntity}) : super(key: key);
+
+  @override
+  State<InteractionsWidget> createState() => _InteractionsWidgetState();
+}
+
+class _InteractionsWidgetState extends State<InteractionsWidget> with TextThemes {
+  final InteractionController controller = findInteractionController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +29,11 @@ class InteractionsWidget extends StatelessWidget  with TextThemes{
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          onTap: onTapToOpen,
+          onTap: (){
+            Future.delayed(const Duration(milliseconds: 80), (){
+              onTapToOpenInteraction(context);
+            });
+          },
           splashColor: StandardColors.greyCA,
           child: Container(
             height: 98,
@@ -81,7 +95,11 @@ class InteractionsWidget extends StatelessWidget  with TextThemes{
                                   child: InkWell(
                                     borderRadius: const BorderRadius.all(Radius.circular(4)),
                                     splashColor: StandardColors.interactions,
-                                    onTap: onTapToOpen,
+                                    onTap: (){
+                                      Future.delayed(const Duration(milliseconds: 80), (){
+                                        onTapToOpenInteraction(context);
+                                      });
+                                    },
                                     child:  Container(
                                       height: 15,
                                       width: 50,
@@ -107,7 +125,7 @@ class InteractionsWidget extends StatelessWidget  with TextThemes{
                               Container(
                                 margin: const EdgeInsets.only(right: 2),
                                 child: Text(
-                                  transcriptEntity.createdAt,
+                                  widget.transcriptEntity.createdAt,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
@@ -125,7 +143,7 @@ class InteractionsWidget extends StatelessWidget  with TextThemes{
                     ),
 
                     Visibility(
-                      visible: transcriptEntity.viewed == false,
+                      visible: widget.transcriptEntity.viewed == false,
                       child: Container(
                         height: 8,
                         width: 8,
@@ -147,8 +165,7 @@ class InteractionsWidget extends StatelessWidget  with TextThemes{
   }
 
   Widget getRichText(context) {
-    //NFT
-    if(transcriptEntity.viewed){
+    if(widget.transcriptEntity.viewed){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -196,5 +213,44 @@ class InteractionsWidget extends StatelessWidget  with TextThemes{
         ),
       );
     }
+  }
+
+  void onTapToOpenInteraction(context) async {
+
+    //TODO TASK FREEF-66
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("TODO TASK FREEF-66"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    bool status = await controller.onTapInteraction(widget.transcriptEntity);
+
+    if (!status){
+      Navigator.of(context).pop();
+      showDialogError(context);
+    }
+
+  }
+
+  void showDialogError(context) {
+    showDialogDefault(
+      context,
+      type: DialogType.systemInstability,
+      onTap: () {
+        Routes.instance.pop();
+      },
+    );
   }
 }

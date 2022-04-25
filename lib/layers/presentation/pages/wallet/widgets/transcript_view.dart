@@ -223,15 +223,15 @@ class _TranscriptViewState extends State<TranscriptView> {
   Widget getKindOfTranscript(TranscriptEntity transcript) {
     switch(transcript.category){
       case 'flower_exchange':
-        return  FlowerExchangeWidget( transcriptEntity: transcript,);
+        return  FlowerExchangeWidget(transcriptEntity: transcript,);
       case 'interactions':
-        return  InteractionsWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
+        return  InteractionsWidget(transcriptEntity: transcript,);
       case 'network_updates':
       //TODO
       ///WILL BE DONE ON ANOTHER DEMAND
         return Container();
       case 'gratitude':
-        return  GratitudeWidget(onTapToOpen: (){}, transcriptEntity: transcript,);
+        return  GratitudeWidget(transcriptEntity: transcript,);
     }
     return Container();
   }

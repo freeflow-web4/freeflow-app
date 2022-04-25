@@ -26,6 +26,8 @@ import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exis
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/controller/flower_exchange_controller.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/controller/gratitude_controller.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/interactions/controller/interaction_controller.dart';
 import 'package:get_it/get_it.dart';
 
 registerControllerDependencies(GetIt getIt) {
@@ -97,5 +99,11 @@ registerControllerDependencies(GetIt getIt) {
   );
   getIt.registerLazySingleton<FlowerExchangeController>(
         () => FlowerExchangeController(),
+  );
+  getIt.registerLazySingleton<GratitudeController>(
+        () => GratitudeController(),
+  );
+  getIt.registerLazySingleton<InteractionController>(
+        () => InteractionController(),
   );
 }
