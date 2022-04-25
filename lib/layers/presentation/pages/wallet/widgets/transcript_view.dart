@@ -187,6 +187,20 @@ class _TranscriptViewState extends State<TranscriptView> {
         .map((transcript) => getKindOfTranscript(transcript),
     ).toList();
 
+    if(controller.loadingMoreTranscripts){
+      filteredTranscriptsWidgetList.add(const Padding(
+        padding:  EdgeInsets.only(bottom: 24),
+        child: Center(
+          child:  LoadingWidget(
+            isLoading: true,
+            color: StandardColors.greyCA,
+            size: 33,
+            padding: EdgeInsets.only(top: mdSpacing),
+          ),
+        ),
+      ));
+    }
+
     return filteredTranscriptsWidgetList.isNotEmpty
         ? filteredTranscriptsWidgetList
         : const [EmptyContent()];

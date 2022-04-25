@@ -49,7 +49,7 @@ abstract class TranscriptsWidgetControllerBase with Store {
     response.fold(
           (l) => transcriptViewState = ViewState.error,
           (r) {
-        transcripts = r;
+        transcripts.addAll(r);
         hasMoreTranscripts = r.isNotEmpty;
       },
     );
