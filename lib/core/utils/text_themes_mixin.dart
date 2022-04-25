@@ -61,6 +61,20 @@ mixin TextThemes {
         fontFamily: 'Akrobat',
       );
 
+  TextStyle get transcriptBold => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Akrobat',
+    color: StandardColors.black,
+  );
+
+  TextStyle get transcriptMedium => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    fontFamily: 'Akrobat',
+    color: StandardColors.black,
+  );
+
   Text textH5(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,

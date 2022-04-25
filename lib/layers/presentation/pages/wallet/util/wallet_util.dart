@@ -34,46 +34,76 @@ class WalletUtil {
   }
 
   static final List<TranscriptEntity> transcriptsMocked = [
+    //FLOWER EXCHANGE
     TranscriptEntity(
+      id: '',
+      viewed: false,
       amount: '102',
       category: 'flower_exchange',
       createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
+      gratitudeType: 'received',
       userName: 'fulano',
+      exchangeUsername: 'ciclano A',
+      photoUrl: 'https://picsum.photos/250?image=9',
     ),
     TranscriptEntity(
+      id: '',
+      viewed: true,
+      amount: '12',
+      category: 'flower_exchange',
+      createdAt: '6 ds 21h',
+      gratitudeType: 'sent',
+      exchangeUsername: 'ciclano B',
+      userName: 'fulano',
+
+    ),
+
+
+    //GRATITUDE
+    TranscriptEntity(
+      id: '',
+      viewed: false,
       amount: '102',
-      category: 'inter_action',
+      category: 'gratitude',
       createdAt: '6 ds 21h',
       gratitudeType: 'NFT',
       userName: 'fulano',
     ),
     TranscriptEntity(
+      id: '',
+      viewed: false,
       amount: '102',
-      category: 'inter_action',
+      category: 'gratitude',
       createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
+      gratitudeType: 'welcome',
       userName: 'fulano',
     ),
     TranscriptEntity(
+      id: '',
+      viewed: true,
       amount: '102',
-      category: 'inter_action',
+      category: 'gratitude',
       createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
+      gratitudeType: 'quest',
+      userName: 'fulano',
+    ),
+
+
+
+    TranscriptEntity(
+      id: '',
+      viewed: false,
+      amount: '666',
+      category: 'interactions',
+      createdAt: '6 ds 21h',
       userName: 'fulano',
     ),
     TranscriptEntity(
-      amount: '102',
-      category: 'inter_action',
+      id: '',
+      viewed: true,
+      amount: '999',
+      category: 'interactions',
       createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      amount: '102',
-      category: 'inter_action',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
       userName: 'fulano',
     ),
   ];
