@@ -5,18 +5,18 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
 import 'package:video_player/video_player.dart';
 
-class RecoverSplashPage extends StatefulWidget {
+class WhiteSplashPage extends StatefulWidget {
   final void Function() onAnimationEnd;
-  const RecoverSplashPage({
+  const WhiteSplashPage({
     @PathParam('onAnimationEnd') required this.onAnimationEnd,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<RecoverSplashPage> createState() => _RecoverSplashPageState();
+  State<WhiteSplashPage> createState() => _WhiteSplashPageState();
 }
 
-class _RecoverSplashPageState extends State<RecoverSplashPage> {
+class _WhiteSplashPageState extends State<WhiteSplashPage> {
   final splashController = findSplashController();
 
   late VideoPlayerController _videoController;

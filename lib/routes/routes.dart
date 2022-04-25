@@ -26,7 +26,7 @@ class Routes {
 
   void goToSplashRecoverRoute(void Function() onAnimationend) async {
     _routeService.pushReplacement(
-      RecoverSplashRoute(
+      WhiteSplashRoute(
         onAnimationEnd: onAnimationend,
       ),
     );

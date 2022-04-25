@@ -3,10 +3,10 @@ import 'package:chewie/chewie.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 
-RecoverSplashController findSplashController() =>
-    GetIt.I.get<RecoverSplashController>();
+WhiteSplashController findWhiteSplashController() =>
+    GetIt.I.get<WhiteSplashController>();
 
-class RecoverSplashController {
+class WhiteSplashController {
   late Timer periodic;
 
   void nextPage() {

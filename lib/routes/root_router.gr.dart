@@ -27,13 +27,13 @@ import '../layers/presentation/pages/login/login_page.dart' as _i7;
 import '../layers/presentation/pages/profile/profile_page.dart' as _i6;
 import '../layers/presentation/pages/recover_account/recover_account_page.dart'
     as _i10;
-import '../layers/presentation/pages/recover_splash/recover_splash_page.dart'
-    as _i14;
 import '../layers/presentation/pages/splash/splash_page.dart' as _i8;
 import '../layers/presentation/pages/wallet/wallet_page.dart' as _i13;
 import '../layers/presentation/pages/welcome/welcome_page.dart' as _i4;
 import '../layers/presentation/pages/welcome_back/welcome_back_page.dart'
     as _i5;
+import '../layers/presentation/pages/white_splash/white_splash_page.dart'
+    as _i14;
 
 class RootRouter extends _i15.RootStackRouter {
   RootRouter([_i16.GlobalKey<_i16.NavigatorState>? navigatorKey])
@@ -100,11 +100,11 @@ class RootRouter extends _i15.RootStackRouter {
       return _i15.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i13.WalletPage());
     },
-    RecoverSplashRoute.name: (routeData) {
-      final args = routeData.argsAs<RecoverSplashRouteArgs>();
+    WhiteSplashRoute.name: (routeData) {
+      final args = routeData.argsAs<WhiteSplashRouteArgs>();
       return _i15.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i14.RecoverSplashPage(
+          child: _i14.WhiteSplashPage(
               onAnimationEnd: args.onAnimationEnd, key: args.key));
     }
   };
@@ -126,7 +126,7 @@ class RootRouter extends _i15.RootStackRouter {
         _i15.RouteConfig(AuthRoute.name, path: '/auth-page'),
         _i15.RouteConfig(CreateWalletRoute.name, path: '/create-wallet-page'),
         _i15.RouteConfig(WalletRoute.name, path: '/wallet-page'),
-        _i15.RouteConfig(RecoverSplashRoute.name, path: '/recover-splash-page')
+        _i15.RouteConfig(WhiteSplashRoute.name, path: '/white-splash-page')
       ];
 }
 
@@ -290,19 +290,19 @@ class WalletRoute extends _i15.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i14.RecoverSplashPage]
-class RecoverSplashRoute extends _i15.PageRouteInfo<RecoverSplashRouteArgs> {
-  RecoverSplashRoute({required void Function() onAnimationEnd, _i16.Key? key})
-      : super(RecoverSplashRoute.name,
-            path: '/recover-splash-page',
-            args: RecoverSplashRouteArgs(
-                onAnimationEnd: onAnimationEnd, key: key));
+/// [_i14.WhiteSplashPage]
+class WhiteSplashRoute extends _i15.PageRouteInfo<WhiteSplashRouteArgs> {
+  WhiteSplashRoute({required void Function() onAnimationEnd, _i16.Key? key})
+      : super(WhiteSplashRoute.name,
+            path: '/white-splash-page',
+            args:
+                WhiteSplashRouteArgs(onAnimationEnd: onAnimationEnd, key: key));
 
-  static const String name = 'RecoverSplashRoute';
+  static const String name = 'WhiteSplashRoute';
 }
 
-class RecoverSplashRouteArgs {
-  const RecoverSplashRouteArgs({required this.onAnimationEnd, this.key});
+class WhiteSplashRouteArgs {
+  const WhiteSplashRouteArgs({required this.onAnimationEnd, this.key});
 
   final void Function() onAnimationEnd;
 
@@ -310,6 +310,6 @@ class RecoverSplashRouteArgs {
 
   @override
   String toString() {
-    return 'RecoverSplashRouteArgs{onAnimationEnd: $onAnimationEnd, key: $key}';
+    return 'WhiteSplashRouteArgs{onAnimationEnd: $onAnimationEnd, key: $key}';
   }
 }
