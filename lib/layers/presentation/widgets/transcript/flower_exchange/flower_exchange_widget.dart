@@ -239,7 +239,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
 
   Widget getRichText(context) {
     //SEND
-    if(widget.transcriptEntity.transferAction == transferActions[0]){
+    if(widget.transcriptEntity.transferAction == transferActions[1]){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -262,7 +262,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', widget.transcriptEntity.userName ?? ''),
+              text: widget.transcriptEntity.exchangeUsername ?? '',
               style: transcriptBold,
             ),
           ],
@@ -292,7 +292,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', widget.transcriptEntity.exchangeUsername ?? ''),
+              text: widget.transcriptEntity.exchangeUsername ?? '',
               style: transcriptBold,
             ),
           ],

@@ -121,7 +121,7 @@ class WalletUtil {
           );
         }
 
-      case "inter_action":
+      case "interactions":
         {
           return TranslationService.translate(
             context,
