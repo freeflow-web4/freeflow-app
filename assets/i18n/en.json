@@ -40,6 +40,8 @@
         "pleaseCheckConnection": "Please check your\nconnection"
     },
     "welcome": {
+        "welcome": "Welcome",
+        "toFreeflow1": "To FreeFlow",
         "welcomeBack": "Welcome Back",
         "toFreeflow": "To your\n FreeFlow Pouch"
     },

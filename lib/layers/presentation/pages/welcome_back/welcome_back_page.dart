@@ -7,14 +7,14 @@ import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:freeflow/routes/routes.dart';
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+class WelcomeBackPage extends StatefulWidget {
+  const WelcomeBackPage({Key? key}) : super(key: key);
 
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  State<WelcomeBackPage> createState() => _WelcomeBackPageState();
 }
 
-class _WelcomePageState extends State<WelcomePage>
+class _WelcomeBackPageState extends State<WelcomeBackPage>
     with TextThemes, TickerProviderStateMixin {
   late WelcomeBackPageAnimation animation;
   late AnimationController animationController = AnimationController(
@@ -40,7 +40,7 @@ class _WelcomePageState extends State<WelcomePage>
       animationController.reverse();
       Future.delayed(const Duration(seconds: 5)).then((value) {
         Routes.instance.goToSplashRecoverRoute(
-          Routes.instance.goToHomePageRoute,
+          Routes.instance.goToLoginPageRoute,
         );
       });
     });
@@ -61,7 +61,7 @@ class _WelcomePageState extends State<WelcomePage>
               child: AnimatedText(
                 text: TranslationService.translate(
                   context,
-                  'welcome.welcome',
+                  'welcome.welcomeBack',
                 ),
                 textMainAxisAlignment: MainAxisAlignment.center,
                 animationController: animationController,
@@ -77,7 +77,7 @@ class _WelcomePageState extends State<WelcomePage>
               child: AnimatedText(
                 text: TranslationService.translate(
                   context,
-                  'welcome.toFreeflow1',
+                  'welcome.toFreeflow',
                 ),
                 textMainAxisAlignment: MainAxisAlignment.center,
                 animationController: animationController,

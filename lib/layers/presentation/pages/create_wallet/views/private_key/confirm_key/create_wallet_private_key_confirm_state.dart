@@ -161,6 +161,7 @@ class _CreateWalletPrivateKeyConfirmViewState
                               );
                             },
                             icon: IconsAsset.arrowIcon,
+                            isLargeButton: pageController.buttonNextActivated,
                           );
                         },
                       ),

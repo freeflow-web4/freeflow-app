@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
@@ -17,15 +16,25 @@ class Routes {
     _routeService.pushReplacement(const RecoverAccountRoute());
   }
 
+  void goToWelcomeBackPageRoute() async {
+    _routeService.pushReplacement(const WelcomeBackRoute());
+  }
+
   void goToWelcomePageRoute() async {
     _routeService.pushReplacement(const WelcomeRoute());
   }
 
-  void goToSplashRecoverRoute() async {
-    _routeService.pushReplacement(const RecoverSplashRoute());
+  void goToSplashRecoverRoute(void Function() onAnimationend) async {
+    _routeService.pushReplacement(
+      RecoverSplashRoute(
+        onAnimationEnd: onAnimationend,
+      ),
+    );
   }
 
-  Future<void> goToFreeflowLogoLoadingRoute(void Function() onLoadingCompleted) {
+  Future<void> goToFreeflowLogoLoadingRoute(
+    void Function() onLoadingCompleted,
+  ) {
     return _routeService.pushReplacement(
       FreeflowLogoLoadingRoute(
         onLoadingCompleted: onLoadingCompleted,

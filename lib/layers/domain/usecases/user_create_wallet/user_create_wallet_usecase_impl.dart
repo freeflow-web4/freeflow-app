@@ -9,7 +9,8 @@ class UserCreateWalletUseCaseImpl implements UserCreateWalletUseCase {
 
   UserCreateWalletUseCaseImpl(this.userCreateWalletRepository);
   @override
-  Future<Either<DomainError, void>> call(UserCreateWalletEntity entity) {
+  Future<Either<DomainError, void>> call(UserCreateWalletEntity entity) async {
+    return Left(DomainError.noInternet);
     return userCreateWalletRepository.createWallet(entity);
   }
 }

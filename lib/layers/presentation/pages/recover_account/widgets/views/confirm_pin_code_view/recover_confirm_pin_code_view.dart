@@ -181,7 +181,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
       animationController.animateBack(0, duration: const Duration(seconds: 5));
       Future.delayed(const Duration(seconds: 5)).then(
         (_) {
-          Routes.instance.goToWelcomePageRoute();
+          Routes.instance.goToWelcomeBackPageRoute();
           animationController.forward();
         },
       );

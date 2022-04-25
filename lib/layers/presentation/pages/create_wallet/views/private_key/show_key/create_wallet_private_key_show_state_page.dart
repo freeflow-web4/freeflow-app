@@ -168,6 +168,7 @@ class _CreateWalletPrivateKeyShowViewState
                             }
                           },
                           icon: IconsAsset.arrowIcon,
+                          isLargeButton: pageController.buttonNextActivated,
                         );
                       },
                     ),

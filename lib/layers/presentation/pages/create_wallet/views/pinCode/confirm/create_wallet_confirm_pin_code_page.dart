@@ -154,6 +154,7 @@ class _CreateWalletConfirmPinCodeViewState
                             );
                           },
                           icon: IconsAsset.arrowIcon,
+                          isLargeButton: pageController.formValid,
                         );
                       },
                     ),

@@ -89,7 +89,7 @@ abstract class _CreateWalletControllerBase with Store {
             onError(DialogType.systemInstability);
         }
       },
-      (r) => Routes.instance.goToHomePageRoute(),
+      (r) => Routes.instance.goToWelcomePageRoute(),
     );
   }
 }

@@ -170,6 +170,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                             );
                           },
                           icon: IconsAsset.arrowIcon,
+                          isLargeButton: pageController.formValid,
                         );
                       },
                     ),

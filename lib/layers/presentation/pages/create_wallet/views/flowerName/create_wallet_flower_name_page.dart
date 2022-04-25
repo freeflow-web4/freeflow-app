@@ -130,6 +130,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                                 );
                               },
                               icon: IconsAsset.arrowIcon,
+                              isLargeButton: pageController.buttonNextActivated,
                             );
                           },
                         ),

@@ -12,6 +12,7 @@ import 'package:freeflow/layers/presentation/pages/wallet/wallet_page.dart';
 import 'package:freeflow/layers/presentation/pages/recover_splash/recover_splash_page.dart';
 import 'package:freeflow/layers/presentation/pages/welcome/welcome_page.dart';
 import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
+import 'package:freeflow/layers/presentation/pages/welcome_back/welcome_back_page.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
@@ -20,9 +21,10 @@ import 'package:freeflow/layers/presentation/pages/splash/splash_page.dart';
     AutoRoute(page: CutImagePage),
     AutoRoute(page: EditProfilePage),
     AutoRoute(page: WelcomePage),
+    AutoRoute(page: WelcomeBackPage),
     AutoRoute(page: ProfilePage),
     AutoRoute(page: LoginPage),
-    AutoRoute(page: SplashPage, initial: true),
+    AutoRoute(page: SplashPage, initial: false),
     AutoRoute(page: FreeflowLogoLoadingPage),
     AutoRoute(page: RecoverAccountPage),
     AutoRoute(page: AuthPage),

@@ -94,8 +94,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                             'createWallet.nameTextFieldHint',
                           ),
                           onChanged: pageController.onNameChanged,
-                          isFieldValid:
-                              pageController.isGradientTextFieldValid,
+                          isFieldValid: pageController.isGradientTextFieldValid,
                         );
                       },
                     ),
@@ -126,6 +125,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                                 );
                               },
                               icon: IconsAsset.arrowIcon,
+                              isLargeButton: pageController.buttonNextActivated,
                             );
                           },
                         ),

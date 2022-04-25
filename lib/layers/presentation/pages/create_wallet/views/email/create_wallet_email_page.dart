@@ -126,6 +126,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                                 );
                               },
                               icon: IconsAsset.arrowIcon,
+                              isLargeButton: pageController.buttonNextActivated,
                             );
                           },
                         ),
