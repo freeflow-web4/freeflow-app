@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase.dart';
 import 'package:get_it/get_it.dart';
-import 'dart:developer' as developer;
 
 class DioInstance {
   static Dio? _dioInstance;
@@ -62,7 +61,6 @@ class AuthInterceptors extends InterceptorsWrapper {
     if (token == null) return _headers;
 
     final Map<String, String> headers = {'Authorization': 'Bearer ' + token};
-    developer.log(token, name: '\nTOKEN');
 
     if (contentType == null) {
       headers['Content-Type'] = 'application/json; charset=UTF-8';
