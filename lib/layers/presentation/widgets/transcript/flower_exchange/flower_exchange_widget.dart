@@ -24,7 +24,7 @@ class FlowerExchangeWidget extends StatefulWidget {
 }
 
 class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextThemes {
-  final List<String> transferActions = ['send', 'received'];
+  final List<String> transferActions = ['sent', 'received'];
   final NumberFormat numberFormat = NumberFormat("#,##0.00", "pt_BR");
   final FlowerExchangeController controller = findFlowerExchangeController();
 

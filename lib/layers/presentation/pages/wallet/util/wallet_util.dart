@@ -52,7 +52,7 @@ class WalletUtil {
       amount: '12',
       category: 'flower_exchange',
       createdAt: '6 ds 21h',
-      gratitudeType: 'send',
+      gratitudeType: 'sent',
       exchangeUsername: 'ciclano B',
       userName: 'fulano',
 
