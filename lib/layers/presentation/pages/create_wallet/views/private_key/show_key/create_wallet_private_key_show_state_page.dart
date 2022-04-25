@@ -51,7 +51,6 @@ class _CreateWalletPrivateKeyShowViewState
     } else {
       animationController.value = 1.0;
     }
-    //TODO: get private key
     Future.delayed(const Duration(milliseconds: 1000)).then(
       (value) => pageController.setButtonEnabled(),
     );
@@ -126,7 +125,6 @@ class _CreateWalletPrivateKeyShowViewState
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(bottom: mdSpacingx2),
                       child: Opacity(
-                        //TODO: add opacity from animations class
                         opacity: animations.title3Opacity.value,
                         child: Text(
                           widget.privateKey,

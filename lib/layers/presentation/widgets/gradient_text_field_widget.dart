@@ -102,7 +102,6 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                         : Padding(
                             padding: const EdgeInsets.only(
                               top: 18,
-                              //TODO: analyze these padding
                               bottom: 18,
                             ),
                             child: Container(

@@ -160,6 +160,5 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
   }
 
   void onInvalid() {
-    //TODO: show blured dialog with error message
   }
 }

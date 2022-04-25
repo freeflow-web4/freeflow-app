@@ -3,7 +3,8 @@ import 'package:freeflow/layers/domain/validators/email_validator/email_validato
 class EmailValidatorImpl implements EmailValidator {
   @override
   bool call(String email) {
-    //TODO: verify this email validation
-    return email.contains('@') && email.contains('.');
+    return RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(email);
   }
 }

@@ -36,16 +36,6 @@ abstract class _CreateWalletControllerBase with Store {
     pageIndicatorHeight = height;
   }
 
-  //TODO: remove
-  int getCurrentPageIndicatorIndex(int pageIndex) {
-    switch (pageIndex) {
-      case 0:
-        return 0;
-      default:
-        throw Exception('Invalid page index');
-    }
-  }
-
   void setName(NameFormEntity name) {
     formModel.nameFormModel = name;
   }
