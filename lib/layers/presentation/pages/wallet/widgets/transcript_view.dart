@@ -43,7 +43,6 @@ class _TranscriptViewState extends State<TranscriptView> {
     controller.getTranscripts();
     _scrollController.addListener(() async {
       if(canGetMoreTranscript()){
-        print('get more');
         await controller.getMoreTranscripts();
       }
     });
@@ -198,7 +197,7 @@ class _TranscriptViewState extends State<TranscriptView> {
             padding: EdgeInsets.only(top: mdSpacing),
           ),
         ),
-      ));
+      ),);
     }
 
     return filteredTranscriptsWidgetList.isNotEmpty
