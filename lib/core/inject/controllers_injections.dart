@@ -20,7 +20,6 @@ import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_private_key_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_splash/controller/recover_splash_controller.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
@@ -28,6 +27,7 @@ import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biom
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
+import 'package:freeflow/layers/presentation/pages/white_splash/controller/white_splash_controller.dart';
 import 'package:get_it/get_it.dart';
 
 registerControllerDependencies(GetIt getIt) {
@@ -47,8 +47,8 @@ registerControllerDependencies(GetIt getIt) {
   getIt.registerFactory<SplashController>(
     () => SplashController(),
   );
-  getIt.registerFactory<RecoverSplashController>(
-    () => RecoverSplashController(),
+  getIt.registerFactory<WhiteSplashController>(
+    () => WhiteSplashController(),
   );
 
   getIt.registerLazySingleton<LoginController>(
