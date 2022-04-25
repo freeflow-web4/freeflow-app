@@ -37,8 +37,4 @@ abstract class _FlowerExchangeControllerBase with Store {
   void copyText(String text) =>
       Clipboard.setData(ClipboardData(text: text));
 
-
-
-
-
 }
