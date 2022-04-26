@@ -15,16 +15,16 @@ import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FlowerExchangeWidget extends StatefulWidget {
-  TranscriptEntity transcriptEntity;
+  final TranscriptEntity transcriptEntity;
 
-  FlowerExchangeWidget({Key? key, required this.transcriptEntity}) : super(key: key);
+  const FlowerExchangeWidget({Key? key, required this.transcriptEntity}) : super(key: key);
 
   @override
   State<FlowerExchangeWidget> createState() => _FlowerExchangeWidgetState();
 }
 
 class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextThemes {
-  final List<String> transferActions = ['sent', 'received'];
+
   final NumberFormat numberFormat = NumberFormat("#,##0.00", "pt_BR");
   final FlowerExchangeController controller = findFlowerExchangeController();
 
@@ -71,7 +71,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
                       width: 40,
                       margin: const EdgeInsets.only(top: 12, left: 12),
                       child: Visibility(
-                        visible: widget.transcriptEntity.photoUrl == null,
+                        visible: imageUrl() == null,
                         child: Container(
                           decoration:  BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(40)),
@@ -123,7 +123,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
                                 child: ClipRRect(
                                   borderRadius: const BorderRadius.all(Radius.circular(40)),
                                   child: Image.network(
-                                    widget.transcriptEntity.photoUrl ?? '',
+                                    imageUrl() ?? '',
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, url, error) =>  Container(
                                       color: StandardColors.grey79,
@@ -238,8 +238,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
   }
 
   Widget getRichText(context) {
-    //SEND
-    if(widget.transcriptEntity.transferAction == transferActions[0]){
+    if(controller.isReceived(widget.transcriptEntity.transferAction!)){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -254,7 +253,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', numberFormat.format(widget.transcriptEntity.amount ?? 0 )),
               style: transcriptBold,
             ),
             TextSpan(
@@ -262,14 +261,14 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', widget.transcriptEntity.userName ?? ''),
+              text: widget.transcriptEntity.senderDisplayName ?? '',
               style: transcriptBold,
             ),
           ],
         ),
       );
-    }else{
-      //RECEIVED
+    }
+    else{
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -284,7 +283,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', numberFormat.format(widget.transcriptEntity.amount ?? 0 )),
               style: transcriptBold,
             ),
             TextSpan(
@@ -292,7 +291,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.flowerExchange.theName",).replaceFirst('NAME', widget.transcriptEntity.exchangeUsername ?? ''),
+              text: widget.transcriptEntity.receiverDisplayName ?? '',
               style: transcriptBold,
             ),
           ],
@@ -409,8 +408,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
 
                       transactionItem(
                         title: TranslationService.translate(context, "transcript.flowerExchange.from2dots",),
-                        //TODO POR O NOME
-                        text: getName(controller.transcriptDetailsEntity?.senderEmail),
+                        text: getName(widget.transcriptEntity.senderUsername),
                         canCopied: true,
                         context: context,
                       ),
@@ -421,8 +419,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
 
                       transactionItem(
                         title: TranslationService.translate(context, "transcript.flowerExchange.to2dots",),
-                        //TODO POR O NOME
-                        text: getName(controller.transcriptDetailsEntity?.reciverEmail),
+                        text: getName(widget.transcriptEntity.receiverUsername),
                         canCopied: true,
                         context: context,
                       ),
@@ -444,8 +441,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
 
                       transactionItem(
                         title: TranslationService.translate(context, "transcript.flowerExchange.amount",),
-                        //TODO ALTERAR VALOR
-                        text: "\$ ${numberFormat.format(10.5)} ${TranslationService.translate(context, "transcript.coin",)}" ,
+                        text: "\$ ${numberFormat.format(controller.transcriptDetailsEntity?.amount ?? 0 )} ${TranslationService.translate(context, "transcript.coin",)}" ,
                         canCopied: false,
                         context: context,
                       ),
@@ -456,8 +452,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
 
                       transactionItem(
                         title: TranslationService.translate(context, "transcript.flowerExchange.fee",),
-                        //TODO ALTERAR VALOR
-                        text: "\$ ${numberFormat.format(10.5)} ${TranslationService.translate(context, "transcript.coin",)}" ,
+                        text: "\$ ${numberFormat.format(controller.transcriptDetailsEntity?.fee ?? 0)} ${TranslationService.translate(context, "transcript.coin",)}" ,
                         canCopied: false,
                         context: context,
                       ),
@@ -560,5 +555,13 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
       return '$name.flw';
     }
     return '';
+  }
+
+  String? imageUrl() {
+    if(controller.isReceived(widget.transcriptEntity.transferAction!)){
+      return widget.transcriptEntity.senderPhotoUrl;
+    }else{
+      return widget.transcriptEntity.receiverPhotoUrl;
+    }
   }
 }

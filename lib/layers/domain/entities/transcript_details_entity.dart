@@ -1,21 +1,26 @@
 class TranscriptDetailsEntity {
-  final String? amount;
+  final double? amount;
   final DateTime? date;
-  final String? fee;
+  final double? fee;
   final String? senderEmail;
   final String? senderPhotoUrl;
-  final String? reciverEmail;
-  final String? reciverPhotoUrl;
+  final String? receiverEmail;
+  final String? receiverPhotoUrl;
+  final String? senderUsername;
+  final String? receiverUsername;
 
 
-  TranscriptDetailsEntity({
+
+  TranscriptDetailsEntity( {
       this.amount,
       this.date,
       this.fee,
       this.senderEmail,
       this.senderPhotoUrl,
-      this.reciverEmail,
-      this.reciverPhotoUrl,
+      this.receiverEmail,
+      this.receiverPhotoUrl,
+      this.senderUsername,
+      this.receiverUsername,
   });
 
   String dateToString(){

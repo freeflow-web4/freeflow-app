@@ -5,13 +5,15 @@ part 'transcript_details_dto.g.dart';
 
 @JsonSerializable()
 class TranscriptDetailsDto {
-  final String? amount;
+  final double? amount;
   final String? date;
-  final String? fee;
+  final double? fee;
   final String? senderEmail;
   final String? senderPhotoUrl;
-  final String? reciverEmail;
-  final String? reciverPhotoUrl;
+  final String? receiverEmail;
+  final String? receiverPhotoUrl;
+  final String? senderUsername;
+  final String? receiverUsername;
 
   TranscriptDetailsDto(
       this.amount,
@@ -19,8 +21,11 @@ class TranscriptDetailsDto {
       this.fee,
       this.senderEmail,
       this.senderPhotoUrl,
-      this.reciverEmail,
-      this.reciverPhotoUrl);
+      this.receiverEmail,
+      this.receiverPhotoUrl,
+      this.senderUsername,
+      this.receiverUsername,
+      );
 
 
 
@@ -30,8 +35,8 @@ class TranscriptDetailsDto {
     fee: fee,
     senderEmail: senderEmail,
     senderPhotoUrl: senderPhotoUrl,
-    reciverEmail: reciverEmail,
-    reciverPhotoUrl: reciverPhotoUrl,
+    receiverEmail: receiverEmail,
+    receiverPhotoUrl: receiverPhotoUrl,
       );
 
   factory TranscriptDetailsDto.fromJson(Map<String, dynamic> json) =>

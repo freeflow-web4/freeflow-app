@@ -10,8 +10,8 @@ import 'package:freeflow/layers/presentation/widgets/transcript/interactions/con
 import 'package:freeflow/routes/routes.dart';
 
 class InteractionsWidget extends StatefulWidget{
-  TranscriptEntity transcriptEntity;
-  InteractionsWidget({Key? key, required this.transcriptEntity}) : super(key: key);
+  final TranscriptEntity transcriptEntity;
+  const InteractionsWidget({Key? key, required this.transcriptEntity}) : super(key: key);
 
   @override
   State<InteractionsWidget> createState() => _InteractionsWidgetState();
@@ -165,7 +165,7 @@ class _InteractionsWidgetState extends State<InteractionsWidget> with TextThemes
   }
 
   Widget getRichText(context) {
-    if(widget.transcriptEntity.viewed){
+    if(!widget.transcriptEntity.viewed){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -237,7 +237,11 @@ class _InteractionsWidgetState extends State<InteractionsWidget> with TextThemes
 
     bool status = await controller.onTapInteraction(widget.transcriptEntity);
 
-    if (!status){
+    if (status){
+      setState(() {
+        widget.transcriptEntity.viewed = true;
+      });
+    }else{
       Navigator.of(context).pop();
       showDialogError(context);
     }

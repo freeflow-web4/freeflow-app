@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
-import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 
 
 class WalletUtil {
@@ -33,80 +32,7 @@ class WalletUtil {
     ];
   }
 
-  static final List<TranscriptEntity> transcriptsMocked = [
-    //FLOWER EXCHANGE
-    TranscriptEntity(
-      id: '',
-      viewed: false,
-      amount: '102',
-      category: 'flower_exchange',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'received',
-      userName: 'fulano',
-      exchangeUsername: 'ciclano A',
-      photoUrl: 'https://picsum.photos/250?image=9',
-    ),
-    TranscriptEntity(
-      id: '',
-      viewed: true,
-      amount: '12',
-      category: 'flower_exchange',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'sent',
-      exchangeUsername: 'ciclano B',
-      userName: 'fulano',
 
-    ),
-
-
-    //GRATITUDE
-    TranscriptEntity(
-      id: '',
-      viewed: false,
-      amount: '102',
-      category: 'gratitude',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      id: '',
-      viewed: false,
-      amount: '102',
-      category: 'gratitude',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'welcome',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      id: '',
-      viewed: true,
-      amount: '102',
-      category: 'gratitude',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'quest',
-      userName: 'fulano',
-    ),
-
-
-
-    TranscriptEntity(
-      id: '',
-      viewed: false,
-      amount: '666',
-      category: 'interactions',
-      createdAt: '6 ds 21h',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      id: '',
-      viewed: true,
-      amount: '999',
-      category: 'interactions',
-      createdAt: '6 ds 21h',
-      userName: 'fulano',
-    ),
-  ];
 
   static String getInternationalizedFilterName(
     BuildContext context,
@@ -121,7 +47,7 @@ class WalletUtil {
           );
         }
 
-      case "inter_action":
+      case "interactions":
         {
           return TranslationService.translate(
             context,

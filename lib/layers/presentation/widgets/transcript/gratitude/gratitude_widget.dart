@@ -7,13 +7,14 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/routes/routes.dart';
+import 'package:intl/intl.dart';
 
 import 'controller/gratitude_controller.dart';
 
 class GratitudeWidget extends StatefulWidget{
-  TranscriptEntity transcriptEntity;
+  final TranscriptEntity transcriptEntity;
 
-  GratitudeWidget({Key? key, required this.transcriptEntity}) : super(key: key);
+  const GratitudeWidget({Key? key, required this.transcriptEntity}) : super(key: key);
 
   @override
   State<GratitudeWidget> createState() => _GratitudeWidgetState();
@@ -22,6 +23,8 @@ class GratitudeWidget extends StatefulWidget{
 class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
   final List<String> gratitudeTypeS = ['NFT', 'welcome', 'quest'];
   final GratitudeController controller = findGratitudeController();
+  final NumberFormat numberFormat = NumberFormat("#,##0.00", "pt_BR");
+
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +213,7 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', numberFormat.format(widget.transcriptEntity.amount)),
               style: transcriptBold,
             ),
             TextSpan(
@@ -238,7 +241,7 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', numberFormat.format(widget.transcriptEntity.amount)),
               style: transcriptBold,
             ),
             TextSpan(
