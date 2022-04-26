@@ -21,6 +21,8 @@ import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_w
 import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase_impl.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/user_has_pincode/user_has_pincode_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_has_pincode/user_has_pincode_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_local_auth_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/get_user_is_logged_usecase.dart';
@@ -60,6 +62,10 @@ registerUsecasesDependencies(GetIt getIt) {
 
   getIt.registerFactory<UserSetPincodeUsecase>(
     () => UserSetPincodeUsecaseImp(GetIt.I.get<UserPincodeRepository>()),
+  );
+
+  getIt.registerFactory<UserHasPinCodeUsecase>(
+    () => UserHasPinCodeUsecaseImp(GetIt.I.get<UserPincodeRepository>()),
   );
 
   getIt.registerFactory<UserCheckPinCodeUsecase>(

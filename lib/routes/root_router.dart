@@ -24,7 +24,7 @@ import 'package:freeflow/layers/presentation/pages/white_splash/white_splash_pag
     AutoRoute(page: WelcomeBackPage),
     AutoRoute(page: ProfilePage),
     AutoRoute(page: LoginPage),
-    AutoRoute(page: SplashPage, initial: false),
+    AutoRoute(page: SplashPage, initial: true),
     AutoRoute(page: FreeflowLogoLoadingPage),
     AutoRoute(page: RecoverAccountPage),
     AutoRoute(page: AuthPage),

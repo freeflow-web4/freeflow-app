@@ -118,7 +118,7 @@ class RootRouter extends _i15.RootStackRouter {
         _i15.RouteConfig(WelcomeBackRoute.name, path: '/welcome-back-page'),
         _i15.RouteConfig(ProfileRoute.name, path: '/profile-page'),
         _i15.RouteConfig(LoginRoute.name, path: '/login-page'),
-        _i15.RouteConfig(SplashRoute.name, path: '/splash-page'),
+        _i15.RouteConfig(SplashRoute.name, path: '/'),
         _i15.RouteConfig(FreeflowLogoLoadingRoute.name,
             path: '/freeflow-logo-loading-page'),
         _i15.RouteConfig(RecoverAccountRoute.name,
@@ -222,7 +222,7 @@ class LoginRoute extends _i15.PageRouteInfo<void> {
 /// generated route for
 /// [_i8.SplashPage]
 class SplashRoute extends _i15.PageRouteInfo<void> {
-  const SplashRoute() : super(SplashRoute.name, path: '/splash-page');
+  const SplashRoute() : super(SplashRoute.name, path: '/');
 
   static const String name = 'SplashRoute';
 }
