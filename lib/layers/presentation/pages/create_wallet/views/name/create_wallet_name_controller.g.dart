@@ -71,19 +71,37 @@ mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
     });
   }
 
-  final _$_CreateWalletControllerBaseActionController =
-      ActionController(name: '_CreateWalletControllerBase');
+  final _$isLoadingAtom = Atom(name: '_CreateWalletControllerBase.isLoading');
 
   @override
-  void onNameChanged(String value) {
-    final _$actionInfo = _$_CreateWalletControllerBaseActionController
-        .startAction(name: '_CreateWalletControllerBase.onNameChanged');
-    try {
-      return super.onNameChanged(value);
-    } finally {
-      _$_CreateWalletControllerBaseActionController.endAction(_$actionInfo);
-    }
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
   }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
+  final _$onNameChangedAsyncAction =
+      AsyncAction('_CreateWalletControllerBase.onNameChanged');
+
+  @override
+  Future<void> onNameChanged(
+      {required String value,
+      required void Function() onLoadingStarted,
+      required void Function() onLoadingFinished}) {
+    return _$onNameChangedAsyncAction.run(() => super.onNameChanged(
+        value: value,
+        onLoadingStarted: onLoadingStarted,
+        onLoadingFinished: onLoadingFinished));
+  }
+
+  final _$_CreateWalletControllerBaseActionController =
+      ActionController(name: '_CreateWalletControllerBase');
 
   @override
   void onNextButtonPressed(
@@ -103,6 +121,7 @@ mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
 nameFieldState: ${nameFieldState},
 formValid: ${formValid},
 currentName: ${currentName},
+isLoading: ${isLoading},
 buttonNextActivated: ${buttonNextActivated},
 isGradientTextFieldValid: ${isGradientTextFieldValid}
     ''';

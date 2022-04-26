@@ -15,6 +15,7 @@ import 'package:freeflow/layers/presentation/widgets/animated_float_button_widge
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 part './create_wallet_animations.dart';
 
 class CreateWalletNameView extends StatefulWidget {
@@ -40,7 +41,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
 
   late final animations = CreateWalletPageAnimations(animationController);
 
-  final pageController = CreateWalletNameController();
+  final pageController = findCreateWalletNameController();
 
   @override
   void initState() {
@@ -49,6 +50,8 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
       animationController.animateTo(1, duration: Duration.zero);
     }
   }
+
+  FocusNode? nameFieldFocusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +96,20 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                             context,
                             'createWallet.nameTextFieldHint',
                           ),
-                          onChanged: pageController.onNameChanged,
+                          onChanged: (value) {
+                            if (value == pageController.currentName) {
+                              return;
+                            }
+                            pageController.formValid = false;
+                          },
+                          onEditingComplete: (text) =>
+                              pageController.onNameChanged(
+                            value: text,
+                            onLoadingStarted: clearFocusNode,
+                            onLoadingFinished: setFocusOnNameField,
+                          ),
                           isFieldValid: pageController.isGradientTextFieldValid,
+                          inputNode: nameFieldFocusNode,
                         );
                       },
                     ),
@@ -107,28 +122,31 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                     },
                     animatedOnStart: widget.animatedOnStart,
                   ),
-                  const FlexibleVerticalSpacer(height: bigSpacing),
-                  Flexible(
-                    flex: 299,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Opacity(
-                        opacity: animations.buttonOpacity.value,
-                        child: Observer(
-                          builder: (context) {
-                            return AnimatedFloatButtonWidget(
-                              isActive: pageController.buttonNextActivated,
-                              onTap: (activate) {
-                                pageController.onNextButtonPressed(
-                                  onValid,
-                                  onInvalid,
-                                );
-                              },
-                              icon: IconsAsset.arrowIcon,
-                              isLargeButton: pageController.buttonNextActivated,
-                            );
-                          },
-                        ),
+                  const FlexibleVerticalSpacer(height: huge5Spacing),
+                  Observer(
+                    builder: (context) {
+                      return LoadingWidget(isLoading: pageController.isLoading);
+                    },
+                  ),
+                  const FlexibleVerticalSpacer(height: huge5Spacing),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Opacity(
+                      opacity: animations.buttonOpacity.value,
+                      child: Observer(
+                        builder: (context) {
+                          return AnimatedFloatButtonWidget(
+                            isActive: pageController.buttonNextActivated,
+                            onTap: (activate) {
+                              pageController.onNextButtonPressed(
+                                onValid,
+                                onInvalid,
+                              );
+                            },
+                            icon: IconsAsset.arrowIcon,
+                            isLargeButton: pageController.buttonNextActivated,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -156,5 +174,13 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
 
   void onInvalid() {
     showCustomDialog(context, textKey: 'createWallet.nameWarning');
+  }
+
+  void setFocusOnNameField() {
+    FocusScope.of(context).requestFocus(nameFieldFocusNode);
+  }
+
+  void clearFocusNode() {
+    FocusScope.of(context).unfocus();
   }
 }

@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
+import 'package:freeflow/layers/domain/helpers/errors/user_create_wallet_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
@@ -64,16 +67,30 @@ abstract class _CreateWalletControllerBase with Store {
     return pinCode;
   }
 
-  void onCreationFinisehd(void Function(DialogType) onError) async {
+  void onCreationFinisehd(
+    void Function(DialogType) onError,
+  ) async {
     if (pinCode?.saveBiometrics == true) {
       userSetBiometricsUsecase(true);
     }
     final result = await userCreateWalletUseCase(formModel.toEntity());
     result.fold(
       (error) {
-        switch (error) {
-          case DomainError.noInternet:
-            onError(DialogType.noInternetConnection);
+        switch (error.errorType) {
+          case UserCreateWalletErrorType.userAlreadyExists:
+            onError(DialogType.systemInstability);
+            break;
+          case UserCreateWalletErrorType.emailNotValid:
+            onError(DialogType.systemInstability);
+            break;
+          case UserCreateWalletErrorType.domainError:
+            switch (error.toDomainError()) {
+              case DomainError.noInternet:
+                onError(DialogType.noInternetConnection);
+                break;
+              default:
+                onError(DialogType.systemInstability);
+            }
             break;
           default:
             onError(DialogType.systemInstability);

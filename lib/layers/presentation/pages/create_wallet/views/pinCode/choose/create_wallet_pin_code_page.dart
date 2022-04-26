@@ -13,6 +13,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/c
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:get_it/get_it.dart';
@@ -61,107 +62,98 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
       child: AnimatedBuilder(
         animation: animationController,
         builder: (context, _) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: mdSpacingx2,
-                  right: mdSpacingx2,
-                  top: huge4Spacing,
+          return Padding(
+            padding: const EdgeInsets.only(
+              left: mdSpacingx2,
+              right: mdSpacingx2,
+            ),
+            child: Column(
+              children: [
+                const FlexibleVerticalSpacer(
+                  height: huge4Spacing,
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedText(
-                      text: TranslationService.translate(
-                        context,
-                        "createWallet.pinCodeTitle1",
+                AnimatedText(
+                  text: TranslationService.translate(
+                    context,
+                    "createWallet.pinCodeTitle1",
+                  ),
+                  animationController: animationController,
+                  style: textH4TextStyle.copyWith(color: StandardColors.white),
+                  animation: animations.title1Opacity,
+                ),
+                const FlexibleVerticalSpacer(
+                  height: mdSpacingx2,
+                ),
+                Opacity(
+                  opacity: animations.field1Opacity.value,
+                  child: Observer(
+                    builder: (context) {
+                      return GradientTextFieldWidget(
+                        showObscureButton: true,
+                        fieldReadOnly: true,
+                        hintText: TranslationService.translate(
+                          context,
+                          'createWallet.pinCodeTextFieldHint',
+                        ),
+                        onChanged: pageController.onPinChanged,
+                        isFieldValid: pageController.isGradientTextFieldValid,
+                        isPinInput: true,
+                        value: pageController.currentPinCode,
+                        isObscureText: pageController.isPinObscure,
+                        onObscureButtonPressed:
+                            pageController.onPinObscureTextFieldTap,
+                      );
+                    },
+                  ),
+                ),
+                Opacity(
+                  opacity: animations.rememberOpacity.value,
+                  child: Row(
+                    children: [
+                      Text(
+                        TranslationService.translate(
+                          context,
+                          'createWallet.pinCodeTitle2',
+                        ),
+                        style: subtitleTextStyle.copyWith(
+                          color: StandardColors.white,
+                        ),
                       ),
-                      animationController: animationController,
-                      style:
-                          textH4TextStyle.copyWith(color: StandardColors.white),
-                      animation: animations.title1Opacity,
-                    ),
-                    const SizedBox(
-                      height: mdSpacingx2,
-                    ),
-                    Opacity(
-                      opacity: animations.field1Opacity.value,
-                      child: Observer(
+                      const SizedBox(
+                        width: mdSpacingx2,
+                      ),
+                      Observer(
                         builder: (context) {
-                          return GradientTextFieldWidget(
-                            showObscureButton: true,
-                            fieldReadOnly: true,
-                            hintText: TranslationService.translate(
-                              context,
-                              'createWallet.pinCodeTextFieldHint',
-                            ),
-                            onChanged: pageController.onPinChanged,
-                            isFieldValid:
-                                pageController.isGradientTextFieldValid,
-                            isPinInput: true,
-                            value: pageController.currentPinCode,
-                            isObscureText: pageController.isPinObscure,
-                            onObscureButtonPressed:
-                                pageController.onPinObscureTextFieldTap,
+                          return CustomSwitch(
+                            value: pageController.rememberMe,
+                            onChanged: pageController.onRememberMeChanged,
                           );
                         },
-                      ),
-                    ),
-                    Opacity(
-                      opacity: animations.rememberOpacity.value,
-                      child: Row(
-                        children: [
-                          Text(
-                            TranslationService.translate(
-                              context,
-                              'createWallet.pinCodeTitle2',
-                            ),
-                            style: subtitleTextStyle.copyWith(
-                              color: StandardColors.white,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: mdSpacingx2,
-                          ),
-                          Observer(
-                            builder: (context) {
-                              return CustomSwitch(
-                                value: pageController.rememberMe,
-                                onChanged: pageController.onRememberMeChanged,
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: mdSpacingx2,
-                    ),
-                    Opacity(
-                      opacity: animations.keyboardAnimationOpacity.value,
-                      child: InAppKeyboardWidget(
-                        onTap: pageController.onKeyboardTap,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  padding: EdgeInsets.only(
-                    top: getProportionalHeightFromValue(
-                      context,
-                      huge3Spacing,
-                    ),
-                    bottom: largeSpacing,
+                      )
+                    ],
                   ),
-                  child: Opacity(
-                    opacity: animations.confirmButtonAnimationOpacity.value,
-                    child: Observer(
-                      builder: (context) {
-                        return AnimatedFloatButtonWidget(
+                ),
+                const FlexibleVerticalSpacer(
+                  height: mdSpacingx2,
+                ),
+                Opacity(
+                  opacity: animations.keyboardAnimationOpacity.value,
+                  child: InAppKeyboardWidget(
+                    onTap: pageController.onKeyboardTap,
+                  ),
+                ),
+                const FlexibleVerticalSpacer(
+                  height: huge3Spacing,
+                ),
+                Opacity(
+                  opacity: animations.confirmButtonAnimationOpacity.value,
+                  child: Observer(
+                    builder: (context) {
+                      return Container(
+                        height: 70,
+                        width: 70,
+                        alignment: Alignment.center,
+                        child: AnimatedFloatButtonWidget(
                           isActive: pageController.formValid,
                           onTap: (activate) {
                             pageController.onNextButtonPressed(
@@ -171,13 +163,16 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                           },
                           icon: IconsAsset.arrowIcon,
                           isLargeButton: pageController.formValid,
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ),
-              )
-            ],
+                const FlexibleVerticalSpacer(
+                  height: largeSpacing,
+                )
+              ],
+            ),
           );
         },
       ),
