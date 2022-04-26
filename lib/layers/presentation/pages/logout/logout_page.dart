@@ -24,31 +24,31 @@ class _LogoutPageState extends State<LogoutPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: getProportionalHeightFromValue(context, bigSpacing)),
+        SizedBox(height: getProportionalHeightFromValue(context, mdSpacing)),
         const GradientTextFieldWidget(
           //TODO: add controller here
           isFieldValid: true,
         ),
         SizedBox(
-          height: getProportionalHeightFromValue(context, mdSpacingx2),
+          height: getProportionalHeightFromValue(context, mdSpacing),
         ),
         const LoadingWidget(
           //TODO: add controller here
           isLoading: true,
         ),
         SizedBox(height: getProportionalHeightFromValue(context, mdSpacing)),
-        const InAppKeyboardWidget(),
+        const InAppKeyboardWidget(
+          //TODO: confirm color
+          textColor: Colors.black,
+        ),
         SizedBox(
           height: getProportionalHeightFromValue(context, huge4Spacing),
         ),
-        Container(
-          alignment: Alignment.center,
-          child: AnimatedFloatButtonWidget(
-            icon: IconsAsset.arrowIcon,
-            onTap: (activated) {
-              //TODO: add controller here
-            },
-          ),
+        AnimatedFloatButtonWidget(
+          icon: IconsAsset.arrowIcon,
+          onTap: (activated) {
+            //TODO: add controller here
+          },
         ),
         SizedBox(height: getProportionalHeightFromValue(context, bigSpacing)),
       ],
