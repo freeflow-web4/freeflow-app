@@ -19,6 +19,7 @@ abstract class _FlowerExchangeControllerBase with Store {
   TranscriptDetailsEntity? transcriptDetailsEntity;
   @observable
   bool loading = false;
+  final List<String> transferActions = ['sent', 'received'];
 
   @action
   Future<bool> onTapFlowerExchange(TranscriptEntity transcriptEntity) async {
@@ -34,7 +35,10 @@ abstract class _FlowerExchangeControllerBase with Store {
 
   }
 
-  void copyText(String text) =>
-      Clipboard.setData(ClipboardData(text: text));
+  void copyText(String text) => Clipboard.setData(ClipboardData(text: text));
+
+  bool isReceived(String action){
+    return action == transferActions[1];
+  }
 
 }

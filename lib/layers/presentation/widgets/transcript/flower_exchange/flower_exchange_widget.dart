@@ -24,7 +24,7 @@ class FlowerExchangeWidget extends StatefulWidget {
 }
 
 class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextThemes {
-  final List<String> transferActions = ['sent', 'received'];
+
   final NumberFormat numberFormat = NumberFormat("#,##0.00", "pt_BR");
   final FlowerExchangeController controller = findFlowerExchangeController();
 
@@ -238,7 +238,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
   }
 
   Widget getRichText(context) {
-    if(widget.transcriptEntity.transferAction == transferActions[1]){
+    if(controller.isReceived(widget.transcriptEntity.transferAction!)){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -558,7 +558,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
   }
 
   String? imageUrl() {
-    if(widget.transcriptEntity.transferAction == transferActions[1]){
+    if(controller.isReceived(widget.transcriptEntity.transferAction!)){
       return widget.transcriptEntity.senderPhotoUrl;
     }else{
       return widget.transcriptEntity.receiverPhotoUrl;
