@@ -8,7 +8,7 @@
         "pleaseEnterYourRegisteredName": "To continue,\nplease enter your\nregistered\nFlower name.",
         "pleaseEnterYourPrivateKey": "To continue,\nplease enter your\nprivate key.",
         "pleaseEnterYourPinCode": "To continue,\nplease enter your\nPIN code.",
-        "pleaseConfirmYourPinCode": "To continue,\nplease cconfirm your\nPIN code.",
+        "pleaseConfirmYourPinCode": "To continue,\nplease confirm your\nPIN code.",
         "privateKey": "Private key",
         "confirmPinCode": "Choose your pin code",
         "flowerName": "Flower Name",
@@ -132,5 +132,44 @@
         "pinCodeConfirmTitle1": "Please confirm\nyour PIN code.",
         "pinCodeConfirmTextFieldHint": "Confirm your pin code",
         "pinCodeConfirmTextFieldError": "Please enter same pin code"
+    },
+    "transcript": {
+        "freeflow": "FreeFlow ",
+        "coinAmount": "XX FLWRs ",
+        "view": "View",
+        "coins": "FLWRs",
+        "coin": "FLWR",
+        "flowerExchange": {
+            "you": "You ",
+            "received": "received ",
+            "from": " from ",
+            "theName": "the NAME",
+            "haveSend": "have send ",
+            "to": " to ",
+            "transactionDetails": "TRANSACTION DETAILS",
+            "hashId": "Hash ID:",
+            "timestamp": "Timestamp:",
+            "from2dots": "From:",
+            "to2dots": "To:",
+            "amount": "Amount:",
+            "fee": "Fee:",
+            "dotFlw": ".flw",
+            "textCopied": "Public address\ncopied to clipboard"
+        },
+        "gratitude": {
+            "rewardedYou": "rewarded you ",
+            "rewardedYouWith": "rewarded you with ",
+            "aNewCollectible": "a new collectible ",
+            "welcome": "as a warm welcome! :-) ",
+            "completedQuest": "for completing a quest."
+        },
+        "interaction": {
+            "you": "You ",
+            "hasA": "has a ",
+            "newQuestion": "new question ",
+            "forYou": "for you. ",
+            "haveAGoodOne": "Have a good one!",
+            "haventParticipated": "haven´t yet participated in the quest."
+        }
     }
 }

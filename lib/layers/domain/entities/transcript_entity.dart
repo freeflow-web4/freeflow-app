@@ -1,14 +1,27 @@
 class TranscriptEntity {
   final String category;
-  final String amount;
-  final String gratitudeType;
+  final String? amount;
+  final String? gratitudeType;
   final String createdAt;
-  final String userName;
+  final String? transferAction;
+  final String id;
+  bool viewed;
+  final String? userName;
+  final String? exchangeUsername;
+  final String? photoUrl;
+
+
+
 
   TranscriptEntity({
+    this.transferAction,
+    required this.id,
+    required this.viewed,
+    this.exchangeUsername,
+    this.photoUrl,
     required this.category,
-    required this.amount,
-    required this.gratitudeType,
+    this.amount,
+    this.gratitudeType,
     required this.createdAt,
     required this.userName,
   });

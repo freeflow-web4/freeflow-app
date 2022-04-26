@@ -28,6 +28,9 @@ import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincod
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
 import 'package:freeflow/layers/presentation/pages/white_splash/controller/white_splash_controller.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/controller/flower_exchange_controller.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/controller/gratitude_controller.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/interactions/controller/interaction_controller.dart';
 import 'package:get_it/get_it.dart';
 
 registerControllerDependencies(GetIt getIt) {
@@ -111,5 +114,14 @@ registerControllerDependencies(GetIt getIt) {
 
   getIt.registerLazySingleton<CutImageController>(
     () => CutImageController(),
+  );
+  getIt.registerLazySingleton<FlowerExchangeController>(
+        () => FlowerExchangeController(),
+  );
+  getIt.registerLazySingleton<GratitudeController>(
+        () => GratitudeController(),
+  );
+  getIt.registerLazySingleton<InteractionController>(
+        () => InteractionController(),
   );
 }
