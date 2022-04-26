@@ -505,14 +505,14 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
               baseColor: StandardColors.baseShimmer,
               highlightColor: StandardColors.highlightShimmer,
               child: Container(
-                width: MediaQuery.of(context).size.width - (32*2 + 74 + (canCopied ? 48 : 25)),
+                width: MediaQuery.of(context).size.width - sizeToRemove(canCopied),
                 height: 17,
                 color: Colors.black,
               ),
             ),
           ]else...[
             SizedBox(
-              width: MediaQuery.of(context).size.width - (32*2 + 74 + (canCopied ? 48 : 25)),
+              width: MediaQuery.of(context).size.width - sizeToRemove(canCopied),
               child: Text(text,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -552,7 +552,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
 
   String getName(String? name) {
     if(name != null){
-      return '$name.flw';
+      return '@$name.flw';
     }
     return '';
   }
@@ -563,5 +563,9 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
     }else{
       return widget.transcriptEntity.receiverPhotoUrl;
     }
+  }
+
+  double sizeToRemove(bool canCopied) {
+    return (32*2 + 74 + (canCopied ? 55 : 25));
   }
 }
