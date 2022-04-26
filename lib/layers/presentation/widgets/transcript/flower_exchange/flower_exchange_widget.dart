@@ -512,7 +512,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
             ),
           ]else...[
             SizedBox(
-              width: MediaQuery.of(context).size.width - (32*2 + 74 + (canCopied ? 48 : 25)),
+              width: MediaQuery.of(context).size.width - (32*2 + 74 + (canCopied ? 55 : 25)),
               child: Text(text,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -552,7 +552,7 @@ class _FlowerExchangeWidgetState extends State<FlowerExchangeWidget>  with TextT
 
   String getName(String? name) {
     if(name != null){
-      return '$name.flw';
+      return '@$name.flw';
     }
     return '';
   }
