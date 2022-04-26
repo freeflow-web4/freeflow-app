@@ -145,8 +145,11 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
             child: Padding(
               padding: const EdgeInsets.only(bottom: normalSpacing),
               child: AnimatedFloatButtonWidget(
-                onTapInative: () {},
-                onTap: () => fullscreenAlertDialogController.closeDialog(),
+                onTap: (activated) {
+                  if (activated) {
+                    fullscreenAlertDialogController.closeDialog();
+                  }
+                },
                 icon: IconsAsset.closeBackIcon,
               ),
             ),

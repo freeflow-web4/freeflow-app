@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
@@ -7,6 +8,9 @@ import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.da
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:freeflow/layers/domain/validators/username_validator/username_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/pages/cut_image/controller/cut_image_controller.dart';
 import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_profile_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
@@ -16,7 +20,6 @@ import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/privatekey_view/recover_private_key_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_controller.dart';
-import 'package:freeflow/layers/presentation/pages/recover_splash/controller/recover_splash_controller.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
@@ -24,7 +27,7 @@ import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biom
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/username_exist/get_username_exists_usecase.dart';
 import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wallet_controller.dart';
+import 'package:freeflow/layers/presentation/pages/white_splash/controller/white_splash_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/controller/flower_exchange_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/controller/gratitude_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/transcript/interactions/controller/interaction_controller.dart';
@@ -47,8 +50,8 @@ registerControllerDependencies(GetIt getIt) {
   getIt.registerFactory<SplashController>(
     () => SplashController(),
   );
-  getIt.registerFactory<RecoverSplashController>(
-    () => RecoverSplashController(),
+  getIt.registerFactory<WhiteSplashController>(
+    () => WhiteSplashController(),
   );
 
   getIt.registerLazySingleton<LoginController>(
@@ -77,15 +80,30 @@ registerControllerDependencies(GetIt getIt) {
       saveUserLocalAuthUsecase: getIt.get<SaveUserLocalAuthUsecase>(),
     ),
   );
+
+  getIt.registerFactory<CreateWalletEmailController>(
+    () => CreateWalletEmailController(),
+  );
+
+  getIt.registerFactory<CreateWalletPinCodeController>(
+    () => CreateWalletPinCodeController(
+      biometricDriver: getIt.get<BiometricAuthDriver>(),
+      pinValidator: getIt.get<PinValidator>(),
+    ),
+  );
+
+  getIt.registerFactory<CreateWalletController>(
+    () => CreateWalletController(
+      userCreateWalletUseCase: GetIt.I.get<UserCreateWalletUseCase>(),
+      userSetBiometricsUsecase: GetIt.I.get<UserSetBiometricsUsecase>(),
+    ),
+  );
   getIt.registerLazySingleton<ProfilePageController>(
     () => ProfilePageController(
       getProfileUsecase: getIt.get<GetProfileUsecase>(),
     ),
   );
 
-  getIt.registerFactory<WalletController>(
-    () => WalletController(),
-  );
   getIt.registerLazySingleton<EditProfileController>(
     () => EditProfileController(
       editProfileUsecase: getIt.get<EditProfileUsecase>(),

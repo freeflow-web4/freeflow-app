@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
@@ -17,16 +16,30 @@ class Routes {
     _routeService.pushReplacement(const RecoverAccountRoute());
   }
 
+  void goToWelcomeBackPageRoute() async {
+    _routeService.pushReplacement(const WelcomeBackRoute());
+  }
+
   void goToWelcomePageRoute() async {
     _routeService.pushReplacement(const WelcomeRoute());
   }
 
-  void goToSplashRecoverRoute() async {
-    _routeService.pushReplacement(const RecoverSplashRoute());
+  void goToSplashRecoverRoute(void Function() onAnimationend) async {
+    _routeService.pushReplacement(
+      WhiteSplashRoute(
+        onAnimationEnd: onAnimationend,
+      ),
+    );
   }
 
-  void goToFreeflowLogoLoadingRoute() {
-    _routeService.pushReplacement(const FreeflowLogoLoadingRoute());
+  Future<void> goToFreeflowLogoLoadingRoute(
+    void Function() onLoadingCompleted,
+  ) {
+    return _routeService.pushReplacement(
+      FreeflowLogoLoadingRoute(
+        onLoadingCompleted: onLoadingCompleted,
+      ),
+    );
   }
 
   void goToLoginPageRoute() {
@@ -41,6 +54,10 @@ class Routes {
     _routeService.pushReplacement(const HomeRoute());
   }
 
+  void goToCreateWalletPageRoute() {
+    _routeService.pushReplacement(const CreateWalletRoute());
+  }
+
   void goToProfilePageRoute() {
     _routeService.push(const ProfileRoute());
   }
@@ -49,8 +66,11 @@ class Routes {
     _routeService.pushReplacement(const WalletRoute());
   }
 
-  Future<ProfileEntity?> goToEditProfilePageRoute(ProfileEntity profileEntity) async {
-    final RouteResponse? response = await _routeService.push( EditProfileRoute(user: profileEntity));
+  Future<ProfileEntity?> goToEditProfilePageRoute(
+    ProfileEntity profileEntity,
+  ) async {
+    final RouteResponse? response =
+        await _routeService.push(EditProfileRoute(user: profileEntity));
     return response?.body;
   }
 
@@ -73,22 +93,4 @@ class Routes {
     RouteResponse data = RouteResponse(body: profileEntity);
     _routeService.pop(data: data);
   }
-
-//   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(
-//       BuildContext context, ProfileRouteRequest request) async {
-//     final routeServiceResponse =
-//         await _routeService.push(context, ProfileRoute());
-//     if (routeServiceResponse == null) return Left(Failure());
-//     final routeResponse = routeServiceResponse.body as ProfileRouteResponse;
-//     return Right(routeResponse);
-//   }
-
-//   Future<Either<Failure, ProfileRouteResponse>> goBackFromProfilePageRoute(
-//       BuildContext context, ProfileRouteResponse response) async {
-//     final routeServiceResponse = await _routeService
-//         .pop(context, data: RouteResponse(body: response));
-//     if (routeServiceResponse == null) return Left(Failure());
-//     final routeResponse = routeServiceResponse.body as ProfileRouteResponse;
-//     return Right(routeResponse);
-//   }
 }

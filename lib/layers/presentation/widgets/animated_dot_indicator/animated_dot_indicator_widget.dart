@@ -11,6 +11,7 @@ class AnimatedDotIndicatorWidget extends StatefulWidget {
   final int currentIndex;
   final int length;
   final Duration totalAnimationStartUpDuration;
+  final void Function()? onAnimationEnd;
 
   /// The duration of the animation of the dot indicator.
   ///
@@ -27,6 +28,7 @@ class AnimatedDotIndicatorWidget extends StatefulWidget {
     required this.totalAnimationStartUpDuration,
     this.swipeAnimationDuration,
     this.animatedOnStart = true,
+    this.onAnimationEnd,
   }) : super(key: key);
 
   @override
@@ -117,7 +119,9 @@ class _AnimatedDotIndicatorWidgetState extends State<AnimatedDotIndicatorWidget>
 
   Future<void> swipeAnimation() {
     swipingAnimationController.reset();
-    return swipingAnimationController.forward();
+    return swipingAnimationController
+        .forward()
+        .then((value) => widget.onAnimationEnd?.call());
   }
 
   List<Widget> getDotList() {

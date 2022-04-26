@@ -1,17 +1,22 @@
+import 'package:auto_route/annotations.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
 import 'package:video_player/video_player.dart';
 
-class RecoverSplashPage extends StatefulWidget {
-  const RecoverSplashPage({Key? key}) : super(key: key);
+class WhiteSplashPage extends StatefulWidget {
+  final void Function() onAnimationEnd;
+  const WhiteSplashPage({
+    @PathParam('onAnimationEnd') required this.onAnimationEnd,
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<RecoverSplashPage> createState() => _RecoverSplashPageState();
+  State<WhiteSplashPage> createState() => _WhiteSplashPageState();
 }
 
-class _RecoverSplashPageState extends State<RecoverSplashPage> {
+class _WhiteSplashPageState extends State<WhiteSplashPage> {
   final splashController = findSplashController();
 
   late VideoPlayerController _videoController;
@@ -34,7 +39,10 @@ class _RecoverSplashPageState extends State<RecoverSplashPage> {
       aspectRatio: 9 / 16,
       customControls: Container(),
     );
-    splashController.startPeriodicVideoEndCheck(_chewieController);
+    splashController.startPeriodicVideoEndCheck(
+      _chewieController,
+      widget.onAnimationEnd,
+    );
     setState(() {});
   }
 
