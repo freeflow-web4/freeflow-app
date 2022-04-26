@@ -79,9 +79,6 @@ registerUsecasesDependencies(GetIt getIt) {
     ),
   );
 
-  getIt.registerFactory<GetTranscripListUsecase>(
-      () => GetTranscripListImp(GetIt.I.get<WalletRepository>()));
-
   getIt.registerFactory<GetTranscriptsUsecase>(
     () => GetTranscriptsImp(GetIt.I.get<WalletRepository>()),
   );
