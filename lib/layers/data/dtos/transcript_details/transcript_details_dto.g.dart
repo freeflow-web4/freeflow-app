@@ -9,13 +9,15 @@ part of 'transcript_details_dto.dart';
 TranscriptDetailsDto _$TranscriptDetailsDtoFromJson(
         Map<String, dynamic> json) =>
     TranscriptDetailsDto(
-      json['amount'] as String?,
+      (json['amount'] as num?)?.toDouble(),
       json['date'] as String?,
-      json['fee'] as String?,
+      (json['fee'] as num?)?.toDouble(),
       json['senderEmail'] as String?,
       json['senderPhotoUrl'] as String?,
-      json['reciverEmail'] as String?,
-      json['reciverPhotoUrl'] as String?,
+      json['receiverEmail'] as String?,
+      json['receiverPhotoUrl'] as String?,
+      json['senderUsername'] as String?,
+      json['receiverUsername'] as String?,
     );
 
 Map<String, dynamic> _$TranscriptDetailsDtoToJson(
@@ -26,6 +28,8 @@ Map<String, dynamic> _$TranscriptDetailsDtoToJson(
       'fee': instance.fee,
       'senderEmail': instance.senderEmail,
       'senderPhotoUrl': instance.senderPhotoUrl,
-      'reciverEmail': instance.reciverEmail,
-      'reciverPhotoUrl': instance.reciverPhotoUrl,
+      'receiverEmail': instance.receiverEmail,
+      'receiverPhotoUrl': instance.receiverPhotoUrl,
+      'senderUsername': instance.senderUsername,
+      'receiverUsername': instance.receiverUsername,
     };

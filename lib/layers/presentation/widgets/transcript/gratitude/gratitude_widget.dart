@@ -11,9 +11,9 @@ import 'package:freeflow/routes/routes.dart';
 import 'controller/gratitude_controller.dart';
 
 class GratitudeWidget extends StatefulWidget{
-  TranscriptEntity transcriptEntity;
+  final TranscriptEntity transcriptEntity;
 
-  GratitudeWidget({Key? key, required this.transcriptEntity}) : super(key: key);
+  const GratitudeWidget({Key? key, required this.transcriptEntity}) : super(key: key);
 
   @override
   State<GratitudeWidget> createState() => _GratitudeWidgetState();
@@ -210,7 +210,7 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount.toString()),
               style: transcriptBold,
             ),
             TextSpan(
@@ -238,7 +238,7 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
               style: transcriptMedium,
             ),
             TextSpan(
-              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount ?? ''),
+              text: TranslationService.translate(context, "transcript.coinAmount",).replaceFirst('XX', widget.transcriptEntity.amount.toString()),
               style: transcriptBold,
             ),
             TextSpan(
