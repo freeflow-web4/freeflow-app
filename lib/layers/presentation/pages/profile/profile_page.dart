@@ -103,6 +103,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                   const CustomDividerWidget(horizontalPadding: mdSpacingx2),
                   SmallProfileButtons(
                     screenHeight: screenHeight,
+                    onLogoutTap: () => controller.showLogoutPage(context),
                     onTapCommitment: () => showCommitmentBottomSheet(),
                   ),
                 ],
@@ -120,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                         child: ProfileButtonWidget(
                           title: "profile.logout",
                           icon: IconsAsset.logout,
-                          onTap: () {},
+                          onTap: () => controller.showLogoutPage(context),
                         ),
                       ),
                     ],

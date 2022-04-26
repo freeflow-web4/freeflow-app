@@ -3,7 +3,11 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 
-showFlexBottomSheet(BuildContext context, Text title, Widget content) {
+showFlexBottomSheet(
+  BuildContext context,
+  Widget title,
+  Widget content,
+) {
   return showFlexibleBottomSheet(
     context: context,
     minHeight: 0,

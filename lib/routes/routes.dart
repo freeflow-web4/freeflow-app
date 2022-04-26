@@ -1,11 +1,15 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
+import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
+import 'package:freeflow/layers/presentation/pages/logout/logout_page.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
 
-class Routes {
+class Routes with TextThemes {
   final RouteService _routeService;
 
   Routes(this._routeService);
@@ -92,5 +96,24 @@ class Routes {
   void backToProfile(ProfileEntity? profileEntity) {
     RouteResponse data = RouteResponse(body: profileEntity);
     _routeService.pop(data: data);
+  }
+
+  void goToLogout(
+    BuildContext context,
+  ) {
+    showFlexBottomSheet(
+      context,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          textH6(
+            context,
+            textKey: 'logout.title',
+            isUpperCase: true,
+          ),
+        ],
+      ),
+      const LogoutPage(),
+    );
   }
 }

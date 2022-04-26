@@ -170,5 +170,8 @@
             "haveAGoodOne": "Have a good one!",
             "haventParticipated": "haven´t yet participated in the quest."
         }
+    },
+    "logout": {
+        "title": "AUTHENTICATION"
     }
 }
