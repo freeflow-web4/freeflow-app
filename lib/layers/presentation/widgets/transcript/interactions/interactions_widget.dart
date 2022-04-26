@@ -10,8 +10,8 @@ import 'package:freeflow/layers/presentation/widgets/transcript/interactions/con
 import 'package:freeflow/routes/routes.dart';
 
 class InteractionsWidget extends StatefulWidget{
-  TranscriptEntity transcriptEntity;
-  InteractionsWidget({Key? key, required this.transcriptEntity}) : super(key: key);
+  final TranscriptEntity transcriptEntity;
+  const InteractionsWidget({Key? key, required this.transcriptEntity}) : super(key: key);
 
   @override
   State<InteractionsWidget> createState() => _InteractionsWidgetState();
