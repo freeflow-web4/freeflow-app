@@ -10,6 +10,7 @@ import 'package:freeflow/layers/domain/validators/username_validator/username_va
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/pages/cut_image/controller/cut_image_controller.dart';
 import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_profile_controller.dart';
@@ -116,12 +117,18 @@ registerControllerDependencies(GetIt getIt) {
     () => CutImageController(),
   );
   getIt.registerLazySingleton<FlowerExchangeController>(
-        () => FlowerExchangeController(),
+    () => FlowerExchangeController(),
   );
   getIt.registerLazySingleton<GratitudeController>(
-        () => GratitudeController(),
+    () => GratitudeController(),
   );
   getIt.registerLazySingleton<InteractionController>(
-        () => InteractionController(),
+    () => InteractionController(),
+  );
+
+  getIt.registerLazySingleton<CreateWalletNameController>(
+    () => CreateWalletNameController(
+      getIt.get<GetUsernameExistsUsecase>(),
+    ),
   );
 }

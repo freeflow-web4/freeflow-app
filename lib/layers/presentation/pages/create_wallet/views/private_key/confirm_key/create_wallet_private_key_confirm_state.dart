@@ -13,6 +13,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_k
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 
 class CreateWalletPrivateKeyConfirmView extends StatefulWidget {
@@ -65,110 +66,106 @@ class _CreateWalletPrivateKeyConfirmViewState
         child: AnimatedBuilder(
           animation: animationController,
           builder: (context, _) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: mdSpacingx2,
-                    right: mdSpacingx2,
-                    top: huge4Spacing,
+            return Padding(
+              padding: const EdgeInsets.only(
+                left: mdSpacingx2,
+                right: mdSpacingx2,
+              ),
+              child: Column(
+                children: [
+                  const FlexibleVerticalSpacer(
+                    height: huge4Spacing,
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AnimatedText(
-                        text: TranslationService.translate(
-                          context,
-                          "createWallet.confirmPrivateKeyTitle1",
-                        ),
-                        animationController: animationController,
-                        style: textH4TextStyle.copyWith(
-                          color: StandardColors.white,
-                        ),
-                        animation: animations.title1Opacity,
-                      ),
-                      const SizedBox(
-                        height: mdSpacingx2,
-                      ),
-                      AnimatedText(
-                        text: TranslationService.translate(
-                          context,
-                          "createWallet.confirmPrivateKeyTitle2",
-                        ),
-                        animationController: animationController,
-                        style: subtitleTextStyle.copyWith(
-                          color: StandardColors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        animation: animations.title2Opacity,
-                      ),
-                      const SizedBox(
-                        height: mdSpacingx2,
-                      ),
-                      Opacity(
-                        opacity: animations.field1Opacity.value,
+                  AnimatedText(
+                    text: TranslationService.translate(
+                      context,
+                      "createWallet.confirmPrivateKeyTitle1",
+                    ),
+                    animationController: animationController,
+                    style: textH4TextStyle.copyWith(
+                      color: StandardColors.white,
+                    ),
+                    animation: animations.title1Opacity,
+                  ),
+                  const FlexibleVerticalSpacer(
+                    height: mdSpacingx2,
+                  ),
+                  AnimatedText(
+                    text: TranslationService.translate(
+                      context,
+                      "createWallet.confirmPrivateKeyTitle2",
+                    ),
+                    animationController: animationController,
+                    style: subtitleTextStyle.copyWith(
+                      color: StandardColors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    animation: animations.title2Opacity,
+                  ),
+                  const FlexibleVerticalSpacer(
+                    height: mdSpacingx2,
+                  ),
+                  Opacity(
+                    opacity: animations.field1Opacity.value,
+                    child: Observer(
+                      builder: (context) {
+                        return GradientTextFieldWidget(
+                          errorText: pageController.gradientTextFieldState !=
+                                  GradientTextFieldState.invalid
+                              ? null
+                              : TranslationService.translate(
+                                  context,
+                                  'createWallet.confirmPrivateTextFieldError',
+                                ),
+                          hintText: TranslationService.translate(
+                            context,
+                            'createWallet.confirmPrivateTextFieldHint',
+                          ),
+                          onChanged: pageController.onPrivateKeyChanged,
+                          isFieldValid: pageController.isGradientTextFieldValid,
+                        );
+                      },
+                    ),
+                  ),
+                  const FlexibleVerticalSpacer(
+                    height: xxlargeSpacing,
+                  ),
+                  CreateWalletPageIndicator(
+                    currentIndex: 3,
+                    onAnimationEnd: () {
+                      animationController.forward();
+                    },
+                    animatedOnStart: widget.animateOnStart,
+                  ),
+                  Flexible(
+                    flex: 130,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Opacity(
+                        opacity: animations.buttonOpacity.value,
                         child: Observer(
                           builder: (context) {
-                            return GradientTextFieldWidget(
-                              errorText:
-                                  pageController.gradientTextFieldState !=
-                                          GradientTextFieldState.invalid
-                                      ? null
-                                      : TranslationService.translate(
-                                          context,
-                                          'createWallet.confirmPrivateTextFieldError',
-                                        ),
-                              hintText: TranslationService.translate(
-                                context,
-                                'createWallet.confirmPrivateTextFieldHint',
-                              ),
-                              onChanged: pageController.onPrivateKeyChanged,
-                              isFieldValid:
-                                  pageController.isGradientTextFieldValid,
+                            return AnimatedFloatButtonWidget(
+                              isActive: pageController.buttonNextActivated,
+                              onTap: (activate) {
+                                pageController.onNextButtonPressed(
+                                  onValid,
+                                  onInvalid,
+                                );
+                              },
+                              icon: IconsAsset.arrowIcon,
+                              isLargeButton: pageController.buttonNextActivated,
                             );
                           },
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: xxlargeSpacing,
-                ),
-                CreateWalletPageIndicator(
-                  currentIndex: 3,
-                  onAnimationEnd: () {
-                    animationController.forward();
-                  },
-                  animatedOnStart: widget.animateOnStart,
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.bottomCenter,
-                    padding: const EdgeInsets.only(
-                      bottom: bigSpacing,
-                    ),
-                    child: Opacity(
-                      opacity: animations.buttonOpacity.value,
-                      child: Observer(
-                        builder: (context) {
-                          return AnimatedFloatButtonWidget(
-                            isActive: pageController.buttonNextActivated,
-                            onTap: (activate) {
-                              pageController.onNextButtonPressed(
-                                onValid,
-                                onInvalid,
-                              );
-                            },
-                            icon: IconsAsset.arrowIcon,
-                            isLargeButton: pageController.buttonNextActivated,
-                          );
-                        },
-                      ),
                     ),
                   ),
-                )
-              ],
+                  const FlexibleVerticalSpacer(
+                    height: bigSpacing,
+                  )
+                ],
+              ),
             );
           },
         ),
