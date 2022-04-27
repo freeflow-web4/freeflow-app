@@ -8,11 +8,14 @@ import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dar
 class SmallProfileButtons extends StatelessWidget {
   final double screenHeight;
   final void Function()? onTapCommitment;
+  final void Function()? onTapRememberMe;
+
 
   const SmallProfileButtons({
     Key? key,
     required this.screenHeight,
     required this.onTapCommitment,
+    required this.onTapRememberMe,
   }) : super(key: key);
 
   @override
@@ -26,6 +29,7 @@ class SmallProfileButtons extends StatelessWidget {
             const SizedBox(height: mdSpacingx2),
             ProfileButtonListWidget(
               onTapCommitment: onTapCommitment,
+              onTapRememberMe: onTapRememberMe,
             ),
             const SizedBox(height: mdSpacingx2),
             const CustomDividerWidget(horizontalPadding: mdSpacingx2),

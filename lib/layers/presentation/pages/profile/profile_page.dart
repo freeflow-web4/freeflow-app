@@ -1,3 +1,4 @@
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
@@ -15,6 +16,7 @@ import 'package:freeflow/layers/presentation/pages/profile/widgets/small_profile
 import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
+import 'package:freeflow/layers/presentation/widgets/show_modal_bottom_sheet/remember_me/remember_me_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 
@@ -104,6 +106,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                   SmallProfileButtons(
                     screenHeight: screenHeight,
                     onTapCommitment: () => showCommitmentBottomSheet(),
+                    onTapRememberMe: () => showRememberMeBottomSheet2(),
                   ),
                 ],
               ),
@@ -137,12 +140,12 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
   showCommitmentBottomSheet() {
     return showFlexBottomSheet(
       context,
-      textH6(
+      title: textH6(
         context,
         textKey: 'profile.commitment',
         textAlign: TextAlign.center,
       ),
-      Center(
+      content: Center(
         child: textSubtitle(
           context,
           textKey: 'profile.commitmentContent',
@@ -150,4 +153,64 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
       ),
     );
   }
+
+
+  showRememberMeBottomSheet2() {
+    return showFlexBottomSheet(
+      context,
+      title: textH6(
+        context,
+        textKey: 'rememberMe.touchId',
+        textAlign: TextAlign.center,
+      ),
+      content: const RememberMeWidget(),
+    );
+  }
+
+  showRememberMeBottomSheet() {
+    return showFlexibleBottomSheet(
+      context: context,
+      minHeight: 0,
+      initHeight: .9,
+      maxHeight: 1,
+      anchors: [0, 0.9, 1],
+      builder: (BuildContext context, ScrollController scrollController, double bottomSheetOffset,) {
+        return SafeArea(
+          bottom: false,
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: mdSpacing,
+                vertical: bottomSheetOffset > 0.9 ? mdSpacingx2 : normalSpacing,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Center(
+                child: ListView(
+                  controller: scrollController,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 52,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: StandardColors.black,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const RememberMeWidget(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
+

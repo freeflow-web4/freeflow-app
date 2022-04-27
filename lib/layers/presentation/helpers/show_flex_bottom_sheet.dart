@@ -3,7 +3,11 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 
-showFlexBottomSheet(BuildContext context, Text title, Widget content) {
+showFlexBottomSheet(BuildContext context,  {
+  required Text title,
+  required Widget content,
+  bool bottomSafeArea = true,
+}) {
   return showFlexibleBottomSheet(
     context: context,
     minHeight: 0,
@@ -16,6 +20,7 @@ showFlexBottomSheet(BuildContext context, Text title, Widget content) {
       double bottomSheetOffset,
     ) {
       return SafeArea(
+        bottom: bottomSafeArea,
         child: Material(
           color: Colors.transparent,
           child: Container(

@@ -170,5 +170,13 @@
             "haveAGoodOne": "Have a good one!",
             "haventParticipated": "haven´t yet participated in the quest."
         }
+    },
+    "rememberMe": {
+        "touchId": "TOUCH ID",
+        "auth": "AUTHENTICATION",
+        "enableTouchId": "Enable Touch ID?",
+        "pleaseEnterAValidPinCode": "Please enter a valid pin code",
+        "changeSuccessfully" : "Change made\nsuccessfully"
+
     }
 }
