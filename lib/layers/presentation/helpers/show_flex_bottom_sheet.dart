@@ -8,13 +8,14 @@ Future<T?> showFlexBottomSheet<T>(
   Widget title,
   Widget content, {
   double initHeight = 0.9,
+  double maxHeight = 1,
 }) {
   return showFlexibleBottomSheet<T?>(
     context: context,
     minHeight: 0,
     initHeight: initHeight,
-    maxHeight: 1,
-    anchors: [0, initHeight, 1],
+    maxHeight: maxHeight,
+    anchors: [0, initHeight, maxHeight],
     builder: (
       BuildContext context,
       ScrollController scrollController,

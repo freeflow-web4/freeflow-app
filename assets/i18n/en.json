@@ -25,7 +25,8 @@
         "authTitle": "Authentication",
         "pinTextInputError": "Please enter your pin code",
         "pleaseEnterPinCode": "Please enter your pin code",
-        "pleaseEnterConfirmPinCode": "Please confirm your pin code"
+        "pleaseEnterConfirmPinCode": "Please confirm your pin code",
+        "hint": "Enter your PIN code"
     },
     "domainError": {
         "somethingWrong": "Something wrong!",

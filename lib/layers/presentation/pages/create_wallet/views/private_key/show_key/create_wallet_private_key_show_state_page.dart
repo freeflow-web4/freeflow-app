@@ -94,14 +94,14 @@ class _CreateWalletPrivateKeyShowViewState
                         opacity: animations.title2Opacity.value,
                         child: RichText(
                           text: TextSpan(
-                            style: subtitleTextStyle,
+                            style: subtitleTextStyle(),
                             children: [
                               TextSpan(
                                 text: TranslationService.translate(
                                   context,
                                   'createWallet.privateKeyTitle2',
                                 ),
-                                style: subtitleTextStyle.copyWith(
+                                style: subtitleTextStyle(
                                   color: StandardColors.white,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -111,7 +111,7 @@ class _CreateWalletPrivateKeyShowViewState
                                   context,
                                   'createWallet.privateKeyTitle3',
                                 ),
-                                style: subtitleTextStyle.copyWith(
+                                style: subtitleTextStyle(
                                   color: StandardColors.white,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -128,7 +128,7 @@ class _CreateWalletPrivateKeyShowViewState
                         opacity: animations.title3Opacity.value,
                         child: Text(
                           widget.privateKey,
-                          style: subtitleTextStyle.copyWith(
+                          style: subtitleTextStyle(
                             color: StandardColors.secondary,
                             fontWeight: FontWeight.w700,
                           ),

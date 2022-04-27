@@ -4,10 +4,10 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class OnOffSwitcher extends StatefulWidget {
   final bool value;
-  final void Function(bool value) onChanged;
+  final void Function(bool value)? onChanged;
   const OnOffSwitcher({
     required this.value,
-    required this.onChanged,
+    this.onChanged,
     Key? key,
   }) : super(key: key);
 
@@ -22,7 +22,9 @@ class _OnOffSwitcherState extends State<OnOffSwitcher> with TextThemes {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => widget.onChanged(!widget.value),
+      onTap: widget.onChanged != null
+          ? () => widget.onChanged?.call(!widget.value)
+          : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: _animationDuration),
         decoration: BoxDecoration(
@@ -50,7 +52,6 @@ class _OnOffSwitcherState extends State<OnOffSwitcher> with TextThemes {
                             "ON",
                             style: textSubtitle3Style(
                               color: Colors.white,
-                              fontSize: 24,
                             ),
                           ),
                         ),
@@ -60,7 +61,6 @@ class _OnOffSwitcherState extends State<OnOffSwitcher> with TextThemes {
                             "OFF",
                             style: textSubtitle3Style(
                               color: Colors.white,
-                              fontSize: 24,
                             ),
                           ),
                         ),

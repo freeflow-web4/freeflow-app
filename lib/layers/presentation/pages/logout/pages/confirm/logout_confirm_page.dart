@@ -1,17 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:freeflow/core/utils/assets_constants.dart';
-import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
+import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/presentation/widgets/elevated_text_button.dart';
 import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/onoff_switcher_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/outline_button.dart';
-import 'package:freeflow/layers/presentation/widgets/secondary_button.dart';
 import 'package:freeflow/routes/routes.dart';
 
 class LogoutConfirmPage extends StatefulWidget {
@@ -22,24 +18,35 @@ class LogoutConfirmPage extends StatefulWidget {
 }
 
 class _LogoutConfirmPageState extends State<LogoutConfirmPage> with TextThemes {
-  bool confirm = false;
+  bool confirm = true;
+  late Timer timer;
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        confirm = !confirm;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: MediaQuery.of(context).size.height * 0.6,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const FlexibleVerticalSpacer(height: largeSpacing),
-          //TODO: create switcher
           OnOffSwitcher(
             value: confirm,
-            onChanged: (value) {
-              setState(() {
-                confirm = value;
-              });
-            },
           ),
           const FlexibleVerticalSpacer(height: largeSpacing),
           textSubtitle1(
@@ -52,10 +59,11 @@ class _LogoutConfirmPageState extends State<LogoutConfirmPage> with TextThemes {
             children: [
               OutlineTextButton.withTextKey(
                 textKey: 'logout.confirmButton',
+                onPressed: onConfirm,
               ),
               ElevatedTextButton.withTextKey(
                 textKey: 'logout.cancelButton',
-                onPressed: cancel,
+                onPressed: onCancel,
               ),
             ],
           ),
@@ -65,7 +73,11 @@ class _LogoutConfirmPageState extends State<LogoutConfirmPage> with TextThemes {
     );
   }
 
-  void cancel() {
+  void onCancel() {
     Routes.instance.pop();
+  }
+
+  void onConfirm() {
+    Routes.instance.pop(data: const RouteResponse(body: true));
   }
 }

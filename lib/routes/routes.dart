@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
+import 'package:freeflow/layers/domain/usecases/delete_cache/delete_cache_usecase.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
@@ -102,7 +103,7 @@ class Routes with TextThemes {
   void goToLogout(
     BuildContext context,
   ) async {
-    final authResult = await showFlexBottomSheet(
+    final authResult = await showFlexBottomSheet<RouteResponse?>(
       context,
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -116,10 +117,11 @@ class Routes with TextThemes {
       ),
       const LogoutAuthPage(),
     );
-    if (!(authResult == true) && false) {
+    final auth = authResult?.body ?? false;
+    if (auth == false) {
       return;
     }
-    final confirmResult = await showFlexBottomSheet(
+    final confirmResult = await showFlexBottomSheet<RouteResponse?>(
       context,
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -132,10 +134,19 @@ class Routes with TextThemes {
         ],
       ),
       const LogoutConfirmPage(),
+      initHeight: 0.7,
+      maxHeight: 0.701,
     );
-    if (confirmResult == false) {
+    final confirm = confirmResult?.body ?? false;
+    if (confirm == false) {
       return;
     }
-    //TODO: make the logout usecase
+    final deleteCacheUsecase = GetIt.I.get<DeleteCacheUsecase>();
+    await deleteCacheUsecase();
+    Routes.instance.fromLogoutGotoLogin();
+  }
+
+  void fromLogoutGotoLogin() {
+    _routeService.pushAndPopUntil(const LoginRoute());
   }
 }

@@ -56,9 +56,15 @@ mixin TextThemes {
         fontFamily: 'Akrobat',
       );
 
-  TextStyle get subtitleTextStyle => const TextStyle(
+  TextStyle subtitleTextStyle({
+    Color? color,
+    FontWeight fontWeight = FontWeight.w500,
+  }) =>
+      TextStyle(
         fontSize: 20,
         fontFamily: 'Akrobat',
+        fontWeight: fontWeight,
+        color: color,
       );
 
   TextStyle get transcriptBold => const TextStyle(

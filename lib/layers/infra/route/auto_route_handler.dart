@@ -35,4 +35,15 @@ class AutoRouteHandler implements RouteHandler {
     final router = GetIt.I.get<RootRouter>();
     await router.replace(routeSettings);
   }
+
+  @override
+  Future<bool> pushAndPopUntil(routeSettings) async {
+    final router = GetIt.I.get<RootRouter>();
+    try {
+      await router.pushAndPopUntil(routeSettings, predicate: (_) => true);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

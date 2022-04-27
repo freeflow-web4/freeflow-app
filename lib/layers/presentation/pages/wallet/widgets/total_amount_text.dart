@@ -37,7 +37,7 @@ class TotalAmountText extends StatelessWidget with TextThemes {
               context,
               'wallet.flwr',
             ).toUpperCase()}',
-            style: subtitleTextStyle,
+            style: subtitleTextStyle(),
           ),
         ],
       ),
