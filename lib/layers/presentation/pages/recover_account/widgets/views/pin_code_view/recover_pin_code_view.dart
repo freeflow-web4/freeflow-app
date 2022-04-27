@@ -141,7 +141,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                                 "recoverAccount.rememberMe",
                               ),
                               animationController: animationController,
-                              style: subtitleTextStyle.copyWith(
+                              style: subtitleTextStyle(
                                 color: StandardColors.white,
                               ),
                               animation: animation.biometryOpacity,

@@ -12,6 +12,8 @@ enum GradientTextFieldState { empty, valid, invalid, wrong }
 class GradientTextFieldWidget extends StatefulWidget {
   final String? errorText;
   final String? hintText;
+  final Color normalTextColor;
+  final TextStyle? hintTextStyle;
   final TextEditingController? textController;
   final bool showSecondText;
   final void Function(String)? onChanged;
@@ -32,7 +34,9 @@ class GradientTextFieldWidget extends StatefulWidget {
   const GradientTextFieldWidget({
     Key? key,
     this.errorText,
+    this.normalTextColor = StandardColors.white,
     this.hintText,
+    this.hintTextStyle,
     this.textController,
     this.inputNode,
     this.onChanged,
@@ -82,7 +86,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       children: [
         Stack(
           children: <Widget>[
-            widget.isObscureText == true
+            widget.isObscureText == true || widget.value?.isEmpty == true
                 ? SizedBox(
                     width: double.infinity,
                     child: (widget.hintText?.trim().isNotEmpty ?? false) &&
@@ -94,9 +98,10 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                             ),
                             child: Text(
                               widget.hintText!,
-                              style: subtitleTextStyle.copyWith(
-                                color: StandardColors.white,
-                              ),
+                              style: widget.hintTextStyle ??
+                                  subtitleTextStyle(
+                                    color: StandardColors.white,
+                                  ),
                             ),
                           )
                         : Padding(
@@ -127,18 +132,17 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                     },
                     readOnly: widget.fieldReadOnly,
                     focusNode: widget.inputNode,
-                    style: TextStyle(
+                    style: subtitleTextStyle(
                       color: widget.errorText == null
                           ? widget.isFieldValid
                               ? StandardColors.blueLight
-                              : Colors.white
+                              : widget.normalTextColor
                           : StandardColors.feedbackError,
                     ),
                     decoration: InputDecoration(
-                      hintText: widget.isPinInput ? null : widget.hintText,
                       hintStyle: TextStyle(
                         color: widget.errorText == null
-                            ? StandardColors.white
+                            ? widget.normalTextColor
                             : StandardColors.feedbackError,
                         fontSize: 20,
                         fontWeight: FontWeight.w500,

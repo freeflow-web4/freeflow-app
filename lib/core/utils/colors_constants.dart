@@ -28,6 +28,7 @@ class StandardColors {
   static const Color flowerExchange = Color(0xFFC1DEAE);
   static const Color interactions = Color(0xFFE8E8A6);
   static const Color gratitude = Color(0xFF2CB6BE);
+  static const Color success = Color(0xFF0FBE5A);
 
 
   static Gradient greenGradient() => const LinearGradient(

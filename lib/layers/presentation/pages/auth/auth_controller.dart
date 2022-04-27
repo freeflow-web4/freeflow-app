@@ -37,11 +37,9 @@ abstract class AuthControllerBase with Store, Login {
 
   void onLoginWithPin(String currentPin, Function loginAnimationCallBack) {
     loginWithPin(
-      pinValidator,
       currentPin,
       () => onLoginSuccess(loginAnimationCallBack),
       () => updatePinFieldState(GradientTextFieldState.wrong),
-      () => updatePinFieldState(GradientTextFieldState.invalid),
     );
   }
 
