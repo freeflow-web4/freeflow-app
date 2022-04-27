@@ -2,11 +2,11 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
+import 'package:freeflow/layers/domain/helpers/auth/authenticate_user.dart';
 import 'package:freeflow/layers/domain/usecases/delete_cache/delete_cache_usecase.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
-import 'package:freeflow/layers/presentation/pages/logout/pages/auth/logout_auth_page.dart';
 import 'package:freeflow/layers/presentation/pages/logout/pages/confirm/logout_confirm_page.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
@@ -103,21 +103,7 @@ class Routes with TextThemes {
   void goToLogout(
     BuildContext context,
   ) async {
-    final authResult = await showFlexBottomSheet<RouteResponse?>(
-      context,
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          textH6(
-            context,
-            textKey: 'logout.authTitle',
-            isUpperCase: true,
-          ),
-        ],
-      ),
-      const LogoutAuthPage(),
-    );
-    final auth = authResult?.body ?? false;
+    final auth = await authenticateUser(context);
     if (auth == false) {
       return;
     }
