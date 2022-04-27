@@ -39,8 +39,8 @@ class _AuthPageState extends State<AuthPage>
     animatedController.forward().orCancel.then(
           (value) => authController.loginWithBiometrics(
             context,
-            onLoginSuccess,
-            onBiometricsError,
+            onLoginSuccessCallBack: onLoginSuccess,
+            onBiometricsErrorCallBack: onBiometricsError,
           ),
         );
   }

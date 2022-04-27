@@ -25,7 +25,8 @@
         "authTitle": "Authentication",
         "pinTextInputError": "Please enter your pin code",
         "pleaseEnterPinCode": "Please enter your pin code",
-        "pleaseEnterConfirmPinCode": "Please confirm your pin code"
+        "pleaseEnterConfirmPinCode": "Please confirm your pin code",
+        "hint": "Enter your PIN code"
     },
     "domainError": {
         "somethingWrong": "Something wrong!",
@@ -170,5 +171,12 @@
             "haveAGoodOne": "Have a good one!",
             "haventParticipated": "haven´t yet participated in the quest."
         }
+    },
+    "logout": {
+        "authTitle": "AUTHENTICATION",
+        "confirmTitle": "Are you sure?",
+        "warning": "If you confirm, your account will be removed from this device.\n\nYou can always recover your account with name and phrase.",
+        "confirmButton": "CONFIRM OUTPUT",
+        "cancelButton": "CANCEL"
     }
 }

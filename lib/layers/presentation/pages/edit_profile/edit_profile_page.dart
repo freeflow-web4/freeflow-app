@@ -77,10 +77,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                           },
                           child: Text(
                             TranslationService.translate(context, "editProfile.cancel",),
-                            style: subtitleTextStyle.copyWith(
-                              color: StandardColors.grey79,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: subtitleTextStyle(color: StandardColors.grey79,
+                              fontWeight: FontWeight.w500,),
                           ),
                         ),
                         Text(
@@ -93,10 +91,8 @@ class _EditProfilePageState extends State<EditProfilePage>  with TextThemes{
                           },
                           child: Text(
                             TranslationService.translate(context, "editProfile.save",),
-                            style: subtitleTextStyle.copyWith(
-                              color: StandardColors.blueLight,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: subtitleTextStyle(color: StandardColors.blueLight,
+                              fontWeight: FontWeight.bold,),
                           ),
                         )
                       ],
