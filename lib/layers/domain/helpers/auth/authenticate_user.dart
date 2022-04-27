@@ -15,8 +15,7 @@ Future<bool> authenticateUser(BuildContext context) async {
     ),
     const LogoutAuthPage(),
   );
-  final auth = authResult?.body ?? false;
-  return auth;
+  return authResult?.body ?? false;
 }
 
 class _Text with TextThemes {
