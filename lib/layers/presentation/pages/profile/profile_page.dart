@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
 
   showCommitmentBottomSheet() {
     return showFlexBottomSheet(
-      context,
+      context: context,
       title: textH6(
         context,
         textKey: 'profile.commitment',
@@ -158,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
 
   showRememberMeBottomSheet2() {
     return showFlexBottomSheet(
-      context,
+      context:  context,
       title: textH6(
         context,
         textKey: 'rememberMe.touchId',

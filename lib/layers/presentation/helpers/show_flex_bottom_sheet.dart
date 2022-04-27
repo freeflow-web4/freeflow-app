@@ -7,9 +7,8 @@ Future<T?> showFlexBottomSheet<T>({
   double initHeight = 0.9,
   double maxHeight = 1,
   required BuildContext context,
-  required Text title,
+  required Widget title,
   required Widget content,
-  bool bottomSafeArea = true,
   bool bottomSafeArea = true,
   }) {
   return showFlexibleBottomSheet<T?>(

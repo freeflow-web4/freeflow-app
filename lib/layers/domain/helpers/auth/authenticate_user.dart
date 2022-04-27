@@ -6,14 +6,14 @@ import 'package:freeflow/layers/presentation/pages/logout/pages/auth/logout_auth
 
 Future<bool> authenticateUser(BuildContext context) async {
   final authResult = await showFlexBottomSheet<RouteResponse?>(
-    context,
-    Row(
+    context: context,
+    title: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _Text().text(context),
       ],
     ),
-    const LogoutAuthPage(),
+    content: const LogoutAuthPage(),
   );
   return authResult?.body ?? false;
 }

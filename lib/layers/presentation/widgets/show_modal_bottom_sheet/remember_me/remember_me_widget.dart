@@ -39,9 +39,8 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
                   margin: const EdgeInsets.only( left: 32, right: 26),
                   child: Text(
                     TranslationService.translate(context, "rememberMe.enableTouchId",),
-                    style: subtitleTextStyle.copyWith(
+                    style: subtitleTextStyle(
                       color: StandardColors.black,
-                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -73,7 +72,7 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
 
   showCommitmentBottomSheet() {
     return showFlexBottomSheet(
-      context,
+      context: context,
       title: textH6(
         context,
         textKey: 'profile.commitment',
