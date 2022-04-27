@@ -33,6 +33,14 @@ mixin _$RememberMeController on _RememberMeControllerBase, Store {
     return _$getIfHasBiometricAsyncAction.run(() => super.getIfHasBiometric());
   }
 
+  final _$setBiometricAsyncAction =
+      AsyncAction('_RememberMeControllerBase.setBiometric');
+
+  @override
+  Future<bool> setBiometric(bool status) {
+    return _$setBiometricAsyncAction.run(() => super.setBiometric(status));
+  }
+
   @override
   String toString() {
     return '''

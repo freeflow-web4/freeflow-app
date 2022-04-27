@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
+import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/on_off_button_swipe.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'controller/remember_me_controller.dart';
 
 class RememberMeWidget extends StatefulWidget {
@@ -27,65 +31,83 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 38.0),
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only( left: 32, right: 26),
-                  child: Text(
-                    TranslationService.translate(context, "rememberMe.enableTouchId",),
-                    style: subtitleTextStyle(
-                      color: StandardColors.black,
+    return Observer(
+      builder: (context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 38.0),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only( left: 32, right: 26),
+                      child: Text(
+                        TranslationService.translate(context, "rememberMe.enableTouchId",),
+                        style: subtitleTextStyle(
+                          color: StandardColors.black,
+                        ),
+                      ),
                     ),
-                  ),
+                    if(controller.hasBiometric != null)...[
+                      OnOffButtonSwipe(
+                        ballColor: StandardColors.borderGrey,
+                        onChanged: (value){
+                          changeStatus(value);
+                          // setState(() {
+                          //   auth = !auth;
+                          //   enable = value;
+                          // });
+                        },
+                        value: controller.hasBiometric!,
+                      )
+                    ]else...[
+                      const LoadingWidget(
+                        isLoading: true,
+                        color: StandardColors.greyCA,
+                        size: 33,
+                      ),
+                    ]
+                  ],
                 ),
-                if(controller.hasBiometric != null)...[
-                  OnOffButtonSwipe(
-                    ballColor: StandardColors.borderGrey,
-                    onChanged: (value){
-                      showCommitmentBottomSheet();
-                      // setState(() {
-                      //   auth = !auth;
-                      //   enable = value;
-                      // });
-                    },
-                    value: controller.hasBiometric!,
-                  )
-                ]else...[
-                  const LoadingWidget(
-                    isLoading: true,
-                    color: StandardColors.greyCA,
-                    size: 33,
-                  ),
-                ]
-              ],
-            ),
-          ),
-      ],
+              ),
+          ],
+        );
+      }
     );
   }
 
-  showCommitmentBottomSheet() {
-    return showFlexBottomSheet(
-      context: context,
-      title: textH6(
-        context,
-        textKey: 'profile.commitment',
-        textAlign: TextAlign.center,
-      ),
-      content: Center(
-        child: textSubtitle(
-          context,
-          textKey: 'profile.commitmentContent',
-        ),
-      ),
+  changeStatus(bool newStatus) async{
+    bool status = await controller.canChangeSetBiometrics(context);
+    if(status){
+      bool statusAux = await controller.setBiometric(newStatus);
+      if(statusAux){
+        showDialog(
+          barrierColor: Colors.transparent,
+          context: context,
+          builder: (context) => const InformativeDialog(
+            icon: IconsAsset.checkIcon,
+            title: "rememberMe.changeSuccessfully",
+          ),
+        );
+        print('sucezzos');
+      }else{
+        showDialogError(context);
+      }
+    }
+  }
+
+  void showDialogError(context) {
+    showDialogDefault(
+      context,
+      type: DialogType.systemInstability,
+      onTap: () {
+        Routes.instance.pop();
+      },
     );
   }
+
 }
 
 
