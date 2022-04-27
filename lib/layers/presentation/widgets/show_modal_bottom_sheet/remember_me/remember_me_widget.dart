@@ -9,6 +9,7 @@ import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/on_off_button_swipe.dart';
 import 'package:freeflow/routes/routes.dart';
+
 import 'controller/remember_me_controller.dart';
 
 class RememberMeWidget extends StatefulWidget {
@@ -32,25 +33,28 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (context) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        builder: (context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Padding(
                 padding: const EdgeInsets.only(top: 38.0),
                 child: Row(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only( left: 32, right: 26),
-                      child: Text(
-                        TranslationService.translate(context, "rememberMe.enableTouchId",),
-                        style: subtitleTextStyle(
-                          color: StandardColors.black,
+                    if(controller.hasBiometric != null)...[
+                      Container(
+                        margin: const EdgeInsets.only( left: 32, right: 26),
+                        child: Text(
+                          TranslationService.translate(context,
+                            controller.hasBiometric! ?
+                            "rememberMe.disableTouchId" :
+                            "rememberMe.enableTouchId",),
+                          style: subtitleTextStyle(
+                            color: StandardColors.black,
+                          ),
                         ),
                       ),
-                    ),
-                    if(controller.hasBiometric != null)...[
                       OnOffButtonSwipe(
                         ballColor: StandardColors.borderGrey,
                         onChanged: (value){
@@ -72,9 +76,9 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
                   ],
                 ),
               ),
-          ],
-        );
-      }
+            ],
+          );
+        }
     );
   }
 

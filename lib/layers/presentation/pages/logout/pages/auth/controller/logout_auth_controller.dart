@@ -26,10 +26,11 @@ abstract class _LogoutAuthControllerBase with Store, Login {
   @observable
   bool isPinObscure = true;
 
-  void init(BuildContext context) {
+  void init(BuildContext context, {bool canVerifyWithBiometric = true}) {
     loginWithBiometrics(
       context,
       onLoginSuccessCallBack: onFomValid,
+      canVerifyWithBiometric: canVerifyWithBiometric
     );
   }
 
@@ -38,7 +39,7 @@ abstract class _LogoutAuthControllerBase with Store, Login {
     currentPin = pin;
     if (currentPin.trim().isEmpty) {
       pinFieldState = GradientTextFieldState.empty;
-    } else {
+    } else if(pin.length == 4){
       loginWithPin(
         currentPin,
         onPinValid,

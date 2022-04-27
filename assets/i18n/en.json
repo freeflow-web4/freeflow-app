@@ -183,6 +183,7 @@
         "touchId": "TOUCH ID",
         "auth": "AUTHENTICATION",
         "enableTouchId": "Enable Touch ID?",
+        "disableTouchId": "Disable Touch ID?",
         "pleaseEnterAValidPinCode": "Please enter a valid pin code",
         "changeSuccessfully" : "Change made\nsuccessfully"
 

@@ -43,7 +43,7 @@ abstract class _RememberMeControllerBase with Store, TextThemes {
 
 
   Future<bool> canChangeSetBiometrics(context) async{
-    final auth = await authenticateUser(context);
+    final auth = await authenticateUser(context, canVerifyWithBiometric: false);
     return  auth == true;
 
   }
