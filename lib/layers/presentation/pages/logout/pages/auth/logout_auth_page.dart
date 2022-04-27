@@ -12,8 +12,8 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 
 class LogoutAuthPage extends StatefulWidget {
-  final bool canVerifyWithBiometric;
-  const LogoutAuthPage({Key? key, this.canVerifyWithBiometric = true}) : super(key: key);
+  final bool canAuthenticateWithBiometric;
+  const LogoutAuthPage({Key? key, this.canAuthenticateWithBiometric = true}) : super(key: key);
 
   @override
   State<LogoutAuthPage> createState() => _LogoutAuthPageState();
@@ -25,7 +25,7 @@ class _LogoutAuthPageState extends State<LogoutAuthPage> with TextThemes {
   @override
   void initState() {
     super.initState();
-    pageController.init(context, canVerifyWithBiometric: widget.canVerifyWithBiometric );
+    pageController.init(context, canAuthenticateWithBiometric: widget.canAuthenticateWithBiometric );
   }
 
   @override

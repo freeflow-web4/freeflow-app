@@ -51,7 +51,7 @@ abstract class _RememberMeControllerBase with Store, TextThemes {
   }
 
   Future<bool> authenticateUserWithPassword(BuildContext context) async{
-    final auth = await authenticateUser(context, canVerifyWithBiometric: false);
+    final auth = await authenticateUser(context, canAuthenticateWithBiometric: false);
     return  auth == true;
   }
 

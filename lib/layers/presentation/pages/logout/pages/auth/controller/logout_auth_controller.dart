@@ -26,11 +26,11 @@ abstract class _LogoutAuthControllerBase with Store, Login {
   @observable
   bool isPinObscure = true;
 
-  void init(BuildContext context, {bool canVerifyWithBiometric = true}) {
+  void init(BuildContext context, {bool canAuthenticateWithBiometric = true}) {
     loginWithBiometrics(
       context,
       onLoginSuccessCallBack: onFomValid,
-      canVerifyWithBiometric: canVerifyWithBiometric
+        canAuthenticateWithBiometric: canAuthenticateWithBiometric
     );
   }
 

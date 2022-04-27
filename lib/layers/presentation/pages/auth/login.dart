@@ -7,7 +7,7 @@ import 'package:get_it/get_it.dart';
 class Login {
   void loginWithBiometrics(
     BuildContext context, {
-    bool canVerifyWithBiometric = true,
+    bool canAuthenticateWithBiometric = true,
     Function? onLoginSuccessCallBack,
     Function? onLoginFailedCallBack,
     void Function(Exception)? onBiometricsErrorCallBack,
@@ -19,7 +19,7 @@ class Login {
           //TODO: analyse some error message here
         },
         (isBiometricsSaved) async {
-          if (isBiometricsSaved && canVerifyWithBiometric) {
+          if (isBiometricsSaved && canAuthenticateWithBiometric) {
             try {
               final biometricsCheck = GetIt.I.get<BiometricAuthDriver>();
               final result = await biometricsCheck.authenticateUser();
