@@ -4,7 +4,7 @@ import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/pages/logout/pages/auth/logout_auth_page.dart';
 
-Future<bool> authenticateUser(BuildContext context, {bool canVerifyWithBiometric = true}) async {
+Future<bool> authenticateUser(BuildContext context, {bool canAuthenticateWithBiometric = true}) async {
   final authResult = await showFlexBottomSheet<RouteResponse?>(
     context: context,
     title: Row(
@@ -13,7 +13,7 @@ Future<bool> authenticateUser(BuildContext context, {bool canVerifyWithBiometric
         _Text().text(context),
       ],
     ),
-    content:  LogoutAuthPage(canVerifyWithBiometric: canVerifyWithBiometric,),
+    content:  LogoutAuthPage(canAuthenticateWithBiometric: canAuthenticateWithBiometric,),
   );
   return authResult?.body ?? false;
 }
