@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
+import 'package:freeflow/layers/presentation/pages/logout/views/auth/logout_auth_view.dart';
+import 'package:freeflow/layers/presentation/pages/logout/views/confirm/logout_confirm_view.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_arrow_right_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
@@ -19,39 +21,15 @@ class LogoutPage extends StatefulWidget {
 }
 
 class _LogoutPageState extends State<LogoutPage> {
+  //TODO: create controller
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(height: getProportionalHeightFromValue(context, mdSpacing)),
-        const GradientTextFieldWidget(
-          //TODO: add controller here
-          isFieldValid: true,
-        ),
-        SizedBox(
-          height: getProportionalHeightFromValue(context, mdSpacing),
-        ),
-        const LoadingWidget(
-          //TODO: add controller here
-          isLoading: true,
-        ),
-        SizedBox(height: getProportionalHeightFromValue(context, mdSpacing)),
-        const InAppKeyboardWidget(
-          //TODO: confirm color
-          textColor: Colors.black,
-        ),
-        SizedBox(
-          height: getProportionalHeightFromValue(context, huge4Spacing),
-        ),
-        AnimatedFloatButtonWidget(
-          icon: IconsAsset.arrowIcon,
-          onTap: (activated) {
-            //TODO: add controller here
-          },
-        ),
-        SizedBox(height: getProportionalHeightFromValue(context, bigSpacing)),
-      ],
+    return SizedBox(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * 0.8,
+      //TODO: add logic here
+      child: false ? const LogoutAuthView() : const LogoutConfirmView(),
     );
   }
 }
