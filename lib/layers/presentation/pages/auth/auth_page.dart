@@ -61,9 +61,8 @@ class _AuthPageState extends State<AuthPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding:  const EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: mdSpacingx2,
-
                 ),
                 child: AnimatedText(
                   text: TranslationService.translate(
@@ -91,24 +90,24 @@ class _AuthPageState extends State<AuthPage>
                   child: Observer(
                     builder: (context) {
                       return GradientTextFieldWidget(
-                        pinCode: authController.currentPinCode,
+                        value: authController.currentPinCode,
                         onChanged: (_) {},
                         isFieldValid: authController.pinFieldState !=
-                            PinFieldState.invalid,
+                            GradientTextFieldState.invalid,
                         errorText: authController.pinFieldState !=
-                            PinFieldState.wrong
+                                GradientTextFieldState.wrong
                             ? null
                             : TranslationService.translate(
-                          context,
-                          'login.pinTextInputError',
-                        ),
+                                context,
+                                'login.pinTextInputError',
+                              ),
                         hintText: '',
                         fieldReadOnly: true,
                         isObscureText: authController.isPinObscure,
                         onObscureButtonPressed:
-                        authController.onPinObscureTextFieldTap,
+                            authController.onPinObscureTextFieldTap,
                         obscureButtonColor:
-                        obscureButtonColor(authController.pinFieldState),
+                            obscureButtonColor(authController.pinFieldState),
                         showObscureButton: true,
                       );
                     },
@@ -135,9 +134,9 @@ class _AuthPageState extends State<AuthPage>
               Padding(
                 padding: EdgeInsets.only(
                   top: getProportionalHeightFromValue(
-                    context, huge3Spacing,
+                    context,
+                    huge3Spacing,
                   ),
-
                 ),
                 child: Opacity(
                   opacity: animations.confirmButtonAnimationOpacity.value,
@@ -161,11 +160,11 @@ class _AuthPageState extends State<AuthPage>
     );
   }
 
-  Color obscureButtonColor(PinFieldState state) {
+  Color obscureButtonColor(GradientTextFieldState state) {
     late Color color;
-    if (state == PinFieldState.wrong) {
+    if (state == GradientTextFieldState.wrong) {
       color = StandardColors.error;
-    } else if (authController.pinFieldState == PinFieldState.valid) {
+    } else if (authController.pinFieldState == GradientTextFieldState.valid) {
       color = StandardColors.secondary;
     } else {
       color = StandardColors.white;

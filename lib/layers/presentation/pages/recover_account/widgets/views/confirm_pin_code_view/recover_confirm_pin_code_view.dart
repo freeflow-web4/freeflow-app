@@ -115,7 +115,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                               )
                             : null,
                         textController: widget.textEditingController,
-                        pinCode: viewController.currentConfirmPinCode,
+                        value: viewController.currentConfirmPinCode,
                       );
                     },
                   ),
@@ -150,11 +150,17 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                           isLargeButton: viewController.isConfirmPinCodeValid &&
                               isLargeButton,
                           icon: IconsAsset.arrowIcon,
-                          onTap: () => goToNextPage(),
-                          onTapInative: () => showCustomDialog(
-                            context,
-                            textKey: 'recoverAccount.pleaseConfirmYourPinCode',
-                          ),
+                          onTap: (activate) {
+                            if (activate) {
+                              goToNextPage();
+                            } else {
+                              showCustomDialog(
+                                context,
+                                textKey:
+                                    'recoverAccount.pleaseConfirmYourPinCode',
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -175,7 +181,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
       animationController.animateBack(0, duration: const Duration(seconds: 5));
       Future.delayed(const Duration(seconds: 5)).then(
         (_) {
-          Routes.instance.goToWelcomePageRoute();
+          Routes.instance.goToWelcomeBackPageRoute();
           animationController.forward();
         },
       );

@@ -7,6 +7,8 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_pin_code.dart';
 
+enum GradientTextFieldState { empty, valid, invalid, wrong }
+
 class GradientTextFieldWidget extends StatefulWidget {
   final String? errorText;
   final String? hintText;
@@ -22,7 +24,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final bool fieldReadOnly;
   final bool isPinInput;
   final bool isFieldValid;
-  final String? pinCode;
+  final String? value;
   final Color? obscureButtonColor;
   final Widget Function(Color)? sufixWidget;
   final void Function(String text)? onEditingComplete;
@@ -43,7 +45,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.onObscureButtonPressed,
     this.fieldReadOnly = false,
     this.isPinInput = false,
-    this.pinCode,
+    this.value,
     this.obscureButtonColor,
     this.sufixWidget,
     this.onEditingComplete,
@@ -56,12 +58,21 @@ class GradientTextFieldWidget extends StatefulWidget {
 }
 
 class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
-    with TextThemes, SingleTickerProviderStateMixin {
-  late AnimationController controller;
+    with TextThemes {
   late Animation<Offset> offset;
 
   bool isTyping = false;
   Timer? _debounce;
+
+  @override
+  void didUpdateWidget(covariant GradientTextFieldWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      if (widget.value != null) {
+        setState(() {});
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,30 +85,42 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             widget.isObscureText == true
                 ? SizedBox(
                     width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 18,
-                        //TODO: analyze these padding
-                        bottom: 18,
-                      ),
-                      child: Container(
-                        height: 12,
-                        alignment: Alignment.centerLeft,
-                        child: GradientTextFieldPinCode(
-                          pinCode: widget.pinCode ?? '',
-                          color: widget.errorText?.isNotEmpty == true
-                              ? StandardColors.error
-                              : null,
-                        ),
-                      ),
-                    ),
+                    child: (widget.hintText?.trim().isNotEmpty ?? false) &&
+                            (widget.value ?? '').isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                              top: 11,
+                              bottom: 12,
+                            ),
+                            child: Text(
+                              widget.hintText!,
+                              style: subtitleTextStyle.copyWith(
+                                color: StandardColors.white,
+                              ),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(
+                              top: 18,
+                              bottom: 18,
+                            ),
+                            child: Container(
+                              height: 12,
+                              alignment: Alignment.centerLeft,
+                              child: GradientTextFieldPinCode(
+                                pinCode: widget.value ?? '',
+                                color: widget.errorText?.isNotEmpty == true
+                                    ? StandardColors.error
+                                    : null,
+                              ),
+                            ),
+                          ),
                   )
                 : TextFormField(
                     key: ValueKey(
-                      'key_for_text_field${widget.pinCode}',
+                      'key_for_text_field${widget.value}',
                     ),
-                    controller: widget.textController,
-                    initialValue: widget.pinCode,
+                    initialValue: widget.value,
                     onChanged: (text) {
                       _onInputChanged(text);
                       widget.onChanged?.call(text);
@@ -147,7 +170,12 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                           ? IconsAsset.closedEye
                           : IconsAsset.openEye,
                       width: 20,
-                      color: widget.obscureButtonColor,
+                      color: widget.obscureButtonColor ??
+                          (widget.errorText == null
+                              ? widget.isFieldValid
+                                  ? StandardColors.blueLight
+                                  : Colors.white
+                              : StandardColors.feedbackError),
                     ),
                   ),
                 ),
@@ -157,15 +185,12 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
               Positioned(
                 right: 0,
                 top: 13,
-                child: Visibility(
-                  visible: widget.showSecondText,
-                  child: widget.sufixWidget!(
-                    widget.errorText == null
-                        ? widget.isFieldValid
-                            ? StandardColors.blueLight
-                            : Colors.white
-                        : StandardColors.feedbackError,
-                  ),
+                child: widget.sufixWidget!(
+                  widget.errorText == null
+                      ? widget.isFieldValid
+                          ? StandardColors.blueLight
+                          : Colors.white
+                      : StandardColors.feedbackError,
                 ),
               )
           ],

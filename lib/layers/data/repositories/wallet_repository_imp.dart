@@ -1,4 +1,5 @@
 import 'package:freeflow/layers/data/datasources/wallet_datasource.dart';
+import 'package:freeflow/layers/domain/entities/transcript_details_entity.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:dartz/dartz.dart';
@@ -9,12 +10,9 @@ class WalletRepositoryImp implements WalletRepository {
   WalletRepositoryImp(this.datasource);
 
   @override
-  Future<Either<DomainError,List <TranscriptEntity>>> getTranscripList({
-    required int offset,
-    String? category,
-  }) async {
+  Future<Either<DomainError,List <TranscriptEntity>>> getTranscripts({required int offset, String? category,}) async {
     try {
-      final result = await datasource.getTranscriptList(
+      final result = await datasource.getTranscripts(
         offset: offset,
         category: category,
       );
@@ -23,4 +21,18 @@ class WalletRepositoryImp implements WalletRepository {
       return Left(convertToDomainError(error.toString()));
     }
   }
+
+  @override
+  Future<Either<DomainError,TranscriptDetailsEntity>> getTranscriptDetails({required String id,required String status}) async {
+    try {
+      final result = await datasource.getTranscriptDetails(
+        id: id,
+        status: status,
+      );
+      return Right(result);
+    } on Exception catch (error) {
+      return Left(convertToDomainError(error.toString()));
+    }
+  }
 }
+

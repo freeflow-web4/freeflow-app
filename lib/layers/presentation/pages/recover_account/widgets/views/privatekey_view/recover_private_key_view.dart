@@ -192,12 +192,17 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                                   isLargeButton:
                                       viewController.isPrivateKeyValid &&
                                           isLargeButton,
-                                  onTapInative: () => showCustomDialog(
-                                    context,
-                                    textKey:
-                                        'recoverAccount.pleaseEnterYourPrivateKey',
-                                  ),
-                                  onTap: () => goToNextPage(),
+                                  onTap: (activate) {
+                                    if (activate) {
+                                      goToNextPage();
+                                    } else {
+                                      showCustomDialog(
+                                        context,
+                                        textKey:
+                                            'recoverAccount.pleaseEnterYourPrivateKey',
+                                      );
+                                    }
+                                  },
                                   icon: IconsAsset.arrowIcon,
                                 ),
                               ),

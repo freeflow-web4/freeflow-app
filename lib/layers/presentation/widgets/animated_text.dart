@@ -34,6 +34,16 @@ class _AnimatedTextState extends State<AnimatedText> {
   }
 
   @override
+  void didUpdateWidget(covariant AnimatedText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if(oldWidget.text != widget.text) {
+      setState(() {
+        updateVelocities();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: widget.animationController,

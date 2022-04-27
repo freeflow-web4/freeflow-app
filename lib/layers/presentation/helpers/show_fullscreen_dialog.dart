@@ -3,7 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 
-showCustomDialog(
+Future showCustomDialog(
   BuildContext context, {
   required String textKey,
   String? icon = '',

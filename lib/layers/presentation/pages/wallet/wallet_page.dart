@@ -6,7 +6,7 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_painter_tabbar.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
 
@@ -25,11 +25,6 @@ class WalletPage extends StatefulWidget {
 class _WalletPageState extends State<WalletPage> with TextThemes {
   WalletController walletController = WalletController();
 
-  @override
-  void initState() {
-    super.initState();
-    walletController.getTranscriptList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +40,10 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                 child: CustomTabBar(
                   width: double.infinity,
                   tabList: tabList(),
-                  tabBarViewList: [
-                    TranscriptView(walletController: walletController),
-                    const SizedBox.shrink(),
-                    const SizedBox.shrink(),
+                  tabBarViewList: const [
+                    TranscriptView(),
+                    SizedBox.shrink(),
+                    SizedBox.shrink(),
                   ],
                   indicatorDecoration: const CustomTabIndicator(
                     color: StandardColors.darkGrey,

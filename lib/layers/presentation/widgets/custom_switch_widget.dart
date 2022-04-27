@@ -10,16 +10,16 @@ class CustomSwitch extends StatefulWidget {
   final Color activeTextColor;
   final Color inactiveTextColor;
 
-  const CustomSwitch(
-      {Key? key,
-      required this.value,
-      required this.onChanged,
-      this.inactiveColor = Colors.grey,
-      this.activeText = '',
-      this.inactiveText = '',
-      this.activeTextColor = Colors.white70,
-      this.inactiveTextColor = Colors.white70})
-      : super(key: key);
+  const CustomSwitch({
+    Key? key,
+    required this.value,
+    required this.onChanged,
+    this.inactiveColor = Colors.grey,
+    this.activeText = '',
+    this.inactiveText = '',
+    this.activeTextColor = Colors.white70,
+    this.inactiveTextColor = Colors.white70,
+  }) : super(key: key);
 
   @override
   _CustomSwitchState createState() => _CustomSwitchState();
@@ -34,12 +34,30 @@ class _CustomSwitchState extends State<CustomSwitch>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 60));
+      vsync: this,
+      duration: const Duration(milliseconds: 60),
+    );
     _circleAnimation = AlignmentTween(
-            begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
-            end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
-        .animate(CurvedAnimation(
-            parent: _animationController, curve: Curves.linear));
+      begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
+      end: widget.value ? Alignment.centerLeft : Alignment.centerRight,
+    ).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.linear),
+    );
+    if (widget.value) {
+      _animationController.forward();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomSwitch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      if (widget.value) {
+        _animationController.forward();
+      } else {
+        _animationController.reverse();
+      }
+    }
   }
 
   @override
@@ -49,14 +67,7 @@ class _CustomSwitchState extends State<CustomSwitch>
       builder: (context, child) {
         return GestureDetector(
           onTap: () {
-            if (_animationController.isCompleted) {
-              _animationController.reverse();
-            } else {
-              _animationController.forward();
-            }
-            widget.value == false
-                ? widget.onChanged(true)
-                : widget.onChanged(false);
+            widget.onChanged(!widget.value);
           },
           child: Container(
             width: 51.0,

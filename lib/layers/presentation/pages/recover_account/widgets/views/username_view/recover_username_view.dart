@@ -219,12 +219,17 @@ class _RecoverUsernameViewState extends State<RecoverUsernameView>
                                 isLargeButton:
                                     viewController.isNameValid && isLargeButton,
                                 icon: IconsAsset.arrowIcon,
-                                onTap: () => goToNextPage(),
-                                onTapInative: () => showCustomDialog(
-                                  context,
-                                  textKey:
-                                      'recoverAccount.pleaseEnterYourRegisteredName',
-                                ),
+                                onTap: (activate) {
+                                  if (activate) {
+                                    goToNextPage();
+                                  } else {
+                                    showCustomDialog(
+                                      context,
+                                      textKey:
+                                          'recoverAccount.pleaseEnterYourRegisteredName',
+                                    );
+                                  }
+                                },
                               ),
                             ),
                           ),
