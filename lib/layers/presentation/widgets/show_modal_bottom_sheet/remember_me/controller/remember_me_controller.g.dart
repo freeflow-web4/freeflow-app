@@ -13,15 +13,15 @@ mixin _$RememberMeController on _RememberMeControllerBase, Store {
       Atom(name: '_RememberMeControllerBase.hasBiometric');
 
   @override
-  bool? get hasBiometric {
+  bool? get biometricIsEnable {
     _$hasBiometricAtom.reportRead();
-    return super.hasBiometric;
+    return super.biometricIsEnable;
   }
 
   @override
-  set hasBiometric(bool? value) {
-    _$hasBiometricAtom.reportWrite(value, super.hasBiometric, () {
-      super.hasBiometric = value;
+  set biometricIsEnable(bool? value) {
+    _$hasBiometricAtom.reportWrite(value, super.biometricIsEnable, () {
+      super.biometricIsEnable = value;
     });
   }
 
@@ -29,22 +29,22 @@ mixin _$RememberMeController on _RememberMeControllerBase, Store {
       AsyncAction('_RememberMeControllerBase.getIfHasBiometric');
 
   @override
-  Future<void> getIfHasBiometric() {
-    return _$getIfHasBiometricAsyncAction.run(() => super.getIfHasBiometric());
+  Future<void> getIfBiometricIsEnable() {
+    return _$getIfHasBiometricAsyncAction.run(() => super.getIfBiometricIsEnable());
   }
 
   final _$setBiometricAsyncAction =
       AsyncAction('_RememberMeControllerBase.setBiometric');
 
   @override
-  Future<bool> setBiometric(bool status) {
-    return _$setBiometricAsyncAction.run(() => super.setBiometric(status));
+  Future<bool> setBiometricStatus(bool status) {
+    return _$setBiometricAsyncAction.run(() => super.setBiometricStatus(status));
   }
 
   @override
   String toString() {
     return '''
-hasBiometric: ${hasBiometric}
+hasBiometric: ${biometricIsEnable}
     ''';
   }
 }
