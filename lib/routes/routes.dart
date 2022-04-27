@@ -5,7 +5,8 @@ import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
-import 'package:freeflow/layers/presentation/pages/logout/logout_page.dart';
+import 'package:freeflow/layers/presentation/pages/logout/pages/auth/logout_auth_page.dart';
+import 'package:freeflow/layers/presentation/pages/logout/pages/confirm/logout_confirm_page.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
 
@@ -84,8 +85,8 @@ class Routes with TextThemes {
     return response?.body;
   }
 
-  void pop() {
-    _routeService.pop();
+  void pop({RouteResponse<dynamic>? data}) {
+    _routeService.pop(data: data);
   }
 
   void backToEditProfile(Uint8List file) {
@@ -100,20 +101,41 @@ class Routes with TextThemes {
 
   void goToLogout(
     BuildContext context,
-  ) {
-    showFlexBottomSheet(
+  ) async {
+    final authResult = await showFlexBottomSheet(
       context,
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           textH6(
             context,
-            textKey: 'logout.title',
+            textKey: 'logout.authTitle',
             isUpperCase: true,
           ),
         ],
       ),
-      const LogoutPage(),
+      const LogoutAuthPage(),
     );
+    if (!(authResult == true) && false) {
+      return;
+    }
+    final confirmResult = await showFlexBottomSheet(
+      context,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          textH6(
+            context,
+            textKey: 'logout.confirmTitle',
+            isUpperCase: true,
+          ),
+        ],
+      ),
+      const LogoutConfirmPage(),
+    );
+    if (confirmResult == false) {
+      return;
+    }
+    //TODO: make the logout usecase
   }
 }

@@ -3,17 +3,18 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 
-showFlexBottomSheet(
+Future<T?> showFlexBottomSheet<T>(
   BuildContext context,
   Widget title,
-  Widget content,
-) {
-  return showFlexibleBottomSheet(
+  Widget content, {
+  double initHeight = 0.9,
+}) {
+  return showFlexibleBottomSheet<T?>(
     context: context,
     minHeight: 0,
-    initHeight: .9,
+    initHeight: initHeight,
     maxHeight: 1,
-    anchors: [0, 0.9, 1],
+    anchors: [0, initHeight, 1],
     builder: (
       BuildContext context,
       ScrollController scrollController,

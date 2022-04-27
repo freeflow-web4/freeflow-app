@@ -251,6 +251,17 @@ mixin TextThemes {
     );
   }
 
+  TextStyle textSubtitle3Style({
+    required Color color,
+    double fontSize = 20,
+  }) =>
+      TextStyle(
+        color: color,
+        fontSize: fontSize,
+        fontFamily: 'Akrobat',
+        fontWeight: FontWeight.bold,
+      );
+
   Text textSubtitle3(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
@@ -260,12 +271,7 @@ mixin TextThemes {
     return Text(
       FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
-      style: TextStyle(
-        color: color,
-        fontSize: 20,
-        fontFamily: 'Akrobat',
-        fontWeight: FontWeight.bold,
-      ),
+      style: textSubtitle3Style(color: color),
     );
   }
 
