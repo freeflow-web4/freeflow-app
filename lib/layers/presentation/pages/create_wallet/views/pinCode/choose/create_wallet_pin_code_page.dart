@@ -115,7 +115,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                           context,
                           'createWallet.pinCodeTitle2',
                         ),
-                        style: subtitleTextStyle.copyWith(
+                        style: subtitleTextStyle(
                           color: StandardColors.white,
                         ),
                       ),

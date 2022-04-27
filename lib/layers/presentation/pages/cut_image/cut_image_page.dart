@@ -86,7 +86,7 @@ class _CutImagePageState extends State<CutImagePage>  with TextThemes{
                   },
                   child: Text(
                     TranslationService.translate(context, "editProfile.cancel",),
-                    style: subtitleTextStyle.copyWith(
+                    style: subtitleTextStyle(
                       color: StandardColors.grey79,
                       fontWeight: FontWeight.w500,
                     ),
@@ -98,10 +98,8 @@ class _CutImagePageState extends State<CutImagePage>  with TextThemes{
                   },
                   child: Text(
                     TranslationService.translate(context, "editProfile.choose",),
-                    style: subtitleTextStyle.copyWith(
-                      color: StandardColors.blueLight,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: subtitleTextStyle(color: StandardColors.blueLight,
+                      fontWeight: FontWeight.bold,),
                   ),
                 )
               ],

@@ -1,11 +1,17 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
+import 'package:freeflow/layers/domain/helpers/auth/authenticate_user.dart';
+import 'package:freeflow/layers/domain/usecases/delete_cache/delete_cache_usecase.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
+import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
+import 'package:freeflow/layers/presentation/pages/logout/pages/confirm/logout_confirm_page.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
 
-class Routes {
+class Routes with TextThemes {
   final RouteService _routeService;
 
   Routes(this._routeService);
@@ -80,8 +86,8 @@ class Routes {
     return response?.body;
   }
 
-  void pop() {
-    _routeService.pop();
+  void pop({RouteResponse<dynamic>? data}) {
+    _routeService.pop(data: data);
   }
 
   void backToEditProfile(Uint8List file) {
@@ -92,5 +98,41 @@ class Routes {
   void backToProfile(ProfileEntity? profileEntity) {
     RouteResponse data = RouteResponse(body: profileEntity);
     _routeService.pop(data: data);
+  }
+
+  void goToLogout(
+    BuildContext context,
+  ) async {
+    final auth = await authenticateUser(context);
+    if (auth == false) {
+      return;
+    }
+    final confirmResult = await showFlexBottomSheet<RouteResponse?>(
+      context,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          textH6(
+            context,
+            textKey: 'logout.confirmTitle',
+            isUpperCase: true,
+          ),
+        ],
+      ),
+      const LogoutConfirmPage(),
+      initHeight: 0.7,
+      maxHeight: 0.701,
+    );
+    final confirm = confirmResult?.body ?? false;
+    if (confirm == false) {
+      return;
+    }
+    final deleteCacheUsecase = GetIt.I.get<DeleteCacheUsecase>();
+    await deleteCacheUsecase();
+    Routes.instance.fromLogoutGotoLogin();
+  }
+
+  void fromLogoutGotoLogin() {
+    _routeService.pushAndPopUntil(const LoginRoute());
   }
 }

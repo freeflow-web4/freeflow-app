@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/domain/repositories/cache_repository.dart';
 import 'package:freeflow/layers/domain/repositories/wallet_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_biometrics_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_create_wallet_repository.dart';
@@ -6,6 +7,8 @@ import 'package:freeflow/layers/domain/repositories/user_pincode_repository.dart
 import 'package:freeflow/layers/domain/repositories/user_profile_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_recover_login_repository.dart';
 import 'package:freeflow/layers/domain/repositories/username_exists_repository.dart';
+import 'package:freeflow/layers/domain/usecases/delete_cache/delete_cache_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/delete_cache/delete_cache_usecase_impl.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/edit_profile/edit_profile_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectibles_usecase.dart';
@@ -110,5 +113,9 @@ registerUsecasesDependencies(GetIt getIt) {
   );
   getIt.registerFactory<GetCollectiblesUsecase>(
     () => CollectiblesUsecaseImp(GetIt.I.get<CollectiblesRepository>()),
+  );
+
+  getIt.registerFactory<DeleteCacheUsecase>(
+    () => DeleteCacheUsecaseImpl(GetIt.I.get<CacheRepository>()),
   );
 }

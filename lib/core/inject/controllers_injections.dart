@@ -21,6 +21,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/c
 import 'package:freeflow/layers/presentation/pages/cut_image/controller/cut_image_controller.dart';
 import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_profile_controller.dart';
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
+import 'package:freeflow/layers/presentation/pages/logout/pages/auth/controller/logout_auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/confirm_pin_code_view/recover_confirm_pin_code_view_controller.dart';
@@ -137,5 +138,9 @@ registerControllerDependencies(GetIt getIt) {
     () => CreateWalletNameController(
       getIt.get<GetUsernameExistsUsecase>(),
     ),
+  );
+
+  getIt.registerFactory<LogoutAuthController>(
+    () => LogoutAuthController(),
   );
 }

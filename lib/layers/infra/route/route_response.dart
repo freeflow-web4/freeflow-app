@@ -5,5 +5,5 @@ class RouteResponse<T> {
   /// use **body** when is suppose to send just a string, double ou even a more complex object
   final T? body;
 
-  RouteResponse({this.body, this.bodyMap = const {}});
+  const RouteResponse({this.body, this.bodyMap = const {}});
 }

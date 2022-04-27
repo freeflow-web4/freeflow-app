@@ -96,7 +96,7 @@ class _CreateWalletPrivateKeyConfirmViewState
                       "createWallet.confirmPrivateKeyTitle2",
                     ),
                     animationController: animationController,
-                    style: subtitleTextStyle.copyWith(
+                    style: subtitleTextStyle(
                       color: StandardColors.white,
                       fontWeight: FontWeight.w500,
                     ),

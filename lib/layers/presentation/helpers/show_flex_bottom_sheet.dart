@@ -3,17 +3,21 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 
-showFlexBottomSheet(BuildContext context,  {
+Future<T?> showFlexBottomSheet<T>({
+  double initHeight = 0.9,
+  double maxHeight = 1,
+  required BuildContext context,
   required Text title,
   required Widget content,
   bool bottomSafeArea = true,
-}) {
-  return showFlexibleBottomSheet(
+  bool bottomSafeArea = true,
+  }) {
+  return showFlexibleBottomSheet<T?>(
     context: context,
     minHeight: 0,
-    initHeight: .9,
-    maxHeight: 1,
-    anchors: [0, 0.9, 1],
+    initHeight: initHeight,
+    maxHeight: maxHeight,
+    anchors: [0, initHeight, maxHeight],
     builder: (
       BuildContext context,
       ScrollController scrollController,

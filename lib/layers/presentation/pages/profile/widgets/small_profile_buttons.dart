@@ -8,6 +8,7 @@ import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dar
 class SmallProfileButtons extends StatelessWidget {
   final double screenHeight;
   final void Function()? onTapCommitment;
+  final void Function() onLogoutTap;
   final void Function()? onTapRememberMe;
 
 
@@ -15,6 +16,7 @@ class SmallProfileButtons extends StatelessWidget {
     Key? key,
     required this.screenHeight,
     required this.onTapCommitment,
+    required this.onLogoutTap,
     required this.onTapRememberMe,
   }) : super(key: key);
 
@@ -45,7 +47,7 @@ class SmallProfileButtons extends StatelessWidget {
                     child: ProfileButtonWidget(
                       title: "profile.logout",
                       icon: IconsAsset.logout,
-                      onTap: () {},
+                      onTap: onLogoutTap,
                     ),
                   ),
                   const SizedBox(height: mdSpacingx2),
