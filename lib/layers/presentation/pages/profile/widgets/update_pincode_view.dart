@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_arrow_right_widget.dart';
@@ -25,11 +27,10 @@ class UpdatePincodeView extends StatefulWidget {
 
 class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
   AuthController authController = GetIt.I.get<AuthController>();
-  late String pinAuth;
+  String pinAuth = '';
 
   @override
   void initState() {
-    pinAuth = authController.currentPinCode;
     authController.currentPinCode = '';
     authController.isPinObscure = true;
     super.initState();
@@ -37,72 +38,102 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (context) {
-      return CustomBottomSheet(
-        children: [
-          textSubtitle(context, textKey: 'login.authTitle'),
-          GradientTextFieldWidget(
-            pinCode: authController.currentPinCode,
-            onChanged: (_) {},
-            textColor: StandardColors.backgroundDark,
-            isFieldValid: authController.pinFieldState != PinFieldState.invalid,
-            errorText: authController.pinFieldState != PinFieldState.wrong
-                ? null
-                : TranslationService.translate(
-                    context,
-                    'login.pinTextInputError',
-                  ),
-            hintText: getLabelByState(),
-            fieldReadOnly: true,
-            isObscureText: authController.isPinObscure,
-            onObscureButtonPressed: authController.onPinObscureTextFieldTap,
-            obscureButtonColor:
-                obscureButtonColor(authController.pinFieldState),
-            showObscureButton: true,
-          ),
-          InAppKeyboardWidget(
-            keyColor: StandardColors.backgroundDark,
-            onTap: (digit) {
-              final currentText = authController.currentPinCode;
-              authController.onKeyboardTap(digit, currentText);
-            },
-          ),
-          Observer(
-            builder: (context) {
-              return AnimatedArrowRight(
-                onTap: () {
-                  if (authController.updatePincodeState ==
-                      UpdatePincodeState.enterCurrentPinCode) {
-                    authController.pinCodeHasMatch(pinAuth);
-                  } else if (authController.updatePincodeState ==
-                      UpdatePincodeState.chooseNewPincode) {
-                    pinAuth = authController.currentPinCode;
-                    authController.updatePincodeState =
-                        UpdatePincodeState.confirmNewPincode;
-                    authController.currentPinCode = '';
-                  } else {
-                    authController.setNewPincode(pinAuth);
-                  }
-                },
-                isActive: authController.isPinValid,
-              );
-            },
-          ),
-        ],
-      );
-    });
+    return Observer(
+      builder: (context) {
+        return CustomBottomSheet(
+          children: [
+            textSubtitle(context, textKey: getTitleByState()),
+            inputWidget(),
+            keyboardWidget(),
+            confirmButton(),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget confirmButton() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: bigSpacing),
+      child: AnimatedArrowRight(
+        onTap: () {
+          if (authController.updatePincodeState ==
+              UpdatePincodeState.enterCurrentPinCode) {
+            authController.pinCodeHasMatch();
+          } else if (authController.updatePincodeState ==
+              UpdatePincodeState.chooseNewPincode) {
+            pinAuth = authController.currentPinCode;
+            authController.updatePincodeState =
+                UpdatePincodeState.confirmNewPincode;
+            authController.currentPinCode = '';
+          } else {
+            authController.setNewPincode(pinAuth); 
+          }
+        },
+        isActive: authController.isPinValid,
+      ),
+    );
+  }
+
+  Widget keyboardWidget() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 104, top: huge2Spacing),
+      child: InAppKeyboardWidget(
+        keyColor: StandardColors.backgroundDark,
+        onTap: (digit) {
+          final currentText = authController.currentPinCode;
+          authController.onKeyboardTap(digit, currentText);
+        },
+      ),
+    );
+  }
+
+  Widget inputWidget() {
+    return Padding(
+      padding: const EdgeInsets.only(top: bigSpacing),
+      child: GradientTextFieldWidget(
+        pinCode: authController.currentPinCode,
+        onChanged: (_) {},
+        textColor: StandardColors.backgroundDark,
+        isFieldValid: authController.pinFieldState != PinFieldState.invalid,
+        errorText: authController.pinFieldState != PinFieldState.wrong
+            ? null
+            : TranslationService.translate(
+                context,
+                'login.pinTextInputError',
+              ),
+        hintText: getLabelByState(),
+        fieldReadOnly: true,
+        isObscureText: !authController.isPinObscure,
+        onObscureButtonPressed: authController.onPinObscureTextFieldTap,
+        obscureButtonColor: obscureButtonColor(authController.pinFieldState),
+        showObscureButton: true,
+      ),
+    );
+  }
+
+  String getTitleByState() {
+    if (authController.updatePincodeState ==
+        UpdatePincodeState.chooseNewPincode) {
+      return FlutterI18n.translate(context, "profile.insertYourNewPinCode");
+    } else if (authController.updatePincodeState ==
+        UpdatePincodeState.confirmNewPincode) {
+      return FlutterI18n.translate(context, "profile.confirmYourNewPinCode")
+          .toUpperCase();
+    }
+    return FlutterI18n.translate(context, "login.authTitle").toUpperCase();
   }
 
   String getLabelByState() {
     if (authController.updatePincodeState ==
         UpdatePincodeState.enterCurrentPinCode) {
-      return 'Enter your PIN code';
+      return FlutterI18n.translate(context, "profile.enterYourPinCode");
     } else if (authController.updatePincodeState ==
         UpdatePincodeState.chooseNewPincode) {
-      return 'Choose your new pincode';
+      return FlutterI18n.translate(context, "profile.chooseYourPinCode");
     } else if (authController.updatePincodeState ==
         UpdatePincodeState.confirmNewPincode) {
-      return 'Confirm your new pincode';
+      return FlutterI18n.translate(context, "profile.confirmYourNewPinCode");
     }
     return '';
   }

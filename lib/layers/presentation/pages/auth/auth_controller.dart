@@ -1,7 +1,10 @@
+import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/login.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/update_pincode_view.dart';
 import 'package:freeflow/routes/routes.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'auth_controller.g.dart';
 
@@ -11,6 +14,8 @@ class AuthController = AuthControllerBase with _$AuthController;
 
 abstract class AuthControllerBase with Store, Login {
   final PinValidator pinValidator;
+  UserSetPincodeUsecase userSetPincodeUsecase =
+      GetIt.I.get<UserSetPincodeUsecase>();
 
   AuthControllerBase(this.pinValidator);
 
@@ -27,7 +32,8 @@ abstract class AuthControllerBase with Store, Login {
   bool isPinObscure = true;
 
   @observable
-  UpdatePincodeState updatePincodeState = UpdatePincodeState.enterCurrentPinCode;
+  UpdatePincodeState updatePincodeState =
+      UpdatePincodeState.enterCurrentPinCode;
 
   void updateCurrentPinCode(String value) {
     currentPinCode = value;
@@ -95,24 +101,35 @@ abstract class AuthControllerBase with Store, Login {
   }
 
   @action
-  void pinCodeHasMatch(String pinAuth){
-    if(currentPinCode == pinAuth){
-      updatePincodeState = UpdatePincodeState.chooseNewPincode;
-      currentPinCode = '';
-    }else{
-      updatePinFieldState(PinFieldState.wrong);
-    }
+  void pinCodeHasMatch() async {
+    final isPinCorrect =
+        await GetIt.I.get<UserCheckPinCodeUsecase>().call(currentPinCode);
+    isPinCorrect.fold((_) {}, (success) {
+      if (success) {
+        updatePincodeState = UpdatePincodeState.chooseNewPincode;
+        currentPinCode = '';
+      } else {
+        updatePinFieldState(PinFieldState.wrong);
+      }
+    });
   }
 
   @action
-  void setNewPincode(String newPincodeAuth){
-      if(newPincodeAuth == currentPinCode){
-        updatePincodeState =  UpdatePincodeState.enterCurrentPinCode;
-        print('perfeito - salvo - e confirmado');
-        //todo: set persistent new pincode
-        //todo: show dialog
-      }else{
-        updatePinFieldState(PinFieldState.wrong);
-      }
+  resetPin(){
+    currentPinCode = '';
+    updatePincodeState = UpdatePincodeState.enterCurrentPinCode;
+  }
+
+  @action
+  void setNewPincode(String newPincodeAuth) {
+    if (newPincodeAuth == currentPinCode) {
+      updatePincodeState = UpdatePincodeState.enterCurrentPinCode;
+      print('perfeito - salvo - e confirmado');
+      userSetPincodeUsecase.call(currentPinCode);
+      //todo: set persistent new pincode
+      //todo: show dialog
+    } else {
+      updatePinFieldState(PinFieldState.wrong);
+    }
   }
 }

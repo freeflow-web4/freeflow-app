@@ -53,7 +53,12 @@
         "commitment": "Commitment",
         "commitmentContent": "FreeFlow community was created to distribute knowledge and wealth so we, the people, can collaborate and co-create a more harmonious and communal world.",
         "logout": "Logout account from device",
-        "copiedAddress": "Public address copied to clipboard"
+        "copiedAddress": "Public address copied to clipboard",
+        "enterYourPinCode": "Enter your PIN code",
+        "chooseYourPinCode": "Choose your pincode",
+        "insertYourNewPinCode": "INSERT YOUR NEW PIN CODE",
+        "confirmYourNewPinCode": "Confirm your new pincode",
+        "changeMadeSuccessfully": "Change made successfully"
     },
     "wallet": {
         "wallet": "Wallet",

@@ -4,15 +4,19 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
+import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_button_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/update_pincode_view.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../../core/utils/colors_constants.dart';
 
 class ProfileButtonListWidget extends StatelessWidget with TextThemes {
   final void Function()? onTapCommitment;
+  AuthController authController = GetIt.I.get<AuthController>();
 
-  const ProfileButtonListWidget({
+   ProfileButtonListWidget({
     Key? key,
     required this.onTapCommitment,
   }) : super(key: key);
@@ -47,7 +51,10 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
                 ),
                 isScrollControlled: true,
                 builder: (context) => UpdatePincodeView(),
-              );
+              ).whenComplete(() {
+                authController.resetPin();
+                print('fechou. Reseta');
+              });
             },
           ),
           const SizedBox(height: normalSpacing),
