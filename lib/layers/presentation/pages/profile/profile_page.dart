@@ -106,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                     screenHeight: screenHeight,
                     onLogoutTap: () => controller.showLogoutPage(context),
                     onTapCommitment: () => showCommitmentBottomSheet(),
-                    onTapRememberMe: () => showRememberMeBottomSheet2(),
+                    onTapRememberMe: () => showRememberMeBottomSheet(),
                   ),
                 ],
               ),
@@ -155,7 +155,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
   }
 
 
-  showRememberMeBottomSheet2() {
+  showRememberMeBottomSheet() {
     return showFlexBottomSheet(
       context:  context,
       title: textH6(
