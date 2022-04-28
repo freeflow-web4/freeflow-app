@@ -1,3 +1,4 @@
+import 'package:freeflow/layers/domain/repositories/user_private_key_repository.dart';
 import 'package:freeflow/layers/domain/repositories/cache_repository.dart';
 import 'package:freeflow/layers/domain/repositories/wallet_repository.dart';
 import 'package:freeflow/layers/domain/repositories/user_biometrics_repository.dart';
@@ -34,6 +35,10 @@ import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_log
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/get_user_private_key_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/get_user_private_key_usecase_imp.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/set_user_private_key_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/set_user_private_key_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase_imp.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
@@ -113,6 +118,12 @@ registerUsecasesDependencies(GetIt getIt) {
   );
   getIt.registerFactory<GetCollectiblesUsecase>(
     () => CollectiblesUsecaseImp(GetIt.I.get<CollectiblesRepository>()),
+  );
+  getIt.registerFactory<GetUserPrivateKeyUsecase>(
+    () => GetUserPrivateKeyUsecaseImp(GetIt.I.get<UserPrivateKeyRepository>()),
+  );
+  getIt.registerFactory<SetUserPrivateKeyUsecase>(
+    () => SetUserPrivateKeyUsecaseImp(GetIt.I.get<UserPrivateKeyRepository>()),
   );
 
   getIt.registerFactory<DeleteCacheUsecase>(

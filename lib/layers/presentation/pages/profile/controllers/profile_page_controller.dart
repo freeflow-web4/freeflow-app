@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
 import 'package:freeflow/routes/routes.dart';
@@ -62,5 +61,11 @@ abstract class ProfilePageControllerBase with Store {
     BuildContext context,
   ) {
     Routes.instance.goToLogout(context);
+  }
+
+  void showPhrasePage(
+    BuildContext context,
+  ) {
+    Routes.instance.goToShowPhrase(context);
   }
 }

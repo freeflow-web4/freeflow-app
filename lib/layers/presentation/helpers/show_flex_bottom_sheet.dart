@@ -18,10 +18,10 @@ Future<T?> showFlexBottomSheet<T>({
     maxHeight: maxHeight,
     anchors: [0, initHeight, maxHeight],
     builder: (
-        BuildContext context,
-        ScrollController scrollController,
-        double bottomSheetOffset,
-        ) {
+      BuildContext context,
+      ScrollController scrollController,
+      double bottomSheetOffset,
+    ) {
       return SafeArea(
         bottom: bottomSafeArea,
         child: Material(
@@ -34,8 +34,8 @@ Future<T?> showFlexBottomSheet<T>({
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0),
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0),
               ),
             ),
             child: Center(

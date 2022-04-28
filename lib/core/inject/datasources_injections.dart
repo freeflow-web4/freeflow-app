@@ -1,5 +1,6 @@
 import 'package:freeflow/layers/data/datasources/cache/user_local_auth_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/cache/user_pincode_datasource_imp.dart';
+import 'package:freeflow/layers/data/datasources/cache/user_private_key_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/remote/user_create_wallet_datasource_impl.dart';
 import 'package:freeflow/layers/data/datasources/remote/wallet_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/collectibles_datasource.dart';
@@ -7,6 +8,7 @@ import 'package:freeflow/layers/data/datasources/remote/collectibles_datasource_
 import 'package:freeflow/layers/data/datasources/remote/user_profile_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/remote/user_recover_login_datasource_imp.dart';
 import 'package:freeflow/layers/data/datasources/remote/username_exists_datasource_imp.dart';
+import 'package:freeflow/layers/data/datasources/user_private_key_datasource.dart';
 import 'package:freeflow/layers/data/datasources/wallet_datasource.dart';
 import 'package:freeflow/layers/data/datasources/user_biometric_datasource.dart';
 import 'package:freeflow/layers/data/datasources/user_create_wallet_datasource.dart';
@@ -48,5 +50,8 @@ registerDatasourcesDependencies(GetIt getIt) {
   );
   getIt.registerFactory<CollectiblesDataSource>(
     () => CollectiblesDataSourceImp(getIt.get<HttpClient>()),
+  );
+  getIt.registerFactory<UserPrivateKeyDatasource>(
+    () => UserPrivateKeyDatasourceImp(getIt.get<CacheStorage>()),
   );
 }

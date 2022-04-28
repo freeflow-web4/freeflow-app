@@ -12,6 +12,7 @@ import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
@@ -76,7 +77,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: huge4Spacing),
+                const FlexibleVerticalSpacer(height: huge4Spacing),
                 AnimatedText(
                   text: TranslationService.translate(
                     context,
@@ -88,7 +89,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                   ),
                   animation: animation.firstTextOpacity,
                 ),
-                const SizedBox(height: mdSpacingx2),
+                const FlexibleVerticalSpacer(height: mdSpacingx2),
                 StaggerPosition(
                   horizontalOffset: animation.textFieldHorizontalPosition,
                   controller: animationController,
@@ -120,7 +121,7 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                     },
                   ),
                 ),
-                const SizedBox(height: xxlargeSpacing),
+                const FlexibleVerticalSpacer(height: xxlargeSpacing),
                 StaggerOpacity(
                   opacity: animation.keyboardOpacity,
                   controller: animationController,
@@ -134,7 +135,9 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                     ),
                   ),
                 ),
-                const Spacer(),
+                const FlexibleVerticalSpacer(
+                  height: huge3Spacing,
+                ),
                 StaggerScale(
                   controller: animationButtonController,
                   width: animation.buttonWidth,
@@ -166,6 +169,9 @@ class _RecoverConfirmPinCodeViewState extends State<RecoverConfirmPinCodeView>
                     ),
                   ),
                 ),
+                const FlexibleVerticalSpacer(
+                  height: largeSpacing,
+                )
               ],
             ),
           );

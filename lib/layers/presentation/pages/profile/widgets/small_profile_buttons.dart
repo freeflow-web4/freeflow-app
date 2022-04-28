@@ -9,14 +9,15 @@ class SmallProfileButtons extends StatelessWidget {
   final double screenHeight;
   final void Function()? onTapCommitment;
   final void Function() onLogoutTap;
+  final void Function() onShowPhraseTap;
   final void Function()? onTapRememberMe;
-
 
   const SmallProfileButtons({
     Key? key,
     required this.screenHeight,
     required this.onTapCommitment,
     required this.onLogoutTap,
+    required this.onShowPhraseTap,
     required this.onTapRememberMe,
   }) : super(key: key);
 
@@ -31,6 +32,7 @@ class SmallProfileButtons extends StatelessWidget {
             const SizedBox(height: mdSpacingx2),
             ProfileButtonListWidget(
               onTapCommitment: onTapCommitment,
+              onShowPhraseTap: onShowPhraseTap,
               onTapRememberMe: onTapRememberMe,
             ),
             const SizedBox(height: mdSpacingx2),

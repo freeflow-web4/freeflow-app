@@ -1,6 +1,7 @@
 import 'package:freeflow/layers/domain/entities/user_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/set_user_private_key_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
 import 'package:mobx/mobx.dart';
@@ -24,11 +25,13 @@ abstract class RecoverPrivateKeyControllerBase with Store {
     required this.validator,
     required this.userRecoverLoginUseCase,
     required this.saveUserLocalAuthUsecase,
+    required this.setUserPrivateKeyUsecase,
   });
 
   final PrivateKeyValidator validator;
   final UserRecoverLoginUseCase userRecoverLoginUseCase;
   final SaveUserLocalAuthUsecase saveUserLocalAuthUsecase;
+  final SetUserPrivateKeyUsecase setUserPrivateKeyUsecase;
 
   @observable
   String currentPrivateKey = "";
@@ -83,6 +86,7 @@ abstract class RecoverPrivateKeyControllerBase with Store {
       },
       (r) async {
         await onValidatePrivateKeySuccess(key, r);
+        setUserPrivateKeyUsecase(key);
       },
     );
     isValidating = false;
