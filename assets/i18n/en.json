@@ -180,10 +180,10 @@
         "cancelButton": "CANCEL"
     },
     "rememberMe": {
-        "touchId": "TOUCH ID",
+        "touchId": "BIOMETRIC",
         "auth": "AUTHENTICATION",
-        "enableTouchId": "Enable Touch ID?",
-        "disableTouchId": "Disable Touch ID?",
+        "enableTouchId": "Enable Biometric?",
+        "disableTouchId": "Disable Biometric?",
         "changeSuccessfully" : "Change made\nsuccessfully"
     }
 }
