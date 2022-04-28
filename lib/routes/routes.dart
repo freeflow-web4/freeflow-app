@@ -8,6 +8,7 @@ import 'package:freeflow/layers/infra/route/route_service.dart';
 import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/pages/logout/pages/auth/logout_auth_page.dart';
 import 'package:freeflow/layers/presentation/pages/logout/pages/confirm/logout_confirm_page.dart';
+import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_show_phrase_widget.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
 
@@ -136,6 +137,50 @@ class Routes with TextThemes {
       const LogoutConfirmPage(),
       initHeight: 0.7,
       maxHeight: 0.701,
+    );
+    final confirm = confirmResult?.body ?? false;
+    if (confirm == false) {
+      return;
+    }
+    final deleteCacheUsecase = GetIt.I.get<DeleteCacheUsecase>();
+    await deleteCacheUsecase();
+    Routes.instance.fromLogoutGotoLogin();
+  }
+
+  void goToShowPhrase(
+    BuildContext context,
+  ) async {
+    final authResult = await showFlexBottomSheet<RouteResponse?>(
+      context,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          textH6(
+            context,
+            textKey: 'logout.authTitle',
+            isUpperCase: true,
+          ),
+        ],
+      ),
+      const LogoutAuthPage(),
+    );
+    final auth = authResult?.body ?? false;
+    if (auth == false) {
+      return;
+    }
+    final confirmResult = await showFlexBottomSheet<RouteResponse?>(
+      context,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          textH6(
+            context,
+            textKey: 'profile.showPhrase',
+            isUpperCase: true,
+          ),
+        ],
+      ),
+      const ProfileShowPhrase(),
     );
     final confirm = confirmResult?.body ?? false;
     if (confirm == false) {

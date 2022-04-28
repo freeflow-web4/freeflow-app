@@ -4,6 +4,7 @@ import 'package:freeflow/layers/domain/usecases/get_collectibles/get_collectible
 import 'package:freeflow/layers/domain/usecases/get_profile/get_profile_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/get_user_private_key_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_private_key/set_user_private_key_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/domain/validators/private_key_validator/private_key_validator.dart';
@@ -18,6 +19,7 @@ import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/logout/pages/auth/controller/logout_auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
+import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_show_phrase_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/confirm_pin_code_view/recover_confirm_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
@@ -137,5 +139,11 @@ registerControllerDependencies(GetIt getIt) {
 
   getIt.registerFactory<LogoutAuthController>(
     () => LogoutAuthController(),
+  );
+
+  getIt.registerLazySingleton<ProfileShowPhraseController>(
+    () => ProfileShowPhraseController(
+      getUserPrivateKeyUsecase: getIt.get<GetUserPrivateKeyUsecase>(),
+    ),
   );
 }

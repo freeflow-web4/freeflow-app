@@ -29,9 +29,11 @@ Future<T?> showFlexBottomSheet<T>(
               horizontal: mdSpacing,
               vertical: bottomSheetOffset > 0.9 ? mdSpacingx2 : normalSpacing,
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
             ),
             child: Center(
               child: ListView(

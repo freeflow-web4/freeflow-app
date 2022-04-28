@@ -6,10 +6,12 @@ import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_butto
 
 class ProfileButtonListWidget extends StatelessWidget with TextThemes {
   final void Function()? onTapCommitment;
+  final void Function()? onShowPhraseTap;
 
   const ProfileButtonListWidget({
     Key? key,
     required this.onTapCommitment,
+    required this.onShowPhraseTap,
   }) : super(key: key);
 
   @override
@@ -18,9 +20,10 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Column(
         children: [
-          const ProfileButtonWidget(
+          ProfileButtonWidget(
             title: "profile.showPhrase",
             icon: IconsAsset.privateKey,
+            onTap: onShowPhraseTap,
           ),
           const SizedBox(height: normalSpacing),
           const ProfileButtonWidget(
