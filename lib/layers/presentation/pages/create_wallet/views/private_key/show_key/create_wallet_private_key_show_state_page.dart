@@ -5,11 +5,13 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/private_key_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/private_key/show_key/create_wallet_private_key_show_state_animations.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_wallet_page_indicator_widget.dart';
+import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/fullscreen_alert_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 
@@ -54,6 +56,12 @@ class _CreateWalletPrivateKeyShowViewState
     Future.delayed(const Duration(milliseconds: 1000)).then(
       (value) => pageController.setButtonEnabled(),
     );
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -181,9 +189,25 @@ class _CreateWalletPrivateKeyShowViewState
   }
 
   void onValid() async {
-    await animationController.animateTo(
-      0,
-      duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
+    try {
+      await animationController
+          .animateTo(
+            0,
+            duration:
+                Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
+          )
+          .orCancel;
+    } catch (_) {}
+    await showCustomDialog(
+      context,
+      body: Text(
+        widget.privateKey,
+        style: textH4TextStyle.copyWith(
+          color: StandardColors.secondary,
+        ),
+      ),
+      secondaryTextKey: 'createWallet.privateKeyWarning',
+      secondaryTextPosition: SecondaryTextPosition.top,
     );
     widget.onValid(
       PrivateKeyFormModel(

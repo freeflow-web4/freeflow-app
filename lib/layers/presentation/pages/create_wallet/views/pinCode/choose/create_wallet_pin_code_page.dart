@@ -57,6 +57,12 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlackScaffold(
       child: AnimatedBuilder(
@@ -180,10 +186,15 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
   }
 
   void onValid(PinCodeFormModel pinCodeFormModel) async {
-    await animationController.animateTo(
-      0,
-      duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
-    );
+    try {
+      await animationController
+          .animateTo(
+            0,
+            duration:
+                Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
+          )
+          .orCancel;
+    } catch (_) {}
     widget.onValid(pinCodeFormModel);
     animationController.animateTo(
       1,
@@ -192,6 +203,6 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
   }
 
   void onInvalid() {
-    showCustomDialog(context, textKey: 'createWallet.nameWarning');
+    showCustomDialog(context, textKey: 'createWallet.pinCodeWarning');
   }
 }
