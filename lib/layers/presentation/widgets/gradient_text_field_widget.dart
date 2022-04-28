@@ -27,6 +27,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final Widget Function(Color)? sufixWidget;
   final void Function(String text)? onEditingComplete;
   final int onEditingCompleteDurationInMili;
+  final Color? textColor;
   const GradientTextFieldWidget({
     Key? key,
     this.errorText,
@@ -48,6 +49,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.sufixWidget,
     this.onEditingComplete,
     this.onEditingCompleteDurationInMili = 1000,
+    this.textColor,
   }) : super(key: key);
 
   @override
@@ -71,7 +73,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       children: [
         Stack(
           children: <Widget>[
-            widget.isObscureText == true
+            widget.isObscureText == true 
                 ? SizedBox(
                     width: double.infinity,
                     child: Padding(
@@ -107,14 +109,14 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                       color: widget.errorText == null
                           ? widget.isFieldValid
                               ? StandardColors.blueLight
-                              : Colors.white
+                              : widget.textColor ?? Colors.white
                           : StandardColors.feedbackError,
                     ),
                     decoration: InputDecoration(
                       hintText: widget.isPinInput ? null : widget.hintText,
                       hintStyle: TextStyle(
                         color: widget.errorText == null
-                            ? StandardColors.white
+                            ? widget.textColor ?? StandardColors.white
                             : StandardColors.feedbackError,
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -162,7 +164,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                     widget.errorText == null
                         ? widget.isFieldValid
                             ? StandardColors.blueLight
-                            : Colors.white
+                            : widget.textColor ?? Colors.white
                         : StandardColors.feedbackError,
                   ),
                 ),
@@ -188,7 +190,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             context,
             text: widget.errorText ?? '',
             color: widget.errorText == null
-                ? Colors.white
+                ? widget.textColor ?? Colors.white
                 : StandardColors.feedbackError,
           ),
         )

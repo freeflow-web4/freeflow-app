@@ -1,5 +1,6 @@
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/login.dart';
+import 'package:freeflow/layers/presentation/pages/profile/widgets/update_pincode_view.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:mobx/mobx.dart';
 part 'auth_controller.g.dart';
@@ -24,6 +25,9 @@ abstract class AuthControllerBase with Store, Login {
 
   @observable
   bool isPinObscure = true;
+
+  @observable
+  UpdatePincodeState updatePincodeState = UpdatePincodeState.enterCurrentPinCode;
 
   void updateCurrentPinCode(String value) {
     currentPinCode = value;
@@ -88,5 +92,27 @@ abstract class AuthControllerBase with Store, Login {
   @action
   void updatePinFieldState(PinFieldState state) {
     pinFieldState = state;
+  }
+
+  @action
+  void pinCodeHasMatch(String pinAuth){
+    if(currentPinCode == pinAuth){
+      updatePincodeState = UpdatePincodeState.chooseNewPincode;
+      currentPinCode = '';
+    }else{
+      updatePinFieldState(PinFieldState.wrong);
+    }
+  }
+
+  @action
+  void setNewPincode(String newPincodeAuth){
+      if(newPincodeAuth == currentPinCode){
+        updatePincodeState =  UpdatePincodeState.enterCurrentPinCode;
+        print('perfeito - salvo - e confirmado');
+        //todo: set persistent new pincode
+        //todo: show dialog
+      }else{
+        updatePinFieldState(PinFieldState.wrong);
+      }
   }
 }
