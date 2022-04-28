@@ -86,7 +86,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       children: [
         Stack(
           children: <Widget>[
-            widget.isObscureText == true || widget.value?.isEmpty == true
+            widget.isObscureText == true
                 ? SizedBox(
                     width: double.infinity,
                     child: (widget.hintText?.trim().isNotEmpty ?? false) &&
@@ -140,6 +140,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                           : StandardColors.feedbackError,
                     ),
                     decoration: InputDecoration(
+                      hintText: widget.hintText,
                       hintStyle: TextStyle(
                         color: widget.errorText == null
                             ? widget.normalTextColor
