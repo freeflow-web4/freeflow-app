@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:freeflow/layers/domain/entities/transcript_details_entity.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/domain/usecases/get_transcript_details/get_transcript_details_usecase.dart';
@@ -31,6 +30,5 @@ abstract class _InteractionControllerBase with Store {
     return status;
   }
 
-  void copyText(String text) => Clipboard.setData(ClipboardData(text: text));
 
 }

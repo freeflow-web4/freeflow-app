@@ -108,8 +108,8 @@ class Routes with TextThemes {
       return;
     }
     final confirmResult = await showFlexBottomSheet<RouteResponse?>(
-      context,
-      Row(
+      context: context,
+      title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           textH6(
@@ -119,7 +119,7 @@ class Routes with TextThemes {
           ),
         ],
       ),
-      const LogoutConfirmPage(),
+      content: const LogoutConfirmPage(),
       initHeight: 0.7,
       maxHeight: 0.701,
     );

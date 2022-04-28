@@ -178,5 +178,12 @@
         "warning": "If you confirm, your account will be removed from this device.\n\nYou can always recover your account with name and phrase.",
         "confirmButton": "CONFIRM OUTPUT",
         "cancelButton": "CANCEL"
+    },
+    "rememberMe": {
+        "touchId": "TOUCH ID",
+        "auth": "AUTHENTICATION",
+        "enableTouchId": "Enable Touch ID?",
+        "disableTouchId": "Disable Touch ID?",
+        "changeSuccessfully" : "Change made\nsuccessfully"
     }
 }

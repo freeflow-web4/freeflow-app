@@ -6,10 +6,13 @@ import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_butto
 
 class ProfileButtonListWidget extends StatelessWidget with TextThemes {
   final void Function()? onTapCommitment;
+  final void Function()? onTapRememberMe;
+
 
   const ProfileButtonListWidget({
     Key? key,
     required this.onTapCommitment,
+    required this.onTapRememberMe,
   }) : super(key: key);
 
   @override
@@ -23,9 +26,10 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
             icon: IconsAsset.privateKey,
           ),
           const SizedBox(height: normalSpacing),
-          const ProfileButtonWidget(
+          ProfileButtonWidget(
             title: "profile.rememberMe",
             icon: IconsAsset.biometry,
+            onTap: onTapRememberMe,
           ),
           const SizedBox(height: normalSpacing),
           const ProfileButtonWidget(

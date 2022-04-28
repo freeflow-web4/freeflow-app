@@ -15,6 +15,7 @@ import 'package:freeflow/layers/presentation/pages/profile/widgets/small_profile
 import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
+import 'package:freeflow/layers/presentation/widgets/show_modal_bottom_sheet/remember_me/remember_me_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 
@@ -105,6 +106,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                     screenHeight: screenHeight,
                     onLogoutTap: () => controller.showLogoutPage(context),
                     onTapCommitment: () => showCommitmentBottomSheet(),
+                    onTapRememberMe: () => showRememberMeBottomSheet(),
                   ),
                 ],
               ),
@@ -137,13 +139,13 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
 
   showCommitmentBottomSheet() {
     return showFlexBottomSheet(
-      context,
-      textH6(
+      context: context,
+      title: textH6(
         context,
         textKey: 'profile.commitment',
         textAlign: TextAlign.center,
       ),
-      Center(
+      content: Center(
         child: textSubtitle(
           context,
           textKey: 'profile.commitmentContent',
@@ -151,4 +153,20 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
       ),
     );
   }
+
+
+  showRememberMeBottomSheet() {
+    return showFlexBottomSheet(
+      context:  context,
+      title: textH6(
+        context,
+        textKey: 'rememberMe.touchId',
+        textAlign: TextAlign.center,
+      ),
+      content: const RememberMeWidget(),
+    );
+  }
+
+
 }
+
