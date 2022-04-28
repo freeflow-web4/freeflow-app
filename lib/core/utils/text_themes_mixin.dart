@@ -56,9 +56,29 @@ mixin TextThemes {
         fontFamily: 'Akrobat',
       );
 
-  TextStyle get subtitleTextStyle => const TextStyle(
+  TextStyle subtitleTextStyle({
+    Color? color,
+    FontWeight fontWeight = FontWeight.w500,
+  }) =>
+      TextStyle(
         fontSize: 20,
         fontFamily: 'Akrobat',
+        fontWeight: fontWeight,
+        color: color,
+      );
+
+  TextStyle get transcriptBold => const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Akrobat',
+        color: StandardColors.black,
+      );
+
+  TextStyle get transcriptMedium => const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Akrobat',
+        color: StandardColors.black,
       );
 
   Text textH5(
@@ -146,14 +166,16 @@ mixin TextThemes {
       TranslationService.translate(context, textKey),
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
+      style: textButtonStyle(color),
+    );
+  }
+
+  TextStyle textButtonStyle(Color color) => TextStyle(
         color: color,
         fontSize: 18,
         fontFamily: 'Akrobat',
         fontWeight: FontWeight.bold,
-      ),
-    );
-  }
+      );
 
   Text textBody2(
     BuildContext context, {
@@ -170,6 +192,27 @@ mixin TextThemes {
         fontSize: 12,
         fontFamily: 'Poppins',
         fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  Text textSubtitle1(
+    BuildContext context, {
+    Color color = StandardColors.backgroundDark,
+    int? maxLines,
+    bool isUpperCase = false,
+    required String textKey,
+  }) {
+    return Text(
+      isUpperCase
+          ? FlutterI18n.translate(context, textKey).toUpperCase()
+          : FlutterI18n.translate(context, textKey),
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color,
+        fontSize: 20,
+        fontFamily: 'Akrobat',
+        fontWeight: FontWeight.w500,
       ),
     );
   }
@@ -214,6 +257,17 @@ mixin TextThemes {
     );
   }
 
+  TextStyle textSubtitle3Style({
+    required Color color,
+    double fontSize = 20,
+  }) =>
+      TextStyle(
+        color: color,
+        fontSize: fontSize,
+        fontFamily: 'Akrobat',
+        fontWeight: FontWeight.bold,
+      );
+
   Text textSubtitle3(
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
@@ -223,12 +277,7 @@ mixin TextThemes {
     return Text(
       FlutterI18n.translate(context, textKey),
       maxLines: maxLines,
-      style: TextStyle(
-        color: color,
-        fontSize: 20,
-        fontFamily: 'Akrobat',
-        fontWeight: FontWeight.bold,
-      ),
+      style: textSubtitle3Style(color: color),
     );
   }
 

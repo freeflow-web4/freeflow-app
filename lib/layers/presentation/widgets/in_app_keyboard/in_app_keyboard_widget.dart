@@ -5,9 +5,12 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class InAppKeyboardWidget extends StatefulWidget {
   final void Function(String)? onTap;
-  final Color? keyColor;
-  const InAppKeyboardWidget({Key? key, this.onTap, this.keyColor})
-      : super(key: key);
+  final Color textColor;
+  const InAppKeyboardWidget({
+    Key? key,
+    this.onTap,
+    this.textColor = Colors.white,
+  }) : super(key: key);
 
   @override
   State<InAppKeyboardWidget> createState() => _InAppKeyboardWidgetState();
@@ -46,7 +49,7 @@ class _InAppKeyboardWidgetState extends State<InAppKeyboardWidget>
                 child: Center(
                   child: SvgPicture.asset(
                     IconsAsset.arrowLeftIcon,
-                    color: widget.keyColor,
+                    color: widget.textColor,
                     width: 20,
                     height: 20,
                   ),
@@ -65,14 +68,14 @@ class _InAppKeyboardWidgetState extends State<InAppKeyboardWidget>
                         child: textH4(
                           context,
                           textKey: key,
-                          color: widget.keyColor ?? Colors.white,
+                          color: widget.textColor,
                           textAlign: TextAlign.center,
                         ),
                       )
                     : textH3(
                         context,
                         textKey: key,
-                        color: widget.keyColor ?? Colors.white,
+                        color: widget.textColor,
                         textAlign: TextAlign.center,
                       ),
               ),

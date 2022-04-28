@@ -120,7 +120,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                               )
                             : null,
                         textController: widget.textEditingController,
-                        pinCode: viewController.currentPinCode,
+                        value: viewController.currentPinCode,
                       );
                     },
                   ),
@@ -141,7 +141,7 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                                 "recoverAccount.rememberMe",
                               ),
                               animationController: animationController,
-                              style: subtitleTextStyle.copyWith(
+                              style: subtitleTextStyle(
                                 color: StandardColors.white,
                               ),
                               animation: animation.biometryOpacity,
@@ -186,11 +186,16 @@ class _RecoverPinCodeViewState extends State<RecoverPinCodeView>
                         isLargeButton:
                             viewController.isPinCodeValid && isLargeButton,
                         icon: IconsAsset.arrowIcon,
-                        onTap: () => goToNextPage(),
-                        onTapInative: () => showCustomDialog(
-                          context,
-                          textKey: 'recoverAccount.pleaseEnterYourPinCode',
-                        ),
+                        onTap: (activate) {
+                          if (activate) {
+                            goToNextPage();
+                          } else {
+                            showCustomDialog(
+                              context,
+                              textKey: 'recoverAccount.pleaseEnterYourPinCode',
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),

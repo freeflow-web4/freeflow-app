@@ -3,12 +3,39 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/layers/presentation/widgets/general_page_animations.dart';
 
-class LoadingWidget extends StatefulWidget {
+class LoadingWidget extends StatelessWidget {
   final bool isLoading;
   final Color? color;
   final double? size;
   final EdgeInsets? padding;
   const LoadingWidget({
+    required this.isLoading,
+    this.color,
+    this.size,
+    this.padding,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: isLoading,
+      child: _LoadingWidgetRotating(
+        isLoading: isLoading,
+        color: color,
+        size: size,
+        padding: padding,
+      ),
+    );
+  }
+}
+
+class _LoadingWidgetRotating extends StatefulWidget {
+  final bool isLoading;
+  final Color? color;
+  final double? size;
+  final EdgeInsets? padding;
+  const _LoadingWidgetRotating({
     Key? key,
     required this.isLoading,
     this.color,
@@ -17,10 +44,10 @@ class LoadingWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<LoadingWidget> createState() => _LoadingWidgetState();
+  State<_LoadingWidgetRotating> createState() => _LoadingWidgetRotatingState();
 }
 
-class _LoadingWidgetState extends State<LoadingWidget>
+class _LoadingWidgetRotatingState extends State<_LoadingWidgetRotating>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 
@@ -42,7 +69,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
   }
 
   @override
-  void didUpdateWidget(covariant LoadingWidget oldWidget) {
+  void didUpdateWidget(covariant _LoadingWidgetRotating oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 

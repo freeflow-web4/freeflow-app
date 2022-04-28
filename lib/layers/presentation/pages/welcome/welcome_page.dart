@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/pages/welcome/welcome_page_animation.dart';
+import 'package:freeflow/layers/presentation/pages/welcome_back/welcome_back_page_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:freeflow/routes/routes.dart';
@@ -16,7 +16,7 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage>
     with TextThemes, TickerProviderStateMixin {
-  late WelcomePageAnimation animation;
+  late WelcomeBackPageAnimation animation;
   late AnimationController animationController = AnimationController(
     duration: const Duration(seconds: 5),
     vsync: this,
@@ -25,7 +25,7 @@ class _WelcomePageState extends State<WelcomePage>
   @override
   void initState() {
     super.initState();
-    animation = WelcomePageAnimation(animationController);
+    animation = WelcomeBackPageAnimation(animationController);
     animationController.forward();
   }
 
@@ -39,7 +39,9 @@ class _WelcomePageState extends State<WelcomePage>
     Future.delayed(const Duration(seconds: 6)).then((value) {
       animationController.reverse();
       Future.delayed(const Duration(seconds: 5)).then((value) {
-        Routes.instance.goToSplashRecoverRoute();
+        Routes.instance.goToSplashRecoverRoute(
+          Routes.instance.goToHomePageRoute,
+        );
       });
     });
   }
@@ -59,7 +61,7 @@ class _WelcomePageState extends State<WelcomePage>
               child: AnimatedText(
                 text: TranslationService.translate(
                   context,
-                  'welcome.welcomeBack',
+                  'welcome.welcome',
                 ),
                 textMainAxisAlignment: MainAxisAlignment.center,
                 animationController: animationController,
@@ -75,7 +77,7 @@ class _WelcomePageState extends State<WelcomePage>
               child: AnimatedText(
                 text: TranslationService.translate(
                   context,
-                  'welcome.toFreeflow',
+                  'welcome.toFreeflow1',
                 ),
                 textMainAxisAlignment: MainAxisAlignment.center,
                 animationController: animationController,

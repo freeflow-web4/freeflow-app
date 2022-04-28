@@ -4,38 +4,55 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet_controller.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/controller/transcripts/transcripts_widget_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/util/wallet_util.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/empty_content.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/secondary_filter_menu_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/refresh_loading.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/flower_exchange/flower_exchange_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/gratitude_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/transcript/interactions/interactions_widget.dart';
 
 class TranscriptView extends StatefulWidget {
-  final WalletController walletController;
-  const TranscriptView({
-    Key? key,
-    required this.walletController,
-  }) : super(key: key);
+
+  const TranscriptView({Key? key,}) : super(key: key);
 
   @override
   State<TranscriptView> createState() => _TranscriptViewState();
 }
 
 class _TranscriptViewState extends State<TranscriptView> {
-  List<TranscriptEntity>? transcriptList;
+  TranscriptsWidgetController controller = TranscriptsWidgetController();
+
   List<String> categoryList = [];
+  int selectedFilterIndex = 0;
+  List<TranscriptEntity> filteredTranscriptList = [];
+  String? selectedSecondaryFilter;
+  List<String> mainFilters = [];
+  List<String> secondaryFilters = [];
+  final ScrollController _scrollController = ScrollController();
+
 
   @override
   void initState() {
     super.initState();
     setCategoryList();
-    setTranscriptList();
+    controller.configureTranscripts();
+    _scrollController.addListener(() async {
+      if(canGetMoreTranscript()){
+        await controller.configureMoreTranscripts();
+      }
+    });
   }
 
-  Future<void> setTranscriptList() async {
-    transcriptList = await widget.walletController.getTranscriptList();
+  bool canGetMoreTranscript(){
+    return ((_scrollController.offset > _scrollController.position.maxScrollExtent * 0.7)
+        && controller.transcriptViewState == ViewState.done
+        && !controller.loadingMoreTranscripts
+        && controller.hasMoreTranscripts);
   }
 
   void setCategoryList() {
@@ -46,11 +63,12 @@ class _TranscriptViewState extends State<TranscriptView> {
     });
   }
 
-  int selectedFilterIndex = 0;
-  List<TranscriptEntity> filteredTranscriptList = [];
-  String? selectedSecondaryFilter;
-  List<String> mainFilters = [];
-  List<String> secondaryFilters = [];
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +76,7 @@ class _TranscriptViewState extends State<TranscriptView> {
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
         builder: (context) {
-          if (widget.walletController
-              .walletOrTranscripIsLoadingOrNull(transcriptList)) {
-            return content(isLoading: true);
-          } else if ((transcriptList ?? []).isEmpty) {
+          if ( controller.transcripts.isEmpty && controller.transcriptViewState != ViewState.loading) {
             return const CustomRoundedCard(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(normalSpacing),
@@ -83,7 +98,7 @@ class _TranscriptViewState extends State<TranscriptView> {
     });
   }
 
-  Widget content({bool isLoading = false}) {
+  Widget content() {
     return Column(
       children: [
         getWidgetBar(),
@@ -99,18 +114,26 @@ class _TranscriptViewState extends State<TranscriptView> {
             boxShadow: const [],
             margin: EdgeInsets.zero,
             width: double.infinity,
-            child: SingleChildScrollView(
-              child: Column(
-                children: isLoading
-                    ? [
-                        LoadingWidget(
-                          isLoading: isLoading,
-                          color: StandardColors.greyCA,
-                          size: 33,
-                          padding: const EdgeInsets.only(top: mdSpacing),
+            child: RefreshLoading(
+              onRefresh: controller.refreshData,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
+                    children:[
+                      if(controller.transcriptViewState == ViewState.loading)...[
+                        const Center(
+                          child:  LoadingWidget(
+                            isLoading: true,
+                            color: StandardColors.greyCA,
+                            size: 33,
+                            padding: EdgeInsets.only(top: mdSpacing),
+                          ),
                         )
+                      ]else...[
+                        ...listFilteredTranscriptWidgets(listFilteredTranscript()),
                       ]
-                    : listFilteredTranscriptWidgets(listFilteredTranscript()),
+                    ],
+                ),
               ),
             ),
           ),
@@ -157,50 +180,55 @@ class _TranscriptViewState extends State<TranscriptView> {
     );
   }
 
-  List<Widget> listFilteredTranscriptWidgets(
-    List<TranscriptEntity> transcriptList,
-  ) {
+  List<Widget> listFilteredTranscriptWidgets(List<TranscriptEntity> transcriptList,) {
     List<Widget> filteredTranscriptsWidgetList;
     filteredTranscriptsWidgetList = transcriptList
-        .map(
-          (transcript) => Container(
-            height: 100,
-            width: double.infinity,
-            margin: const EdgeInsets.all(smSpacing),
-            color: const Color.fromARGB(255, 236, 236, 236),
-            child: Text('${transcript.category} - (FREEF-85)'),
+        .map((transcript) => getKindOfTranscript(transcript),
+    ).toList();
+
+    if(controller.loadingMoreTranscripts){
+      filteredTranscriptsWidgetList.add(const Padding(
+        padding:  EdgeInsets.only(bottom: 24),
+        child: Center(
+          child:  LoadingWidget(
+            isLoading: true,
+            color: StandardColors.greyCA,
+            size: 33,
+            padding: EdgeInsets.only(top: mdSpacing),
           ),
-        )
-        .toList();
+        ),
+      ),);
+    }
 
     return filteredTranscriptsWidgetList.isNotEmpty
         ? filteredTranscriptsWidgetList
         : const [EmptyContent()];
   }
 
-  bool valueHasMatchWithFilterName(value, filterNamekey) =>
-      value ==
-      TranslationService.translate(
-        context,
-        'wallet.$filterNamekey',
-      );
+  bool valueHasMatchWithFilterName(value, filterNamekey){
+    return value == TranslationService.translate(
+      context,
+      'wallet.$filterNamekey',
+    );
+  }
+
 
   List<TranscriptEntity> listFilteredTranscript() {
     filteredTranscriptList.clear();
 
-    for (int i = 0; i < transcriptList!.length; i++) {
+    for (int i = 0; i <  controller.transcripts.length; i++) {
       if (valueHasMatchWithFilterName(
         categoryList[selectedFilterIndex],
         'all',
       )) {
-        filteredTranscriptList.add(transcriptList![i]);
+        filteredTranscriptList.add(controller.transcripts[i]);
       }
       if (categoryList[selectedFilterIndex] ==
           WalletUtil.getInternationalizedFilterName(
             context,
-            transcriptList![i].category,
+            controller.transcripts[i].category,
           )) {
-        filteredTranscriptList.add(transcriptList![i]);
+        filteredTranscriptList.add(controller.transcripts[i]);
       }
     }
 
@@ -225,5 +253,21 @@ class _TranscriptViewState extends State<TranscriptView> {
         },
       );
     }).toList();
+  }
+
+  Widget getKindOfTranscript(TranscriptEntity transcript) {
+    switch(transcript.category){
+      case 'flower_exchange':
+        return  FlowerExchangeWidget(transcriptEntity: transcript,);
+      case 'interactions':
+        return  InteractionsWidget(transcriptEntity: transcript,);
+      case 'network_updates':
+      //TODO
+      ///WILL BE DONE ON ANOTHER DEMAND
+        return Container();
+      case 'gratitude':
+        return  GratitudeWidget(transcriptEntity: transcript,);
+    }
+    return Container();
   }
 }

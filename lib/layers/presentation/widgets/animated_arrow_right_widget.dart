@@ -15,8 +15,11 @@ class AnimatedArrowRight extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedFloatButtonWidget(
       isActive: isActive,
-      onTap: onTap,
-      onTapInative: () {},
+      onTap: (activate) {
+        if (activate) {
+          onTap();
+        }
+      },
       icon: IconsAsset.arrowIcon,
     );
   }

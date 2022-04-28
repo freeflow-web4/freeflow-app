@@ -160,7 +160,10 @@ class _LoginPageState extends State<LoginPage>
                     color: StandardColors.white,
                   ),
                 ),
-                onPressed: Routes.instance.goToFreeflowLogoLoadingRoute,
+                onPressed: () =>
+                    Routes.instance.goToFreeflowLogoLoadingRoute(() {
+                  Routes.instance.goToRecoverAccountPageRoute();
+                }),
                 padding: const EdgeInsets.symmetric(
                   vertical: smSpacing,
                 ),

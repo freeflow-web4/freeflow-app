@@ -35,13 +35,13 @@ mixin _$AuthController on AuthControllerBase, Store {
   final _$pinFieldStateAtom = Atom(name: 'AuthControllerBase.pinFieldState');
 
   @override
-  PinFieldState get pinFieldState {
+  GradientTextFieldState get pinFieldState {
     _$pinFieldStateAtom.reportRead();
     return super.pinFieldState;
   }
 
   @override
-  set pinFieldState(PinFieldState value) {
+  set pinFieldState(GradientTextFieldState value) {
     _$pinFieldStateAtom.reportWrite(value, super.pinFieldState, () {
       super.pinFieldState = value;
     });
@@ -62,8 +62,43 @@ mixin _$AuthController on AuthControllerBase, Store {
     });
   }
 
+  final _$updatePincodeStateAtom =
+      Atom(name: 'AuthControllerBase.updatePincodeState');
+
+  @override
+  UpdatePincodeState get updatePincodeState {
+    _$updatePincodeStateAtom.reportRead();
+    return super.updatePincodeState;
+  }
+
+  @override
+  set updatePincodeState(UpdatePincodeState value) {
+    _$updatePincodeStateAtom.reportWrite(value, super.updatePincodeState, () {
+      super.updatePincodeState = value;
+    });
+  }
+
+  final _$pinCodeHasMatchAsyncAction =
+      AsyncAction('AuthControllerBase.pinCodeHasMatch');
+
+  @override
+  Future pinCodeHasMatch() {
+    return _$pinCodeHasMatchAsyncAction.run(() => super.pinCodeHasMatch());
+  }
+
   final _$AuthControllerBaseActionController =
       ActionController(name: 'AuthControllerBase');
+
+  @override
+  void updateCurrentPinCode(String value) {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.updateCurrentPinCode');
+    try {
+      return super.updateCurrentPinCode(value);
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void onPinChanged(String value) {
@@ -99,11 +134,33 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
-  void updatePinFieldState(PinFieldState state) {
+  void updatePinFieldState(GradientTextFieldState state) {
     final _$actionInfo = _$AuthControllerBaseActionController.startAction(
         name: 'AuthControllerBase.updatePinFieldState');
     try {
       return super.updatePinFieldState(state);
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic resetPin() {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.resetPin');
+    try {
+      return super.resetPin();
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setNewPincode(String newPincodeAuth) {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.setNewPincode');
+    try {
+      return super.setNewPincode(newPincodeAuth);
     } finally {
       _$AuthControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -115,6 +172,7 @@ mixin _$AuthController on AuthControllerBase, Store {
 currentPinCode: ${currentPinCode},
 pinFieldState: ${pinFieldState},
 isPinObscure: ${isPinObscure},
+updatePincodeState: ${updatePincodeState},
 isPinValid: ${isPinValid}
     ''';
   }

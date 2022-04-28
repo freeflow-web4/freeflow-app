@@ -3,12 +3,11 @@ import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincod
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/login.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/update_pincode_view.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'auth_controller.g.dart';
-
-enum PinFieldState { empty, valid, invalid, wrong }
 
 class AuthController = AuthControllerBase with _$AuthController;
 
@@ -23,10 +22,10 @@ abstract class AuthControllerBase with Store, Login {
   String currentPinCode = "";
 
   @observable
-  PinFieldState pinFieldState = PinFieldState.empty;
+  GradientTextFieldState pinFieldState = GradientTextFieldState.empty;
 
   @computed
-  bool get isPinValid => pinFieldState == PinFieldState.valid;
+  bool get isPinValid => pinFieldState == GradientTextFieldState.valid;
 
   @observable
   bool isPinObscure = true;
@@ -35,6 +34,7 @@ abstract class AuthControllerBase with Store, Login {
   UpdatePincodeState updatePincodeState =
       UpdatePincodeState.enterCurrentPinCode;
 
+  @action
   void updateCurrentPinCode(String value) {
     currentPinCode = value;
   }
@@ -47,11 +47,9 @@ abstract class AuthControllerBase with Store, Login {
 
   void onLoginWithPin(String currentPin, Function loginAnimationCallBack) {
     loginWithPin(
-      pinValidator,
       currentPin,
       () => onLoginSuccess(loginAnimationCallBack),
-      () => updatePinFieldState(PinFieldState.wrong),
-      () => updatePinFieldState(PinFieldState.invalid),
+      () => updatePinFieldState(GradientTextFieldState.wrong),
     );
   }
 
@@ -63,9 +61,9 @@ abstract class AuthControllerBase with Store, Login {
   void onPinChanged(String value) {
     final isPinValid = pinValidator(value);
     if (isPinValid) {
-      pinFieldState = PinFieldState.valid;
+      pinFieldState = GradientTextFieldState.valid;
     } else {
-      pinFieldState = PinFieldState.invalid;
+      pinFieldState = GradientTextFieldState.invalid;
     }
   }
 
@@ -96,12 +94,12 @@ abstract class AuthControllerBase with Store, Login {
   }
 
   @action
-  void updatePinFieldState(PinFieldState state) {
+  void updatePinFieldState(GradientTextFieldState state) {
     pinFieldState = state;
   }
 
   @action
-  void pinCodeHasMatch() async {
+  Future<void> pinCodeHasMatch() async {
     final isPinCorrect =
         await GetIt.I.get<UserCheckPinCodeUsecase>().call(currentPinCode);
     isPinCorrect.fold((_) {}, (success) {
@@ -109,13 +107,13 @@ abstract class AuthControllerBase with Store, Login {
         updatePincodeState = UpdatePincodeState.chooseNewPincode;
         currentPinCode = '';
       } else {
-        updatePinFieldState(PinFieldState.wrong);
+        updatePinFieldState(GradientTextFieldState.wrong);
       }
     });
   }
 
   @action
-  resetPin(){
+  resetPin() {
     currentPinCode = '';
     updatePincodeState = UpdatePincodeState.enterCurrentPinCode;
   }
@@ -129,7 +127,7 @@ abstract class AuthControllerBase with Store, Login {
       //todo: set persistent new pincode
       //todo: show dialog
     } else {
-      updatePinFieldState(PinFieldState.wrong);
+      updatePinFieldState(GradientTextFieldState.wrong);
     }
   }
 }

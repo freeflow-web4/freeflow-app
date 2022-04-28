@@ -79,7 +79,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
     return Padding(
       padding: const EdgeInsets.only(bottom: 104, top: huge2Spacing),
       child: InAppKeyboardWidget(
-        keyColor: StandardColors.backgroundDark,
+        textColor: StandardColors.backgroundDark,
         onTap: (digit) {
           final currentText = authController.currentPinCode;
           authController.onKeyboardTap(digit, currentText);
@@ -92,11 +92,11 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
     return Padding(
       padding: const EdgeInsets.only(top: bigSpacing),
       child: GradientTextFieldWidget(
-        pinCode: authController.currentPinCode,
+        value: authController.currentPinCode,
         onChanged: (_) {},
-        textColor: StandardColors.backgroundDark,
-        isFieldValid: authController.pinFieldState != PinFieldState.invalid,
-        errorText: authController.pinFieldState != PinFieldState.wrong
+        normalTextColor: StandardColors.backgroundDark,
+        isFieldValid: authController.pinFieldState != GradientTextFieldState.invalid,
+        errorText: authController.pinFieldState != GradientTextFieldState.wrong
             ? null
             : TranslationService.translate(
                 context,
@@ -138,11 +138,11 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
     return '';
   }
 
-  Color obscureButtonColor(PinFieldState state) {
+  Color obscureButtonColor(GradientTextFieldState state) {
     late Color color;
-    if (state == PinFieldState.wrong) {
+    if (state == GradientTextFieldState.wrong) {
       color = StandardColors.error;
-    } else if (authController.pinFieldState == PinFieldState.valid) {
+    } else if (authController.pinFieldState == GradientTextFieldState.valid) {
       color = StandardColors.secondary;
     } else {
       color = StandardColors.backgroundDark;

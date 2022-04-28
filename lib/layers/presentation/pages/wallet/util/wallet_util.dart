@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
-import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 
 
 class WalletUtil {
@@ -33,50 +32,7 @@ class WalletUtil {
     ];
   }
 
-  static final List<TranscriptEntity> transcriptsMocked = [
-    TranscriptEntity(
-      amount: '102',
-      category: 'flower_exchange',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      amount: '102',
-      category: 'inter_action',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      amount: '102',
-      category: 'inter_action',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      amount: '102',
-      category: 'inter_action',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      amount: '102',
-      category: 'inter_action',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
-      userName: 'fulano',
-    ),
-    TranscriptEntity(
-      amount: '102',
-      category: 'inter_action',
-      createdAt: '6 ds 21h',
-      gratitudeType: 'NFT',
-      userName: 'fulano',
-    ),
-  ];
+
 
   static String getInternationalizedFilterName(
     BuildContext context,
@@ -91,7 +47,7 @@ class WalletUtil {
           );
         }
 
-      case "inter_action":
+      case "interactions":
         {
           return TranslationService.translate(
             context,

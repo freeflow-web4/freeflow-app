@@ -1,12 +1,17 @@
 import 'dart:typed_data';
-
+import 'package:flutter/material.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/entities/profile_entity.dart';
+import 'package:freeflow/layers/domain/helpers/auth/authenticate_user.dart';
+import 'package:freeflow/layers/domain/usecases/delete_cache/delete_cache_usecase.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/infra/route/route_service.dart';
+import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
+import 'package:freeflow/layers/presentation/pages/logout/pages/confirm/logout_confirm_page.dart';
 import 'package:freeflow/routes/root_router.gr.dart';
 import 'package:get_it/get_it.dart';
 
-class Routes {
+class Routes with TextThemes {
   final RouteService _routeService;
 
   Routes(this._routeService);
@@ -17,16 +22,30 @@ class Routes {
     _routeService.pushReplacement(const RecoverAccountRoute());
   }
 
+  void goToWelcomeBackPageRoute() async {
+    _routeService.pushReplacement(const WelcomeBackRoute());
+  }
+
   void goToWelcomePageRoute() async {
     _routeService.pushReplacement(const WelcomeRoute());
   }
 
-  void goToSplashRecoverRoute() async {
-    _routeService.pushReplacement(const RecoverSplashRoute());
+  void goToSplashRecoverRoute(void Function() onAnimationend) async {
+    _routeService.pushReplacement(
+      WhiteSplashRoute(
+        onAnimationEnd: onAnimationend,
+      ),
+    );
   }
 
-  void goToFreeflowLogoLoadingRoute() {
-    _routeService.pushReplacement(const FreeflowLogoLoadingRoute());
+  Future<void> goToFreeflowLogoLoadingRoute(
+    void Function() onLoadingCompleted,
+  ) {
+    return _routeService.pushReplacement(
+      FreeflowLogoLoadingRoute(
+        onLoadingCompleted: onLoadingCompleted,
+      ),
+    );
   }
 
   void goToLoginPageRoute() {
@@ -41,6 +60,10 @@ class Routes {
     _routeService.pushReplacement(const HomeRoute());
   }
 
+  void goToCreateWalletPageRoute() {
+    _routeService.pushReplacement(const CreateWalletRoute());
+  }
+
   void goToProfilePageRoute() {
     _routeService.push(const ProfileRoute());
   }
@@ -49,8 +72,11 @@ class Routes {
     _routeService.pushReplacement(const WalletRoute());
   }
 
-  Future<ProfileEntity?> goToEditProfilePageRoute(ProfileEntity profileEntity) async {
-    final RouteResponse? response = await _routeService.push( EditProfileRoute(user: profileEntity));
+  Future<ProfileEntity?> goToEditProfilePageRoute(
+    ProfileEntity profileEntity,
+  ) async {
+    final RouteResponse? response =
+        await _routeService.push(EditProfileRoute(user: profileEntity));
     return response?.body;
   }
 
@@ -60,8 +86,8 @@ class Routes {
     return response?.body;
   }
 
-  void pop() {
-    _routeService.pop();
+  void pop({RouteResponse<dynamic>? data}) {
+    _routeService.pop(data: data);
   }
 
   void backToEditProfile(Uint8List file) {
@@ -74,21 +100,39 @@ class Routes {
     _routeService.pop(data: data);
   }
 
-//   Future<Either<Failure, ProfileRouteResponse>> goToProfilePageRoute(
-//       BuildContext context, ProfileRouteRequest request) async {
-//     final routeServiceResponse =
-//         await _routeService.push(context, ProfileRoute());
-//     if (routeServiceResponse == null) return Left(Failure());
-//     final routeResponse = routeServiceResponse.body as ProfileRouteResponse;
-//     return Right(routeResponse);
-//   }
+  void goToLogout(
+    BuildContext context,
+  ) async {
+    final auth = await authenticateUser(context);
+    if (auth == false) {
+      return;
+    }
+    final confirmResult = await showFlexBottomSheet<RouteResponse?>(
+      context: context,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          textH6(
+            context,
+            textKey: 'logout.confirmTitle',
+            isUpperCase: true,
+          ),
+        ],
+      ),
+      content: const LogoutConfirmPage(),
+      initHeight: 0.7,
+      maxHeight: 0.701,
+    );
+    final confirm = confirmResult?.body ?? false;
+    if (confirm == false) {
+      return;
+    }
+    final deleteCacheUsecase = GetIt.I.get<DeleteCacheUsecase>();
+    await deleteCacheUsecase();
+    Routes.instance.fromLogoutGotoLogin();
+  }
 
-//   Future<Either<Failure, ProfileRouteResponse>> goBackFromProfilePageRoute(
-//       BuildContext context, ProfileRouteResponse response) async {
-//     final routeServiceResponse = await _routeService
-//         .pop(context, data: RouteResponse(body: response));
-//     if (routeServiceResponse == null) return Left(Failure());
-//     final routeResponse = routeServiceResponse.body as ProfileRouteResponse;
-//     return Right(routeResponse);
-//   }
+  void fromLogoutGotoLogin() {
+    _routeService.pushAndPopUntil(const LoginRoute());
+  }
 }

@@ -5,8 +5,7 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 class AnimatedFloatButtonWidget extends StatefulWidget {
   final bool isActive;
   final bool isLargeButton;
-  final void Function() onTap;
-  final void Function() onTapInative;
+  final void Function(bool activate) onTap;
   final String icon;
 
   const AnimatedFloatButtonWidget({
@@ -14,7 +13,6 @@ class AnimatedFloatButtonWidget extends StatefulWidget {
     this.isActive = true,
     this.isLargeButton = false,
     required this.onTap,
-    required this.onTapInative,
     required this.icon,
   }) : super(key: key);
 
@@ -27,7 +25,7 @@ class _AnimatedFloatButtonWidgetState extends State<AnimatedFloatButtonWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.isActive ? widget.onTap : widget.onTapInative,
+      onTap: () => widget.onTap(widget.isActive),
       child: AnimatedContainer(
         width: widget.isLargeButton ? 64 : 48,
         height: widget.isLargeButton ? 64 : 48,

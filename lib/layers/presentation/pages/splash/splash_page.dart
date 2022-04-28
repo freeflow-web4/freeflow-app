@@ -2,6 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/layers/presentation/pages/splash/controller/splash_controller.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:video_player/video_player.dart';
 
 class SplashPage extends StatefulWidget {
@@ -32,7 +33,10 @@ class _SplashPageState extends State<SplashPage> {
       showOptions: false,
       customControls: Container(),
     );
-    splashController.startPeriodicVideoEndCheck(_chewieController);
+    splashController.startPeriodicVideoEndCheck(
+      _chewieController,
+      () => Routes.instance.goToLoginPageRoute(),
+    );
     setState(() {});
   }
 
