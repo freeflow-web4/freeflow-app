@@ -24,13 +24,18 @@ abstract class _RememberMeControllerBase with Store, TextThemes {
   @observable
   bool? biometricIsEnable;
 
+  @observable
+  bool loading = true;
+
   @action
   Future<void> getIfBiometricIsEnable() async {
+    loading = true;
     final result = await userHasBiometricsUsecase();
     result.fold(
           (l) => biometricIsEnable = false,
           (r) => biometricIsEnable = r,
     );
+    loading = false;
   }
 
   @action

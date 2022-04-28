@@ -35,11 +35,17 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
           return Padding(
             padding: const EdgeInsets.only(top: 38.0),
             child: Row(
-              mainAxisAlignment: controller.biometricIsEnable == null ?
+              mainAxisAlignment: controller.loading ?
               MainAxisAlignment.center :
               MainAxisAlignment.start,
               children: [
-                if(controller.biometricIsEnable != null)...[
+                if(controller.loading)...[
+                  const LoadingWidget(
+                    isLoading: true,
+                    color: StandardColors.greyCA,
+                    size: 33,
+                  ),
+                ]else...[
                   Container(
                     margin: const EdgeInsets.only( left: 32, right: 26),
                     child: Text(
@@ -55,21 +61,15 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
                   OnOffButtonSwipe(
                     ballColor: StandardColors.borderGrey,
                     onChanged: (value) async{
-                     bool? status = await controller.changeBiometricStatus(context, value);
-                     if(status == true){
-                       showDialogSuccess(context);
-                     }else if(status == false){
-                       showDialogError(context);
-                     }
+                      bool? status = await controller.changeBiometricStatus(context, value);
+                      if(status == true){
+                        showDialogSuccess(context);
+                      }else if(status == false){
+                        showDialogError(context);
+                      }
                     },
                     value: controller.biometricIsEnable!,
                   )
-                ]else...[
-                  const LoadingWidget(
-                    isLoading: true,
-                    color: StandardColors.greyCA,
-                    size: 33,
-                  ),
                 ]
               ],
             ),
