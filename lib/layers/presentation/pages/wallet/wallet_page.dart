@@ -125,7 +125,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           Observer(
             builder: (context) {
               return CustomActionCard(
-                cardHeight: 172,
+                cardHeight: 176,
                 cardWidth: double.infinity,
                 child: walletController.walletIsLoading
                     ? customLoading()

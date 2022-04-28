@@ -3,12 +3,13 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 
-Future<T?> showFlexBottomSheet<T>(
-  BuildContext context,
-  Widget title,
-  Widget content, {
+Future<T?> showFlexBottomSheet<T>({
   double initHeight = 0.9,
   double maxHeight = 1,
+  required BuildContext context,
+  required Widget title,
+  required Widget content,
+  bool bottomSafeArea = true,
 }) {
   return showFlexibleBottomSheet<T?>(
     context: context,
@@ -22,6 +23,7 @@ Future<T?> showFlexBottomSheet<T>(
       double bottomSheetOffset,
     ) {
       return SafeArea(
+        bottom: bottomSafeArea,
         child: Material(
           color: Colors.transparent,
           child: Container(
@@ -31,8 +33,9 @@ Future<T?> showFlexBottomSheet<T>(
             ),
             decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(20),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0),
               ),
             ),
             child: Center(
