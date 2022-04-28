@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/domain/helpers/auth/authenticate_user.dart';
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
-import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
-import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
-import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+
 part 'remember_me_controller.g.dart';
 
 RememberMeController findRememberMeController() => GetIt.I.get<RememberMeController>();
@@ -55,40 +52,12 @@ abstract class _RememberMeControllerBase with Store, TextThemes {
     return  auth == true;
   }
 
-  Future<void> changeBiometricStatus({
-    required BuildContext context,
-    required bool biometricStatus,
-  }) async {
+  Future<bool?> changeBiometricStatus(BuildContext context, bool biometricStatus) async {
     bool status = await authenticateUserWithPassword(context);
     if(status){
-      bool statusAux = await setBiometricStatus(biometricStatus);
-      if(statusAux){
-        showDialogSuccess(context);
-      }else{
-        showDialogError(context);
-      }
+      return await setBiometricStatus(biometricStatus);
     }
-  }
-
-  void showDialogError(BuildContext context) {
-    showDialogDefault(
-      context,
-      type: DialogType.systemInstability,
-      onTap: () {
-        Routes.instance.pop();
-      },
-    );
-  }
-
-  void showDialogSuccess(BuildContext context) {
-    showDialog(
-      barrierColor: Colors.transparent,
-      context: context,
-      builder: (context) => const InformativeDialog(
-        icon: IconsAsset.checkIcon,
-        title: "rememberMe.changeSuccessfully",
-      ),
-    );
+    return null;
   }
 
 }

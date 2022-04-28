@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
+import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/on_off_button_swipe.dart';
+import 'package:freeflow/routes/routes.dart';
 
 import 'controller/remember_me_controller.dart';
 
@@ -20,8 +24,8 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
 
   @override
   void initState() {
-    controller.getIfBiometricIsEnable();
     super.initState();
+    controller.getIfBiometricIsEnable();
   }
 
   @override
@@ -50,8 +54,13 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
                   ),
                   OnOffButtonSwipe(
                     ballColor: StandardColors.borderGrey,
-                    onChanged: (value){
-                      controller.changeBiometricStatus(context: context, biometricStatus:value);
+                    onChanged: (value) async{
+                     bool? status = await controller.changeBiometricStatus(context, value);
+                     if(status == true){
+                       showDialogSuccess(context);
+                     }else if(status == false){
+                       showDialogError(context);
+                     }
                     },
                     value: controller.biometricIsEnable!,
                   )
@@ -66,6 +75,30 @@ class _RememberMeWidgetState extends State<RememberMeWidget> with TextThemes  {
             ),
           );
         },
+    );
+  }
+
+
+
+
+  void showDialogError(BuildContext context) {
+    showDialogDefault(
+      context,
+      type: DialogType.systemInstability,
+      onTap: () {
+        Routes.instance.pop();
+      },
+    );
+  }
+
+  void showDialogSuccess(BuildContext context) {
+    showDialog(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) => const InformativeDialog(
+        icon: IconsAsset.checkIcon,
+        title: "rememberMe.changeSuccessfully",
+      ),
     );
   }
 

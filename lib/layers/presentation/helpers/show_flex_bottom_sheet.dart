@@ -35,8 +35,7 @@ Future<T?> showFlexBottomSheet<T>({
               color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0)
-
+                  topRight: Radius.circular(15.0),
               ),
             ),
             child: Center(
