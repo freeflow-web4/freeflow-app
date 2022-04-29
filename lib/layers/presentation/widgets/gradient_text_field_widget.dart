@@ -100,7 +100,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                               widget.hintText!,
                               style: widget.hintTextStyle ??
                                   subtitleTextStyle(
-                                    color: StandardColors.white,
+                                    color: widget.normalTextColor,
                                   ),
                             ),
                           )

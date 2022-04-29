@@ -104,7 +104,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
               ),
         hintText: getLabelByState(),
         fieldReadOnly: true,
-        isObscureText: !authController.isPinObscure,
+        isObscureText: authController.isPinObscure,
         onObscureButtonPressed: authController.onPinObscureTextFieldTap,
         obscureButtonColor: obscureButtonColor(authController.pinFieldState),
         showObscureButton: true,
