@@ -5,6 +5,7 @@ import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_error.dart';
 import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_button_widget.dart';
@@ -17,7 +18,6 @@ import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
 import 'package:freeflow/layers/presentation/widgets/show_modal_bottom_sheet/remember_me/remember_me_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dart';
-import 'package:freeflow/routes/routes.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -33,18 +33,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
   void initState() {
     super.initState();
     controller.getUser(
-      onError: () => showDialogError(),
-    );
-  }
-
-  void showDialogError() {
-    showDialogDefault(
-      context,
-      type: DialogType.systemInstability,
-      onTap: () {
-        Navigator.of(context).pop();
-        Routes.instance.pop();
-      },
+      onError: () => showDialogError(context),
     );
   }
 
@@ -106,7 +95,9 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                     screenHeight: screenHeight,
                     onLogoutTap: () => controller.showLogoutPage(context),
                     onTapCommitment: () => showCommitmentBottomSheet(),
+                    onShowPhraseTap: () => controller.showPhrasePage(context),
                     onTapRememberMe: () => showRememberMeBottomSheet(),
+                    onTapGesturesInstructions: () => showDialogFeatureNotAvailable(),
                   ),
                 ],
               ),
@@ -154,10 +145,9 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
     );
   }
 
-
   showRememberMeBottomSheet() {
     return showFlexBottomSheet(
-      context:  context,
+      context: context,
       title: textH6(
         context,
         textKey: 'rememberMe.touchId',
@@ -167,6 +157,13 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
     );
   }
 
+  void showDialogFeatureNotAvailable() {
+    showDialogDefault(
+      context,
+      automaticallyCloses: true,
+      type: DialogType.featureNotAvailable,
+      onTap: () {},
+    );
+  }
 
 }
-

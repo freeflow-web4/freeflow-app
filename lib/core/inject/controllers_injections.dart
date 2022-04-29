@@ -5,6 +5,8 @@ import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_w
 import 'package:freeflow/layers/domain/usecases/user_has_biometric/user_has_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/get_user_private_key_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/set_user_private_key_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
@@ -23,6 +25,7 @@ import 'package:freeflow/layers/presentation/pages/edit_profile/controller/edit_
 import 'package:freeflow/layers/presentation/pages/login/controller/login_controller.dart';
 import 'package:freeflow/layers/presentation/pages/logout/pages/auth/controller/logout_auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
+import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_show_phrase_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/controller/recover_account_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/confirm_pin_code_view/recover_confirm_pin_code_view_controller.dart';
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/pin_code_view/recover_pin_code_view_controller.dart';
@@ -81,6 +84,7 @@ registerControllerDependencies(GetIt getIt) {
       validator: getIt.get<PrivateKeyValidator>(),
       userRecoverLoginUseCase: getIt.get<UserRecoverLoginUseCase>(),
       saveUserLocalAuthUsecase: getIt.get<SaveUserLocalAuthUsecase>(),
+      setUserPrivateKeyUsecase: getIt.get<SetUserPrivateKeyUsecase>(),
     ),
   );
 
@@ -128,7 +132,7 @@ registerControllerDependencies(GetIt getIt) {
     () => InteractionController(),
   );
   getIt.registerLazySingleton<RememberMeController>(
-        () => RememberMeController(
+    () => RememberMeController(
       userSetBiometricsUsecase: GetIt.I.get<UserSetBiometricsUsecase>(),
       userHasBiometricsUsecase: GetIt.I.get<UserHasBiometricsUsecase>(),
     ),
@@ -142,5 +146,11 @@ registerControllerDependencies(GetIt getIt) {
 
   getIt.registerFactory<LogoutAuthController>(
     () => LogoutAuthController(),
+  );
+
+  getIt.registerLazySingleton<ProfileShowPhraseController>(
+    () => ProfileShowPhraseController(
+      getUserPrivateKeyUsecase: getIt.get<GetUserPrivateKeyUsecase>(),
+    ),
   );
 }

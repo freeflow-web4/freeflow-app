@@ -61,7 +61,8 @@
         "chooseYourPinCode": "Choose your pincode",
         "insertYourNewPinCode": "INSERT YOUR NEW PIN CODE",
         "confirmYourNewPinCode": "Confirm your new pincode",
-        "changeMadeSuccessfully": "Change made successfully"
+        "changeMadeSuccessfully": "Change made successfully",
+        "pleaseWriteDown": "Please write down in a safe place\nyour private key."
     },
     "wallet": {
         "wallet": "Wallet",
@@ -104,6 +105,16 @@
     "noInternet": {
         "noInternetTitle": "NO INTERNET\nCONNECTION FOUND",
         "noInternetSubtitle": "CHECK YOUR CONNECTION"
+    },
+    "featureNotAvailable": {
+        "title": "This feature is not yet available",
+        "text": "In the meantime, enjoy all the other experiences in your FreeFlow Pouch"
+    },
+    "welcomeDialog": {
+        "title": "Welcome!",
+        "text1": "You were been rewarded\n",
+        "text2": "00 FLWR\n",
+        "text3": "to join the FreeFlow Pouch"
     },
     "systemInstability": {
         "systemInstabilityTitle": "WE HAVE AN INSTABILITY\nIN THE SYSTEM",

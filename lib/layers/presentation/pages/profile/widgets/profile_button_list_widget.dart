@@ -9,12 +9,16 @@ import 'package:get_it/get_it.dart';
 
 class ProfileButtonListWidget extends StatelessWidget with TextThemes {
   final void Function()? onTapCommitment;
+  final void Function()? onShowPhraseTap;
+  final void Function()? onTapGesturesInstructions;
   final void Function()? onTapRememberMe;
   final AuthController authController = GetIt.I.get<AuthController>();
 
   ProfileButtonListWidget({
     Key? key,
     required this.onTapCommitment,
+    required this.onTapGesturesInstructions,
+    required this.onShowPhraseTap,
     required this.onTapRememberMe,
   }) : super(key: key);
 
@@ -24,9 +28,10 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Column(
         children: [
-          const ProfileButtonWidget(
+          ProfileButtonWidget(
             title: "profile.showPhrase",
             icon: IconsAsset.privateKey,
+            onTap: onShowPhraseTap,
           ),
           const SizedBox(height: normalSpacing),
           ProfileButtonWidget(
@@ -43,9 +48,10 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
             },
           ),
           const SizedBox(height: normalSpacing),
-          const ProfileButtonWidget(
+          ProfileButtonWidget(
             title: "profile.gesturesInstruction",
             icon: IconsAsset.gestures,
+            onTap: onTapGesturesInstructions,
           ),
           const SizedBox(height: normalSpacing),
           ProfileButtonWidget(

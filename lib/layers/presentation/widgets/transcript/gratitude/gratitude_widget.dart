@@ -25,7 +25,6 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
   final GratitudeController controller = findGratitudeController();
   final NumberFormat numberFormat = NumberFormat("#,##0.00", "pt_BR");
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -170,8 +169,7 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
   }
 
   Widget getRichText(context) {
-    //NFT
-    if(widget.transcriptEntity.gratitudeType == gratitudeTypeS[0]){
+    if(isNFT()){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -197,8 +195,7 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
         ),
       );
     }
-    //welcome
-    else if(widget.transcriptEntity.gratitudeType == gratitudeTypeS[1]){
+    else if(isWelcome()){
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -224,9 +221,7 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
         ),
       );
     }
-    //quest
     else{
-      //quest
       return RichText(
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -255,8 +250,31 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
   }
 
   void onTapToOpenGratitude(context) async {
-    //NFT
-    if(widget.transcriptEntity.gratitudeType == gratitudeTypeS[0]) {
+    openDialog();
+    bool status = await controller.onTapGratitude(widget.transcriptEntity);
+    if (status){
+      setState(() {
+        widget.transcriptEntity.viewed = true;
+      });
+    }
+    else{
+      Navigator.of(context).pop();
+      showDialogError(context);
+    }
+  }
+
+  void showDialogError(context) {
+    showDialogDefault(
+      context,
+      type: DialogType.systemInstability,
+      onTap: () {
+        Routes.instance.pop();
+      },
+    );
+  }
+
+  void openDialog() {
+    if(isNFT()) {
       //TODO TASK FREEF-66
       showDialog(
         context: context,
@@ -276,28 +294,16 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
         },
       );
     }
-    //welcome
-    else if(widget.transcriptEntity.gratitudeType == gratitudeTypeS[1]){
-      //TODO TASK FREEF-70
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-
-            title: const Text("TODO TASK FREEF-70"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("Fechar"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
+    else if(isWelcome()){
+      showDialogDefault(
+        context,
+        type: DialogType.welcome,
+        flowers: widget.transcriptEntity.amount,
+        onTap: () {
+          Routes.instance.pop();
         },
       );
     }
-    //quest
     else{
       //TODO TASK FREEF-66
       showDialog(
@@ -318,27 +324,13 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
         },
       );
     }
-
-    bool status = await controller.onTapGratitude(widget.transcriptEntity);
-
-    if (status){
-      setState(() {
-        widget.transcriptEntity.viewed = true;
-      });
-    }else{
-      Navigator.of(context).pop();
-      showDialogError(context);
-    }
-
   }
 
-  void showDialogError(context) {
-    showDialogDefault(
-      context,
-      type: DialogType.systemInstability,
-      onTap: () {
-        Routes.instance.pop();
-      },
-    );
+  bool isNFT(){
+    return widget.transcriptEntity.gratitudeType == gratitudeTypeS[0];
+  }
+
+  bool isWelcome(){
+    return widget.transcriptEntity.gratitudeType == gratitudeTypeS[1];
   }
 }

@@ -12,7 +12,7 @@ class WalletController = WalletControllerBase with _$WalletController;
 
 abstract class WalletControllerBase with Store {
   GetTranscriptsUsecase getTranscriptsUsecase =
-  GetIt.I.get<GetTranscriptsUsecase>();
+      GetIt.I.get<GetTranscriptsUsecase>();
 
   @observable
   int index = 0;
@@ -31,11 +31,7 @@ abstract class WalletControllerBase with Store {
   bool walletOrTranscriptsLoadingOrNull(
     List<TranscriptEntity>? transcriptList,
   ) =>
-      transcriptList == null ||
-      walletViewState == ViewState.loading;
-
-
-
+      transcriptList == null || walletViewState == ViewState.loading;
 
   @action
   Future<void> refreshData() async {

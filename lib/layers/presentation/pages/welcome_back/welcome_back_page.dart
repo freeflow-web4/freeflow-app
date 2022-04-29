@@ -40,7 +40,7 @@ class _WelcomeBackPageState extends State<WelcomeBackPage>
       animationController.reverse();
       Future.delayed(const Duration(seconds: 5)).then((value) {
         Routes.instance.goToSplashRecoverRoute(
-          Routes.instance.goToLoginPageRoute,
+          Routes.instance.goToHomePageRoute,
         );
       });
     });
