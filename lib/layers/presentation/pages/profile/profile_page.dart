@@ -4,6 +4,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_error.dart';
 import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
@@ -96,6 +97,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                     onTapCommitment: () => showCommitmentBottomSheet(),
                     onShowPhraseTap: () => controller.showPhrasePage(context),
                     onTapRememberMe: () => showRememberMeBottomSheet(),
+                    onTapGesturesInstructions: () => showDialogFeatureNotAvailable(),
                   ),
                 ],
               ),
@@ -154,4 +156,14 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
       content: const RememberMeWidget(),
     );
   }
+
+  void showDialogFeatureNotAvailable() {
+    showDialogDefault(
+      context,
+      automaticallyCloses: true,
+      type: DialogType.featureNotAvailable,
+      onTap: () {},
+    );
+  }
+
 }

@@ -3,6 +3,7 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_radio_tile_button.dart';
 import 'package:freeflow/layers/presentation/widgets/circular_gradient_icon_button.dart';
@@ -120,7 +121,7 @@ class _SecondaryFilterMenuState extends State<SecondaryFilterMenu>
         'networkUpdates',
         context,
       )) {
-        showNetworkStatusDialog(context);
+        showDialogFeatureNotAvailable();
       } else {
         secondarySelectedFilter = value;
       }
@@ -129,7 +130,7 @@ class _SecondaryFilterMenuState extends State<SecondaryFilterMenu>
     if (valueHasMatchWithFilterName(value, 'clearSelection', context)) {
       index = 0;
     } else if (valueHasMatchWithFilterName(value, 'networkUpdates', context)) {
-      showNetworkStatusDialog(context);
+      showDialogFeatureNotAvailable();
     } else {
       index = categoryList.indexOf(value!);
     }
@@ -149,17 +150,12 @@ class _SecondaryFilterMenuState extends State<SecondaryFilterMenu>
         'wallet.$filterNamekey',
       );
 
-  void showNetworkStatusDialog(BuildContext context) {
-    //TODO: Must return a network status dialog (FREEF-70)
-    showDialog(
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: SizedBox(
-          height: 200,
-          width: 200,
-          child: Text('Será feito na FREEF-70'),
-        ),
-      ),
+  Future<void> showDialogFeatureNotAvailable() async {
+
+    await showDialogDefault(
+      context,
+      type: DialogType.featureNotAvailable,
+      onTap: () {},
     );
   }
 }

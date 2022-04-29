@@ -4,16 +4,17 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
-
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_painter_tabbar.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
-
 import 'package:freeflow/layers/presentation/widgets/custom_tabbar.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/transcript_view.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/tab_pages/transcript_view.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
+import 'widgets/tab_pages/collectibles.dart';
+import 'widgets/tab_pages/flwr.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({Key? key}) : super(key: key);
@@ -35,15 +36,15 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           backgroundImage(context),
           Column(
             children: [
-              walletInformations(),
+              walletInformation(),
               Expanded(
                 child: CustomTabBar(
                   width: double.infinity,
                   tabList: tabList(),
                   tabBarViewList: const [
                     TranscriptView(),
-                    SizedBox.shrink(),
-                    SizedBox.shrink(),
+                    FlwrView(),
+                    CollectiblesView(),
                   ],
                   indicatorDecoration: const CustomTabIndicator(
                     color: StandardColors.darkGrey,
@@ -99,7 +100,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
     );
   }
 
-  Widget walletInformations() {
+  Widget walletInformation() {
     return Padding(
       padding: const EdgeInsets.only(
         left: mdSpacingx2,
@@ -130,8 +131,12 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                 child: walletController.walletIsLoading
                     ? customLoading()
                     : const TotalAmountText(totalAmount: '1111'),
-                onTapLeftAction: () {},
-                onTapRighAction: () {},
+                onTapLeftAction: () {
+                  showDialogFeatureNotAvailable();
+                },
+                onTapRighAction: () {
+                  showDialogFeatureNotAvailable();
+                },
                 leftTextAction: 'wallet.deposit',
                 rightTextAction: 'wallet.exchange',
               );
@@ -155,6 +160,15 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
           padding: EdgeInsets.only(left: normalSpacing),
         ),
       ),
+    );
+  }
+
+  Future<void> showDialogFeatureNotAvailable() async {
+    showDialogDefault(
+      context,
+      automaticallyCloses: true,
+      type: DialogType.featureNotAvailable,
+      onTap: () {},
     );
   }
 }

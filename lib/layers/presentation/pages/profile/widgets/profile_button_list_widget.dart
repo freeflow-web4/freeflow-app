@@ -7,11 +7,13 @@ import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_butto
 class ProfileButtonListWidget extends StatelessWidget with TextThemes {
   final void Function()? onTapCommitment;
   final void Function()? onShowPhraseTap;
+  final void Function()? onTapGesturesInstructions;
   final void Function()? onTapRememberMe;
 
   const ProfileButtonListWidget({
     Key? key,
     required this.onTapCommitment,
+    required this.onTapGesturesInstructions,
     required this.onShowPhraseTap,
     required this.onTapRememberMe,
   }) : super(key: key);
@@ -39,9 +41,10 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
             icon: IconsAsset.pincode,
           ),
           const SizedBox(height: normalSpacing),
-          const ProfileButtonWidget(
+          ProfileButtonWidget(
             title: "profile.gesturesInstruction",
             icon: IconsAsset.gestures,
+            onTap: onTapGesturesInstructions,
           ),
           const SizedBox(height: normalSpacing),
           ProfileButtonWidget(
