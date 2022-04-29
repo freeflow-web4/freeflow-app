@@ -10,10 +10,11 @@ import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wall
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_painter_tabbar.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_tabbar.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/transcript_view.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/tab_pages/transcript_view.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
-import 'package:freeflow/routes/routes.dart';
+import 'widgets/tab_pages/collectibles.dart';
+import 'widgets/tab_pages/flwr.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({Key? key}) : super(key: key);
@@ -42,8 +43,8 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                   tabList: tabList(),
                   tabBarViewList: const [
                     TranscriptView(),
-                    SizedBox.shrink(),
-                    SizedBox.shrink(),
+                    FlwrView(),
+                    CollectiblesView(),
                   ],
                   indicatorDecoration: const CustomTabIndicator(
                     color: StandardColors.darkGrey,
@@ -163,14 +164,9 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
   }
 
   Future<void> showDialogFeatureNotAvailable() async {
-    bool? closed = false;
-    Future.delayed(const Duration(seconds: 3),(){
-      if(closed != null){
-        Routes.instance.pop();
-      }
-    });
-    closed = await showDialogDefault(
+    showDialogDefault(
       context,
+      automaticallyCloses: true,
       type: DialogType.featureNotAvailable,
       onTap: () {},
     );

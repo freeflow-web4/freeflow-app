@@ -1,8 +1,10 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/helpers/get_plataform.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/icon_menu.dart';
 import 'package:freeflow/routes/routes.dart';
@@ -217,66 +219,50 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
                 urlIcon: IconsAsset.chat,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap: () {
-                  //TODO ADD ACTION
-                },
+                onTap:() => showDialogFeatureNotAvailable(),
               ),
               IconMenu(
                 urlIcon: IconsAsset.star,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap: () {
-                  //TODO ADD ACTION
-                },
+                onTap:() => showDialogFeatureNotAvailable(),
               ),
               IconMenu(
                 urlIcon: IconsAsset.cloud,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap: () {
-                  //TODO ADD ACTION
-                },
+                onTap:() => showDialogFeatureNotAvailable(),
               ),
               IconMenu(
                 urlIcon: IconsAsset.home,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap: () {
-                  //TODO ADD ACTION
-                },
+                onTap:() => showDialogFeatureNotAvailable(),
               ),
               IconMenu(
                 urlIcon: IconsAsset.tools,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap: () {
-                  //TODO ADD ACTION
-                },
+                onTap:() => showDialogFeatureNotAvailable(),
               ),
               IconMenu(
                 urlIcon: IconsAsset.shoppingCar,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap: () {
-                  //TODO ADD ACTION
-                },
+                onTap:() => showDialogFeatureNotAvailable(),
               ),
               IconMenu(
                 urlIcon: IconsAsset.example,
                 iconPadding: iconPadding,
                 iconSize: iconSize,
-                onTap: () {
-                  //TODO ADD ACTION
-                },
+                onTap:() => showDialogFeatureNotAvailable(),
               ),
               IconMenu(
                 urlIcon: IconsAsset.example,
                 iconPadding: iconPadding,
                 hasBottomDivisor: false,
                 iconSize: iconSize,
-                onTap: () {
-                  //TODO ADD ACTION
-                },
+                onTap:() => showDialogFeatureNotAvailable(),
               ),
             ],
           ),
@@ -325,4 +311,16 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
       });
     }
   }
+
+  void showDialogFeatureNotAvailable() {
+    Future.delayed(const Duration(milliseconds: 95), (){
+      showDialogDefault(
+        context,
+        automaticallyCloses: true,
+        type: DialogType.featureNotAvailable,
+        onTap: () {},
+      );
+    });
+  }
+
 }
