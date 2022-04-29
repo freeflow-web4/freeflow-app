@@ -23,12 +23,15 @@ class _CollectiblesViewState extends State<CollectiblesView> {
   }
 
   void showDialogFeatureNotAvailable() {
-    showDialogDefault(
-      context,
-      automaticallyCloses: true,
-      type: DialogType.featureNotAvailable,
-      onTap: () {},
-    );
+    Future.delayed(Duration.zero,(){
+      showDialogDefault(
+        context,
+        automaticallyCloses: true,
+        type: DialogType.featureNotAvailable,
+        onTap: () {},
+      );
+    });
+
   }
 
 }
