@@ -85,6 +85,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
                   showInformativeDialog();
                 });
               }
+              break;
           }
         },
         isActive: authController.isPinValid &&

@@ -9,8 +9,8 @@ import 'package:get_it/get_it.dart';
 
 class ProfileButtonListWidget extends StatelessWidget with TextThemes {
   final void Function()? onTapCommitment;
-  AuthController authController = GetIt.I.get<AuthController>();
   final void Function()? onTapRememberMe;
+  final AuthController authController = GetIt.I.get<AuthController>();
 
   ProfileButtonListWidget({
     Key? key,
