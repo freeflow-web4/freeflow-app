@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/system_instability.dart';
+import 'package:freeflow/layers/presentation/helpers/dialog/welcome.dart';
 import 'package:freeflow/routes/routes.dart';
 
 import 'feature_not_available.dart';
@@ -8,12 +9,15 @@ import 'no_internet_warning.dart';
 enum DialogType {
   noInternetConnection,
   systemInstability,
-  featureNotAvailable,}
+  featureNotAvailable,
+  welcome
+}
 
 Future<dynamic> showDialogDefault(BuildContext context, {
   required DialogType type,
   required void Function() onTap,
   bool barrierDismissible = true,
+  double? flowers,
   bool automaticallyCloses = false,
 }) async {
   bool? closed = false;
@@ -34,14 +38,14 @@ Future<dynamic> showDialogDefault(BuildContext context, {
               Radius.circular(16.0),
             ),
           ),
-          content: getPage(type),
+          content: getPage(type, flowers),
         ),
       );
     },
   );
 }
 
-Widget getPage(DialogType type){
+Widget getPage(DialogType type, double? flowers){
   switch(type){
     case DialogType.noInternetConnection:
       return const NoInternetWarning();
@@ -49,6 +53,8 @@ Widget getPage(DialogType type){
       return const SystemInstability();
     case DialogType.featureNotAvailable:
       return const FeatureNotAvailable();
+    case DialogType.welcome:
+      return Welcome(flw: flowers);
   }
 }
 

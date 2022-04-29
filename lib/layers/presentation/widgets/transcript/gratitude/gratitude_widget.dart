@@ -278,22 +278,12 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
     }
     //welcome
     else if(widget.transcriptEntity.gratitudeType == gratitudeTypeS[1]){
-      //TODO TASK FREEF-70
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-
-            title: const Text("TODO TASK FREEF-70"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("Fechar"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
+      showDialogDefault(
+        context,
+        type: DialogType.welcome,
+        flowers: widget.transcriptEntity.amount,
+        onTap: () {
+          Routes.instance.pop();
         },
       );
     }
