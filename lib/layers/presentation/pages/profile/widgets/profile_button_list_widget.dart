@@ -7,7 +7,6 @@ import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_butto
 import 'package:freeflow/layers/presentation/pages/profile/widgets/update_pincode_view.dart';
 import 'package:get_it/get_it.dart';
 
-
 class ProfileButtonListWidget extends StatelessWidget with TextThemes {
   final void Function()? onTapCommitment;
   AuthController authController = GetIt.I.get<AuthController>();
@@ -40,20 +39,7 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
             title: "profile.changePinCode",
             icon: IconsAsset.pincode,
             onTap: () {
-              showModalBottomSheet(
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(normalSpacing),
-                    topRight: Radius.circular(normalSpacing),
-                  ),
-                ),
-                isScrollControlled: true,
-                builder: (context) => UpdatePincodeView(),
-              ).whenComplete(() {
-                authController.resetPin();
-                print('fechou. Reseta');
-              });
+              showRecoverPincodeDialog(context);
             },
           ),
           const SizedBox(height: normalSpacing),
@@ -70,5 +56,21 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
         ],
       ),
     );
+  }
+
+  void showRecoverPincodeDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(normalSpacing),
+          topRight: Radius.circular(normalSpacing),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (context) => const UpdatePincodeView(),
+    ).whenComplete(() {
+      authController.clearPinData();
+    });
   }
 }

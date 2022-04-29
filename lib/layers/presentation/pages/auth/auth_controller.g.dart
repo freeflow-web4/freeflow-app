@@ -62,19 +62,19 @@ mixin _$AuthController on AuthControllerBase, Store {
     });
   }
 
-  final _$updatePincodeStateAtom =
-      Atom(name: 'AuthControllerBase.updatePincodeState');
+  final _$recoverPincodeStateAtom =
+      Atom(name: 'AuthControllerBase.recoverPincodeState');
 
   @override
-  UpdatePincodeState get updatePincodeState {
-    _$updatePincodeStateAtom.reportRead();
-    return super.updatePincodeState;
+  RecoverPincodeState get recoverPincodeState {
+    _$recoverPincodeStateAtom.reportRead();
+    return super.recoverPincodeState;
   }
 
   @override
-  set updatePincodeState(UpdatePincodeState value) {
-    _$updatePincodeStateAtom.reportWrite(value, super.updatePincodeState, () {
-      super.updatePincodeState = value;
+  set recoverPincodeState(RecoverPincodeState value) {
+    _$recoverPincodeStateAtom.reportWrite(value, super.recoverPincodeState, () {
+      super.recoverPincodeState = value;
     });
   }
 
@@ -82,8 +82,17 @@ mixin _$AuthController on AuthControllerBase, Store {
       AsyncAction('AuthControllerBase.pinCodeHasMatch');
 
   @override
-  Future pinCodeHasMatch() {
+  Future<void> pinCodeHasMatch() {
     return _$pinCodeHasMatchAsyncAction.run(() => super.pinCodeHasMatch());
+  }
+
+  final _$setNewPincodeAsyncAction =
+      AsyncAction('AuthControllerBase.setNewPincode');
+
+  @override
+  Future<void> setNewPincode(String newAuthenticationPinCode) {
+    return _$setNewPincodeAsyncAction
+        .run(() => super.setNewPincode(newAuthenticationPinCode));
   }
 
   final _$AuthControllerBaseActionController =
@@ -145,22 +154,11 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
-  dynamic resetPin() {
+  void clearPinData() {
     final _$actionInfo = _$AuthControllerBaseActionController.startAction(
-        name: 'AuthControllerBase.resetPin');
+        name: 'AuthControllerBase.clearPinData');
     try {
-      return super.resetPin();
-    } finally {
-      _$AuthControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setNewPincode(String newPincodeAuth) {
-    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
-        name: 'AuthControllerBase.setNewPincode');
-    try {
-      return super.setNewPincode(newPincodeAuth);
+      return super.clearPinData();
     } finally {
       _$AuthControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -172,7 +170,7 @@ mixin _$AuthController on AuthControllerBase, Store {
 currentPinCode: ${currentPinCode},
 pinFieldState: ${pinFieldState},
 isPinObscure: ${isPinObscure},
-updatePincodeState: ${updatePincodeState},
+recoverPincodeState: ${recoverPincodeState},
 isPinValid: ${isPinValid}
     ''';
   }

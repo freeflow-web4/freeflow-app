@@ -31,8 +31,7 @@ abstract class AuthControllerBase with Store, Login {
   bool isPinObscure = true;
 
   @observable
-  UpdatePincodeState updatePincodeState =
-      UpdatePincodeState.enterCurrentPinCode;
+  RecoverPincodeState recoverPincodeState = RecoverPincodeState.authentication;
 
   @action
   void updateCurrentPinCode(String value) {
@@ -102,9 +101,10 @@ abstract class AuthControllerBase with Store, Login {
   Future<void> pinCodeHasMatch() async {
     final isPinCorrect =
         await GetIt.I.get<UserCheckPinCodeUsecase>().call(currentPinCode);
+     
     isPinCorrect.fold((_) {}, (success) {
       if (success) {
-        updatePincodeState = UpdatePincodeState.chooseNewPincode;
+        recoverPincodeState = RecoverPincodeState.chooseNewPincode;
         currentPinCode = '';
       } else {
         updatePinFieldState(GradientTextFieldState.wrong);
@@ -113,19 +113,23 @@ abstract class AuthControllerBase with Store, Login {
   }
 
   @action
-  resetPin() {
+  void clearPinData() {
     currentPinCode = '';
-    updatePincodeState = UpdatePincodeState.enterCurrentPinCode;
+    recoverPincodeState = RecoverPincodeState.authentication;
   }
 
   @action
-  void setNewPincode(String newPincodeAuth) {
-    if (newPincodeAuth == currentPinCode) {
-      updatePincodeState = UpdatePincodeState.enterCurrentPinCode;
-      print('perfeito - salvo - e confirmado');
-      userSetPincodeUsecase.call(currentPinCode);
-      //todo: set persistent new pincode
-      //todo: show dialog
+  Future<void> setNewPincode(String newAuthenticationPinCode) async {
+    if (newAuthenticationPinCode == currentPinCode) {
+      final response = await userSetPincodeUsecase.call(currentPinCode);
+      response.fold(
+        (error) {
+          recoverPincodeState = RecoverPincodeState.error;
+        },
+        (success) {
+          recoverPincodeState = RecoverPincodeState.changeCompleted;
+        },
+      );
     } else {
       updatePinFieldState(GradientTextFieldState.wrong);
     }

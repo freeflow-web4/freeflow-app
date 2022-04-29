@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
+import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
@@ -10,12 +11,15 @@ import 'package:freeflow/layers/presentation/widgets/animated_arrow_right_widget
 import 'package:freeflow/layers/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:get_it/get_it.dart';
 
-enum UpdatePincodeState {
-  enterCurrentPinCode,
+enum RecoverPincodeState {
+  authentication,
   chooseNewPincode,
-  confirmNewPincode
+  confirmNewPincode,
+  changeCompleted,
+  error
 }
 
 class UpdatePincodeView extends StatefulWidget {
@@ -27,7 +31,7 @@ class UpdatePincodeView extends StatefulWidget {
 
 class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
   AuthController authController = GetIt.I.get<AuthController>();
-  String pinAuth = '';
+  String authenticationPin = '';
 
   @override
   void initState() {
@@ -42,42 +46,90 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
       builder: (context) {
         return CustomBottomSheet(
           children: [
-            textSubtitle(context, textKey: getTitleByState()),
+            textH6(context, textKey: getTitleByState()),
             inputWidget(),
             keyboardWidget(),
-            confirmButton(),
+            StatefulBuilder(
+              builder: (context, setBottomSheetState) {
+                return confirmButton(setBottomSheetState);
+              },
+            )
           ],
         );
       },
     );
   }
 
-  Widget confirmButton() {
+  Widget confirmButton(StateSetter setBottomSheetState) {
     return Padding(
       padding: const EdgeInsets.only(bottom: bigSpacing),
       child: AnimatedArrowRight(
         onTap: () {
-          if (authController.updatePincodeState ==
-              UpdatePincodeState.enterCurrentPinCode) {
-            authController.pinCodeHasMatch();
-          } else if (authController.updatePincodeState ==
-              UpdatePincodeState.chooseNewPincode) {
-            pinAuth = authController.currentPinCode;
-            authController.updatePincodeState =
-                UpdatePincodeState.confirmNewPincode;
-            authController.currentPinCode = '';
-          } else {
-            authController.setNewPincode(pinAuth); 
+          switch (authController.recoverPincodeState) {
+            case RecoverPincodeState.authentication:
+              {
+                authController.pinCodeHasMatch();
+              }
+              break;
+            case RecoverPincodeState.chooseNewPincode:
+              {
+                authenticationPin = authController.currentPinCode;
+                authController.recoverPincodeState =
+                    RecoverPincodeState.confirmNewPincode;
+                authController.currentPinCode = '';
+              }
+              break;
+            default:
+              {
+                authController.setNewPincode(authenticationPin).then((value) {
+                  showInformativeDialog();
+                });
+              }
           }
         },
-        isActive: authController.isPinValid,
+        isActive: authController.isPinValid &&
+            authController.currentPinCode.isNotEmpty,
       ),
     );
   }
 
+  void showInformativeDialog() {
+    if (authController.recoverPincodeState ==
+        RecoverPincodeState.changeCompleted) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return InformativeDialog(
+            icon: IconsAsset.checkIcon,
+            title: TranslationService.translate(
+              context,
+              'profile.changeMadeSuccessfully',
+            ),
+          );
+        },
+      ).then((value) {
+        Navigator.pop(context);
+      });
+    }
+    if (authController.recoverPincodeState == RecoverPincodeState.error) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return InformativeDialog(
+            icon: IconsAsset.closeBackIcon,
+            title: TranslationService.translate(
+              context,
+              'Não foi possível realizar a alteração do PIN code!',
+            ),
+          );
+        },
+      );
+    }
+  }
+
   Widget keyboardWidget() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 104, top: huge2Spacing),
+      padding: const EdgeInsets.only(bottom: huge4Spacing, top: huge2Spacing),
       child: InAppKeyboardWidget(
         textColor: StandardColors.backgroundDark,
         onTap: (digit) {
@@ -95,7 +147,8 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
         value: authController.currentPinCode,
         onChanged: (_) {},
         normalTextColor: StandardColors.backgroundDark,
-        isFieldValid: authController.pinFieldState != GradientTextFieldState.invalid,
+        isFieldValid:
+            authController.pinFieldState != GradientTextFieldState.invalid,
         errorText: authController.pinFieldState != GradientTextFieldState.wrong
             ? null
             : TranslationService.translate(
@@ -113,11 +166,11 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
   }
 
   String getTitleByState() {
-    if (authController.updatePincodeState ==
-        UpdatePincodeState.chooseNewPincode) {
+    if (authController.recoverPincodeState ==
+        RecoverPincodeState.chooseNewPincode) {
       return FlutterI18n.translate(context, "profile.insertYourNewPinCode");
-    } else if (authController.updatePincodeState ==
-        UpdatePincodeState.confirmNewPincode) {
+    } else if (authController.recoverPincodeState ==
+        RecoverPincodeState.confirmNewPincode) {
       return FlutterI18n.translate(context, "profile.confirmYourNewPinCode")
           .toUpperCase();
     }
@@ -125,14 +178,14 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
   }
 
   String getLabelByState() {
-    if (authController.updatePincodeState ==
-        UpdatePincodeState.enterCurrentPinCode) {
+    if (authController.recoverPincodeState ==
+        RecoverPincodeState.authentication) {
       return FlutterI18n.translate(context, "profile.enterYourPinCode");
-    } else if (authController.updatePincodeState ==
-        UpdatePincodeState.chooseNewPincode) {
+    } else if (authController.recoverPincodeState ==
+        RecoverPincodeState.chooseNewPincode) {
       return FlutterI18n.translate(context, "profile.chooseYourPinCode");
-    } else if (authController.updatePincodeState ==
-        UpdatePincodeState.confirmNewPincode) {
+    } else if (authController.recoverPincodeState ==
+        RecoverPincodeState.confirmNewPincode) {
       return FlutterI18n.translate(context, "profile.confirmYourNewPinCode");
     }
     return '';
@@ -142,7 +195,8 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
     late Color color;
     if (state == GradientTextFieldState.wrong) {
       color = StandardColors.error;
-    } else if (authController.pinFieldState == GradientTextFieldState.valid) {
+    } else if (authController.pinFieldState == GradientTextFieldState.valid &&
+        authenticationPin.isNotEmpty) {
       color = StandardColors.secondary;
     } else {
       color = StandardColors.backgroundDark;
