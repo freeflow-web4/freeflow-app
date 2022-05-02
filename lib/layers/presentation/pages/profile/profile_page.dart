@@ -147,6 +147,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
 
   showRememberMeBottomSheet() {
     return showFlexBottomSheet(
+      bottomSafeArea: false,
       context: context,
       title: textH6(
         context,

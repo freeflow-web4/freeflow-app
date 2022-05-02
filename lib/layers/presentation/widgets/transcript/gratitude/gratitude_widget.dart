@@ -297,6 +297,7 @@ class _GratitudeWidgetState extends State<GratitudeWidget>  with TextThemes {
     else if(isWelcome()){
       showDialogDefault(
         context,
+        automaticallyCloses: true,
         type: DialogType.welcome,
         flowers: widget.transcriptEntity.amount,
         onTap: () {
