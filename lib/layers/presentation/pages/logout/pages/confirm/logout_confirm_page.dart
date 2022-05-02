@@ -23,7 +23,7 @@ class _LogoutConfirmPageState extends State<LogoutConfirmPage> with TextThemes {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       setState(() {
         confirm = !confirm;
       });

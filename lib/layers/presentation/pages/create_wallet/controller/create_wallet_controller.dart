@@ -43,6 +43,10 @@ abstract class _CreateWalletControllerBase with Store {
     formModel.nameFormModel = name;
   }
 
+  String getName() {
+    return formModel.nameFormModel?.name ?? '';
+  }
+
   void setEmail(EmailFormEntity email) {
     formModel.emailFormModel = email;
   }
