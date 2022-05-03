@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
@@ -5,6 +7,7 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/infra/handlers/check_connection.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_painter_tabbar.dart';
@@ -25,7 +28,23 @@ class WalletPage extends StatefulWidget {
 
 class _WalletPageState extends State<WalletPage> with TextThemes {
   WalletController walletController = WalletController();
+//  Map _source = {ConnectivityResult.none: false};
+  final MyConnectivity _connectivity = MyConnectivity.instance;
+  bool stated = false;
 
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      await _connectivity.initialise();
+      _connectivity.myStream.listen((source) {
+        if(source.keys.toList()[0] == ConnectivityResult.none && stated){
+          showDialogNoInternetConnection();
+        }
+      });
+      stated = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +187,14 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
       context,
       automaticallyCloses: true,
       type: DialogType.featureNotAvailable,
+      onTap: () {},
+    );
+  }
+
+  Future<void> showDialogNoInternetConnection() async {
+    showDialogDefault(
+      context,
+      type: DialogType.noInternetConnection,
       onTap: () {},
     );
   }
