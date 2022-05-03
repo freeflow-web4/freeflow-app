@@ -1,8 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/domain/usecases/get_transcripts/get_transcripts_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-
 part 'wallet_controller.g.dart';
 
 enum ViewContentType { transcript, flwr, collectibles }
@@ -42,5 +42,10 @@ abstract class WalletControllerBase with Store {
     } catch (e) {
       walletViewState = ViewState.error;
     }
+  }
+
+  @action
+  bool hasInternetConnection(bool stated, source){
+    return source.keys.toList()[0] == ConnectivityResult.none && stated;
   }
 }

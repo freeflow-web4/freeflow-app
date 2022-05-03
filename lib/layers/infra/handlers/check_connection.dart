@@ -11,7 +11,7 @@ class MyConnectivity {
   final _controller = StreamController.broadcast();
   Stream get myStream => _controller.stream;
 
-  Future<void> initialise() async {
+  Future<void> init() async {
     ConnectivityResult result = await _connectivity.checkConnectivity();
     _checkStatus(result);
     _connectivity.onConnectivityChanged.listen((result) {

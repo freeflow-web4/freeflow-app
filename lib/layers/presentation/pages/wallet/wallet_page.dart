@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
@@ -35,9 +34,9 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      await _connectivity.initialise();
+      await _connectivity.init();
       _connectivity.myStream.listen((source) {
-        if(source.keys.toList()[0] == ConnectivityResult.none && stated){
+        if(walletController.hasInternetConnection(stated, source)){
           showDialogNoInternetConnection();
         }
       });
