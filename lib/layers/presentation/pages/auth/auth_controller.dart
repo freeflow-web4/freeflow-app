@@ -22,6 +22,9 @@ abstract class AuthControllerBase with Store, Login {
   String currentPinCode = "";
 
   @observable
+  String authenticationPin = '';
+
+  @observable
   GradientTextFieldState pinFieldState = GradientTextFieldState.empty;
 
   @computed
@@ -32,6 +35,14 @@ abstract class AuthControllerBase with Store, Login {
 
   @observable
   RecoverPincodeState recoverPincodeState = RecoverPincodeState.authentication;
+
+  @computed
+  bool get pinCodeChangeIsComplete =>
+      recoverPincodeState == RecoverPincodeState.changeCompleted;
+
+  @computed
+  bool get hasErrorInPincodeChange =>
+      recoverPincodeState == RecoverPincodeState.error;
 
   @action
   void updateCurrentPinCode(String value) {
@@ -101,7 +112,7 @@ abstract class AuthControllerBase with Store, Login {
   Future<void> pinCodeHasMatch() async {
     final isPinCorrect =
         await GetIt.I.get<UserCheckPinCodeUsecase>().call(currentPinCode);
-     
+
     isPinCorrect.fold((_) {}, (success) {
       if (success) {
         recoverPincodeState = RecoverPincodeState.chooseNewPincode;
@@ -132,6 +143,36 @@ abstract class AuthControllerBase with Store, Login {
       );
     } else {
       updatePinFieldState(GradientTextFieldState.wrong);
+    }
+  }
+
+  @action
+  void onConfirmPinCodeChange({Function? onFail, Function? onSuccess}) {
+    switch (recoverPincodeState) {
+      case RecoverPincodeState.authentication:
+        {
+          pinCodeHasMatch();
+        }
+        break;
+      case RecoverPincodeState.chooseNewPincode:
+        {
+          authenticationPin = currentPinCode;
+          recoverPincodeState = RecoverPincodeState.confirmNewPincode;
+          currentPinCode = '';
+        }
+        break;
+      default:
+        {
+          setNewPincode(authenticationPin).then((value) {
+            if (pinCodeChangeIsComplete) {
+              onSuccess?.call();
+            }
+            if (hasErrorInPincodeChange) {
+              onFail?.call();
+            }
+          });
+        }
+        break;
     }
   }
 }

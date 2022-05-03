@@ -16,6 +16,20 @@ mixin _$AuthController on AuthControllerBase, Store {
       (_$isPinValidComputed ??= Computed<bool>(() => super.isPinValid,
               name: 'AuthControllerBase.isPinValid'))
           .value;
+  Computed<bool>? _$pinCodeChangeIsCompleteComputed;
+
+  @override
+  bool get pinCodeChangeIsComplete => (_$pinCodeChangeIsCompleteComputed ??=
+          Computed<bool>(() => super.pinCodeChangeIsComplete,
+              name: 'AuthControllerBase.pinCodeChangeIsComplete'))
+      .value;
+  Computed<bool>? _$hasErrorInPincodeChangeComputed;
+
+  @override
+  bool get hasErrorInPincodeChange => (_$hasErrorInPincodeChangeComputed ??=
+          Computed<bool>(() => super.hasErrorInPincodeChange,
+              name: 'AuthControllerBase.hasErrorInPincodeChange'))
+      .value;
 
   final _$currentPinCodeAtom = Atom(name: 'AuthControllerBase.currentPinCode');
 
@@ -29,6 +43,22 @@ mixin _$AuthController on AuthControllerBase, Store {
   set currentPinCode(String value) {
     _$currentPinCodeAtom.reportWrite(value, super.currentPinCode, () {
       super.currentPinCode = value;
+    });
+  }
+
+  final _$authenticationPinAtom =
+      Atom(name: 'AuthControllerBase.authenticationPin');
+
+  @override
+  String get authenticationPin {
+    _$authenticationPinAtom.reportRead();
+    return super.authenticationPin;
+  }
+
+  @override
+  set authenticationPin(String value) {
+    _$authenticationPinAtom.reportWrite(value, super.authenticationPin, () {
+      super.authenticationPin = value;
     });
   }
 
@@ -165,13 +195,27 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
+  void onConfirmPinCodeChange({Function? onFail, Function? onSuccess}) {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.onConfirmPinCodeChange');
+    try {
+      return super.onConfirmPinCodeChange(onFail: onFail, onSuccess: onSuccess);
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentPinCode: ${currentPinCode},
+authenticationPin: ${authenticationPin},
 pinFieldState: ${pinFieldState},
 isPinObscure: ${isPinObscure},
 recoverPincodeState: ${recoverPincodeState},
-isPinValid: ${isPinValid}
+isPinValid: ${isPinValid},
+pinCodeChangeIsComplete: ${pinCodeChangeIsComplete},
+hasErrorInPincodeChange: ${hasErrorInPincodeChange}
     ''';
   }
 }

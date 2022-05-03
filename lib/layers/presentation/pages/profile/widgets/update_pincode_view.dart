@@ -12,6 +12,7 @@ import 'package:freeflow/layers/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
+import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 
 enum RecoverPincodeState {
@@ -35,9 +36,9 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
 
   @override
   void initState() {
+    super.initState();
     authController.currentPinCode = '';
     authController.isPinObscure = true;
-    super.initState();
   }
 
   @override
@@ -65,28 +66,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
       padding: const EdgeInsets.only(bottom: bigSpacing),
       child: AnimatedArrowRight(
         onTap: () {
-          switch (authController.recoverPincodeState) {
-            case RecoverPincodeState.authentication:
-              {
-                authController.pinCodeHasMatch();
-              }
-              break;
-            case RecoverPincodeState.chooseNewPincode:
-              {
-                authenticationPin = authController.currentPinCode;
-                authController.recoverPincodeState =
-                    RecoverPincodeState.confirmNewPincode;
-                authController.currentPinCode = '';
-              }
-              break;
-            default:
-              {
-                authController.setNewPincode(authenticationPin).then((value) {
-                  showInformativeDialog();
-                });
-              }
-              break;
-          }
+          showInformativeDialog();
         },
         isActive: authController.isPinValid &&
             authController.currentPinCode.isNotEmpty,
@@ -95,37 +75,38 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
   }
 
   void showInformativeDialog() {
-    if (authController.recoverPincodeState ==
-        RecoverPincodeState.changeCompleted) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return InformativeDialog(
-            icon: IconsAsset.checkIcon,
-            title: TranslationService.translate(
-              context,
-              'profile.changeMadeSuccessfully',
-            ),
-          );
-        },
-      ).then((value) {
-        Navigator.pop(context);
-      });
-    }
-    if (authController.recoverPincodeState == RecoverPincodeState.error) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return InformativeDialog(
-            icon: IconsAsset.closeBackIcon,
-            title: TranslationService.translate(
-              context,
-              'Não foi possível realizar a alteração do PIN code!',
-            ),
-          );
-        },
-      );
-    }
+    authController.onConfirmPinCodeChange(
+      onFail: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return InformativeDialog(
+              icon: IconsAsset.closeBackIcon,
+              title: TranslationService.translate(
+                context,
+                'profile.unableToChangePinCode',
+              ),
+            );
+          },
+        );
+      },
+      onSuccess: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return InformativeDialog(
+              icon: IconsAsset.checkIcon,
+              title: TranslationService.translate(
+                context,
+                'profile.changeMadeSuccessfully',
+              ),
+            );
+          },
+        ).then((value) {
+          Routes.instance.pop();
+        });
+      },
+    );
   }
 
   Widget keyboardWidget() {
