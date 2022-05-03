@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
-import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
 class TotalAmountText extends StatelessWidget with TextThemes {
   final String totalAmount;
-  const TotalAmountText({Key? key, required this.totalAmount})
-      : super(key: key);
+  final EdgeInsetsGeometry padding;
+  const TotalAmountText({
+    Key? key,
+    required this.totalAmount,
+    required this.padding,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.all(mdSpacing),
+        padding: padding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

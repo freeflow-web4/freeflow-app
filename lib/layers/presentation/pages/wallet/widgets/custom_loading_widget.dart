@@ -3,17 +3,19 @@ import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 
 class CustomLoadingWidget extends StatelessWidget {
-  const CustomLoadingWidget({Key? key}) : super(key: key);
+  final Color? color;
+  const CustomLoadingWidget({Key? key, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
+    return Expanded(
       child: Align(
         alignment: Alignment.centerLeft,
         child: LoadingWidget(
+          color: color,
           isLoading: true,
           size: 30,
-          padding: EdgeInsets.only(left: normalSpacing),
+          padding: const EdgeInsets.only(left: normalSpacing),
         ),
       ),
     );

@@ -49,11 +49,18 @@ class WalletInfoWidget extends StatelessWidget with TextThemes {
           Observer(
             builder: (context) {
               return CustomActionCard(
-                cardHeight: 176,
+                cardHeight: walletController.walletIsLoading ? 195 : 172,
                 cardWidth: double.infinity,
-                child: walletController.walletIsLoading
-                    ? const CustomLoadingWidget()
-                    : const TotalAmountText(totalAmount: '1111'),
+                isLoading: walletController.walletIsLoading,
+                child: TotalAmountText(
+                  totalAmount: '1111',
+                  padding: EdgeInsets.fromLTRB(
+                    mdSpacing,
+                    walletController.walletIsLoading ? 0 : mdSpacing,
+                    mdSpacing,
+                    mdSpacing,
+                  ),
+                ),
                 onTapLeftAction: onTapLeftAction,
                 onTapRighAction: onTapRighAction,
                 leftTextAction: 'wallet.deposit',

@@ -38,7 +38,9 @@ abstract class WalletControllerBase with Store {
     try {
       walletViewState = ViewState.loading;
       //TODO REFRESH TOTAL AMOUNT
-      walletViewState = ViewState.done;
+      Future.delayed(const Duration(seconds: 1)).then((value) {
+        walletViewState = ViewState.done;
+      });
     } catch (e) {
       walletViewState = ViewState.error;
     }

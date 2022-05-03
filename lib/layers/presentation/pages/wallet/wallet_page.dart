@@ -14,8 +14,6 @@ import 'package:freeflow/layers/presentation/pages/wallet/widgets/wallet_info_wi
 import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_tabbar.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/tab_pages/transcript_view.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
-import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'widgets/tab_pages/collectibles.dart';
 import 'widgets/tab_pages/flwr.dart';
 
