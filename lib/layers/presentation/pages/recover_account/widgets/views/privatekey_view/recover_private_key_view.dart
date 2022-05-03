@@ -92,7 +92,7 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
   _onInputChanged(String value) {
     isTyping = true;
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 1000), () {
+    _debounce = Timer(const Duration(milliseconds: 2000), () {
       viewController.onPrivateKeyChanged(
         value,
         usernameController.currentUsername,
@@ -148,13 +148,16 @@ class _RecoverPrivateKeyViewState extends State<RecoverPrivateKeyView>
                             )
                           : null,
                       textController: widget.textEditingController,
-                      maxLines: 2,
-                      crossTheMaxLines: getIfTextCrossMaxLines(
-                        context,
-                        text: widget.textEditingController.text,
-                        maxLines: 1,
-                        maxWidth: MediaQuery.of(context).size.width - 120,
-                      ),
+                      maxLines: getIfTextCrossMaxLines(
+                                context,
+                                text: widget.textEditingController.text,
+                                maxLines: 2,
+                                maxWidth:
+                                    MediaQuery.of(context).size.width - 200,
+                              ) ==
+                              true
+                          ? 2
+                          : 1,
                     ),
                   ),
                   const SizedBox(height: huge4Spacing + 7),
