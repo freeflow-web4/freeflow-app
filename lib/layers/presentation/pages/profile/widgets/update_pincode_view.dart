@@ -32,7 +32,6 @@ class UpdatePincodeView extends StatefulWidget {
 
 class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
   AuthController authController = GetIt.I.get<AuthController>();
-  String authenticationPin = '';
 
   @override
   void initState() {
@@ -129,8 +128,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
         value: authController.currentPinCode,
         onChanged: (_) {},
         normalTextColor: StandardColors.backgroundDark,
-        isFieldValid:
-            authController.pinFieldState != GradientTextFieldState.invalid,
+        isFieldValid: authController.pinCodeIsInvalid,
         errorText: authController.pinFieldState != GradientTextFieldState.wrong
             ? null
             : TranslationService.translate(
@@ -177,8 +175,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
     late Color color;
     if (state == GradientTextFieldState.wrong) {
       color = StandardColors.error;
-    } else if (authController.pinFieldState == GradientTextFieldState.valid &&
-        authenticationPin.isNotEmpty) {
+    } else if (authController.isPinValid && authController.authenticationPin.isNotEmpty) {
       color = StandardColors.secondary;
     } else {
       color = StandardColors.backgroundDark;

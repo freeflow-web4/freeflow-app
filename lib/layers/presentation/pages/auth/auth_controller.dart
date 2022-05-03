@@ -13,10 +13,9 @@ class AuthController = AuthControllerBase with _$AuthController;
 
 abstract class AuthControllerBase with Store, Login {
   final PinValidator pinValidator;
-  UserSetPincodeUsecase userSetPincodeUsecase =
-      GetIt.I.get<UserSetPincodeUsecase>();
+  final UserSetPincodeUsecase userSetPincodeUsecase;
 
-  AuthControllerBase(this.pinValidator);
+  AuthControllerBase(this.pinValidator, this.userSetPincodeUsecase);
 
   @observable
   String currentPinCode = "";
@@ -43,6 +42,12 @@ abstract class AuthControllerBase with Store, Login {
   @computed
   bool get hasErrorInPincodeChange =>
       recoverPincodeState == RecoverPincodeState.error;
+
+  @computed
+  bool get pinCodeIsInvalid => pinFieldState == GradientTextFieldState.invalid;
+
+  @computed
+  bool get hasErrorInPinField => pinFieldState != GradientTextFieldState.invalid;
 
   @action
   void updateCurrentPinCode(String value) {

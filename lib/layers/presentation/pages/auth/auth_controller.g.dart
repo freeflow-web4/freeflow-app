@@ -30,6 +30,20 @@ mixin _$AuthController on AuthControllerBase, Store {
           Computed<bool>(() => super.hasErrorInPincodeChange,
               name: 'AuthControllerBase.hasErrorInPincodeChange'))
       .value;
+  Computed<bool>? _$pinCodeIsInvalidComputed;
+
+  @override
+  bool get pinCodeIsInvalid => (_$pinCodeIsInvalidComputed ??= Computed<bool>(
+          () => super.pinCodeIsInvalid,
+          name: 'AuthControllerBase.pinCodeIsInvalid'))
+      .value;
+  Computed<bool>? _$hasErrorInPinFieldComputed;
+
+  @override
+  bool get hasErrorInPinField => (_$hasErrorInPinFieldComputed ??=
+          Computed<bool>(() => super.hasErrorInPinField,
+              name: 'AuthControllerBase.hasErrorInPinField'))
+      .value;
 
   final _$currentPinCodeAtom = Atom(name: 'AuthControllerBase.currentPinCode');
 
@@ -215,7 +229,9 @@ isPinObscure: ${isPinObscure},
 recoverPincodeState: ${recoverPincodeState},
 isPinValid: ${isPinValid},
 pinCodeChangeIsComplete: ${pinCodeChangeIsComplete},
-hasErrorInPincodeChange: ${hasErrorInPincodeChange}
+hasErrorInPincodeChange: ${hasErrorInPincodeChange},
+pinCodeIsInvalid: ${pinCodeIsInvalid},
+hasErrorInPinField: ${hasErrorInPinField}
     ''';
   }
 }
