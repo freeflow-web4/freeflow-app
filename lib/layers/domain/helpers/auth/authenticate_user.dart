@@ -6,6 +6,7 @@ import 'package:freeflow/layers/presentation/pages/logout/pages/auth/logout_auth
 
 Future<bool> authenticateUser(BuildContext context, {bool canAuthenticateWithBiometric = true}) async {
   final authResult = await showFlexBottomSheet<RouteResponse?>(
+    bottomSafeArea: false,
     context: context,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.center,
