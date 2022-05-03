@@ -28,7 +28,6 @@ class WalletPage extends StatefulWidget {
 
 class _WalletPageState extends State<WalletPage> with TextThemes {
   WalletController walletController = WalletController();
-//  Map _source = {ConnectivityResult.none: false};
   final MyConnectivity _connectivity = MyConnectivity.instance;
   bool stated = false;
 
