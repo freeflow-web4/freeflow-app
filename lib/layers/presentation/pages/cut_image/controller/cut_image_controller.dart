@@ -16,6 +16,7 @@ class CutImageController = _CutImageControllerBase with _$CutImageController;
 abstract class _CutImageControllerBase with Store {
   @observable
   Uint8List? bytes;
+
   @observable
   GlobalKey navigatorKey = GlobalKey<NavigatorState>();
 
@@ -52,7 +53,6 @@ abstract class _CutImageControllerBase with Store {
       navigatorKey.currentContext!,
       type: DialogType.systemInstability,
       onTap: () {
-        Navigator.of(navigatorKey.currentContext!).pop();
         Routes.instance.pop();
       },
     );
