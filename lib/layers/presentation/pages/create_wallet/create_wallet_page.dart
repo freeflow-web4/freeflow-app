@@ -56,16 +56,21 @@ class _CreateWalletPageState extends State<CreateWalletPage>
         SwipePageView(
           children: [
             CreateWalletNameView(
+              currentPage: currentIndex == 0,
               animatedOnStart: currentIndex == 0 && shouldAnimateStart,
               onValid: onNamePageValid,
               key: const ValueKey('CreateWalletControllerNameKey'),
             ),
             CreateWalletEmailView(
+              currentPage: currentIndex == 1,
+              name: pageController.getName(),
               animatedOnStart: currentIndex == 1 && shouldAnimateStart,
               onValid: onEmailPageValid,
               key: const ValueKey('CreateWalletControllerEmailKey'),
             ),
             CreateWalletFlowerNameView(
+              currentPage: currentIndex == 2,
+              name: pageController.getName(),
               animatedOnStart: currentIndex == 2 && shouldAnimateStart,
               onValid: onFlowerNamePageValid,
               key: const ValueKey('CreateWalletControllerFlowerNameKey'),
@@ -77,6 +82,7 @@ class _CreateWalletPageState extends State<CreateWalletPage>
               key: const ValueKey('CreateWalletControllerViewPrivateKeyKey'),
             ),
             CreateWalletPrivateKeyConfirmView(
+              currentPage: currentIndex == 4,
               correctPrivateKey: pageController.getPrivateKey(),
               onValid: onConfirmPrivateKeyPageValid,
               animateOnStart: currentIndex == 4 && shouldAnimateStart,

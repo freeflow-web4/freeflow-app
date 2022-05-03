@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage>
     );
     opacitySwipeButton = getTweenAnimationWithFactor(2);
     opacityRecoverButton = getTweenAnimationWithFactor(3);
-    _controller.forward().orCancel;
+    _controller.forward();
     _controller.addStatusListener(onAnimationChanged);
   }
 

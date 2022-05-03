@@ -20,10 +20,12 @@ part './create_wallet_animations.dart';
 
 class CreateWalletNameView extends StatefulWidget {
   final bool animatedOnStart;
+  final bool currentPage;
   final void Function(NameFormEntity nameFormModel) onValid;
 
   const CreateWalletNameView({
     Key? key,
+    required this.currentPage,
     required this.animatedOnStart,
     required this.onValid,
   }) : super(key: key);
@@ -46,12 +48,20 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
   @override
   void initState() {
     super.initState();
+    nameFieldFocusNode = FocusNode();
     if (!widget.animatedOnStart) {
       animationController.animateTo(1, duration: Duration.zero);
     }
   }
 
-  FocusNode? nameFieldFocusNode;
+  late FocusNode nameFieldFocusNode;
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    nameFieldFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +116,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                               pageController.onNameChanged(
                             value: text,
                             onLoadingStarted: clearFocusNode,
-                            onLoadingFinished: setFocusOnNameField,
+                            onLoadingFinished: requestFocus,
                           ),
                           isFieldValid: pageController.isGradientTextFieldValid,
                           inputNode: nameFieldFocusNode,
@@ -118,7 +128,10 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                   CreateWalletPageIndicator(
                     currentIndex: 0,
                     onAnimationEnd: () {
-                      animationController.forward();
+                      try {
+                        animationController.forward().orCancel;
+                        requestFocus();
+                      } catch (_) {}
                     },
                     animatedOnStart: widget.animatedOnStart,
                   ),
@@ -161,10 +174,15 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
   }
 
   void onValid(NameFormEntity nameFormModel) async {
-    await animationController.animateTo(
-      0,
-      duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
-    );
+    try {
+      await animationController
+          .animateTo(
+            0,
+            duration:
+                Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
+          )
+          .orCancel;
+    } catch (_) {}
     widget.onValid(nameFormModel);
     animationController.animateTo(
       1,
@@ -176,11 +194,17 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
     showCustomDialog(context, textKey: 'createWallet.nameWarning');
   }
 
-  void setFocusOnNameField() {
-    FocusScope.of(context).requestFocus(nameFieldFocusNode);
+  void requestFocus() {
+    if (!mounted || !widget.currentPage) {
+      return;
+    }
+    nameFieldFocusNode.requestFocus();
   }
 
   void clearFocusNode() {
-    FocusScope.of(context).unfocus();
+    if (!mounted || !widget.currentPage) {
+      return;
+    }
+    nameFieldFocusNode.unfocus();
   }
 }

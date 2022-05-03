@@ -18,10 +18,15 @@ import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.
 import 'package:get_it/get_it.dart';
 
 class CreateWalletEmailView extends StatefulWidget {
+  final bool currentPage;
+
   final bool animatedOnStart;
+  final String name;
   final void Function(EmailFormEntity email) onValid;
   const CreateWalletEmailView({
     Key? key,
+    required this.currentPage,
+    required this.name,
     required this.animatedOnStart,
     required this.onValid,
   }) : super(key: key);
@@ -41,12 +46,22 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
 
   final pageController = GetIt.I.get<CreateWalletEmailController>();
 
+  late FocusNode emailFieldFocusNode;
+
   @override
   void initState() {
     super.initState();
+    emailFieldFocusNode = FocusNode();
     if (!widget.animatedOnStart) {
       animationController.animateTo(1, duration: Duration.zero);
     }
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    emailFieldFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,10 +80,12 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
               return Column(
                 children: [
                   AnimatedText(
-                    text: TranslationService.translate(
-                      context,
-                      "createWallet.emailTitle1",
-                    ),
+                    text: widget.name +
+                        "\n" +
+                        TranslationService.translate(
+                          context,
+                          "createWallet.emailTitle1",
+                        ),
                     animationController: animationController,
                     style:
                         textH4TextStyle.copyWith(color: StandardColors.white),
@@ -95,6 +112,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                           ),
                           onChanged: pageController.onEmailChanged,
                           isFieldValid: pageController.isEmailValid,
+                          inputNode: emailFieldFocusNode,
                         );
                       },
                     ),
@@ -105,7 +123,9 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                   CreateWalletPageIndicator(
                     currentIndex: 1,
                     onAnimationEnd: () {
-                      animationController.forward();
+                      animationController.forward().orCancel.then(
+                            (value) => requestFocus(),
+                          );
                     },
                     animatedOnStart: widget.animatedOnStart,
                   ),
@@ -144,10 +164,15 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
   }
 
   void onValid(EmailFormEntity email) async {
-    await animationController.animateTo(
-      0,
-      duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
-    );
+    try {
+      await animationController
+          .animateTo(
+            0,
+            duration:
+                Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
+          )
+          .orCancel;
+    } catch (_) {}
     widget.onValid(email);
     animationController.animateTo(
       1,
@@ -157,5 +182,19 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
 
   void onInvalid() {
     showCustomDialog(context, textKey: 'createWallet.emailWarning');
+  }
+
+  void requestFocus() {
+    if (!mounted || !widget.currentPage) {
+      return;
+    }
+    emailFieldFocusNode.requestFocus();
+  }
+
+  void removeFocus() {
+    if (!mounted || !widget.currentPage) {
+      return;
+    }
+    emailFieldFocusNode.unfocus();
   }
 }
