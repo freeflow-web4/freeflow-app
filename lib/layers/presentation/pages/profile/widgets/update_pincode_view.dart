@@ -70,28 +70,26 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
                 showObscureButton: true,
               ),
             ),
-            Padding(
+            InAppKeyboardWidget(
+              textColor: StandardColors.backgroundDark,
               padding: const EdgeInsets.only(
-                  bottom: huge4Spacing, top: huge2Spacing),
-              child: InAppKeyboardWidget(
-                textColor: StandardColors.backgroundDark,
-                onTap: (digit) {
-                  final currentText = authController.currentPinCode;
-                  authController.onKeyboardTap(digit, currentText);
-                },
+                bottom: huge4Spacing,
+                top: huge2Spacing,
               ),
+              onTap: (digit) {
+                final currentText = authController.currentPinCode;
+                authController.onKeyboardTap(digit, currentText);
+              },
             ),
             StatefulBuilder(
               builder: (context, setBottomSheetState) {
-                return Padding(
+                return AnimatedArrowRight(
+                  onTap: () {
+                    showInformativeDialog();
+                  },
+                  isActive: authController.isPinValid &&
+                      authController.currentPinCode.isNotEmpty,
                   padding: const EdgeInsets.only(bottom: bigSpacing),
-                  child: AnimatedArrowRight(
-                    onTap: () {
-                      showInformativeDialog();
-                    },
-                    isActive: authController.isPinValid &&
-                        authController.currentPinCode.isNotEmpty,
-                  ),
                 );
               },
             )
