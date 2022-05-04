@@ -154,6 +154,7 @@ class _SecondaryFilterMenuState extends State<SecondaryFilterMenu>
 
     await showDialogDefault(
       context,
+      automaticallyCloses: true,
       type: DialogType.featureNotAvailable,
       onTap: () {},
     );

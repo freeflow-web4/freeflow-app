@@ -7,5 +7,5 @@ abstract class RouteHandler {
   Future<void> pushReplacement(routeSettings);
   bool canPop();
   Future<bool> pop({RouteResponse? data});
-  Future<bool> pushAndPopUntil(routeSettings);
+  Future<bool> pushAndPopAll(routeSettings);
 }
