@@ -86,7 +86,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       children: [
         Stack(
           children: <Widget>[
-            widget.isObscureText == true
+            widget.isObscureText == true 
                 ? SizedBox(
                     width: double.infinity,
                     child: (widget.hintText?.trim().isNotEmpty ?? false) &&
@@ -100,7 +100,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                               widget.hintText!,
                               style: widget.hintTextStyle ??
                                   subtitleTextStyle(
-                                    color: StandardColors.white,
+                                    color: widget.normalTextColor,
                                   ),
                             ),
                           )
@@ -190,12 +190,15 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
               Positioned(
                 right: 0,
                 top: 13,
-                child: widget.sufixWidget!(
-                  widget.errorText == null
-                      ? widget.isFieldValid
-                          ? StandardColors.blueLight
-                          : Colors.white
-                      : StandardColors.feedbackError,
+                child: Visibility(
+                  visible: widget.showSecondText,
+                  child: widget.sufixWidget!(
+                    widget.errorText == null
+                        ? widget.isFieldValid
+                            ? StandardColors.blueLight
+                            : widget.normalTextColor
+                        : StandardColors.feedbackError,
+                  ),
                 ),
               )
           ],
@@ -219,7 +222,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             context,
             text: widget.errorText ?? '',
             color: widget.errorText == null
-                ? Colors.white
+                ? widget.normalTextColor
                 : StandardColors.feedbackError,
           ),
         )

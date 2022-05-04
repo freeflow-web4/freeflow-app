@@ -6,10 +6,12 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 class InAppKeyboardWidget extends StatefulWidget {
   final void Function(String)? onTap;
   final Color textColor;
+  final EdgeInsets? padding;
   const InAppKeyboardWidget({
     Key? key,
     this.onTap,
     this.textColor = Colors.white,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -34,54 +36,57 @@ class _InAppKeyboardWidgetState extends State<InAppKeyboardWidget>
   ];
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 225,
-      height: 285,
-      child: Wrap(
-        runSpacing: 15,
-        children: keys.map((key) {
-          if (key == 'del') {
-            return GestureDetector(
-              onTap: () => widget.onTap?.call('del'),
-              child: SizedBox(
-                width: 75,
-                height: 60,
-                child: Center(
-                  child: SvgPicture.asset(
-                    IconsAsset.arrowLeftIcon,
-                    width: 20,
-                    height: 20,
-                    color: widget.textColor,
+    return Padding(
+      padding: widget.padding ?? EdgeInsets.zero,
+      child: SizedBox(
+        width: 225,
+        height: 285,
+        child: Wrap(
+          runSpacing: 15,
+          children: keys.map((key) {
+            if (key == 'del') {
+              return GestureDetector(
+                onTap: () => widget.onTap?.call('del'),
+                child: SizedBox(
+                  width: 75,
+                  height: 60,
+                  child: Center(
+                    child: SvgPicture.asset(
+                      IconsAsset.arrowLeftIcon,
+                      color: widget.textColor,
+                      width: 20,
+                      height: 20,
+                    ),
                   ),
                 ),
-              ),
-            );
-          } else {
-            return GestureDetector(
-              onTap: () => widget.onTap?.call(key),
-              child: SizedBox(
-                width: 75,
-                height: 60,
-                child: key == 'X'
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: textH4(
+              );
+            } else {
+              return GestureDetector(
+                onTap: () => widget.onTap?.call(key),
+                child: SizedBox(
+                  width: 75,
+                  height: 60,
+                  child: key == 'X'
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: textH4(
+                            context,
+                            textKey: key,
+                            color: widget.textColor,
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      : textH3(
                           context,
                           textKey: key,
                           color: widget.textColor,
                           textAlign: TextAlign.center,
                         ),
-                      )
-                    : textH3(
-                        context,
-                        textKey: key,
-                        color: widget.textColor,
-                        textAlign: TextAlign.center,
-                      ),
-              ),
-            );
-          }
-        }).toList(),
+                ),
+              );
+            }
+          }).toList(),
+        ),
       ),
     );
   }

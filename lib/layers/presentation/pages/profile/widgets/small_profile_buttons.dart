@@ -12,6 +12,8 @@ class SmallProfileButtons extends StatelessWidget {
   final void Function() onLogoutTap;
   final void Function() onShowPhraseTap;
   final void Function()? onTapRememberMe;
+  final void Function()? onTapChangePincode;
+
 
   const SmallProfileButtons({
     Key? key,
@@ -21,6 +23,7 @@ class SmallProfileButtons extends StatelessWidget {
     required this.onLogoutTap,
     required this.onShowPhraseTap,
     required this.onTapRememberMe,
+    required this.onTapChangePincode,
   }) : super(key: key);
 
   @override
@@ -37,6 +40,7 @@ class SmallProfileButtons extends StatelessWidget {
               onTapCommitment: onTapCommitment,
               onShowPhraseTap: onShowPhraseTap,
               onTapRememberMe: onTapRememberMe,
+              onTapChangePincode: onTapChangePincode,
             ),
             const SizedBox(height: mdSpacingx2),
             const CustomDividerWidget(horizontalPadding: mdSpacingx2),

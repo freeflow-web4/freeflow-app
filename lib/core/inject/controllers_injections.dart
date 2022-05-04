@@ -65,7 +65,10 @@ registerControllerDependencies(GetIt getIt) {
   );
 
   getIt.registerLazySingleton<AuthController>(
-    () => AuthController(getIt.get<PinValidator>()),
+    () => AuthController(
+      getIt.get<PinValidator>(),
+      getIt.get<UserSetPincodeUsecase>(),
+    ),
   );
   getIt.registerLazySingleton<RecoverUsernameController>(
     () => RecoverUsernameController(
