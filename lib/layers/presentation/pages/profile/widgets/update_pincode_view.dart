@@ -47,29 +47,57 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
         return CustomBottomSheet(
           children: [
             textH6(context, textKey: getTitleByState()),
-            inputWidget(),
-            keyboardWidget(),
+            Padding(
+              padding: const EdgeInsets.only(top: bigSpacing),
+              child: GradientTextFieldWidget(
+                value: authController.currentPinCode,
+                onChanged: (_) {},
+                normalTextColor: StandardColors.backgroundDark,
+                isFieldValid: authController.pinCodeIsInvalid,
+                errorText:
+                    authController.pinFieldState != GradientTextFieldState.wrong
+                        ? null
+                        : TranslationService.translate(
+                            context,
+                            'login.pinTextInputError',
+                          ),
+                hintText: getLabelByState(),
+                fieldReadOnly: true,
+                isObscureText: authController.isPinObscure,
+                onObscureButtonPressed: authController.onPinObscureTextFieldTap,
+                obscureButtonColor:
+                    obscureButtonColor(authController.pinFieldState),
+                showObscureButton: true,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  bottom: huge4Spacing, top: huge2Spacing),
+              child: InAppKeyboardWidget(
+                textColor: StandardColors.backgroundDark,
+                onTap: (digit) {
+                  final currentText = authController.currentPinCode;
+                  authController.onKeyboardTap(digit, currentText);
+                },
+              ),
+            ),
             StatefulBuilder(
               builder: (context, setBottomSheetState) {
-                return confirmButton(setBottomSheetState);
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: bigSpacing),
+                  child: AnimatedArrowRight(
+                    onTap: () {
+                      showInformativeDialog();
+                    },
+                    isActive: authController.isPinValid &&
+                        authController.currentPinCode.isNotEmpty,
+                  ),
+                );
               },
             )
           ],
         );
       },
-    );
-  }
-
-  Widget confirmButton(StateSetter setBottomSheetState) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: bigSpacing),
-      child: AnimatedArrowRight(
-        onTap: () {
-          showInformativeDialog();
-        },
-        isActive: authController.isPinValid &&
-            authController.currentPinCode.isNotEmpty,
-      ),
     );
   }
 
@@ -108,43 +136,6 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
     );
   }
 
-  Widget keyboardWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: huge4Spacing, top: huge2Spacing),
-      child: InAppKeyboardWidget(
-        textColor: StandardColors.backgroundDark,
-        onTap: (digit) {
-          final currentText = authController.currentPinCode;
-          authController.onKeyboardTap(digit, currentText);
-        },
-      ),
-    );
-  }
-
-  Widget inputWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(top: bigSpacing),
-      child: GradientTextFieldWidget(
-        value: authController.currentPinCode,
-        onChanged: (_) {},
-        normalTextColor: StandardColors.backgroundDark,
-        isFieldValid: authController.pinCodeIsInvalid,
-        errorText: authController.pinFieldState != GradientTextFieldState.wrong
-            ? null
-            : TranslationService.translate(
-                context,
-                'login.pinTextInputError',
-              ),
-        hintText: getLabelByState(),
-        fieldReadOnly: true,
-        isObscureText: authController.isPinObscure,
-        onObscureButtonPressed: authController.onPinObscureTextFieldTap,
-        obscureButtonColor: obscureButtonColor(authController.pinFieldState),
-        showObscureButton: true,
-      ),
-    );
-  }
-
   String getTitleByState() {
     if (authController.recoverPincodeState ==
         RecoverPincodeState.chooseNewPincode) {
@@ -175,7 +166,8 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
     late Color color;
     if (state == GradientTextFieldState.wrong) {
       color = StandardColors.error;
-    } else if (authController.isPinValid && authController.authenticationPin.isNotEmpty) {
+    } else if (authController.isPinValid &&
+        authController.authenticationPin.isNotEmpty) {
       color = StandardColors.secondary;
     } else {
       color = StandardColors.backgroundDark;
