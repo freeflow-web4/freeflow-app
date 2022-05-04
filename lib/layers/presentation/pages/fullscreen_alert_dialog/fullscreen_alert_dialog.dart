@@ -10,6 +10,7 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/controller/fullscreen_alert_dialog_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_scale.dart';
 
@@ -86,13 +87,12 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Visibility(
-                    visible: widget.secondaryTextKey != null &&
-                        widget.secondaryTextPosition ==
-                            SecondaryTextPosition.top,
-                    child: Padding(
+                  if (widget.secondaryTextKey != null &&
+                      widget.secondaryTextPosition ==
+                          SecondaryTextPosition.top) ...[
+                    const FlexibleVerticalSpacer(height: huge4Spacing),
+                    Padding(
                       padding: const EdgeInsets.only(
-                        top: huge4Spacing,
                         left: mdSpacingx2,
                         right: mdSpacingx2,
                       ),
@@ -106,86 +106,76 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
                         style: textH6TextStyle.copyWith(color: Colors.white),
                       ),
                     ),
+                  ],
+                  if (widget.secondaryTextPosition ==
+                      SecondaryTextPosition.bottom)
+                    const FlexibleVerticalSpacer(height: huge6Spacing),
+                  const FlexibleVerticalSpacer(
+                    height: 160,
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: widget.secondaryTextPosition ==
-                              SecondaryTextPosition.bottom
-                          ? MainAxisAlignment.center
-                          : MainAxisAlignment.start,
-                      children: [
-                        Visibility(
-                          visible: widget.secondaryTextPosition ==
-                              SecondaryTextPosition.top,
-                          child: const SizedBox(
-                            height: 160,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: widget.icon != null ? 100 : 32,
-                          ),
-                          child: widget.body ??
-                              AnimatedText(
-                                text: widget.text ??
-                                    TranslationService.translate(
-                                      context,
-                                      widget.textKey ?? '',
-                                    ),
-                                textMainAxisAlignment: MainAxisAlignment.center,
-                                animationController: animationController,
-                                style: textH4TextStyle.copyWith(
-                                  color: StandardColors.white,
-                                ),
-                                animation: animation.textOpacity,
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: widget.icon != null ? 100 : 32,
+                    ),
+                    child: widget.body ??
+                        AnimatedText(
+                          text: widget.text ??
+                              TranslationService.translate(
+                                context,
+                                widget.textKey ?? '',
                               ),
-                        ),
-                        Visibility(
-                          visible: widget.icon != null,
-                          child: const SizedBox(height: 89),
-                        ),
-                        Visibility(
-                          visible: widget.icon != null,
-                          child: SvgPicture.asset(
-                            widget.icon ?? '',
-                            height: 122,
-                            width: 167,
+                          textMainAxisAlignment: MainAxisAlignment.center,
+                          animationController: animationController,
+                          style: textH4TextStyle.copyWith(
+                            color: StandardColors.white,
                           ),
+                          animation: animation.textOpacity,
                         ),
-                        Visibility(
-                          visible: (widget.secondaryTextKey != null ||
-                                  widget.secondaryText != null) &&
-                              widget.secondaryTextPosition ==
-                                  SecondaryTextPosition.bottom,
-                          child: const SizedBox(height: 89),
-                        ),
-                        Visibility(
-                          visible: (widget.secondaryTextKey != null ||
-                                  widget.secondaryText != null) &&
-                              widget.secondaryTextPosition ==
-                                  SecondaryTextPosition.bottom,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: normalSpacing,
-                            ),
-                            child: AnimatedText(
-                              text: widget.secondaryText ??
-                                  TranslationService.translate(
-                                    context,
-                                    widget.secondaryTextKey ?? '',
-                                  ),
-                              textMainAxisAlignment: MainAxisAlignment.center,
-                              animationController: animationController,
-                              style: textH6TextStyle.copyWith(
-                                color: StandardColors.white,
-                              ),
-                              animation: animation.textOpacity,
-                            ),
-                          ),
-                        ),
-                      ],
+                  ),
+                  Visibility(
+                    visible: widget.icon != null,
+                    child: const FlexibleVerticalSpacer(height: 89),
+                  ),
+                  Visibility(
+                    visible: widget.icon != null,
+                    child: SvgPicture.asset(
+                      widget.icon ?? '',
+                      height: 122,
+                      width: 167,
                     ),
                   ),
+                  Visibility(
+                    visible: (widget.secondaryTextKey != null ||
+                            widget.secondaryText != null) &&
+                        widget.secondaryTextPosition ==
+                            SecondaryTextPosition.bottom,
+                    child: const FlexibleVerticalSpacer(height: 89),
+                  ),
+                  Visibility(
+                    visible: (widget.secondaryTextKey != null ||
+                            widget.secondaryText != null) &&
+                        widget.secondaryTextPosition ==
+                            SecondaryTextPosition.bottom,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: normalSpacing,
+                      ),
+                      child: AnimatedText(
+                        text: widget.secondaryText ??
+                            TranslationService.translate(
+                              context,
+                              widget.secondaryTextKey ?? '',
+                            ),
+                        textMainAxisAlignment: MainAxisAlignment.center,
+                        animationController: animationController,
+                        style: textH6TextStyle.copyWith(
+                          color: StandardColors.white,
+                        ),
+                        animation: animation.textOpacity,
+                      ),
+                    ),
+                  ),
+                  const FlexibleVerticalSpacer(height: 2 * huge6Spacing),
                 ],
               ),
             ),
