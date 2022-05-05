@@ -37,7 +37,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
       await _connectivity.init();
       _connectivity.myStream.listen((source) {
         if(walletController.hasInternetConnection(stated, source)){
-          showDialogNoInternetConnection();
+          //showDialogNoInternetConnection();
         }
       });
       stated = true;

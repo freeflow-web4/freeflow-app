@@ -54,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
         ),
       ),
       backgroundColor: StandardColors.lightBackground,
+      canOpenMenu: false,
       body: Observer(
         builder: (context) {
           if (controller.loadingIsNotCompleted) {
@@ -63,6 +64,11 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                 color: StandardColors.greyCA,
                 size: 33,
               ),
+            );
+          }
+          else if(controller.errorInPage()){
+            return const Center(
+              child: Text("error"),
             );
           }
           return Stack(
