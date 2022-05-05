@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
               ),
             );
           }
-          else if(controller.errorInPage()){
+          else if(controller.hasError){
             return  TryAgain(
               onTap: (){
                 controller.getUser(

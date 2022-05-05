@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
+import 'package:freeflow/core/utils/text_themes_mixin.dart';
 
-class TryAgain extends StatelessWidget {
+class TryAgain extends StatelessWidget with TextThemes {
   final void Function() onTap;
   const TryAgain({Key? key,required this.onTap}) : super(key: key);
 
@@ -17,10 +18,7 @@ class TryAgain extends StatelessWidget {
           Text(
             TranslationService.translate(context, "tryAgain.title"),
             textAlign: TextAlign.center,
-            style: const TextStyle(
-                fontFamily: "Akrobat",
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
+            style:  textH6TextStyle.copyWith(
                 color: StandardColors.black,
             ),
           ),
@@ -34,12 +32,7 @@ class TryAgain extends StatelessWidget {
             child: Text(
               TranslationService.translate(context, "tryAgain.subtext"),
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontFamily: "Akrobat",
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: StandardColors.black,
-              ),
+              style:  subtitleTextStyle(color: StandardColors.black,),
             ),
           ),
 
@@ -70,12 +63,7 @@ class TryAgain extends StatelessWidget {
                   child: Text(
                     TranslationService.translate(context, "tryAgain.textButton"),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontFamily: "Akrobat",
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: StandardColors.white,
-                    ),
+                    style: textButtonStyle(StandardColors.white,),
                   ),
                 ),
 

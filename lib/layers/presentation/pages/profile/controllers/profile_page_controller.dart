@@ -66,7 +66,5 @@ abstract class ProfilePageControllerBase with Store {
     Routes.instance.goToShowPhrase(context);
   }
 
-  bool errorInPage(){
-    return pageState == PageState.error;
-  }
+  bool get hasError => pageState == PageState.error;
 }
