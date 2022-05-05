@@ -26,7 +26,15 @@ class _WelcomePageState extends State<WelcomePage>
   void initState() {
     super.initState();
     animation = WelcomeBackPageAnimation(animationController);
-    animationController.forward();
+    animationController.forward().then((value) async {
+      await animationController.animateBack(
+        0,
+        duration: const Duration(milliseconds: 2500),
+      );
+      Routes.instance.goToSplashRecoverRoute(
+        Routes.instance.goToHomePageRoute,
+      );
+    });
   }
 
   @override
@@ -35,20 +43,8 @@ class _WelcomePageState extends State<WelcomePage>
     super.dispose();
   }
 
-  void goToInitialPage() {
-    Future.delayed(const Duration(seconds: 6)).then((value) {
-      animationController.reverse();
-      Future.delayed(const Duration(seconds: 5)).then((value) {
-        Routes.instance.goToSplashRecoverRoute(
-          Routes.instance.goToHomePageRoute,
-        );
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    goToInitialPage();
     return Scaffold(
       backgroundColor: StandardColors.white,
       body: Center(
