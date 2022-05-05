@@ -8,32 +8,34 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'cut_image_controller.g.dart';
 
-CutImageController findCutImageController() => GetIt.I.get<CutImageController>();
+CutImageController findCutImageController() =>
+    GetIt.I.get<CutImageController>();
 
 class CutImageController = _CutImageControllerBase with _$CutImageController;
 
 abstract class _CutImageControllerBase with Store {
-
   @observable
   Uint8List? bytes;
+
   @observable
   GlobalKey navigatorKey = GlobalKey<NavigatorState>();
 
-
-  void onTapCancel()  {
+  void onTapCancel() {
     bytes = null;
     Routes.instance.pop();
   }
 
   Future<void> loadingImage(imageUrl) async {
     try {
-      bytes = (await NetworkAssetBundle(Uri.parse(imageUrl)).load(imageUrl)).buffer.asUint8List();
-    }catch(error){
+      bytes = (await NetworkAssetBundle(Uri.parse(imageUrl)).load(imageUrl))
+          .buffer
+          .asUint8List();
+    } catch (error) {
       showDialogError();
     }
   }
 
-  Future<Uint8List?> cutImage(GlobalKey _cropperKeyA)  async {
+  Future<Uint8List?> cutImage(GlobalKey _cropperKeyA) async {
     Uint8List? imageBytes = await Cropper.crop(
       cropperKey: _cropperKeyA,
     );
@@ -41,7 +43,7 @@ abstract class _CutImageControllerBase with Store {
     return imageBytes;
   }
 
-  void backToEditProfile(Uint8List image){
+  void backToEditProfile(Uint8List image) {
     bytes = null;
     Routes.instance.backToEditProfile(image);
   }
@@ -50,12 +52,9 @@ abstract class _CutImageControllerBase with Store {
     showDialogDefault(
       navigatorKey.currentContext!,
       type: DialogType.systemInstability,
-      onTap: (){
-        Navigator.of(navigatorKey.currentContext!).pop();
+      onTap: () {
         Routes.instance.pop();
       },
     );
   }
-
-
 }

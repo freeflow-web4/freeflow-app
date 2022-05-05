@@ -16,6 +16,34 @@ mixin _$AuthController on AuthControllerBase, Store {
       (_$isPinValidComputed ??= Computed<bool>(() => super.isPinValid,
               name: 'AuthControllerBase.isPinValid'))
           .value;
+  Computed<bool>? _$pinCodeChangeIsCompleteComputed;
+
+  @override
+  bool get pinCodeChangeIsComplete => (_$pinCodeChangeIsCompleteComputed ??=
+          Computed<bool>(() => super.pinCodeChangeIsComplete,
+              name: 'AuthControllerBase.pinCodeChangeIsComplete'))
+      .value;
+  Computed<bool>? _$hasErrorInPincodeChangeComputed;
+
+  @override
+  bool get hasErrorInPincodeChange => (_$hasErrorInPincodeChangeComputed ??=
+          Computed<bool>(() => super.hasErrorInPincodeChange,
+              name: 'AuthControllerBase.hasErrorInPincodeChange'))
+      .value;
+  Computed<bool>? _$pinCodeIsInvalidComputed;
+
+  @override
+  bool get pinCodeIsInvalid => (_$pinCodeIsInvalidComputed ??= Computed<bool>(
+          () => super.pinCodeIsInvalid,
+          name: 'AuthControllerBase.pinCodeIsInvalid'))
+      .value;
+  Computed<bool>? _$hasErrorInPinFieldComputed;
+
+  @override
+  bool get hasErrorInPinField => (_$hasErrorInPinFieldComputed ??=
+          Computed<bool>(() => super.hasErrorInPinField,
+              name: 'AuthControllerBase.hasErrorInPinField'))
+      .value;
 
   final _$currentPinCodeAtom = Atom(name: 'AuthControllerBase.currentPinCode');
 
@@ -29,6 +57,22 @@ mixin _$AuthController on AuthControllerBase, Store {
   set currentPinCode(String value) {
     _$currentPinCodeAtom.reportWrite(value, super.currentPinCode, () {
       super.currentPinCode = value;
+    });
+  }
+
+  final _$authenticationPinAtom =
+      Atom(name: 'AuthControllerBase.authenticationPin');
+
+  @override
+  String get authenticationPin {
+    _$authenticationPinAtom.reportRead();
+    return super.authenticationPin;
+  }
+
+  @override
+  set authenticationPin(String value) {
+    _$authenticationPinAtom.reportWrite(value, super.authenticationPin, () {
+      super.authenticationPin = value;
     });
   }
 
@@ -60,6 +104,39 @@ mixin _$AuthController on AuthControllerBase, Store {
     _$isPinObscureAtom.reportWrite(value, super.isPinObscure, () {
       super.isPinObscure = value;
     });
+  }
+
+  final _$recoverPincodeStateAtom =
+      Atom(name: 'AuthControllerBase.recoverPincodeState');
+
+  @override
+  RecoverPincodeState get recoverPincodeState {
+    _$recoverPincodeStateAtom.reportRead();
+    return super.recoverPincodeState;
+  }
+
+  @override
+  set recoverPincodeState(RecoverPincodeState value) {
+    _$recoverPincodeStateAtom.reportWrite(value, super.recoverPincodeState, () {
+      super.recoverPincodeState = value;
+    });
+  }
+
+  final _$pinCodeHasMatchAsyncAction =
+      AsyncAction('AuthControllerBase.pinCodeHasMatch');
+
+  @override
+  Future<void> pinCodeHasMatch() {
+    return _$pinCodeHasMatchAsyncAction.run(() => super.pinCodeHasMatch());
+  }
+
+  final _$setNewPincodeAsyncAction =
+      AsyncAction('AuthControllerBase.setNewPincode');
+
+  @override
+  Future<void> setNewPincode(String newAuthenticationPinCode) {
+    return _$setNewPincodeAsyncAction
+        .run(() => super.setNewPincode(newAuthenticationPinCode));
   }
 
   final _$AuthControllerBaseActionController =
@@ -121,12 +198,40 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
+  void clearPinData() {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.clearPinData');
+    try {
+      return super.clearPinData();
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void onConfirmPinCodeChange({Function? onFail, Function? onSuccess}) {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.onConfirmPinCodeChange');
+    try {
+      return super.onConfirmPinCodeChange(onFail: onFail, onSuccess: onSuccess);
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentPinCode: ${currentPinCode},
+authenticationPin: ${authenticationPin},
 pinFieldState: ${pinFieldState},
 isPinObscure: ${isPinObscure},
-isPinValid: ${isPinValid}
+recoverPincodeState: ${recoverPincodeState},
+isPinValid: ${isPinValid},
+pinCodeChangeIsComplete: ${pinCodeChangeIsComplete},
+hasErrorInPincodeChange: ${hasErrorInPincodeChange},
+pinCodeIsInvalid: ${pinCodeIsInvalid},
+hasErrorInPinField: ${hasErrorInPinField}
     ''';
   }
 }

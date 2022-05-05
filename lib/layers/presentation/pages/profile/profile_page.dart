@@ -7,17 +7,20 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_error.dart';
 import 'package:freeflow/layers/presentation/helpers/show_flex_bottom_sheet.dart';
+import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/controllers/profile_page_controller.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_button_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_image_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_names_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/profile_shared_buttons_widget.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/small_profile_buttons.dart';
+import 'package:freeflow/layers/presentation/pages/profile/widgets/update_pincode_view.dart';
 import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
 import 'package:freeflow/layers/presentation/widgets/show_modal_bottom_sheet/remember_me/remember_me_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dart';
+import 'package:get_it/get_it.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -28,6 +31,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> with TextThemes {
   final ProfilePageController controller = findProfileController();
+  final AuthController authController = GetIt.I.get<AuthController>();
+
 
   @override
   void initState() {
@@ -98,6 +103,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                     onShowPhraseTap: () => controller.showPhrasePage(context),
                     onTapRememberMe: () => showRememberMeBottomSheet(),
                     onTapGesturesInstructions: () => showDialogFeatureNotAvailable(),
+                    onTapChangePincode: () => showRecoverPincodeDialog(context),
                   ),
                 ],
               ),
@@ -126,6 +132,22 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
         },
       ),
     );
+  }
+
+  void showRecoverPincodeDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(normalSpacing),
+          topRight: Radius.circular(normalSpacing),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (context) => const UpdatePincodeView(),
+    ).whenComplete(() {
+      authController.clearPinData();
+    });
   }
 
   showCommitmentBottomSheet() {
