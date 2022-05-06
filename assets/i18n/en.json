@@ -202,5 +202,10 @@
         "enableTouchId": "Enable Biometrics?",
         "disableTouchId": "Disable Biometrics?",
         "changeSuccessfully" : "Change made\nsuccessfully"
+    },
+    "tryAgain" : {
+        "title" : "Unable to Connect",
+        "subtext" : "Please check your internet connection and try again.",
+        "textButton" : "Try again"
     }
 }
