@@ -26,8 +26,7 @@ abstract class ProfilePageControllerBase with Store {
   @observable
   PageState pageState = PageState.loading;
   @computed
-  bool get loadingIsNotCompleted =>
-      pageState == PageState.loading || user == null;
+  bool get loadingIsNotCompleted => pageState == PageState.loading;
 
   @action
   Future<void> getUser({required Function onError}) async {
