@@ -3,6 +3,9 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/helpers/errors/user_create_wallet_error.dart';
 import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/create_wallet_form_model.dart';
@@ -28,10 +31,16 @@ abstract class _CreateWalletControllerBase with Store {
 
   final UserSetBiometricsUsecase userSetBiometricsUsecase;
   final UserCreateWalletUseCase userCreateWalletUseCase;
+  final SaveUserIsLoggedUsecase saveUserIsLoggedUsecase;
+  final SaveUserLocalAuthUsecase saveUserLocalAuthUsecase;
+  final UserRecoverLoginUseCase userRecoverLoginUseCase;
 
   _CreateWalletControllerBase({
     required this.userSetBiometricsUsecase,
     required this.userCreateWalletUseCase,
+    required this.saveUserIsLoggedUsecase,
+    required this.saveUserLocalAuthUsecase,
+    required this.userRecoverLoginUseCase,
   });
 
   @action
@@ -71,6 +80,19 @@ abstract class _CreateWalletControllerBase with Store {
     return pinCode;
   }
 
+  void loginUser({required String username, required String privateKey}) async {
+    final result = await userRecoverLoginUseCase(
+      username: username,
+      privateKey: privateKey,
+    );
+    result.fold(
+      (l) => null,
+      (r) => goToWelcomePage(),
+    );
+  }
+
+  void goToWelcomePage() => Routes.instance.goToWelcomePageRoute();
+
   void onCreationFinisehd(
     void Function(DialogType) onError,
   ) async {
@@ -100,7 +122,12 @@ abstract class _CreateWalletControllerBase with Store {
             onError(DialogType.systemInstability);
         }
       },
-      (r) => Routes.instance.goToWelcomePageRoute(),
+      (r) {
+        loginUser(
+          username: formModel.flowerName?.flowerName ?? '',
+          privateKey: formModel.privateKeyFormModel?.privateKey ?? '',
+        );
+      },
     );
   }
 }
