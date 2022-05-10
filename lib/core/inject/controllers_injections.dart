@@ -109,6 +109,8 @@ registerControllerDependencies(GetIt getIt) {
       saveUserIsLoggedUsecase: GetIt.I.get<SaveUserIsLoggedUsecase>(),
       saveUserLocalAuthUsecase: GetIt.I.get<SaveUserLocalAuthUsecase>(),
       userRecoverLoginUseCase: GetIt.I.get<UserRecoverLoginUseCase>(),
+      userSetPincodeUsecase: GetIt.I.get<UserSetPincodeUsecase>(),
+      setUserPrivateKeyUsecase: GetIt.I.get<SetUserPrivateKeyUsecase>(),
     ),
   );
   getIt.registerLazySingleton<ProfilePageController>(

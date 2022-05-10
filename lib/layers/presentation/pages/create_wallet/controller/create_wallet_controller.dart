@@ -5,8 +5,10 @@ import 'package:freeflow/layers/domain/helpers/errors/user_create_wallet_error.d
 import 'package:freeflow/layers/domain/usecases/user_create_wallet/user_create_wallet_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_is_logged_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_local_auth/save_user_local_auth_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_private_key/set_user_private_key_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_recover_login/user_recover_login_usecase.dart';
 import 'package:freeflow/layers/domain/usecases/user_set_biometric/user_set_biometric_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/create_wallet_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
@@ -34,6 +36,8 @@ abstract class _CreateWalletControllerBase with Store {
   final SaveUserIsLoggedUsecase saveUserIsLoggedUsecase;
   final SaveUserLocalAuthUsecase saveUserLocalAuthUsecase;
   final UserRecoverLoginUseCase userRecoverLoginUseCase;
+  final UserSetPincodeUsecase userSetPincodeUsecase;
+  final SetUserPrivateKeyUsecase setUserPrivateKeyUsecase;
 
   _CreateWalletControllerBase({
     required this.userSetBiometricsUsecase,
@@ -41,6 +45,8 @@ abstract class _CreateWalletControllerBase with Store {
     required this.saveUserIsLoggedUsecase,
     required this.saveUserLocalAuthUsecase,
     required this.userRecoverLoginUseCase,
+    required this.userSetPincodeUsecase,
+    required this.setUserPrivateKeyUsecase,
   });
 
   @action
@@ -87,8 +93,28 @@ abstract class _CreateWalletControllerBase with Store {
     );
     result.fold(
       (l) => null,
-      (r) => goToWelcomePage(),
+      (r) {
+        saveUserIsLoggedUsecase(true);
+        saveUserLocalAuthUsecase(r);
+        goToWelcomePage();
+      },
     );
+  }
+
+  void savePinCode(void Function(DialogType) onError) {
+    try {
+      userSetPincodeUsecase(pinCode!.pinCode);
+    } catch (e) {
+      onError(DialogType.systemInstability);
+    }
+  }
+
+  void savePrivateKey(void Function(DialogType) onError) {
+    try {
+      setUserPrivateKeyUsecase(formModel.privateKeyFormModel!.privateKey);
+    } catch (e) {
+      onError(DialogType.systemInstability);
+    }
   }
 
   void goToWelcomePage() => Routes.instance.goToWelcomePageRoute();
@@ -123,6 +149,8 @@ abstract class _CreateWalletControllerBase with Store {
         }
       },
       (r) {
+        savePrivateKey(onError);
+        savePinCode(onError);
         loginUser(
           username: formModel.flowerName?.flowerName ?? '',
           privateKey: formModel.privateKeyFormModel?.privateKey ?? '',

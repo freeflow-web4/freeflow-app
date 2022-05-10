@@ -1,7 +1,7 @@
 class UserEntity {
   String id;
   String username;
-  String email;
+  String? email;
   String token;
 
   UserEntity({

@@ -6,18 +6,13 @@ import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/helpers/show_fullscreen_dialog.dart';
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/models/pin_code_form_model.dart';
-import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/confirm/create_wallet_confirm_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
-import 'package:freeflow/layers/presentation/widgets/custom_switch_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
-import 'package:get_it/get_it.dart';
 part 'create_wallet_confirm_pin_code_animations.dart';
 
 class CreateWalletConfirmPinCodeView extends StatefulWidget {
@@ -184,10 +179,10 @@ class _CreateWalletConfirmPinCodeViewState
           .orCancel;
     } catch (_) {}
     widget.onValid();
-    animationController.animateTo(
-      1,
-      duration: Duration.zero,
-    );
+    // animationController.animateTo(
+    //   1,
+    //   duration: Duration.zero,
+    // );
   }
 
   void onInvalid() {}
