@@ -7,7 +7,7 @@ part 'user_recover_login_dto.g.dart';
 class UserRecoverLoginDto {
   String id;
   String username;
-  String email;
+  String? email;
   String token;
 
   UserRecoverLoginDto({
@@ -17,14 +17,18 @@ class UserRecoverLoginDto {
     required this.token,
   });
 
-  UserEntity toEntity() =>
-      UserEntity(id: id, username: username, email: email, token: token);
+  UserEntity toEntity() => UserEntity(
+        id: id,
+        username: username,
+        email: email ?? '',
+        token: token,
+      );
 
   factory UserRecoverLoginDto.fromEntity(UserEntity entity) =>
       UserRecoverLoginDto(
         id: entity.id,
         username: entity.username,
-        email: entity.email,
+        email: entity.email ?? '',
         token: entity.token,
       );
 

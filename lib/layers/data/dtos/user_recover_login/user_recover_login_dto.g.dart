@@ -10,7 +10,7 @@ UserRecoverLoginDto _$UserRecoverLoginDtoFromJson(Map<String, dynamic> json) =>
     UserRecoverLoginDto(
       id: json['id'] as String,
       username: json['username'] as String,
-      email: json['email'] as String,
+      email: json['email'] as String?,
       token: json['token'] as String,
     );
 

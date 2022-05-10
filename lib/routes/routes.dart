@@ -43,7 +43,7 @@ class Routes with TextThemes {
   Future<void> goToFreeflowLogoLoadingRoute(
     void Function() onLoadingCompleted,
   ) {
-    return _routeService.pushReplacement(
+    return _routeService.push(
       FreeflowLogoLoadingRoute(
         onLoadingCompleted: onLoadingCompleted,
       ),
