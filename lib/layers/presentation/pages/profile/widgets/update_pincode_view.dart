@@ -5,6 +5,8 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
+import 'package:freeflow/core/utils/adaptative_size.dart';
+
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_arrow_right_widget.dart';
@@ -48,7 +50,14 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
           children: [
             textH6(context, textKey: getTitleByState()),
             Padding(
-              padding: const EdgeInsets.only(top: bigSpacing),
+              padding: EdgeInsets.only(
+                left: mdSpacingx2,
+                  right: mdSpacingx2,
+                  top: getProportionalHeightFromValue(
+                    context,
+                    xxlargeSpacing,
+                  ),
+              ),
               child: GradientTextFieldWidget(
                 value: authController.currentPinCode,
                 onChanged: (_) {},
@@ -72,9 +81,11 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
             ),
             InAppKeyboardWidget(
               textColor: StandardColors.backgroundDark,
-              padding: const EdgeInsets.only(
-                bottom: huge4Spacing,
-                top: huge2Spacing,
+              padding: EdgeInsets.only(
+                top: getProportionalHeightFromValue(
+                  context,
+                  largeSpacingx2,
+                ),
               ),
               onTap: (digit) {
                 final currentText = authController.currentPinCode;
@@ -89,7 +100,12 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
                   },
                   isActive: authController.isPinValid &&
                       authController.currentPinCode.isNotEmpty,
-                  padding: const EdgeInsets.only(bottom: bigSpacing),
+                  padding: EdgeInsets.only(
+                    top: getProportionalHeightFromValue(
+                      context,
+                      huge3Spacing,
+                    ),
+                  ),
                 );
               },
             )
