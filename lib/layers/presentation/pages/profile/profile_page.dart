@@ -20,6 +20,7 @@ import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/scaffold_ff/scaffold_ff.dart';
 import 'package:freeflow/layers/presentation/widgets/show_modal_bottom_sheet/remember_me/remember_me_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/standard_divider_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/try_again.dart';
 import 'package:get_it/get_it.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -63,6 +64,15 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                 color: StandardColors.greyCA,
                 size: 33,
               ),
+            );
+          }
+          else if(controller.hasError){
+            return  TryAgain(
+              onTap: (){
+                controller.getUser(
+                  onError: () => showDialogError(context),
+                );
+              },
             );
           }
           return Stack(
@@ -169,6 +179,7 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
 
   showRememberMeBottomSheet() {
     return showFlexBottomSheet(
+      bottomSafeArea: false,
       context: context,
       title: textH6(
         context,

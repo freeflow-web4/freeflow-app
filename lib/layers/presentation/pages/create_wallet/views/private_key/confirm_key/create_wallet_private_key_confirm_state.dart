@@ -17,12 +17,14 @@ import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.da
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 
 class CreateWalletPrivateKeyConfirmView extends StatefulWidget {
+  final bool currentPage;
   final void Function() onValid;
   final PrivateKeyFormModel? correctPrivateKey;
   final bool animateOnStart;
 
   const CreateWalletPrivateKeyConfirmView({
     Key? key,
+    required this.currentPage,
     required this.onValid,
     required this.correctPrivateKey,
     this.animateOnStart = true,
@@ -47,15 +49,24 @@ class _CreateWalletPrivateKeyConfirmViewState
 
   late final animations =
       CreateWalletPrivateKeyConfirmAnimations(animationController);
+  late FocusNode privateKeyFieldFocusNode;
 
   @override
   void initState() {
     super.initState();
+    privateKeyFieldFocusNode = FocusNode();
     if (widget.animateOnStart) {
       animationController.forward();
     } else {
       animationController.value = 1.0;
     }
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    privateKeyFieldFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -123,6 +134,7 @@ class _CreateWalletPrivateKeyConfirmViewState
                           ),
                           onChanged: pageController.onPrivateKeyChanged,
                           isFieldValid: pageController.isGradientTextFieldValid,
+                          inputNode: privateKeyFieldFocusNode,
                         );
                       },
                     ),
@@ -133,37 +145,32 @@ class _CreateWalletPrivateKeyConfirmViewState
                   CreateWalletPageIndicator(
                     currentIndex: 3,
                     onAnimationEnd: () {
-                      animationController.forward();
+                      animationController
+                          .forward()
+                          .then((value) => requestFocus());
                     },
                     animatedOnStart: widget.animateOnStart,
                   ),
-                  Flexible(
-                    flex: 130,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Opacity(
-                        opacity: animations.buttonOpacity.value,
-                        child: Observer(
-                          builder: (context) {
-                            return AnimatedFloatButtonWidget(
-                              isActive: pageController.buttonNextActivated,
-                              onTap: (activate) {
-                                pageController.onNextButtonPressed(
-                                  onValid,
-                                  onInvalid,
-                                );
-                              },
-                              icon: IconsAsset.arrowIcon,
-                              isLargeButton: pageController.buttonNextActivated,
+                  const FlexibleVerticalSpacer(height: 130),
+                  Opacity(
+                    opacity: animations.buttonOpacity.value,
+                    child: Observer(
+                      builder: (context) {
+                        return AnimatedFloatButtonWidget(
+                          isActive: pageController.buttonNextActivated,
+                          onTap: (activate) {
+                            pageController.onNextButtonPressed(
+                              onValid,
+                              onInvalid,
                             );
                           },
-                        ),
-                      ),
+                          icon: IconsAsset.arrowIcon,
+                          isLargeButton: pageController.buttonNextActivated,
+                        );
+                      },
                     ),
                   ),
-                  const FlexibleVerticalSpacer(
-                    height: bigSpacing,
-                  )
+                  const FlexibleVerticalSpacer(height: bigSpacing)
                 ],
               ),
             );
@@ -187,5 +194,19 @@ class _CreateWalletPrivateKeyConfirmViewState
 
   void onInvalid() {
     showCustomDialog(context, textKey: 'createWallet.confirmPrivateKeyWarning');
+  }
+
+  void requestFocus() {
+    if (!mounted || !widget.currentPage) {
+      return;
+    }
+    privateKeyFieldFocusNode.requestFocus();
+  }
+
+  void removeFocus() {
+    if (!mounted || !widget.currentPage) {
+      return;
+    }
+    privateKeyFieldFocusNode.unfocus();
   }
 }

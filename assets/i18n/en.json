@@ -126,11 +126,11 @@
         "nameTextFieldHint": "How you wanna be called ?",
         "nameTextFieldError": "Please enter a valid name",
         "nameWarning": "To continue,\nplease enter\nyour name.",
-        "emailTitle1": "Flo\nwhat's your\nemail ?",
+        "emailTitle1": "what's your\nemail ?",
         "emailTextFieldHint": "Email",
         "emailTextFieldError": "Please enter a valid email",
         "emailWarning": "To continue,\nplease enter\nyour email.",
-        "flowerNameTitle1": "Flo,\n\nChosse a\nFlower Name for\nyour FreeFlow Pouch.",
+        "flowerNameTitle1": "Choose a\nFlower Name for\nyour FreeFlow Pouch.",
         "flowerNameTextFieldHint": "Flower Name",
         "flowerNameWarning": "To continue,\nplease choose a\nFlower Name.",
         "flowerNameTextFieldError": "Username is not valid",
@@ -202,5 +202,10 @@
         "enableTouchId": "Enable Biometrics?",
         "disableTouchId": "Disable Biometrics?",
         "changeSuccessfully" : "Change made\nsuccessfully"
+    },
+    "tryAgain" : {
+        "title" : "Unable to Connect",
+        "subtext" : "Please check your internet connection and try again.",
+        "textButton" : "Try again"
     }
 }

@@ -79,6 +79,20 @@ mixin _$WalletController on WalletControllerBase, Store {
     return _$refreshDataAsyncAction.run(() => super.refreshData());
   }
 
+  final _$WalletControllerBaseActionController =
+      ActionController(name: 'WalletControllerBase');
+
+  @override
+  bool hasInternetConnection(bool stated, dynamic source) {
+    final _$actionInfo = _$WalletControllerBaseActionController.startAction(
+        name: 'WalletControllerBase.hasInternetConnection');
+    try {
+      return super.hasInternetConnection(stated, source);
+    } finally {
+      _$WalletControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

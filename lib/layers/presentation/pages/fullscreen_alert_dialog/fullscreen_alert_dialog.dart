@@ -10,21 +10,32 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/fullscreen_alert_dialog/controller/fullscreen_alert_dialog_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_opacity.dart';
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/stagger_scale.dart';
 
 import 'fullscreen_alert_dialog_animation.dart';
 
+enum SecondaryTextPosition { top, bottom }
+
 class FullScreenAlertDialog extends StatefulWidget {
-  final String textKey;
+  final String? textKey;
+  final String? text;
   final String? icon;
   final String? secondaryTextKey;
+  final String? secondaryText;
+  final Widget? body;
+  final SecondaryTextPosition secondaryTextPosition;
 
   const FullScreenAlertDialog({
     Key? key,
-    required this.textKey,
+    this.textKey,
+    this.text,
     this.icon,
     this.secondaryTextKey,
+    this.secondaryText,
+    this.body,
+    this.secondaryTextPosition = SecondaryTextPosition.bottom,
   }) : super(key: key);
 
   @override
@@ -43,7 +54,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
   void initState() {
     super.initState();
     animation = FullscreenAlertDialogAnimation(animationController);
-    animationController.forward().orCancel;
+    animationController.forward();
   }
 
   @override
@@ -55,7 +66,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => fullscreenAlertDialogController.closeDialog(),
+      onTap: closeDialog,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
@@ -74,28 +85,56 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
               opacity: animation.textOpacity,
               controller: animationController,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (widget.secondaryTextKey != null &&
+                      widget.secondaryTextPosition ==
+                          SecondaryTextPosition.top) ...[
+                    const FlexibleVerticalSpacer(height: huge4Spacing),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: mdSpacingx2,
+                        right: mdSpacingx2,
+                      ),
+                      child: AnimatedText(
+                        text: TranslationService.translate(
+                          context,
+                          widget.secondaryTextKey ?? '',
+                        ),
+                        animation: animation.textOpacity,
+                        animationController: animationController,
+                        style: textH6TextStyle.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                  if (widget.secondaryTextPosition ==
+                      SecondaryTextPosition.bottom)
+                    const FlexibleVerticalSpacer(height: huge6Spacing),
+                  const FlexibleVerticalSpacer(
+                    height: 160,
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: widget.icon != null ? 100 : 0,
+                      horizontal: widget.icon != null ? 100 : 32,
                     ),
-                    child: AnimatedText(
-                      text: TranslationService.translate(
-                        context,
-                        widget.textKey,
-                      ),
-                      textMainAxisAlignment: MainAxisAlignment.center,
-                      animationController: animationController,
-                      style: textH4TextStyle.copyWith(
-                        color: StandardColors.white,
-                      ),
-                      animation: animation.textOpacity,
-                    ),
+                    child: widget.body ??
+                        AnimatedText(
+                          text: widget.text ??
+                              TranslationService.translate(
+                                context,
+                                widget.textKey ?? '',
+                              ),
+                          textMainAxisAlignment: MainAxisAlignment.center,
+                          animationController: animationController,
+                          style: textH4TextStyle.copyWith(
+                            color: StandardColors.white,
+                          ),
+                          animation: animation.textOpacity,
+                        ),
                   ),
                   Visibility(
                     visible: widget.icon != null,
-                    child: const SizedBox(height: 89),
+                    child: const FlexibleVerticalSpacer(height: 89),
                   ),
                   Visibility(
                     visible: widget.icon != null,
@@ -106,20 +145,27 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
                     ),
                   ),
                   Visibility(
-                    visible: widget.secondaryTextKey != null,
-                    child: const SizedBox(height: 89),
+                    visible: (widget.secondaryTextKey != null ||
+                            widget.secondaryText != null) &&
+                        widget.secondaryTextPosition ==
+                            SecondaryTextPosition.bottom,
+                    child: const FlexibleVerticalSpacer(height: 89),
                   ),
                   Visibility(
-                    visible: widget.secondaryTextKey != null,
+                    visible: (widget.secondaryTextKey != null ||
+                            widget.secondaryText != null) &&
+                        widget.secondaryTextPosition ==
+                            SecondaryTextPosition.bottom,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: normalSpacing,
                       ),
                       child: AnimatedText(
-                        text: TranslationService.translate(
-                          context,
-                          widget.secondaryTextKey ?? '',
-                        ),
+                        text: widget.secondaryText ??
+                            TranslationService.translate(
+                              context,
+                              widget.secondaryTextKey ?? '',
+                            ),
                         textMainAxisAlignment: MainAxisAlignment.center,
                         animationController: animationController,
                         style: textH6TextStyle.copyWith(
@@ -129,6 +175,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
                       ),
                     ),
                   ),
+                  const FlexibleVerticalSpacer(height: 2 * huge6Spacing),
                 ],
               ),
             ),
@@ -157,5 +204,10 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
         ),
       ),
     );
+  }
+
+  void closeDialog() {
+    if (animationController.isAnimating) return;
+    fullscreenAlertDialogController.closeDialog();
   }
 }

@@ -62,6 +62,12 @@ class _CreateWalletConfirmPinCodeViewState
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlackScaffold(
       child: Padding(
@@ -168,10 +174,15 @@ class _CreateWalletConfirmPinCodeViewState
   }
 
   void onValid() async {
-    await animationController.animateTo(
-      0,
-      duration: Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
-    );
+    try {
+      await animationController
+          .animateTo(
+            0,
+            duration:
+                Duration(milliseconds: _totalDuration.inMilliseconds ~/ 2),
+          )
+          .orCancel;
+    } catch (_) {}
     widget.onValid();
     animationController.animateTo(
       1,
