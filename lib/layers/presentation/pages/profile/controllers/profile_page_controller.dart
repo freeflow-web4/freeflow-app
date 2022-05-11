@@ -9,7 +9,7 @@ import 'package:share_plus/share_plus.dart';
 
 part 'profile_page_controller.g.dart';
 
-enum PageState { loading, initial, done }
+enum PageState { loading, done, error }
 
 ProfilePageController findProfileController() =>
     GetIt.I.get<ProfilePageController>();
@@ -26,8 +26,7 @@ abstract class ProfilePageControllerBase with Store {
   @observable
   PageState pageState = PageState.loading;
   @computed
-  bool get loadingIsNotCompleted =>
-      pageState == PageState.loading || user == null;
+  bool get loadingIsNotCompleted => pageState == PageState.loading;
 
   @action
   Future<void> getUser({required Function onError}) async {
@@ -35,13 +34,14 @@ abstract class ProfilePageControllerBase with Store {
     final result = await getProfileUsecase();
     result.fold(
       (error) {
+        pageState = PageState.error;
         onError();
       },
       (success) {
+        pageState = PageState.done;
         user = success;
       },
     );
-    pageState = PageState.done;
   }
 
   void setContentToClipBoard() =>
@@ -57,15 +57,13 @@ abstract class ProfilePageControllerBase with Store {
     }
   }
 
-  void showLogoutPage(
-    BuildContext context,
-  ) {
+  void showLogoutPage(BuildContext context,) {
     Routes.instance.goToLogout(context);
   }
 
-  void showPhrasePage(
-    BuildContext context,
-  ) {
+  void showPhrasePage(BuildContext context,) {
     Routes.instance.goToShowPhrase(context);
   }
+
+  bool get hasError => pageState == PageState.error;
 }

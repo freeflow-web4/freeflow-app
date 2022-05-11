@@ -1,7 +1,11 @@
+import 'package:freeflow/layers/domain/usecases/user_check_pincode/user_check_pincode_usecase.dart';
+import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincode_usecase.dart';
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/login.dart';
+import 'package:freeflow/layers/presentation/pages/profile/widgets/update_pincode_view.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
 import 'package:freeflow/routes/routes.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'auth_controller.g.dart';
 
@@ -9,11 +13,15 @@ class AuthController = AuthControllerBase with _$AuthController;
 
 abstract class AuthControllerBase with Store, Login {
   final PinValidator pinValidator;
+  final UserSetPincodeUsecase userSetPincodeUsecase;
 
-  AuthControllerBase(this.pinValidator);
+  AuthControllerBase(this.pinValidator, this.userSetPincodeUsecase);
 
   @observable
   String currentPinCode = "";
+
+  @observable
+  String authenticationPin = '';
 
   @observable
   GradientTextFieldState pinFieldState = GradientTextFieldState.empty;
@@ -23,6 +31,23 @@ abstract class AuthControllerBase with Store, Login {
 
   @observable
   bool isPinObscure = true;
+
+  @observable
+  RecoverPincodeState recoverPincodeState = RecoverPincodeState.authentication;
+
+  @computed
+  bool get pinCodeChangeIsComplete =>
+      recoverPincodeState == RecoverPincodeState.changeCompleted;
+
+  @computed
+  bool get hasErrorInPincodeChange =>
+      recoverPincodeState == RecoverPincodeState.error;
+
+  @computed
+  bool get pinCodeIsInvalid => pinFieldState == GradientTextFieldState.invalid;
+
+  @computed
+  bool get hasErrorInPinField => pinFieldState != GradientTextFieldState.invalid;
 
   @action
   void updateCurrentPinCode(String value) {
@@ -86,5 +111,73 @@ abstract class AuthControllerBase with Store, Login {
   @action
   void updatePinFieldState(GradientTextFieldState state) {
     pinFieldState = state;
+  }
+
+  @action
+  Future<void> pinCodeHasMatch() async {
+    final isPinCorrect =
+        await GetIt.I.get<UserCheckPinCodeUsecase>().call(currentPinCode);
+
+    isPinCorrect.fold((_) {}, (success) {
+      if (success) {
+        recoverPincodeState = RecoverPincodeState.chooseNewPincode;
+        currentPinCode = '';
+      } else {
+        updatePinFieldState(GradientTextFieldState.wrong);
+      }
+    });
+  }
+
+  @action
+  void clearPinData() {
+    currentPinCode = '';
+    recoverPincodeState = RecoverPincodeState.authentication;
+  }
+
+  @action
+  Future<void> setNewPincode(String newAuthenticationPinCode) async {
+    if (newAuthenticationPinCode == currentPinCode) {
+      final response = await userSetPincodeUsecase.call(currentPinCode);
+      response.fold(
+        (error) {
+          recoverPincodeState = RecoverPincodeState.error;
+        },
+        (success) {
+          recoverPincodeState = RecoverPincodeState.changeCompleted;
+        },
+      );
+    } else {
+      updatePinFieldState(GradientTextFieldState.wrong);
+    }
+  }
+
+  @action
+  void onConfirmPinCodeChange({Function? onFail, Function? onSuccess}) {
+    switch (recoverPincodeState) {
+      case RecoverPincodeState.authentication:
+        {
+          pinCodeHasMatch();
+        }
+        break;
+      case RecoverPincodeState.chooseNewPincode:
+        {
+          authenticationPin = currentPinCode;
+          recoverPincodeState = RecoverPincodeState.confirmNewPincode;
+          currentPinCode = '';
+        }
+        break;
+      default:
+        {
+          setNewPincode(authenticationPin).then((value) {
+            if (pinCodeChangeIsComplete) {
+              onSuccess?.call();
+            }
+            if (hasErrorInPincodeChange) {
+              onFail?.call();
+            }
+          });
+        }
+        break;
+    }
   }
 }

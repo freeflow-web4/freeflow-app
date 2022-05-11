@@ -9,7 +9,7 @@ class UserRecoverLoginDataSourceImp implements UserRecoverLoginDataSource {
   UserRecoverLoginDataSourceImp(this.client);
   @override
   Future<UserEntity> recover(
-      {required String username, required String privateKey}) async {
+      {required String username, required String privateKey,}) async {
     try {
       final response = await client.post(
         'users/recover',

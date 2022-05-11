@@ -61,6 +61,7 @@ dependencies:
   shimmer: ^2.0.0
   cropperx: ^1.0.0
   bottom_sheet: ^2.1.0
+  connectivity_plus: ^2.3.0
 
 
 dev_dependencies:

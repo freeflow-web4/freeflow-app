@@ -65,7 +65,10 @@ registerControllerDependencies(GetIt getIt) {
   );
 
   getIt.registerLazySingleton<AuthController>(
-    () => AuthController(getIt.get<PinValidator>()),
+    () => AuthController(
+      getIt.get<PinValidator>(),
+      getIt.get<UserSetPincodeUsecase>(),
+    ),
   );
   getIt.registerLazySingleton<RecoverUsernameController>(
     () => RecoverUsernameController(
@@ -103,6 +106,11 @@ registerControllerDependencies(GetIt getIt) {
     () => CreateWalletController(
       userCreateWalletUseCase: GetIt.I.get<UserCreateWalletUseCase>(),
       userSetBiometricsUsecase: GetIt.I.get<UserSetBiometricsUsecase>(),
+      saveUserIsLoggedUsecase: GetIt.I.get<SaveUserIsLoggedUsecase>(),
+      saveUserLocalAuthUsecase: GetIt.I.get<SaveUserLocalAuthUsecase>(),
+      userRecoverLoginUseCase: GetIt.I.get<UserRecoverLoginUseCase>(),
+      userSetPincodeUsecase: GetIt.I.get<UserSetPincodeUsecase>(),
+      setUserPrivateKeyUsecase: GetIt.I.get<SetUserPrivateKeyUsecase>(),
     ),
   );
   getIt.registerLazySingleton<ProfilePageController>(

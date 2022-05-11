@@ -19,7 +19,7 @@ class NoInternetWarning extends StatelessWidget {
 
         Text(
           TranslationService.translate(context, "noInternet.noInternetTitle",),
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.left,
           style: const TextStyle(
             fontSize: 38,
             fontWeight: FontWeight.w500,

@@ -43,7 +43,7 @@ class Routes with TextThemes {
   Future<void> goToFreeflowLogoLoadingRoute(
     void Function() onLoadingCompleted,
   ) {
-    return _routeService.pushReplacement(
+    return _routeService.push(
       FreeflowLogoLoadingRoute(
         onLoadingCompleted: onLoadingCompleted,
       ),
@@ -59,7 +59,7 @@ class Routes with TextThemes {
   }
 
   void goToHomePageRoute() {
-    _routeService.pushReplacement(const HomeRoute());
+    _routeService.pushAndPopAll(const HomeRoute());
   }
 
   void goToCreateWalletPageRoute() {
@@ -179,6 +179,6 @@ class Routes with TextThemes {
   }
 
   void fromLogoutGotoLogin() {
-    _routeService.pushAndPopUntil(const LoginRoute());
+    _routeService.pushAndPopAll(const LoginRoute());
   }
 }

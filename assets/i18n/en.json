@@ -57,7 +57,13 @@
         "commitmentContent": "FreeFlow community was created to distribute knowledge and wealth so we, the people, can collaborate and co-create a more harmonious and communal world.",
         "logout": "Logout account from device",
         "copiedAddress": "Public address copied to clipboard",
-        "pleaseWriteDown": "Please write down in a safe place\nyour private key."
+        "enterYourPinCode": "Enter your PIN code",
+        "chooseYourPinCode": "Choose your pincode",
+        "insertYourNewPinCode": "INSERT YOUR NEW PIN CODE",
+        "confirmYourNewPinCode": "Confirm your new pincode",
+        "changeMadeSuccessfully": "Change made successfully",
+        "pleaseWriteDown": "Please write down in a safe place\nyour private key.",
+        "unableToChangePinCode": "Unable to change the PIN code!"
     },
     "wallet": {
         "wallet": "Wallet",
@@ -196,5 +202,10 @@
         "enableTouchId": "Enable Biometrics?",
         "disableTouchId": "Disable Biometrics?",
         "changeSuccessfully" : "Change made\nsuccessfully"
+    },
+    "tryAgain" : {
+        "title" : "Unable to Connect",
+        "subtext" : "Please check your internet connection and try again.",
+        "textButton" : "Try again"
     }
 }

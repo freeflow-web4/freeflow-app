@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
@@ -13,12 +12,14 @@ class ScaffoldFreeFlow extends StatefulWidget {
   final Widget body;
   final Color? backgroundColor;
   final Decoration? decoration;
+  final bool canOpenMenu;
 
-  const ScaffoldFreeFlow({
+   const ScaffoldFreeFlow({
     Key? key,
     required this.body,
     this.backgroundColor,
     this.decoration,
+    this.canOpenMenu = true,
   }) : super(key: key);
 
   @override
@@ -40,32 +41,36 @@ class _ScaffoldFreeFlowState extends State<ScaffoldFreeFlow> {
       backgroundColor: widget.backgroundColor,
       body: GestureDetector(
         onVerticalDragUpdate: (details) {
-          setState(() {
-            if (details.delta.dy > 0) {
-              position = position + 30;
-              if (position > height) {
-                position = height;
+          if(widget.canOpenMenu) {
+            setState(() {
+              if (details.delta.dy > 0) {
+                position = position + 30;
+                if (position > height) {
+                  position = height;
+                }
+                wasOpenMenu = true;
+              } else {
+                position = position - 30;
+                if (position < 0) {
+                  position = 0;
+                }
+                wasOpenMenu = false;
               }
-              wasOpenMenu = true;
-            } else {
-              position = position - 30;
-              if (position < 0) {
-                position = 0;
-              }
-              wasOpenMenu = false;
-            }
-          });
+            });
+          }
         },
         onVerticalDragEnd: (details) {
-          setState(() {
-            if (position != 0) {
-              if (details.velocity.pixelsPerSecond.dy < 0 || !wasOpenMenu) {
-                closeMenu();
-              } else {
-                position = height;
+          if(widget.canOpenMenu) {
+            setState(() {
+              if (position != 0) {
+                if (details.velocity.pixelsPerSecond.dy < 0 || !wasOpenMenu) {
+                  closeMenu();
+                } else {
+                  position = height;
+                }
               }
-            }
-          });
+            });
+          }
         },
         onTap: () {
           if (position != 0) {

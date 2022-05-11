@@ -151,33 +151,26 @@ class _CreateWalletPrivateKeyConfirmViewState
                     },
                     animatedOnStart: widget.animateOnStart,
                   ),
-                  Flexible(
-                    flex: 130,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Opacity(
-                        opacity: animations.buttonOpacity.value,
-                        child: Observer(
-                          builder: (context) {
-                            return AnimatedFloatButtonWidget(
-                              isActive: pageController.buttonNextActivated,
-                              onTap: (activate) {
-                                pageController.onNextButtonPressed(
-                                  onValid,
-                                  onInvalid,
-                                );
-                              },
-                              icon: IconsAsset.arrowIcon,
-                              isLargeButton: pageController.buttonNextActivated,
+                  const FlexibleVerticalSpacer(height: 130),
+                  Opacity(
+                    opacity: animations.buttonOpacity.value,
+                    child: Observer(
+                      builder: (context) {
+                        return AnimatedFloatButtonWidget(
+                          isActive: pageController.buttonNextActivated,
+                          onTap: (activate) {
+                            pageController.onNextButtonPressed(
+                              onValid,
+                              onInvalid,
                             );
                           },
-                        ),
-                      ),
+                          icon: IconsAsset.arrowIcon,
+                          isLargeButton: pageController.buttonNextActivated,
+                        );
+                      },
                     ),
                   ),
-                  const FlexibleVerticalSpacer(
-                    height: bigSpacing,
-                  )
+                  const FlexibleVerticalSpacer(height: bigSpacing)
                 ],
               ),
             );

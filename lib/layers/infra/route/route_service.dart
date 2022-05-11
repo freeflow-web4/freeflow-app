@@ -42,10 +42,8 @@ class RouteService {
     return routeHandler.pop(data: data);
   }
 
-  Future<bool> pushAndPopUntil(PageRouteInfo routeSettings) async{
-    final canPop = routeHandler.canPop();
-    if (!canPop) return false;
+  Future<bool> pushAndPopAll(PageRouteInfo routeSettings) async{
     onRouteChange?.call();
-    return routeHandler.pushAndPopUntil(routeSettings);
+    return routeHandler.pushAndPopAll(routeSettings);
   }
 }

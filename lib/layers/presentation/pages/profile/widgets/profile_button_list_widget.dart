@@ -9,13 +9,15 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
   final void Function()? onShowPhraseTap;
   final void Function()? onTapGesturesInstructions;
   final void Function()? onTapRememberMe;
+  final void Function()? onTapChangePincode;
 
-  const ProfileButtonListWidget({
+  ProfileButtonListWidget({
     Key? key,
     required this.onTapCommitment,
     required this.onTapGesturesInstructions,
     required this.onShowPhraseTap,
     required this.onTapRememberMe,
+    required this.onTapChangePincode,
   }) : super(key: key);
 
   @override
@@ -36,9 +38,10 @@ class ProfileButtonListWidget extends StatelessWidget with TextThemes {
             onTap: onTapRememberMe,
           ),
           const SizedBox(height: normalSpacing),
-          const ProfileButtonWidget(
+          ProfileButtonWidget(
             title: "profile.changePinCode",
             icon: IconsAsset.pincode,
+            onTap: onTapChangePincode,
           ),
           const SizedBox(height: normalSpacing),
           ProfileButtonWidget(

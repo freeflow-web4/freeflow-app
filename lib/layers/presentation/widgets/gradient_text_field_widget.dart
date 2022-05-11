@@ -19,7 +19,6 @@ class GradientTextFieldWidget extends StatefulWidget {
   final void Function(String)? onChanged;
   final FocusNode? inputNode;
   final int maxLines;
-  final bool crossTheMaxLines;
   final bool showObscureButton;
   final bool? isObscureText;
   final void Function()? onObscureButtonPressed;
@@ -43,7 +42,6 @@ class GradientTextFieldWidget extends StatefulWidget {
     required this.isFieldValid,
     this.showSecondText = false,
     this.maxLines = 1,
-    this.crossTheMaxLines = false,
     this.showObscureButton = false,
     this.isObscureText,
     this.onObscureButtonPressed,
@@ -86,7 +84,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       children: [
         Stack(
           children: <Widget>[
-            widget.isObscureText == true
+            widget.isObscureText == true 
                 ? SizedBox(
                     width: double.infinity,
                     child: (widget.hintText?.trim().isNotEmpty ?? false) &&
@@ -100,7 +98,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                               widget.hintText!,
                               style: widget.hintTextStyle ??
                                   subtitleTextStyle(
-                                    color: StandardColors.white,
+                                    color: widget.normalTextColor,
                                   ),
                             ),
                           )
@@ -125,6 +123,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                     key: ValueKey(
                       'key_for_text_field${widget.value}',
                     ),
+                    controller: widget.textController,
                     initialValue: widget.value,
                     onChanged: (text) {
                       _onInputChanged(text);
@@ -190,19 +189,21 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
               Positioned(
                 right: 0,
                 top: 13,
-                child: widget.sufixWidget!(
-                  widget.errorText == null
-                      ? widget.isFieldValid
-                          ? StandardColors.blueLight
-                          : Colors.white
-                      : StandardColors.feedbackError,
+                child: Visibility(
+                  visible: widget.showSecondText,
+                  child: widget.sufixWidget!(
+                    widget.errorText == null
+                        ? widget.isFieldValid
+                            ? StandardColors.blueLight
+                            : widget.normalTextColor
+                        : StandardColors.feedbackError,
+                  ),
                 ),
               )
           ],
         ),
         Container(
           height: 2,
-          padding: EdgeInsets.only(top: widget.crossTheMaxLines ? 20 : 0),
           width: MediaQuery.of(context).size.width - 20,
           decoration: BoxDecoration(
             gradient: widget.errorText == null
@@ -219,7 +220,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
             context,
             text: widget.errorText ?? '',
             color: widget.errorText == null
-                ? Colors.white
+                ? widget.normalTextColor
                 : StandardColors.feedbackError,
           ),
         )
