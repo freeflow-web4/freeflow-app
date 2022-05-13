@@ -84,7 +84,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
       children: [
         Stack(
           children: <Widget>[
-            widget.isObscureText == true 
+            widget.isObscureText == true
                 ? SizedBox(
                     width: double.infinity,
                     child: (widget.hintText?.trim().isNotEmpty ?? false) &&
@@ -114,7 +114,9 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                                 pinCode: widget.value ?? '',
                                 color: widget.errorText?.isNotEmpty == true
                                     ? StandardColors.error
-                                    : null,
+                                    : widget.isFieldValid
+                                        ? StandardColors.blueLight
+                                        : null,
                               ),
                             ),
                           ),

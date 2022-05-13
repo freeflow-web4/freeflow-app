@@ -30,7 +30,7 @@ abstract class _LogoutAuthControllerBase with Store, Login {
     loginWithBiometrics(
       context,
       onLoginSuccessCallBack: onFomValid,
-        canAuthenticateWithBiometric: canAuthenticateWithBiometric
+      canAuthenticateWithBiometric: canAuthenticateWithBiometric,
     );
   }
 
@@ -39,7 +39,7 @@ abstract class _LogoutAuthControllerBase with Store, Login {
     currentPin = pin;
     if (currentPin.trim().isEmpty) {
       pinFieldState = GradientTextFieldState.empty;
-    } else if(pin.length == 4){
+    } else if (pin.length == 4) {
       loginWithPin(
         currentPin,
         onPinValid,
