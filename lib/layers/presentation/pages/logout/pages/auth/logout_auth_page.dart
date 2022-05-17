@@ -8,12 +8,14 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/logout/pages/auth/controller/logout_auth_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
+
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 
 class LogoutAuthPage extends StatefulWidget {
   final bool canAuthenticateWithBiometric;
-  const LogoutAuthPage({Key? key, this.canAuthenticateWithBiometric = true}) : super(key: key);
+  const LogoutAuthPage({Key? key, this.canAuthenticateWithBiometric = true})
+      : super(key: key);
 
   @override
   State<LogoutAuthPage> createState() => _LogoutAuthPageState();
@@ -25,7 +27,8 @@ class _LogoutAuthPageState extends State<LogoutAuthPage> with TextThemes {
   @override
   void initState() {
     super.initState();
-    pageController.init(context, canAuthenticateWithBiometric: widget.canAuthenticateWithBiometric );
+    pageController.init(context,
+        canAuthenticateWithBiometric: widget.canAuthenticateWithBiometric);
   }
 
   @override

@@ -59,12 +59,14 @@ mixin TextThemes {
   TextStyle subtitleTextStyle({
     Color? color,
     FontWeight fontWeight = FontWeight.w500,
+    double? letterSpacing,
   }) =>
       TextStyle(
         fontSize: 20,
         fontFamily: 'Akrobat',
         fontWeight: fontWeight,
         color: color,
+        letterSpacing: letterSpacing,
       );
 
   TextStyle get transcriptBold => const TextStyle(
