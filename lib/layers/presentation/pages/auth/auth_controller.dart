@@ -3,7 +3,7 @@ import 'package:freeflow/layers/domain/usecases/user_set_pincode/user_set_pincod
 import 'package:freeflow/layers/domain/validators/pin_validator/pin_validator.dart';
 import 'package:freeflow/layers/presentation/pages/auth/login.dart';
 import 'package:freeflow/layers/presentation/pages/profile/widgets/update_pincode_view.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -47,7 +47,8 @@ abstract class AuthControllerBase with Store, Login {
   bool get pinCodeIsInvalid => pinFieldState == GradientTextFieldState.invalid;
 
   @computed
-  bool get hasErrorInPinField => pinFieldState != GradientTextFieldState.invalid;
+  bool get hasErrorInPinField =>
+      pinFieldState != GradientTextFieldState.invalid;
 
   @action
   void updateCurrentPinCode(String value) {

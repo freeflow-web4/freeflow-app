@@ -1,4 +1,5 @@
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
+
 import 'package:mobx/mobx.dart';
 part 'create_wallet_confirm_pin_code_controller.g.dart';
 

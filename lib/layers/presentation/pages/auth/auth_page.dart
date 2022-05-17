@@ -11,7 +11,7 @@ import 'package:freeflow/layers/presentation/pages/auth/auth_page_animations.dar
 import 'package:freeflow/layers/presentation/pages/auth/widgets/black_page_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_arrow_right_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:get_it/get_it.dart';
 

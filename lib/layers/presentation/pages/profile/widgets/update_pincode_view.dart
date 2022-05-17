@@ -11,7 +11,8 @@ import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_arrow_right_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_bottom_sheet.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
+
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/routes/routes.dart';
@@ -51,11 +52,10 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
             textH6(context, textKey: getTitleByState()),
             Padding(
               padding: EdgeInsets.only(
-              
-                  top: getProportionalHeightFromValue(
-                    context,
-                    xxlargeSpacing,
-                  ),
+                top: getProportionalHeightFromValue(
+                  context,
+                  xxlargeSpacing,
+                ),
               ),
               child: GradientTextFieldWidget(
                 value: authController.currentPinCode,
