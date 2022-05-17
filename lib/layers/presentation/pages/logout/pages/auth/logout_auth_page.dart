@@ -39,7 +39,7 @@ class _LogoutAuthPageState extends State<LogoutAuthPage> with TextThemes {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const FlexibleVerticalSpacer(height: mdSpacing),
+          const SizedBox(height: mdSpacing),
           Observer(
             builder: (context) {
               return GradientTextFieldWidget(
@@ -70,12 +70,12 @@ class _LogoutAuthPageState extends State<LogoutAuthPage> with TextThemes {
               );
             },
           ),
-          const FlexibleVerticalSpacer(height: largeSpacing),
+          const SizedBox(height: largeSpacing),
           InAppKeyboardWidget(
             textColor: StandardColors.black,
             onTap: pageController.onKeyboardTap,
           ),
-          const FlexibleVerticalSpacer(height: huge4Spacing),
+          const FlexibleVerticalSpacer(height: hugeSpacing),
           Observer(
             builder: (context) {
               return Container(
@@ -91,7 +91,7 @@ class _LogoutAuthPageState extends State<LogoutAuthPage> with TextThemes {
               );
             },
           ),
-          const FlexibleVerticalSpacer(height: bigSpacing),
+          const FlexibleVerticalSpacer(height: mdSpacingx2),
         ],
       ),
     );
