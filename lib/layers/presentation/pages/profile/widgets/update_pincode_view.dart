@@ -52,8 +52,6 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
             textH6(context, textKey: getTitleByState()),
             Padding(
               padding: EdgeInsets.only(
-                left: mdSpacingx2,
-                right: mdSpacingx2,
                 top: getProportionalHeightFromValue(
                   context,
                   xxlargeSpacing,
@@ -102,6 +100,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
                   isActive: authController.isPinValid &&
                       authController.currentPinCode.isNotEmpty,
                   padding: EdgeInsets.only(
+                    bottom: smSpacing,
                     top: getProportionalHeightFromValue(
                       context,
                       huge3Spacing,
