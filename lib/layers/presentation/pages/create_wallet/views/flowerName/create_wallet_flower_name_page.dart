@@ -14,7 +14,7 @@ import 'package:freeflow/layers/presentation/pages/create_wallet/widgets/create_
 import 'package:freeflow/layers/presentation/widgets/animated_float_button_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
 
 class CreateWalletFlowerNameView extends StatefulWidget {
   final bool currentPage;

@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:freeflow/layers/infra/route/route_response.dart';
 import 'package:freeflow/layers/presentation/pages/auth/login.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
+
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -30,7 +31,7 @@ abstract class _LogoutAuthControllerBase with Store, Login {
     loginWithBiometrics(
       context,
       onLoginSuccessCallBack: onFomValid,
-        canAuthenticateWithBiometric: canAuthenticateWithBiometric
+      canAuthenticateWithBiometric: canAuthenticateWithBiometric,
     );
   }
 
@@ -39,7 +40,7 @@ abstract class _LogoutAuthControllerBase with Store, Login {
     currentPin = pin;
     if (currentPin.trim().isEmpty) {
       pinFieldState = GradientTextFieldState.empty;
-    } else if(pin.length == 4){
+    } else if (pin.length == 4) {
       loginWithPin(
         currentPin,
         onPinValid,
