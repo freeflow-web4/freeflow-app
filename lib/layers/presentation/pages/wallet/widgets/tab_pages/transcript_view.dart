@@ -131,6 +131,11 @@ class _TranscriptViewState extends State<TranscriptView> {
                 controller: _scrollController,
                 child: Column(
                   children: [
+                    WalletLoadingWidget(
+                      isLoading: widget.isLoading,
+                      paddingTop: normalSpacing,
+                      paddingLeft: huge6Spacing,
+                    ),
                     if (controller.transcriptViewState ==
                         ViewState.loading) ...[
                       const Center(
