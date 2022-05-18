@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
-import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_loading_widget.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/wallet_loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 
 class CustomActionCard extends StatelessWidget with TextThemes {
@@ -31,20 +31,10 @@ class CustomActionCard extends StatelessWidget with TextThemes {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.center,
-            child: Visibility(
-              child: const Padding(
-                padding: EdgeInsets.only(
-                  top: normalSpacing,
-                  left: huge7Spacing,
-                ),
-                child: CustomLoadingWidget(
-                  color: StandardColors.lightGrey2,
-                ),
-              ),
-              visible: isLoading,
-            ),
+          WalletLoadingWidget(
+            isLoading: isLoading,
+            paddingTop: normalSpacing,
+            paddingLeft: huge6Spacing,
           ),
           child,
           Column(

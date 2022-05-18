@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
@@ -62,20 +63,26 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                 onTapLeftAction: () => showDialogFeatureNotAvailable(),
                 onTapRighAction: () => showDialogFeatureNotAvailable(),
               ),
-              Expanded(
-                child: CustomTabBar(
-                  width: double.infinity,
-                  tabList: tabList(),
-                  tabBarViewList: const [
-                    TranscriptView(),
-                    FlwrView(),
-                    CollectiblesView(),
-                  ],
-                  indicatorDecoration: const CustomTabIndicator(
-                    color: StandardColors.darkGrey,
-                    indicatorHeight: 3,
-                  ),
-                ),
+              Observer(
+                builder: (context) {
+                  return Expanded(
+                    child: CustomTabBar(
+                      width: double.infinity,
+                      tabList: tabList(),
+                      tabBarViewList: [
+                        TranscriptView(
+                          isLoading: walletController.walletIsLoading,
+                        ),
+                        FlwrView(),
+                        CollectiblesView(),
+                      ],
+                      indicatorDecoration: const CustomTabIndicator(
+                        color: StandardColors.darkGrey,
+                        indicatorHeight: 3,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

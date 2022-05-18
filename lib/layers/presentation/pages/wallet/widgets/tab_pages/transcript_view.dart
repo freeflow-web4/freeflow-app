@@ -8,6 +8,7 @@ import 'package:freeflow/layers/presentation/pages/wallet/controller/transcripts
 import 'package:freeflow/layers/presentation/pages/wallet/util/wallet_util.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/empty_content.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/secondary_filter_menu_widget.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/wallet_loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
@@ -17,8 +18,9 @@ import 'package:freeflow/layers/presentation/widgets/transcript/gratitude/gratit
 import 'package:freeflow/layers/presentation/widgets/transcript/interactions/interactions_widget.dart';
 
 class TranscriptView extends StatefulWidget {
+  final bool isLoading;
 
-  const TranscriptView({Key? key,}) : super(key: key);
+  const TranscriptView({Key? key, required this.isLoading}) : super(key: key);
 
   @override
   State<TranscriptView> createState() => _TranscriptViewState();
@@ -35,24 +37,24 @@ class _TranscriptViewState extends State<TranscriptView> {
   List<String> secondaryFilters = [];
   final ScrollController _scrollController = ScrollController();
 
-
   @override
   void initState() {
     super.initState();
     setCategoryList();
     controller.configureTranscripts();
     _scrollController.addListener(() async {
-      if(canGetMoreTranscript()){
+      if (canGetMoreTranscript()) {
         await controller.configureMoreTranscripts();
       }
     });
   }
 
-  bool canGetMoreTranscript(){
-    return ((_scrollController.offset > _scrollController.position.maxScrollExtent * 0.7)
-        && controller.transcriptViewState == ViewState.done
-        && !controller.loadingMoreTranscripts
-        && controller.hasMoreTranscripts);
+  bool canGetMoreTranscript() {
+    return ((_scrollController.offset >
+            _scrollController.position.maxScrollExtent * 0.7) &&
+        controller.transcriptViewState == ViewState.done &&
+        !controller.loadingMoreTranscripts &&
+        controller.hasMoreTranscripts);
   }
 
   void setCategoryList() {
@@ -69,21 +71,30 @@ class _TranscriptViewState extends State<TranscriptView> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
         builder: (context) {
-          if ( controller.transcripts.isEmpty && controller.transcriptViewState != ViewState.loading) {
-            return const CustomRoundedCard(
-              borderRadius: BorderRadius.only(
+          if (controller.transcripts.isEmpty &&
+              controller.transcriptViewState != ViewState.loading) {
+            return CustomRoundedCard(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(normalSpacing),
                 topRight: Radius.circular(normalSpacing),
               ),
-              padding: EdgeInsets.symmetric(horizontal: mdSpacing),
-              child: EmptyContent(),
+              padding: const EdgeInsets.symmetric(horizontal: mdSpacing),
+              child: Column(
+                children: [
+                  WalletLoadingWidget(
+                    isLoading: widget.isLoading,
+                    paddingTop: normalSpacing,
+                    paddingLeft: huge4Spacing,
+                  ),
+                  const EmptyContent(),
+                ],
+              ),
             );
           }
           return content();
@@ -119,20 +130,22 @@ class _TranscriptViewState extends State<TranscriptView> {
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
-                    children:[
-                      if(controller.transcriptViewState == ViewState.loading)...[
-                        const Center(
-                          child:  LoadingWidget(
-                            isLoading: true,
-                            color: StandardColors.greyCA,
-                            size: 33,
-                            padding: EdgeInsets.only(top: mdSpacing),
-                          ),
-                        )
-                      ]else...[
-                        ...listFilteredTranscriptWidgets(listFilteredTranscript()),
-                      ]
-                    ],
+                  children: [
+                    if (controller.transcriptViewState ==
+                        ViewState.loading) ...[
+                      const Center(
+                        child: LoadingWidget(
+                          isLoading: true,
+                          color: StandardColors.greyCA,
+                          size: 33,
+                          padding: EdgeInsets.only(top: mdSpacing),
+                        ),
+                      )
+                    ] else ...[
+                      ...listFilteredTranscriptWidgets(
+                          listFilteredTranscript()),
+                    ]
+                  ],
                 ),
               ),
             ),
@@ -180,24 +193,30 @@ class _TranscriptViewState extends State<TranscriptView> {
     );
   }
 
-  List<Widget> listFilteredTranscriptWidgets(List<TranscriptEntity> transcriptList,) {
+  List<Widget> listFilteredTranscriptWidgets(
+    List<TranscriptEntity> transcriptList,
+  ) {
     List<Widget> filteredTranscriptsWidgetList;
     filteredTranscriptsWidgetList = transcriptList
-        .map((transcript) => getKindOfTranscript(transcript),
-    ).toList();
+        .map(
+          (transcript) => getKindOfTranscript(transcript),
+        )
+        .toList();
 
-    if(controller.loadingMoreTranscripts){
-      filteredTranscriptsWidgetList.add(const Padding(
-        padding:  EdgeInsets.only(bottom: 24),
-        child: Center(
-          child:  LoadingWidget(
-            isLoading: true,
-            color: StandardColors.greyCA,
-            size: 33,
-            padding: EdgeInsets.only(top: mdSpacing),
+    if (controller.loadingMoreTranscripts) {
+      filteredTranscriptsWidgetList.add(
+        const Padding(
+          padding: EdgeInsets.only(bottom: 24),
+          child: Center(
+            child: LoadingWidget(
+              isLoading: true,
+              color: StandardColors.greyCA,
+              size: 33,
+              padding: EdgeInsets.only(top: mdSpacing),
+            ),
           ),
         ),
-      ),);
+      );
     }
 
     return filteredTranscriptsWidgetList.isNotEmpty
@@ -205,18 +224,18 @@ class _TranscriptViewState extends State<TranscriptView> {
         : const [EmptyContent()];
   }
 
-  bool valueHasMatchWithFilterName(value, filterNamekey){
-    return value == TranslationService.translate(
-      context,
-      'wallet.$filterNamekey',
-    );
+  bool valueHasMatchWithFilterName(value, filterNamekey) {
+    return value ==
+        TranslationService.translate(
+          context,
+          'wallet.$filterNamekey',
+        );
   }
-
 
   List<TranscriptEntity> listFilteredTranscript() {
     filteredTranscriptList.clear();
 
-    for (int i = 0; i <  controller.transcripts.length; i++) {
+    for (int i = 0; i < controller.transcripts.length; i++) {
       if (valueHasMatchWithFilterName(
         categoryList[selectedFilterIndex],
         'all',
@@ -256,17 +275,23 @@ class _TranscriptViewState extends State<TranscriptView> {
   }
 
   Widget getKindOfTranscript(TranscriptEntity transcript) {
-    switch(transcript.category){
+    switch (transcript.category) {
       case 'flower_exchange':
-        return  FlowerExchangeWidget(transcriptEntity: transcript,);
+        return FlowerExchangeWidget(
+          transcriptEntity: transcript,
+        );
       case 'interactions':
-        return  InteractionsWidget(transcriptEntity: transcript,);
+        return InteractionsWidget(
+          transcriptEntity: transcript,
+        );
       case 'network_updates':
-      //TODO
-      ///WILL BE DONE ON ANOTHER DEMAND
+        //TODO
+        ///WILL BE DONE ON ANOTHER DEMAND
         return Container();
       case 'gratitude':
-        return  GratitudeWidget(transcriptEntity: transcript,);
+        return GratitudeWidget(
+          transcriptEntity: transcript,
+        );
     }
     return Container();
   }
