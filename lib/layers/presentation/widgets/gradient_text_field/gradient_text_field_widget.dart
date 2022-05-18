@@ -30,6 +30,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final Widget Function(Color)? sufixWidget;
   final void Function(String text)? onEditingComplete;
   final int onEditingCompleteDurationInMili;
+  final TextCapitalization textCapitalization;
   String? value;
   GradientTextFieldWidget({
     Key? key,
@@ -53,6 +54,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.sufixWidget,
     this.onEditingComplete,
     this.onEditingCompleteDurationInMili = 1000,
+    this.textCapitalization = TextCapitalization.none,
   }) : super(key: key);
 
   @override
@@ -121,6 +123,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                       key: ValueKey(
                         'key_for_text_field${widget.value}',
                       ),
+                      textCapitalization: widget.textCapitalization,
                       controller: widget.textController,
                       initialValue: widget.value,
                       onChanged: (text) {

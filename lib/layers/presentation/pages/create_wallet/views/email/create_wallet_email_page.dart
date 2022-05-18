@@ -67,6 +67,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
   @override
   Widget build(BuildContext context) {
     return BlackScaffold(
+      resizeToAvoidBottomInset: false,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -112,7 +113,6 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
                           ),
                           onChanged: pageController.onEmailChanged,
                           isFieldValid: pageController.isEmailValid,
-                          inputNode: emailFieldFocusNode,
                         );
                       },
                     ),

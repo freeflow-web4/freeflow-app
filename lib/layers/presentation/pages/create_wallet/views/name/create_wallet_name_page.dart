@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
-import 'package:freeflow/core/utils/adaptative_size.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
@@ -67,6 +66,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
   @override
   Widget build(BuildContext context) {
     return BlackScaffold(
+      resizeToAvoidBottomInset: false,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -117,10 +117,10 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                               pageController.onNameChanged(
                             value: text,
                             onLoadingStarted: clearFocusNode,
-                            onLoadingFinished: requestFocus,
+                            onLoadingFinished: () {},
                           ),
                           isFieldValid: pageController.isGradientTextFieldValid,
-                          inputNode: nameFieldFocusNode,
+                          textCapitalization: TextCapitalization.sentences,
                         );
                       },
                     ),
@@ -131,7 +131,6 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                     onAnimationEnd: () {
                       try {
                         animationController.forward().orCancel;
-                        requestFocus();
                       } catch (_) {}
                     },
                     animatedOnStart: widget.animatedOnStart,
@@ -193,13 +192,6 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
 
   void onInvalid() {
     showCustomDialog(context, textKey: 'createWallet.nameWarning');
-  }
-
-  void requestFocus() {
-    if (!mounted || !widget.currentPage) {
-      return;
-    }
-    nameFieldFocusNode.requestFocus();
   }
 
   void clearFocusNode() {
