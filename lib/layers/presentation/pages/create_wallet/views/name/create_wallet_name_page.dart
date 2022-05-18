@@ -72,6 +72,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
           padding: const EdgeInsets.only(
             left: mdSpacingx2,
             right: mdSpacingx2,
+            top: huge4Spacing,
           ),
           child: AnimatedBuilder(
             animation: animationController,
@@ -79,7 +80,6 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
               return Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const SizedBox(height: mdSpacingx2),
                   AnimatedText(
                     text: TranslationService.translate(
                       context,

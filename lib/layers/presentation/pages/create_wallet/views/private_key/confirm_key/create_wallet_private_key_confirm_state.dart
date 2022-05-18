@@ -72,6 +72,7 @@ class _CreateWalletPrivateKeyConfirmViewState
   @override
   Widget build(BuildContext context) {
     return BlackScaffold(
+      resizeToAvoidBottomInset: false,
       child: SafeArea(
         top: false,
         child: AnimatedBuilder(
@@ -134,7 +135,6 @@ class _CreateWalletPrivateKeyConfirmViewState
                           ),
                           onChanged: pageController.onPrivateKeyChanged,
                           isFieldValid: pageController.isGradientTextFieldValid,
-                          inputNode: privateKeyFieldFocusNode,
                         );
                       },
                     ),

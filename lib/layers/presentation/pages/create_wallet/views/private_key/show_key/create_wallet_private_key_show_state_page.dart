@@ -75,11 +75,11 @@ class _CreateWalletPrivateKeyShowViewState
             padding: const EdgeInsets.only(
               left: mdSpacingx2,
               right: mdSpacingx2,
+              top: huge4Spacing,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const FlexibleVerticalSpacer(height: huge4Spacing),
                 Padding(
                   padding: const EdgeInsets.only(right: 2 * mdSpacingx2),
                   child: AnimatedText(
@@ -209,6 +209,7 @@ class _CreateWalletPrivateKeyShowViewState
       ),
       secondaryTextKey: 'createWallet.privateKeyWarning',
       secondaryTextPosition: SecondaryTextPosition.top,
+      closeButtonIcon: IconsAsset.arrowIcon,
     );
     widget.onValid(
       PrivateKeyFormModel(

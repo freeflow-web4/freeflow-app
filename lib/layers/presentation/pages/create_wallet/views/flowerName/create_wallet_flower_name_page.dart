@@ -66,20 +66,19 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
   @override
   Widget build(BuildContext context) {
     return BlackScaffold(
+      resizeToAvoidBottomInset: false,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
             left: mdSpacingx2,
             right: mdSpacingx2,
+            top: huge4Spacing,
           ),
           child: AnimatedBuilder(
             animation: animationController,
             builder: (context, _) {
               return Column(
                 children: [
-                  const FlexibleVerticalSpacer(
-                    height: huge4Spacing,
-                  ),
                   AnimatedText(
                     text: widget.name +
                         "\n" +
@@ -118,7 +117,6 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                             textKey: '.flw',
                             color: color,
                           ),
-                          inputNode: flowerNameFieldFocusNode,
                         );
                       },
                     ),

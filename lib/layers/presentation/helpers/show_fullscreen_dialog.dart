@@ -11,6 +11,7 @@ Future showCustomDialog(
   String? secondaryText,
   Widget? body,
   SecondaryTextPosition secondaryTextPosition = SecondaryTextPosition.bottom,
+  String? closeButtonIcon = '',
 }) {
   return showGeneralDialog(
     context: context,
@@ -23,6 +24,8 @@ Future showCustomDialog(
         secondaryTextKey: secondaryTextKey == '' ? null : secondaryTextKey,
         secondaryText: secondaryText,
         secondaryTextPosition: secondaryTextPosition,
+        closeButtonIcon:
+            closeButtonIcon == '' ? IconsAsset.closeBackIcon : closeButtonIcon,
       );
     },
   );

@@ -26,6 +26,7 @@ class FullScreenAlertDialog extends StatefulWidget {
   final String? secondaryText;
   final Widget? body;
   final SecondaryTextPosition secondaryTextPosition;
+  final String? closeButtonIcon;
 
   const FullScreenAlertDialog({
     Key? key,
@@ -36,6 +37,7 @@ class FullScreenAlertDialog extends StatefulWidget {
     this.secondaryText,
     this.body,
     this.secondaryTextPosition = SecondaryTextPosition.bottom,
+    this.closeButtonIcon,
   }) : super(key: key);
 
   @override
@@ -197,7 +199,7 @@ class _FullScreenAlertDialogState extends State<FullScreenAlertDialog>
                     fullscreenAlertDialogController.closeDialog();
                   }
                 },
-                icon: IconsAsset.closeBackIcon,
+                icon: widget.closeButtonIcon!,
               ),
             ),
           ),
