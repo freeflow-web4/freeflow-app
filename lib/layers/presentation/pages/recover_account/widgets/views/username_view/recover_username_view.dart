@@ -13,7 +13,8 @@ import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views
 import 'package:freeflow/layers/presentation/pages/recover_account/widgets/views/username_view/recover_username_animation.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_dot_indicator/animated_dot_indicator_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
-import 'package:freeflow/layers/presentation/widgets/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
+
 import 'package:freeflow/layers/presentation/widgets/staggered_widgets/staggered_widgets.dart';
 import 'package:freeflow/routes/routes.dart';
 import 'package:get_it/get_it.dart';
