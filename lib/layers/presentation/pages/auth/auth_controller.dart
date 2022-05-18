@@ -47,7 +47,16 @@ abstract class AuthControllerBase with Store, Login {
   bool get pinCodeIsInvalid => pinFieldState == GradientTextFieldState.invalid;
 
   @computed
-  bool get hasErrorInPinField => pinFieldState != GradientTextFieldState.invalid;
+  bool get hasErrorInPinField =>
+      pinFieldState != GradientTextFieldState.invalid;
+
+  @computed
+  bool get isInsertingNewPincode =>
+      recoverPincodeState == RecoverPincodeState.chooseNewPincode;
+
+  @computed
+  bool get isConfirmingNewPincode =>
+      recoverPincodeState == RecoverPincodeState.confirmNewPincode;
 
   @action
   void updateCurrentPinCode(String value) {
