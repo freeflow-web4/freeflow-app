@@ -59,7 +59,7 @@ class Routes with TextThemes {
   }
 
   void goToHomePageRoute() {
-    _routeService.pushAndPopAll(const HomeRoute());
+    _routeService.pushReplacement(const HomeRoute());
   }
 
   void goToCreateWalletPageRoute() {
