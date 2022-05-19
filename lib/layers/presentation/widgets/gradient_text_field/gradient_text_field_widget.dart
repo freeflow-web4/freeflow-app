@@ -31,6 +31,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final void Function(String text)? onEditingComplete;
   final int onEditingCompleteDurationInMili;
   final TextCapitalization textCapitalization;
+  final Color obscureTextColor;
   String? value;
   GradientTextFieldWidget({
     Key? key,
@@ -55,6 +56,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.onEditingComplete,
     this.onEditingCompleteDurationInMili = 1000,
     this.textCapitalization = TextCapitalization.none,
+    this.obscureTextColor = StandardColors.black,
   }) : super(key: key);
 
   @override
@@ -112,7 +114,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                                     ? StandardColors.error
                                     : widget.value != null &&
                                             !widget.isFieldValid
-                                        ? StandardColors.black
+                                        ? widget.obscureTextColor
                                         : widget.isFieldValid
                                             ? StandardColors.blueLight
                                             : null,

@@ -107,6 +107,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                         isPinInput: true,
                         value: pageController.currentPinCode,
                         isObscureText: pageController.isPinObscure,
+                        obscureTextColor: StandardColors.white,
                         onObscureButtonPressed:
                             pageController.onPinObscureTextFieldTap,
                       );
@@ -141,7 +142,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                   ),
                 ),
                 const FlexibleVerticalSpacer(
-                  height: mdSpacingx2,
+                  height: xxlargeSpacing,
                 ),
                 Opacity(
                   opacity: animations.keyboardAnimationOpacity.value,
@@ -150,7 +151,7 @@ class _CreateWalletPinCodeViewState extends State<CreateWalletPinCodeView>
                   ),
                 ),
                 const FlexibleVerticalSpacer(
-                  height: huge3Spacing,
+                  height: largeSpacingx2,
                 ),
                 Opacity(
                   opacity: animations.confirmButtonAnimationOpacity.value,

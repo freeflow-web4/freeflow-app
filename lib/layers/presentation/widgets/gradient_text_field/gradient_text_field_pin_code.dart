@@ -23,21 +23,21 @@ class GradientTextFieldPinCode extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: CircleAvatar(
-            radius: subString.length >= 2 ? 4 : 2,
+            radius: subString.length >= 2 ? 5 : 3,
             backgroundColor: color ?? StandardColors.grey,
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: CircleAvatar(
-            radius: subString.length >= 3 ? 4 : 2,
+            radius: subString.length >= 3 ? 5 : 3,
             backgroundColor: color ?? StandardColors.grey,
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: CircleAvatar(
-            radius: subString.length >= 4 ? 4 : 2,
+            radius: subString.length >= 4 ? 5 : 3,
             backgroundColor: color ?? StandardColors.grey,
           ),
         ),
