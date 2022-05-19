@@ -110,6 +110,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                             context,
                             'createWallet.flowerNameTextFieldHint',
                           ),
+                          showSecondText: true,
                           onChanged: pageController.onFlowerNameChanged,
                           isFieldValid: pageController.isGradientTextFieldValid,
                           sufixWidget: (color) => textSubtitle3(
