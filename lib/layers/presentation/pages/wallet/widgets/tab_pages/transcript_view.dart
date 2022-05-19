@@ -148,7 +148,8 @@ class _TranscriptViewState extends State<TranscriptView> {
                       )
                     ] else ...[
                       ...listFilteredTranscriptWidgets(
-                          listFilteredTranscript()),
+                        listFilteredTranscript(),
+                      ),
                     ]
                   ],
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/controller/transcripts/transcripts_widget_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_loading_widget.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
@@ -9,12 +10,14 @@ import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
 
 class WalletInfoWidget extends StatelessWidget with TextThemes {
   final WalletController walletController;
+  final TranscriptsWidgetController transcriptController;
   final Function onTapLeftAction;
   final Function onTapRighAction;
 
   const WalletInfoWidget({
     Key? key,
     required this.walletController,
+    required this.transcriptController,
     required this.onTapLeftAction,
     required this.onTapRighAction,
   }) : super(key: key);
@@ -32,6 +35,7 @@ class WalletInfoWidget extends StatelessWidget with TextThemes {
           GestureDetector(
             onTap: () {
               walletController.refreshData();
+              transcriptController.configureTranscripts();
             },
             child: Container(
               alignment: Alignment.bottomLeft,

@@ -7,6 +7,7 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/helpers/dialog/show_dialog_default.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/controller/transcripts/transcripts_widget_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_painter_tabbar.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/wallet_background_image.dart';
@@ -26,6 +27,8 @@ class WalletPage extends StatefulWidget {
 
 class _WalletPageState extends State<WalletPage> with TextThemes {
   WalletController walletController = WalletController();
+  TranscriptsWidgetController transcriptController =
+      TranscriptsWidgetController();
   late StreamSubscription<ConnectivityResult> subscription;
   bool stated = false;
 
@@ -60,6 +63,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
             children: [
               WalletInfoWidget(
                 walletController: walletController,
+                transcriptController: transcriptController,
                 onTapLeftAction: () => showDialogFeatureNotAvailable(),
                 onTapRighAction: () => showDialogFeatureNotAvailable(),
               ),
@@ -73,8 +77,8 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                         TranscriptView(
                           isLoading: walletController.walletIsLoading,
                         ),
-                        FlwrView(),
-                        CollectiblesView(),
+                        const FlwrView(),
+                        const CollectiblesView(),
                       ],
                       indicatorDecoration: const CustomTabIndicator(
                         color: StandardColors.darkGrey,
