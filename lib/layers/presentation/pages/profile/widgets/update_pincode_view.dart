@@ -5,14 +5,12 @@ import 'package:freeflow/core/translation/translation_service.dart';
 import 'package:freeflow/core/utils/assets_constants.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
-import 'package:freeflow/core/utils/adaptative_size.dart';
 
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/widgets/animated_arrow_right_widget.dart';
-import 'package:freeflow/layers/presentation/widgets/custom_bottom_sheet.dart';
+import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
-
 import 'package:freeflow/layers/presentation/widgets/in_app_keyboard/in_app_keyboard_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/informative_dialog.dart';
 import 'package:freeflow/routes/routes.dart';
@@ -47,17 +45,13 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        return CustomBottomSheet(
-          children: [
-            textH6(context, textKey: getTitleByState()),
-            Padding(
-              padding: EdgeInsets.only(
-                top: getProportionalHeightFromValue(
-                  context,
-                  xxlargeSpacing,
-                ),
-              ),
-              child: GradientTextFieldWidget(
+        return SizedBox(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Column(
+            children: [
+              const FlexibleVerticalSpacer(height: mdSpacing),
+              GradientTextFieldWidget(
                 value: authController.currentPinCode,
                 onChanged: (_) {},
                 normalTextColor: StandardColors.backgroundDark,
@@ -77,39 +71,29 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
                     obscureButtonColor(authController.pinFieldState),
                 showObscureButton: true,
               ),
-            ),
-            InAppKeyboardWidget(
-              textColor: StandardColors.backgroundDark,
-              padding: EdgeInsets.only(
-                top: getProportionalHeightFromValue(
-                  context,
-                  largeSpacingx2,
-                ),
+              const FlexibleVerticalSpacer(height: largeSpacing),
+              InAppKeyboardWidget(
+                textColor: StandardColors.backgroundDark,
+                onTap: (digit) {
+                  final currentText = authController.currentPinCode;
+                  authController.onKeyboardTap(digit, currentText);
+                },
               ),
-              onTap: (digit) {
-                final currentText = authController.currentPinCode;
-                authController.onKeyboardTap(digit, currentText);
-              },
-            ),
-            StatefulBuilder(
-              builder: (context, setBottomSheetState) {
-                return AnimatedArrowRight(
-                  onTap: () {
-                    showInformativeDialog();
-                  },
-                  isActive: authController.isPinValid &&
-                      authController.currentPinCode.isNotEmpty,
-                  padding: EdgeInsets.only(
-                    bottom: smSpacing,
-                    top: getProportionalHeightFromValue(
-                      context,
-                      huge3Spacing,
-                    ),
-                  ),
-                );
-              },
-            )
-          ],
+              const FlexibleVerticalSpacer(height: huge4Spacing),
+              StatefulBuilder(
+                builder: (context, setBottomSheetState) {
+                  return AnimatedArrowRight(
+                    onTap: () {
+                      showInformativeDialog();
+                    },
+                    isActive: authController.isPinValid &&
+                        authController.currentPinCode.isNotEmpty,
+                  );
+                },
+              ),
+              const FlexibleVerticalSpacer(height: bigSpacing),
+            ],
+          ),
         );
       },
     );
@@ -148,18 +132,6 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
         });
       },
     );
-  }
-
-  String getTitleByState() {
-    if (authController.recoverPincodeState ==
-        RecoverPincodeState.chooseNewPincode) {
-      return FlutterI18n.translate(context, "profile.insertYourNewPinCode");
-    } else if (authController.recoverPincodeState ==
-        RecoverPincodeState.confirmNewPincode) {
-      return FlutterI18n.translate(context, "profile.confirmYourNewPinCode")
-          .toUpperCase();
-    }
-    return FlutterI18n.translate(context, "login.authTitle").toUpperCase();
   }
 
   String getLabelByState() {

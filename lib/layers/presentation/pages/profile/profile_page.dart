@@ -34,7 +34,6 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
   final ProfilePageController controller = findProfileController();
   final AuthController authController = GetIt.I.get<AuthController>();
 
-
   @override
   void initState() {
     super.initState();
@@ -65,10 +64,9 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                 size: 33,
               ),
             );
-          }
-          else if(controller.hasError){
-            return  TryAgain(
-              onTap: (){
+          } else if (controller.hasError) {
+            return TryAgain(
+              onTap: () {
                 controller.getUser(
                   onError: () => showDialogError(context),
                 );
@@ -112,7 +110,8 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
                     onTapCommitment: () => showCommitmentBottomSheet(),
                     onShowPhraseTap: () => controller.showPhrasePage(context),
                     onTapRememberMe: () => showRememberMeBottomSheet(),
-                    onTapGesturesInstructions: () => showDialogFeatureNotAvailable(),
+                    onTapGesturesInstructions: () =>
+                        showDialogFeatureNotAvailable(),
                     onTapChangePincode: () => showRecoverPincodeDialog(context),
                   ),
                 ],
@@ -145,19 +144,30 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
   }
 
   void showRecoverPincodeDialog(BuildContext context) {
-    showModalBottomSheet(
+    showFlexBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(normalSpacing),
-          topRight: Radius.circular(normalSpacing),
-        ),
+      title: Center(
+        child: Observer(builder: (context) {
+          return textH6(
+            context,
+            isUpperCase: true,
+            textKey: getChangePincodeTitleByState(),
+          );
+        }),
       ),
-      isScrollControlled: true,
-      builder: (context) => const UpdatePincodeView(),
+      content: const UpdatePincodeView(),
     ).whenComplete(() {
       authController.clearPinData();
     });
+  }
+
+  String getChangePincodeTitleByState() {
+    if (authController.isInsertingNewPincode) {
+      return "profile.insertYourNewPinCode";
+    } else if (authController.isConfirmingNewPincode) {
+      return "profile.confirmYourNewPinCode";
+    }
+    return "login.authTitle";
   }
 
   showCommitmentBottomSheet() {
@@ -198,5 +208,4 @@ class _ProfilePageState extends State<ProfilePage> with TextThemes {
       onTap: () {},
     );
   }
-
 }

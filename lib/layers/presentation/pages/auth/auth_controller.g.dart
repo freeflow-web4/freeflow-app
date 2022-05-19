@@ -44,6 +44,20 @@ mixin _$AuthController on AuthControllerBase, Store {
           Computed<bool>(() => super.hasErrorInPinField,
               name: 'AuthControllerBase.hasErrorInPinField'))
       .value;
+  Computed<bool>? _$isInsertingNewPincodeComputed;
+
+  @override
+  bool get isInsertingNewPincode => (_$isInsertingNewPincodeComputed ??=
+          Computed<bool>(() => super.isInsertingNewPincode,
+              name: 'AuthControllerBase.isInsertingNewPincode'))
+      .value;
+  Computed<bool>? _$isConfirmingNewPincodeComputed;
+
+  @override
+  bool get isConfirmingNewPincode => (_$isConfirmingNewPincodeComputed ??=
+          Computed<bool>(() => super.isConfirmingNewPincode,
+              name: 'AuthControllerBase.isConfirmingNewPincode'))
+      .value;
 
   final _$currentPinCodeAtom = Atom(name: 'AuthControllerBase.currentPinCode');
 
@@ -231,7 +245,9 @@ isPinValid: ${isPinValid},
 pinCodeChangeIsComplete: ${pinCodeChangeIsComplete},
 hasErrorInPincodeChange: ${hasErrorInPincodeChange},
 pinCodeIsInvalid: ${pinCodeIsInvalid},
-hasErrorInPinField: ${hasErrorInPinField}
+hasErrorInPinField: ${hasErrorInPinField},
+isInsertingNewPincode: ${isInsertingNewPincode},
+isConfirmingNewPincode: ${isConfirmingNewPincode}
     ''';
   }
 }
