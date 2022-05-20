@@ -19,15 +19,19 @@ abstract class TranscriptsWidgetControllerBase with Store {
 
   @observable
   ViewState transcriptViewState = ViewState.loading;
+
   @observable
   List<TranscriptEntity> transcripts = [];
+
   @observable
   bool loadingMoreTranscripts = false;
+
   @observable
   bool hasMoreTranscripts = false;
 
   @action
   Future<void> configureTranscripts() async {
+    transcriptViewState = ViewState.loading;
     page = 0;
     final response = await getTranscriptsUsecase.call(offset: page);
     response.fold(

@@ -75,6 +75,7 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
                       tabList: tabList(),
                       tabBarViewList: [
                         TranscriptView(
+                          controller: transcriptController,
                           isLoading: walletController.walletIsLoading,
                         ),
                         const FlwrView(),

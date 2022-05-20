@@ -35,7 +35,7 @@ class WalletInfoWidget extends StatelessWidget with TextThemes {
           GestureDetector(
             onTap: () {
               walletController.refreshData();
-              transcriptController.configureTranscripts();
+              transcriptController.refreshData();
             },
             child: Container(
               alignment: Alignment.bottomLeft,

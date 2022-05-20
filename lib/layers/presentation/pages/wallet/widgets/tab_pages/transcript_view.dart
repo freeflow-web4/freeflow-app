@@ -19,16 +19,19 @@ import 'package:freeflow/layers/presentation/widgets/transcript/interactions/int
 
 class TranscriptView extends StatefulWidget {
   final bool isLoading;
+  final TranscriptsWidgetController controller;
 
-  const TranscriptView({Key? key, required this.isLoading}) : super(key: key);
+  const TranscriptView({
+    Key? key,
+    required this.isLoading,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   State<TranscriptView> createState() => _TranscriptViewState();
 }
 
 class _TranscriptViewState extends State<TranscriptView> {
-  TranscriptsWidgetController controller = TranscriptsWidgetController();
-
   List<String> categoryList = [];
   int selectedFilterIndex = 0;
   List<TranscriptEntity> filteredTranscriptList = [];
@@ -41,10 +44,10 @@ class _TranscriptViewState extends State<TranscriptView> {
   void initState() {
     super.initState();
     setCategoryList();
-    controller.configureTranscripts();
+    widget.controller.configureTranscripts();
     _scrollController.addListener(() async {
       if (canGetMoreTranscript()) {
-        await controller.configureMoreTranscripts();
+        await widget.controller.configureMoreTranscripts();
       }
     });
   }
@@ -52,9 +55,9 @@ class _TranscriptViewState extends State<TranscriptView> {
   bool canGetMoreTranscript() {
     return ((_scrollController.offset >
             _scrollController.position.maxScrollExtent * 0.7) &&
-        controller.transcriptViewState == ViewState.done &&
-        !controller.loadingMoreTranscripts &&
-        controller.hasMoreTranscripts);
+        widget.controller.transcriptViewState == ViewState.done &&
+        !widget.controller.loadingMoreTranscripts &&
+        widget.controller.hasMoreTranscripts);
   }
 
   void setCategoryList() {
@@ -77,8 +80,9 @@ class _TranscriptViewState extends State<TranscriptView> {
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
         builder: (context) {
-          if (controller.transcripts.isEmpty &&
-              controller.transcriptViewState != ViewState.loading) {
+          print(widget.controller.transcriptViewState);
+          if (widget.controller.transcripts.isEmpty &&
+              widget.controller.transcriptViewState != ViewState.loading) {
             return CustomRoundedCard(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(normalSpacing),
@@ -126,7 +130,7 @@ class _TranscriptViewState extends State<TranscriptView> {
             margin: EdgeInsets.zero,
             width: double.infinity,
             child: RefreshLoading(
-              onRefresh: controller.refreshData,
+              onRefresh: widget.controller.refreshData,
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
@@ -136,7 +140,7 @@ class _TranscriptViewState extends State<TranscriptView> {
                       paddingTop: normalSpacing,
                       paddingLeft: huge6Spacing,
                     ),
-                    if (controller.transcriptViewState ==
+                    if (widget.controller.transcriptViewState ==
                         ViewState.loading) ...[
                       const Center(
                         child: LoadingWidget(
@@ -209,7 +213,7 @@ class _TranscriptViewState extends State<TranscriptView> {
         )
         .toList();
 
-    if (controller.loadingMoreTranscripts) {
+    if (widget.controller.loadingMoreTranscripts) {
       filteredTranscriptsWidgetList.add(
         const Padding(
           padding: EdgeInsets.only(bottom: 24),
@@ -241,19 +245,19 @@ class _TranscriptViewState extends State<TranscriptView> {
   List<TranscriptEntity> listFilteredTranscript() {
     filteredTranscriptList.clear();
 
-    for (int i = 0; i < controller.transcripts.length; i++) {
+    for (int i = 0; i < widget.controller.transcripts.length; i++) {
       if (valueHasMatchWithFilterName(
         categoryList[selectedFilterIndex],
         'all',
       )) {
-        filteredTranscriptList.add(controller.transcripts[i]);
+        filteredTranscriptList.add(widget.controller.transcripts[i]);
       }
       if (categoryList[selectedFilterIndex] ==
           WalletUtil.getInternationalizedFilterName(
             context,
-            controller.transcripts[i].category,
+            widget.controller.transcripts[i].category,
           )) {
-        filteredTranscriptList.add(controller.transcripts[i]);
+        filteredTranscriptList.add(widget.controller.transcripts[i]);
       }
     }
 
