@@ -22,7 +22,7 @@ abstract class _CreateWalletControllerBase with Store {
   GradientTextFieldState nameFieldState = GradientTextFieldState.empty;
 
   @computed
-  bool get buttonNextActivated => formValid && !isLoading;
+  bool get buttonNextActivated => formValid;
 
   @computed
   bool get isGradientTextFieldValid =>
@@ -34,50 +34,20 @@ abstract class _CreateWalletControllerBase with Store {
   @observable
   String currentName = "";
 
-  @observable
-  bool isLoading = false;
-
   @action
   Future<void> onNameChanged({
     required String value,
     required void Function() onLoadingStarted,
     required void Function() onLoadingFinished,
   }) async {
-    if (value == currentName) {
-      return;
-    }
     if (value.trim().isEmpty) {
+      currentName = value;
       nameFieldState = GradientTextFieldState.empty;
-      isLoading = false;
-      currentName = value;
-    } else if (CreateWalletNameValidator.isValid(value)) {
-      isLoading = true;
-      currentName = value;
-      onLoadingStarted();
-      getUsernameExistsUsecase(value).then(
-        (result) => result.fold((l) {
-          nameFieldState = GradientTextFieldState.invalid;
-          formValid = false;
-          isLoading = false;
-          onLoadingFinished();
-        }, (r) {
-          if (!r) {
-            nameFieldState = GradientTextFieldState.valid;
-            formValid = true;
-            isLoading = false;
-          } else {
-            nameFieldState = GradientTextFieldState.invalid;
-            formValid = false;
-            isLoading = false;
-          }
-          onLoadingFinished();
-        }),
-      );
-    } else {
-      nameFieldState = GradientTextFieldState.invalid;
       formValid = false;
-      isLoading = false;
+    } else {
       currentName = value;
+      nameFieldState = GradientTextFieldState.valid;
+      formValid = true;
     }
   }
 

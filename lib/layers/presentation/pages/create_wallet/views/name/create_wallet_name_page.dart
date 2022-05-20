@@ -14,8 +14,6 @@ import 'package:freeflow/layers/presentation/widgets/animated_float_button_widge
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
-
-import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
 part './create_wallet_animations.dart';
 
 class CreateWalletNameView extends StatefulWidget {
@@ -136,30 +134,27 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                     animatedOnStart: widget.animatedOnStart,
                   ),
                   const FlexibleVerticalSpacer(height: huge5Spacing),
-                  Observer(
-                    builder: (context) {
-                      return LoadingWidget(isLoading: pageController.isLoading);
-                    },
-                  ),
-                  const FlexibleVerticalSpacer(height: huge5Spacing),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Opacity(
-                      opacity: animations.buttonOpacity.value,
-                      child: Observer(
-                        builder: (context) {
-                          return AnimatedFloatButtonWidget(
-                            isActive: pageController.buttonNextActivated,
-                            onTap: (activate) {
-                              pageController.onNextButtonPressed(
-                                onValid,
-                                onInvalid,
-                              );
-                            },
-                            icon: IconsAsset.arrowIcon,
-                            isLargeButton: pageController.buttonNextActivated,
-                          );
-                        },
+                  Flexible(
+                    flex: 299,
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Opacity(
+                        opacity: animations.buttonOpacity.value,
+                        child: Observer(
+                          builder: (context) {
+                            return AnimatedFloatButtonWidget(
+                              isActive: pageController.buttonNextActivated,
+                              onTap: (activate) {
+                                pageController.onNextButtonPressed(
+                                  onValid,
+                                  onInvalid,
+                                );
+                              },
+                              icon: IconsAsset.arrowIcon,
+                              isLargeButton: pageController.buttonNextActivated,
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

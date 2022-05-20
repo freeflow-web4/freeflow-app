@@ -71,21 +71,6 @@ mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
     });
   }
 
-  final _$isLoadingAtom = Atom(name: '_CreateWalletControllerBase.isLoading');
-
-  @override
-  bool get isLoading {
-    _$isLoadingAtom.reportRead();
-    return super.isLoading;
-  }
-
-  @override
-  set isLoading(bool value) {
-    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
-      super.isLoading = value;
-    });
-  }
-
   final _$onNameChangedAsyncAction =
       AsyncAction('_CreateWalletControllerBase.onNameChanged');
 
@@ -121,7 +106,6 @@ mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
 nameFieldState: ${nameFieldState},
 formValid: ${formValid},
 currentName: ${currentName},
-isLoading: ${isLoading},
 buttonNextActivated: ${buttonNextActivated},
 isGradientTextFieldValid: ${isGradientTextFieldValid}
     ''';
