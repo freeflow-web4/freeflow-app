@@ -39,10 +39,10 @@ abstract class _CreateWalletConfirmPinCodeControllerBase with Store {
   void onPinChanged(String value) {
     if (value.trim().isEmpty) {
       pinFieldState = GradientTextFieldState.empty;
+    } else if ((value.length < 4)) {
+      pinFieldState = GradientTextFieldState.typing;
     } else if (isPinCodeValid(value)) {
       pinFieldState = GradientTextFieldState.valid;
-    } else if (!isPinCodeValid(value)) {
-      pinFieldState = GradientTextFieldState.typing;
     } else {
       pinFieldState = GradientTextFieldState.invalid;
     }
@@ -89,6 +89,6 @@ abstract class _CreateWalletConfirmPinCodeControllerBase with Store {
   }
 
   bool isPinCodeValid(String pinCode) {
-    return pinCode == correctPinCode && pinCode.length == 4;
+    return pinCode == correctPinCode;
   }
 }
