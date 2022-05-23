@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/validators/email_validator.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';

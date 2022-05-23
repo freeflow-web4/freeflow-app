@@ -15,6 +15,8 @@ import 'package:freeflow/layers/presentation/widgets/animated_float_button_widge
 import 'package:freeflow/layers/presentation/widgets/animated_text.dart';
 import 'package:freeflow/layers/presentation/widgets/flexible_vertical_spacer.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
+import 'package:freeflow/layers/presentation/widgets/loading_widget.dart';
+import 'package:get_it/get_it.dart';
 
 class CreateWalletFlowerNameView extends StatefulWidget {
   final bool currentPage;
@@ -41,7 +43,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
   late final animationController =
       AnimationController(vsync: this, duration: _totalDuration);
 
-  final pageController = CreateWalletFlowerNameController();
+  final pageController = GetIt.I.get<CreateWalletFlowerNameController>();
 
   late final animations = CreateWalletFlowerNameAnimations(animationController);
 
@@ -58,6 +60,7 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
 
   @override
   void dispose() {
+    pageController.debounce?.cancel();
     animationController.dispose();
     flowerNameFieldFocusNode.dispose();
     super.dispose();
@@ -135,6 +138,13 @@ class _CreateWalletFlowerNameViewState extends State<CreateWalletFlowerNameView>
                     },
                     animatedOnStart: widget.animatedOnStart,
                   ),
+                  const FlexibleVerticalSpacer(height: huge5Spacing),
+                  Observer(
+                    builder: (context) {
+                      return LoadingWidget(isLoading: pageController.isLoading);
+                    },
+                  ),
+                  const FlexibleVerticalSpacer(height: huge5Spacing),
                   Flexible(
                     flex: 299,
                     child: Container(

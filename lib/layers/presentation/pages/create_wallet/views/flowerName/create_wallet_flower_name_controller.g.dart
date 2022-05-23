@@ -75,6 +75,22 @@ mixin _$CreateWalletFlowerNameController
     });
   }
 
+  final _$isLoadingAtom =
+      Atom(name: '_CreateWalletEmailControllerBase.isLoading');
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   final _$_CreateWalletEmailControllerBaseActionController =
       ActionController(name: '_CreateWalletEmailControllerBase');
 
@@ -111,6 +127,7 @@ mixin _$CreateWalletFlowerNameController
 gradientTextFieldState: ${gradientTextFieldState},
 formValid: ${formValid},
 currentFlowerName: ${currentFlowerName},
+isLoading: ${isLoading},
 buttonNextActivated: ${buttonNextActivated},
 isGradientTextFieldValid: ${isGradientTextFieldValid}
     ''';

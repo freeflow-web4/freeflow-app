@@ -18,6 +18,7 @@ import 'package:freeflow/layers/infra/drivers/biometric/biometric_auth_driver.da
 import 'package:freeflow/layers/presentation/pages/auth/auth_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/controller/create_wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/email/create_wallet_email_controller.dart';
+import 'package:freeflow/layers/presentation/pages/create_wallet/views/flowerName/create_wallet_flower_name_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/name/create_wallet_name_controller.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/views/pinCode/choose/create_wallet_pin_code_controller.dart';
 import 'package:freeflow/layers/presentation/pages/cut_image/controller/cut_image_controller.dart';
@@ -148,6 +149,12 @@ registerControllerDependencies(GetIt getIt) {
 
   getIt.registerLazySingleton<CreateWalletNameController>(
     () => CreateWalletNameController(
+      getIt.get<GetUsernameExistsUsecase>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<CreateWalletFlowerNameController>(
+    () => CreateWalletFlowerNameController(
       getIt.get<GetUsernameExistsUsecase>(),
     ),
   );
