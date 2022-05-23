@@ -142,14 +142,17 @@ class _CreateWalletPrivateKeyConfirmViewState
                   const FlexibleVerticalSpacer(
                     height: xxlargeSpacing,
                   ),
-                  CreateWalletPageIndicator(
-                    currentIndex: 3,
-                    onAnimationEnd: () {
-                      animationController
-                          .forward()
-                          .then((value) => requestFocus());
-                    },
-                    animatedOnStart: widget.animateOnStart,
+                  Opacity(
+                    opacity: animations.buttonOpacity.value,
+                    child: CreateWalletPageIndicator(
+                      currentIndex: 3,
+                      onAnimationEnd: () {
+                        animationController
+                            .forward()
+                            .then((value) => requestFocus());
+                      },
+                      animatedOnStart: widget.animateOnStart,
+                    ),
                   ),
                   const FlexibleVerticalSpacer(height: 130),
                   Opacity(
