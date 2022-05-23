@@ -11,7 +11,7 @@ class SecondaryButton extends StatelessWidget {
     this.padding,
   }) : super(key: key);
 
-  static const borderColor = Color(0xFF828282);
+  static const borderColor = Color(0xFF797D83);
   static const backgroundColor = Color(0xFF4F4F4F);
   static const borderRadius = 20.0;
 
@@ -26,7 +26,7 @@ class SecondaryButton extends StatelessWidget {
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              20,
+              25,
             ),
             side: const BorderSide(
               color: borderColor,
