@@ -59,6 +59,7 @@ class _CreateWalletEmailViewState extends State<CreateWalletEmailView>
 
   @override
   void dispose() {
+    pageController.debounce?.cancel();
     animationController.dispose();
     emailFieldFocusNode.dispose();
     super.dispose();

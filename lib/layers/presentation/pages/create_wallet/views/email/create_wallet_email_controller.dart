@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:freeflow/layers/presentation/pages/create_wallet/models/email_form_model.dart';
 import 'package:freeflow/layers/presentation/pages/create_wallet/validators/email_validator.dart';
 import 'package:freeflow/layers/presentation/widgets/gradient_text_field/gradient_text_field_widget.dart';
@@ -25,18 +27,26 @@ abstract class _CreateWalletEmailControllerBase with Store {
   @observable
   String currentEmail = '';
 
+  Timer? debounce;
+
   @action
   void onEmailChanged(String value) {
-    if (value.trim().isEmpty) {
-      privateKeyFieldState = GradientTextFieldState.empty;
-    } else if (CreateWalletEmailValidator.isValid(value)) {
-      privateKeyFieldState = GradientTextFieldState.valid;
-      formValid = true;
-      currentEmail = value;
-    } else {
-      privateKeyFieldState = GradientTextFieldState.invalid;
-      formValid = false;
+    privateKeyFieldState = GradientTextFieldState.typing;
+    if (debounce?.isActive ?? false) {
+      debounce?.cancel();
     }
+    debounce = Timer(const Duration(seconds: 1), () {
+      if (value.trim().isEmpty) {
+        privateKeyFieldState = GradientTextFieldState.empty;
+      } else if (CreateWalletEmailValidator.isValid(value)) {
+        privateKeyFieldState = GradientTextFieldState.valid;
+        formValid = true;
+        currentEmail = value;
+      } else {
+        privateKeyFieldState = GradientTextFieldState.invalid;
+        formValid = false;
+      }
+    });
   }
 
   @action
