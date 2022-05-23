@@ -37,7 +37,7 @@ class _SwipeButtonState extends State<SwipeButton>
     stops: [0.0, 0.6],
   );
   static const borderPadding = 2.0;
-  static const childPadding = 8.0;
+  static const childPadding = 6.0;
   static const totalPadding = borderPadding + childPadding;
   static const _buttonMaxRange = 0.15;
   static const _bigAnimationWeight = 0.8;
@@ -337,7 +337,14 @@ class _SwipeButtonState extends State<SwipeButton>
           ],
         ),
         padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Image.asset('assets/images/icons/arrow_right.png'),
+        child: Align(
+          alignment: Alignment.center,
+          child: Image.asset(
+            'assets/images/icons/arrow_right.png',
+            width: 20,
+            height: 20,
+          ),
+        ),
       ),
     );
   }
@@ -417,7 +424,7 @@ class _SwipeButtonState extends State<SwipeButton>
   }
 
   Widget textWidget(BuildContext context, String text) {
-    return textBold22(context, text: text, color: StandardColors.white);
+    return textButton(context, text: text, color: StandardColors.white);
   }
 
   double _linearComeBackBuilder(
