@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage>
               SecondaryButton(
                 child: Align(
                   alignment: Alignment.center,
-                  child: textBold24(
+                  child: textButton(
                     context,
                     text: 'Recover Account',
                     color: StandardColors.white,
