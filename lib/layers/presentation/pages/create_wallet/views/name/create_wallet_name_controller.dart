@@ -34,11 +34,7 @@ abstract class _CreateWalletControllerBase with Store {
   String currentName = "";
 
   @action
-  Future<void> onNameChanged({
-    required String value,
-    required void Function() onLoadingStarted,
-    required void Function() onLoadingFinished,
-  }) async {
+  Future<void> onNameChanged({required String value}) async {
     if (value.trim().isEmpty) {
       currentName = value;
       nameFieldState = GradientTextFieldState.empty;

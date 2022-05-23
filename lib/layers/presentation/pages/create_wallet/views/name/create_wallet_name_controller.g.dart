@@ -75,14 +75,9 @@ mixin _$CreateWalletNameController on _CreateWalletControllerBase, Store {
       AsyncAction('_CreateWalletControllerBase.onNameChanged');
 
   @override
-  Future<void> onNameChanged(
-      {required String value,
-      required void Function() onLoadingStarted,
-      required void Function() onLoadingFinished}) {
-    return _$onNameChangedAsyncAction.run(() => super.onNameChanged(
-        value: value,
-        onLoadingStarted: onLoadingStarted,
-        onLoadingFinished: onLoadingFinished));
+  Future<void> onNameChanged({required String value}) {
+    return _$onNameChangedAsyncAction
+        .run(() => super.onNameChanged(value: value));
   }
 
   final _$_CreateWalletControllerBaseActionController =

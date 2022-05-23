@@ -112,11 +112,7 @@ class _CreateWalletNameViewState extends State<CreateWalletNameView>
                             pageController.formValid = false;
                           },
                           onEditingComplete: (text) =>
-                              pageController.onNameChanged(
-                            value: text,
-                            onLoadingStarted: clearFocusNode,
-                            onLoadingFinished: () {},
-                          ),
+                              pageController.onNameChanged(value: text),
                           isFieldValid: pageController.isGradientTextFieldValid,
                           textCapitalization: TextCapitalization.sentences,
                         );

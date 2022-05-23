@@ -24,7 +24,7 @@ abstract class _CreateWalletEmailControllerBase with Store {
 
   @computed
   bool get isGradientTextFieldValid =>
-      GradientTextFieldState.invalid != gradientTextFieldState;
+      GradientTextFieldState.valid == gradientTextFieldState;
 
   @observable
   bool formValid = false;

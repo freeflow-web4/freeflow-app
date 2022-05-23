@@ -17,8 +17,7 @@ abstract class _CreateWalletEmailControllerBase with Store {
       GradientTextFieldState.valid == privateKeyFieldState;
 
   @computed
-  bool get isEmailValid =>
-      GradientTextFieldState.invalid != privateKeyFieldState;
+  bool get isEmailValid => GradientTextFieldState.valid == privateKeyFieldState;
 
   @observable
   bool formValid = false;
