@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/translation/translation_service.dart';
@@ -8,6 +11,7 @@ import 'package:freeflow/layers/presentation/pages/wallet/controller/transcripts
 import 'package:freeflow/layers/presentation/pages/wallet/util/wallet_util.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/empty_content.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/secondary_filter_menu_widget.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/transcript_shimmer_widget.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/wallet_loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_filter_bar_item.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
@@ -39,12 +43,18 @@ class _TranscriptViewState extends State<TranscriptView> {
   List<String> mainFilters = [];
   List<String> secondaryFilters = [];
   final ScrollController _scrollController = ScrollController();
+  late StreamSubscription<ConnectivityResult> subscription;
+  bool stated = false;
 
   @override
   void initState() {
     super.initState();
+    subscription = Connectivity().onConnectivityChanged.listen(
+          (ConnectivityResult result) => connectionSubscription(result),
+        );
     setCategoryList();
     widget.controller.configureTranscripts();
+
     _scrollController.addListener(() async {
       if (canGetMoreTranscript()) {
         await widget.controller.configureMoreTranscripts();
@@ -68,6 +78,13 @@ class _TranscriptViewState extends State<TranscriptView> {
     });
   }
 
+  void connectionSubscription(ConnectivityResult result) {
+    widget.controller.setStatusConnection(result);
+    if (widget.controller.hasConnection) {
+      widget.controller.configureTranscripts();
+    }
+  }
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -80,7 +97,6 @@ class _TranscriptViewState extends State<TranscriptView> {
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
         builder: (context) {
-          print(widget.controller.transcriptViewState);
           if (widget.controller.transcripts.isEmpty &&
               widget.controller.transcriptViewState != ViewState.loading) {
             return CustomRoundedCard(
@@ -100,8 +116,20 @@ class _TranscriptViewState extends State<TranscriptView> {
                 ],
               ),
             );
+          } else if (widget.controller.transcripts.isEmpty &&
+              !widget.controller.hasConnection) {
+            return Column(
+              children: [
+                getWidgetBar(),
+                const SizedBox(
+                  height: normalSpacing,
+                ),
+                const TranscriptShimmerWidget(),
+              ],
+            );
+          } else {
+            return content();
           }
-          return content();
         },
       ),
     );
@@ -135,11 +163,6 @@ class _TranscriptViewState extends State<TranscriptView> {
                 controller: _scrollController,
                 child: Column(
                   children: [
-                    WalletLoadingWidget(
-                      isLoading: widget.isLoading,
-                      paddingTop: normalSpacing,
-                      paddingLeft: huge6Spacing,
-                    ),
                     if (widget.controller.transcriptViewState ==
                         ViewState.loading) ...[
                       const Center(

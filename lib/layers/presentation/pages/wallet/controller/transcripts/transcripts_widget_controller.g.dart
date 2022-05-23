@@ -74,6 +74,22 @@ mixin _$TranscriptsWidgetController on TranscriptsWidgetControllerBase, Store {
     });
   }
 
+  final _$hasConnectionAtom =
+      Atom(name: 'TranscriptsWidgetControllerBase.hasConnection');
+
+  @override
+  bool get hasConnection {
+    _$hasConnectionAtom.reportRead();
+    return super.hasConnection;
+  }
+
+  @override
+  set hasConnection(bool value) {
+    _$hasConnectionAtom.reportWrite(value, super.hasConnection, () {
+      super.hasConnection = value;
+    });
+  }
+
   final _$configureTranscriptsAsyncAction =
       AsyncAction('TranscriptsWidgetControllerBase.configureTranscripts');
 
@@ -100,13 +116,29 @@ mixin _$TranscriptsWidgetController on TranscriptsWidgetControllerBase, Store {
     return _$refreshDataAsyncAction.run(() => super.refreshData());
   }
 
+  final _$TranscriptsWidgetControllerBaseActionController =
+      ActionController(name: 'TranscriptsWidgetControllerBase');
+
+  @override
+  void setStatusConnection(ConnectivityResult result) {
+    final _$actionInfo =
+        _$TranscriptsWidgetControllerBaseActionController.startAction(
+            name: 'TranscriptsWidgetControllerBase.setStatusConnection');
+    try {
+      return super.setStatusConnection(result);
+    } finally {
+      _$TranscriptsWidgetControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 transcriptViewState: ${transcriptViewState},
 transcripts: ${transcripts},
 loadingMoreTranscripts: ${loadingMoreTranscripts},
-hasMoreTranscripts: ${hasMoreTranscripts}
+hasMoreTranscripts: ${hasMoreTranscripts},
+hasConnection: ${hasConnection}
     ''';
   }
 }

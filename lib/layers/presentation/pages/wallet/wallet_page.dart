@@ -35,15 +35,17 @@ class _WalletPageState extends State<WalletPage> with TextThemes {
   @override
   void initState() {
     super.initState();
-    subscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      if (result == ConnectivityResult.none && stated) {
-        showDialogNoInternetConnection();
-      } else {
-        stated = true;
-      }
-    });
+    subscription = Connectivity().onConnectivityChanged.listen(
+          (ConnectivityResult result) => connectionSubscription(result),
+        );
+  }
+
+  void connectionSubscription(ConnectivityResult result) {
+    if (result == ConnectivityResult.none && stated) {
+      showDialogNoInternetConnection();
+    } else {
+      stated = true;
+    }
   }
 
   @override

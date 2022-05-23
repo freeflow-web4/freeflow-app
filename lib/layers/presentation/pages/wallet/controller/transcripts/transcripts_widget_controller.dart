@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
 import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/get_transcripts/get_transcripts_usecase.dart';
@@ -6,7 +7,7 @@ import 'package:mobx/mobx.dart';
 
 part 'transcripts_widget_controller.g.dart';
 
-enum ViewState { loading, done, error, noConnection }
+enum ViewState { loading, done, error }
 
 class TranscriptsWidgetController = TranscriptsWidgetControllerBase
     with _$TranscriptsWidgetController;
@@ -29,15 +30,17 @@ abstract class TranscriptsWidgetControllerBase with Store {
   @observable
   bool hasMoreTranscripts = false;
 
+  @observable
+  bool hasConnection = true;
+
   @action
   Future<void> configureTranscripts() async {
-    transcriptViewState = ViewState.loading;
     page = 0;
     final response = await getTranscriptsUsecase.call(offset: page);
     response.fold(
       (l) {
         if (l == DomainError.noInternet) {
-          transcriptViewState = ViewState.noConnection;
+          hasConnection = false;
         } else {
           transcriptViewState = ViewState.error;
         }
@@ -65,6 +68,10 @@ abstract class TranscriptsWidgetControllerBase with Store {
     );
     loadingMoreTranscripts = false;
   }
+
+  @action
+  void setStatusConnection(ConnectivityResult result) =>
+      hasConnection = result != ConnectivityResult.none;
 
   @action
   Future<void> refreshData() async => await configureTranscripts();
