@@ -162,10 +162,12 @@ mixin TextThemes {
     BuildContext context, {
     Color color = StandardColors.backgroundDark,
     int? maxLines,
-    required String textKey,
+    String? text,
+    String? textKey,
   }) {
+    assert(text != null || textKey != null);
     return Text(
-      TranslationService.translate(context, textKey),
+      text?? TranslationService.translate(context, textKey!),
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
       style: textButtonStyle(color),
