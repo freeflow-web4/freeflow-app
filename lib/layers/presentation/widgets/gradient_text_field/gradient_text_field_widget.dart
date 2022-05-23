@@ -140,7 +140,7 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                             ? widget.isFieldValid
                                 ? StandardColors.blueLight
                                 : widget.value != null
-                                    ? StandardColors.black
+                                    ? widget.obscureTextColor
                                     : widget.normalTextColor
                             : StandardColors.feedbackError,
                       ),
