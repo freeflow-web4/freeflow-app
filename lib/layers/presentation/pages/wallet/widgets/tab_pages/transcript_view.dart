@@ -93,6 +93,9 @@ class _TranscriptViewState extends State<TranscriptView> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isLoading) {
+      refreshFilterIndex(0);
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: mdSpacingx2),
       child: Observer(
