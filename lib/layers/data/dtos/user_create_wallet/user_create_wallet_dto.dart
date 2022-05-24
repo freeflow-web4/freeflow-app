@@ -19,8 +19,8 @@ class UserCreateWalletDTO {
 
   factory UserCreateWalletDTO.fromEntity(UserCreateWalletEntity entity) =>
       UserCreateWalletDTO(
-        displayName: entity.flowerName,
-        username: entity.name,
+        displayName: entity.name,
+        username: entity.flowerName,
         email: entity.email,
         seedPhrase: entity.privateKey,
       );
