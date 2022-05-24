@@ -30,6 +30,7 @@ class GradientTextFieldWidget extends StatefulWidget {
   final Widget Function(Color)? sufixWidget;
   final void Function(String text)? onEditingComplete;
   final int onEditingCompleteDurationInMili;
+  final bool? isLightTheme;
   String? value;
   GradientTextFieldWidget({
     Key? key,
@@ -41,6 +42,7 @@ class GradientTextFieldWidget extends StatefulWidget {
     this.inputNode,
     this.onChanged,
     required this.isFieldValid,
+    this.isLightTheme,
     this.showSecondText = false,
     this.maxLines = 1,
     this.showObscureButton = false,
@@ -110,7 +112,9 @@ class _GradientTextFieldWidgetState extends State<GradientTextFieldWidget>
                                     ? StandardColors.error
                                     : widget.value != null &&
                                             !widget.isFieldValid
-                                        ? StandardColors.black
+                                        ? (widget.isLightTheme ?? true)
+                                            ? StandardColors.white
+                                            : StandardColors.black
                                         : widget.isFieldValid
                                             ? StandardColors.blueLight
                                             : null,

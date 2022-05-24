@@ -43,6 +43,7 @@ class _LogoutAuthPageState extends State<LogoutAuthPage> with TextThemes {
           Observer(
             builder: (context) {
               return GradientTextFieldWidget(
+                isLightTheme: false,
                 isFieldValid: pageController.formValid,
                 normalTextColor: StandardColors.lightGrey,
                 errorText: pageController.pinFieldState !=
