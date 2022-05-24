@@ -14,3 +14,4 @@ const double huge3Spacing = 96;
 const double huge4Spacing = 104;
 const double huge5Spacing = 115;
 const double huge6Spacing = 130;
+const double huge7Spacing = 140;

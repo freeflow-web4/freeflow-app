@@ -22,7 +22,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> with TextThemes {
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          
           children: [
             Container(
               height: 4,

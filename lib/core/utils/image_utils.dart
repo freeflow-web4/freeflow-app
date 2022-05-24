@@ -9,18 +9,21 @@ class ImageUtils {
   static Future<ui.Image> loadImage(String path) async {
     var completer = Completer<ImageInfo>();
     var img = NetworkImage(path);
-    img
-        .resolve(const ImageConfiguration())
-        .addListener(ImageStreamListener((info, _) {
-      completer.complete(info);
-    }));
+    img.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener((info, _) {
+        completer.complete(info);
+      }),
+    );
     ImageInfo imageInfo = await completer.future;
 
     return imageInfo.image;
   }
 
-  static Future<ui.Image> loadAndResizeImage(String path,
-      {int? width, int? height}) async {
+  static Future<ui.Image> loadAndResizeImage(
+    String path, {
+    int? width,
+    int? height,
+  }) async {
     Response response = await (Dio()).get(
       path,
       options:

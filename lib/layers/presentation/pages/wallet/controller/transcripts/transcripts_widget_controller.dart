@@ -1,38 +1,51 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:freeflow/layers/domain/entities/transcript_entity.dart';
+import 'package:freeflow/layers/domain/helpers/errors/domain_error.dart';
 import 'package:freeflow/layers/domain/usecases/get_transcripts/get_transcripts_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 part 'transcripts_widget_controller.g.dart';
 
-
 enum ViewState { loading, done, error }
 
-class TranscriptsWidgetController = TranscriptsWidgetControllerBase with _$TranscriptsWidgetController;
+class TranscriptsWidgetController = TranscriptsWidgetControllerBase
+    with _$TranscriptsWidgetController;
 
 abstract class TranscriptsWidgetControllerBase with Store {
   GetTranscriptsUsecase getTranscriptsUsecase =
-  GetIt.I.get<GetTranscriptsUsecase>();
+      GetIt.I.get<GetTranscriptsUsecase>();
 
   int page = 0;
 
   @observable
   ViewState transcriptViewState = ViewState.loading;
+
   @observable
   List<TranscriptEntity> transcripts = [];
+
   @observable
   bool loadingMoreTranscripts = false;
+
   @observable
   bool hasMoreTranscripts = false;
 
+  @observable
+  bool hasConnection = true;
 
   @action
   Future<void> configureTranscripts() async {
     page = 0;
     final response = await getTranscriptsUsecase.call(offset: page);
     response.fold(
-          (l) => transcriptViewState = ViewState.error,
-          (r) {
+      (l) {
+        if (l == DomainError.noInternet) {
+          hasConnection = false;
+        } else {
+          transcriptViewState = ViewState.error;
+        }
+      },
+      (r) {
         transcripts = r;
         transcriptViewState = ViewState.done;
         hasMoreTranscripts = r.isNotEmpty;
@@ -47,8 +60,8 @@ abstract class TranscriptsWidgetControllerBase with Store {
     final response = await getTranscriptsUsecase.call(offset: page);
 
     response.fold(
-          (l) => transcriptViewState = ViewState.error,
-          (r) {
+      (l) => transcriptViewState = ViewState.error,
+      (r) {
         transcripts.addAll(r);
         hasMoreTranscripts = r.isNotEmpty;
       },
@@ -57,9 +70,9 @@ abstract class TranscriptsWidgetControllerBase with Store {
   }
 
   @action
-  Future<void> refreshData() async {
-    await configureTranscripts();
-  }
+  void setStatusConnection(ConnectivityResult result) =>
+      hasConnection = result != ConnectivityResult.none;
 
-
+  @action
+  Future<void> refreshData() async => await configureTranscripts();
 }

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:freeflow/core/utils/colors_constants.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
 import 'package:freeflow/core/utils/text_themes_mixin.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/wallet_loading_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_rounded_card.dart';
 
 class CustomActionCard extends StatelessWidget with TextThemes {
   final double cardHeight, cardWidth;
   final Widget child;
+  final bool isLoading;
   final Function onTapRighAction, onTapLeftAction;
   final String leftTextAction, rightTextAction;
   const CustomActionCard({
@@ -18,6 +20,7 @@ class CustomActionCard extends StatelessWidget with TextThemes {
     required this.onTapRighAction,
     required this.leftTextAction,
     required this.rightTextAction,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -26,8 +29,13 @@ class CustomActionCard extends StatelessWidget with TextThemes {
       height: cardHeight,
       width: cardWidth,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          WalletLoadingWidget(
+            isLoading: isLoading,
+            paddingTop: normalSpacing,
+            paddingLeft: huge6Spacing,
+          ),
           child,
           Column(
             children: [

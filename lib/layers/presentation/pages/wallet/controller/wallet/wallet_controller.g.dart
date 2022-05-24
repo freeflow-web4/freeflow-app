@@ -71,6 +71,36 @@ mixin _$WalletController on WalletControllerBase, Store {
     });
   }
 
+  final _$hasConnectionAtom = Atom(name: 'WalletControllerBase.hasConnection');
+
+  @override
+  bool get hasConnection {
+    _$hasConnectionAtom.reportRead();
+    return super.hasConnection;
+  }
+
+  @override
+  set hasConnection(bool value) {
+    _$hasConnectionAtom.reportWrite(value, super.hasConnection, () {
+      super.hasConnection = value;
+    });
+  }
+
+  final _$totalAmountAtom = Atom(name: 'WalletControllerBase.totalAmount');
+
+  @override
+  String get totalAmount {
+    _$totalAmountAtom.reportRead();
+    return super.totalAmount;
+  }
+
+  @override
+  set totalAmount(String value) {
+    _$totalAmountAtom.reportWrite(value, super.totalAmount, () {
+      super.totalAmount = value;
+    });
+  }
+
   final _$refreshDataAsyncAction =
       AsyncAction('WalletControllerBase.refreshData');
 
@@ -81,6 +111,17 @@ mixin _$WalletController on WalletControllerBase, Store {
 
   final _$WalletControllerBaseActionController =
       ActionController(name: 'WalletControllerBase');
+
+  @override
+  void setStatusConnection(ConnectivityResult result) {
+    final _$actionInfo = _$WalletControllerBaseActionController.startAction(
+        name: 'WalletControllerBase.setStatusConnection');
+    try {
+      return super.setStatusConnection(result);
+    } finally {
+      _$WalletControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   bool hasInternetConnection(bool stated, dynamic source) {
@@ -99,6 +140,8 @@ mixin _$WalletController on WalletControllerBase, Store {
 index: ${index},
 walletViewState: ${walletViewState},
 viewContentType: ${viewContentType},
+hasConnection: ${hasConnection},
+totalAmount: ${totalAmount},
 walletIsLoading: ${walletIsLoading},
 transcriptIsLoading: ${transcriptIsLoading}
     ''';
