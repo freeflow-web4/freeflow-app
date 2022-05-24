@@ -88,6 +88,7 @@ class _LoginPageState extends State<LoginPage>
           .orCancel;
       setState(() {
         currentButtonKey += 1;
+        _swipeEnabled = true;
       });
     });
   }

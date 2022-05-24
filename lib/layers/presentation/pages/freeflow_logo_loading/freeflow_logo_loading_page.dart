@@ -22,7 +22,9 @@ class _FreeflowLogoLoadingPageState extends State<FreeflowLogoLoadingPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 10), () {
-      widget.onLoadingCompleted();
+      if (mounted) {
+        widget.onLoadingCompleted();
+      }
     });
   }
 
