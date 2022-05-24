@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:freeflow/core/utils/spacing_constants.dart';
@@ -6,9 +9,10 @@ import 'package:freeflow/layers/presentation/pages/wallet/controller/transcripts
 import 'package:freeflow/layers/presentation/pages/wallet/controller/wallet/wallet_controller.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/custom_loading_widget.dart';
 import 'package:freeflow/layers/presentation/pages/wallet/widgets/total_amount_text.dart';
+import 'package:freeflow/layers/presentation/pages/wallet/widgets/wallet_info_shimmer_widget.dart';
 import 'package:freeflow/layers/presentation/widgets/custom_action_card.dart';
 
-class WalletInfoWidget extends StatelessWidget with TextThemes {
+class WalletInfoWidget extends StatefulWidget {
   final WalletController walletController;
   final TranscriptsWidgetController transcriptController;
   final Function onTapLeftAction;
@@ -23,6 +27,35 @@ class WalletInfoWidget extends StatelessWidget with TextThemes {
   }) : super(key: key);
 
   @override
+  State<WalletInfoWidget> createState() => _WalletInfoWidgetState();
+}
+
+class _WalletInfoWidgetState extends State<WalletInfoWidget> with TextThemes {
+  late StreamSubscription<ConnectivityResult> subscription;
+  bool stated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    subscription = Connectivity().onConnectivityChanged.listen(
+          (ConnectivityResult result) => connectionSubscription(result),
+        );
+    checkConnection();
+  }
+
+  void connectionSubscription(ConnectivityResult result) {
+    widget.walletController.setStatusConnection(result);
+    if (widget.walletController.hasConnection) {
+      widget.walletController.refreshData();
+    }
+  }
+
+  void checkConnection() async {
+    final result = await Connectivity().checkConnectivity();
+    widget.walletController.setStatusConnection(result);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -34,8 +67,8 @@ class WalletInfoWidget extends StatelessWidget with TextThemes {
         children: [
           GestureDetector(
             onTap: () {
-              walletController.refreshData();
-              transcriptController.refreshData();
+              widget.walletController.refreshData();
+              widget.transcriptController.refreshData();
             },
             child: Container(
               alignment: Alignment.bottomLeft,
@@ -52,24 +85,32 @@ class WalletInfoWidget extends StatelessWidget with TextThemes {
           //TODO: awaiting data from backend (ThreeFold)
           Observer(
             builder: (context) {
-              return CustomActionCard(
-                cardHeight: walletController.walletIsLoading ? 195 : 172,
-                cardWidth: double.infinity,
-                isLoading: walletController.walletIsLoading,
-                child: TotalAmountText(
-                  totalAmount: '1111',
-                  padding: EdgeInsets.fromLTRB(
-                    mdSpacing,
-                    walletController.walletIsLoading ? 0 : mdSpacing,
-                    mdSpacing,
-                    mdSpacing,
+              if (!widget.walletController.hasConnection &&
+                  widget.walletController.totalAmount.isEmpty) {
+                return WalletInfoShimmerWidget(
+                  walletController: widget.walletController,
+                );
+              } else {
+                return CustomActionCard(
+                  cardHeight:
+                      widget.walletController.walletIsLoading ? 195 : 172,
+                  cardWidth: double.infinity,
+                  isLoading: widget.walletController.walletIsLoading,
+                  child: TotalAmountText(
+                    totalAmount: '1111',
+                    padding: EdgeInsets.fromLTRB(
+                      mdSpacing,
+                      widget.walletController.walletIsLoading ? 0 : mdSpacing,
+                      mdSpacing,
+                      mdSpacing,
+                    ),
                   ),
-                ),
-                onTapLeftAction: onTapLeftAction,
-                onTapRighAction: onTapRighAction,
-                leftTextAction: 'wallet.deposit',
-                rightTextAction: 'wallet.exchange',
-              );
+                  onTapLeftAction: widget.onTapLeftAction,
+                  onTapRighAction: widget.onTapRighAction,
+                  leftTextAction: 'wallet.deposit',
+                  rightTextAction: 'wallet.exchange',
+                );
+              }
             },
           ),
           const SizedBox(

@@ -23,6 +23,12 @@ abstract class WalletControllerBase with Store {
   @observable
   ViewContentType viewContentType = ViewContentType.transcript;
 
+  @observable
+  bool hasConnection = true;
+
+  @observable
+  String totalAmount = '';
+
   @computed
   bool get walletIsLoading => walletViewState == ViewState.loading;
   @computed
@@ -39,6 +45,7 @@ abstract class WalletControllerBase with Store {
       walletViewState = ViewState.loading;
       //TODO REFRESH TOTAL AMOUNT
       Future.delayed(const Duration(seconds: 1)).then((value) {
+        totalAmount = '1111';
         walletViewState = ViewState.done;
       });
     } catch (e) {
@@ -47,7 +54,11 @@ abstract class WalletControllerBase with Store {
   }
 
   @action
-  bool hasInternetConnection(bool stated, source){
+  void setStatusConnection(ConnectivityResult result) =>
+      hasConnection = result != ConnectivityResult.none;
+
+  @action
+  bool hasInternetConnection(bool stated, source) {
     return source.keys.toList()[0] == ConnectivityResult.none && stated;
   }
 }
