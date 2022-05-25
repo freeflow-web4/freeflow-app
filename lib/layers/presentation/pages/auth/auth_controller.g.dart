@@ -120,17 +120,32 @@ mixin _$AuthController on AuthControllerBase, Store {
     });
   }
 
+  final _$isPinCorrectAtom = Atom(name: 'AuthControllerBase.isPinCorrect');
+
+  @override
+  bool get isPinCorrect {
+    _$isPinCorrectAtom.reportRead();
+    return super.isPinCorrect;
+  }
+
+  @override
+  set isPinCorrect(bool value) {
+    _$isPinCorrectAtom.reportWrite(value, super.isPinCorrect, () {
+      super.isPinCorrect = value;
+    });
+  }
+
   final _$recoverPincodeStateAtom =
       Atom(name: 'AuthControllerBase.recoverPincodeState');
 
   @override
-  RecoverPincodeState get recoverPincodeState {
+  RecoverPincodeState? get recoverPincodeState {
     _$recoverPincodeStateAtom.reportRead();
     return super.recoverPincodeState;
   }
 
   @override
-  set recoverPincodeState(RecoverPincodeState value) {
+  set recoverPincodeState(RecoverPincodeState? value) {
     _$recoverPincodeStateAtom.reportWrite(value, super.recoverPincodeState, () {
       super.recoverPincodeState = value;
     });
@@ -190,6 +205,17 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
+  void validatePincode() {
+    final _$actionInfo = _$AuthControllerBaseActionController.startAction(
+        name: 'AuthControllerBase.validatePincode');
+    try {
+      return super.validatePincode();
+    } finally {
+      _$AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void onPinObscureTextFieldTap() {
     final _$actionInfo = _$AuthControllerBaseActionController.startAction(
         name: 'AuthControllerBase.onPinObscureTextFieldTap');
@@ -223,11 +249,12 @@ mixin _$AuthController on AuthControllerBase, Store {
   }
 
   @override
-  void onConfirmPinCodeChange({Function? onFail, Function? onSuccess}) {
+  dynamic updateChangePincodeSteps({Function? onFail, Function? onSuccess}) {
     final _$actionInfo = _$AuthControllerBaseActionController.startAction(
-        name: 'AuthControllerBase.onConfirmPinCodeChange');
+        name: 'AuthControllerBase.updateChangePincodeSteps');
     try {
-      return super.onConfirmPinCodeChange(onFail: onFail, onSuccess: onSuccess);
+      return super
+          .updateChangePincodeSteps(onFail: onFail, onSuccess: onSuccess);
     } finally {
       _$AuthControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -240,6 +267,7 @@ currentPinCode: ${currentPinCode},
 authenticationPin: ${authenticationPin},
 pinFieldState: ${pinFieldState},
 isPinObscure: ${isPinObscure},
+isPinCorrect: ${isPinCorrect},
 recoverPincodeState: ${recoverPincodeState},
 isPinValid: ${isPinValid},
 pinCodeChangeIsComplete: ${pinCodeChangeIsComplete},

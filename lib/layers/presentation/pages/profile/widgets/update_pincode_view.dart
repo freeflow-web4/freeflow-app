@@ -55,7 +55,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
                 value: authController.currentPinCode,
                 onChanged: (_) {},
                 normalTextColor: StandardColors.backgroundDark,
-                isFieldValid: authController.pinCodeIsInvalid,
+                isFieldValid: authController.isPinCorrect,
                 errorText:
                     authController.pinFieldState != GradientTextFieldState.wrong
                         ? null
@@ -64,6 +64,8 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
                             'login.pinTextInputError',
                           ),
                 hintText: getLabelByState(),
+                hintTextStyle:
+                    subtitleTextStyle(color: StandardColors.lightGrey),
                 fieldReadOnly: true,
                 isObscureText: authController.isPinObscure,
                 onObscureButtonPressed: authController.onPinObscureTextFieldTap,
@@ -84,10 +86,10 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
                 builder: (context, setBottomSheetState) {
                   return AnimatedArrowRight(
                     onTap: () {
+                      // authController.progresssWithPincodeChange();
                       showInformativeDialog();
                     },
-                    isActive: authController.isPinValid &&
-                        authController.currentPinCode.isNotEmpty,
+                    isActive: authController.isPinCorrect,
                   );
                 },
               ),
@@ -100,7 +102,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
   }
 
   void showInformativeDialog() {
-    authController.onConfirmPinCodeChange(
+    authController.updateChangePincodeSteps(
       onFail: () {
         showDialog(
           context: context,
@@ -152,8 +154,7 @@ class _UpdatePincodeViewState extends State<UpdatePincodeView> with TextThemes {
     late Color color;
     if (state == GradientTextFieldState.wrong) {
       color = StandardColors.error;
-    } else if (authController.isPinValid &&
-        authController.authenticationPin.isNotEmpty) {
+    } else if (authController.isPinCorrect) {
       color = StandardColors.secondary;
     } else {
       color = StandardColors.backgroundDark;

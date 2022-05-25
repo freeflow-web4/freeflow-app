@@ -33,7 +33,10 @@ abstract class AuthControllerBase with Store, Login {
   bool isPinObscure = true;
 
   @observable
-  RecoverPincodeState recoverPincodeState = RecoverPincodeState.authentication;
+  bool isPinCorrect = false;
+
+  @observable
+  RecoverPincodeState? recoverPincodeState;
 
   @computed
   bool get pinCodeChangeIsComplete =>
@@ -110,6 +113,29 @@ abstract class AuthControllerBase with Store, Login {
     onPinChanged(nextCurrentText);
 
     updateCurrentPinCode(nextCurrentText);
+
+    validatePincode();
+  }
+
+  @action
+  void validatePincode() {
+    if (currentPinCode.length == 4) {
+      if (recoverPincodeState == RecoverPincodeState.authentication) {
+        pinCodeHasMatch();
+      } else if (recoverPincodeState == RecoverPincodeState.chooseNewPincode) {
+        isPinCorrect = true;
+      } else if (recoverPincodeState == RecoverPincodeState.confirmNewPincode &&
+          authenticationPin == currentPinCode) {
+        isPinCorrect = true;
+      } else {
+        if (currentPinCode.length == 4) {
+          pinFieldState = GradientTextFieldState.wrong;
+        }
+        isPinCorrect = false;
+      }
+    } else {
+      isPinCorrect = false;
+    }
   }
 
   @action
@@ -124,14 +150,14 @@ abstract class AuthControllerBase with Store, Login {
 
   @action
   Future<void> pinCodeHasMatch() async {
-    final isPinCorrect =
+    final _isPinCorrect =
         await GetIt.I.get<UserCheckPinCodeUsecase>().call(currentPinCode);
 
-    isPinCorrect.fold((_) {}, (success) {
+    _isPinCorrect.fold((_) {}, (success) {
       if (success) {
-        recoverPincodeState = RecoverPincodeState.chooseNewPincode;
-        currentPinCode = '';
+        isPinCorrect = true;
       } else {
+        isPinCorrect = false;
         updatePinFieldState(GradientTextFieldState.wrong);
       }
     });
@@ -140,6 +166,8 @@ abstract class AuthControllerBase with Store, Login {
   @action
   void clearPinData() {
     currentPinCode = '';
+    isPinCorrect = false;
+    pinFieldState = GradientTextFieldState.empty;
     recoverPincodeState = RecoverPincodeState.authentication;
   }
 
@@ -161,21 +189,24 @@ abstract class AuthControllerBase with Store, Login {
   }
 
   @action
-  void onConfirmPinCodeChange({Function? onFail, Function? onSuccess}) {
+  updateChangePincodeSteps({Function? onFail, Function? onSuccess}) {
     switch (recoverPincodeState) {
       case RecoverPincodeState.authentication:
         {
-          pinCodeHasMatch();
+          currentPinCode = '';
+          isPinCorrect = false;
+          recoverPincodeState = RecoverPincodeState.chooseNewPincode;
         }
         break;
       case RecoverPincodeState.chooseNewPincode:
         {
           authenticationPin = currentPinCode;
-          recoverPincodeState = RecoverPincodeState.confirmNewPincode;
           currentPinCode = '';
+          isPinCorrect = false;
+          recoverPincodeState = RecoverPincodeState.confirmNewPincode;
         }
         break;
-      default:
+      case RecoverPincodeState.confirmNewPincode:
         {
           setNewPincode(authenticationPin).then((value) {
             if (pinCodeChangeIsComplete) {
@@ -185,6 +216,12 @@ abstract class AuthControllerBase with Store, Login {
               onFail?.call();
             }
           });
+        }
+        break;
+      default:
+        {
+          isPinCorrect = false;
+          currentPinCode = '';
         }
         break;
     }
